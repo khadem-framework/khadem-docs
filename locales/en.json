@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Home",
+    "docs": "Documentation",
+    "showcase": "Showcase",
+    "community": "Community",
+    "blog": "Blog",
+    "getStarted": "Get Started",
+    "github": "GitHub"
+  },
+  "hero": {
+    "title": "The Dart Backend Framework",
+    "subtitle": "Build high-performance APIs and command-line tools with the elegance of Dart",
+    "description": "Khadem is a modern, modular backend framework inspired by Laravel and AdonisJS, designed for developers who want clean architecture and lightning-fast performance.",
+    "getStarted": "Get Started",
+    "viewDocs": "View Documentation",
+    "installCommand": "dart pub global activate khadem"
+  },
+  "features": {
+    "title": "Why Choose Khadem?",
+    "fast": {
+      "title": "Lightning Fast",
+      "description": "JIT compilation and optimized architecture deliver exceptional performance for your applications."
+    },
+    "modular": {
+      "title": "Modular Architecture",
+      "description": "Clean separation of concerns with a powerful service container and dependency injection system."
+    },
+    "cli": {
+      "title": "Developer-Friendly CLI",
+      "description": "Intuitive command-line tools for project scaffolding, migrations, and deployment automation."
+    },
+    "docker": {
+      "title": "Docker Ready",
+      "description": "Built-in Docker support with optimized containers for seamless deployment and scaling."
+    }
+  },
+  "codeExample": {
+    "title": "Get Started in Minutes",
+    "description": "Create a new Khadem project and start building immediately with our intuitive CLI."
+  },
+  "testimonials": {
+    "title": "Trusted by Developers",
+    "subtitle": "Join thousands of developers building the future with Khadem"
+  },
+  "footer": {
+    "description": "The modern Dart backend framework for building scalable applications.",
+    "quickLinks": "Quick Links",
+    "community": "Community",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "license": "License"
+  },
+  "docs": {
+    "search": "Search documentation...",
+    "onThisPage": "On this page",
+    "edit": "Edit this page",
+    "lastUpdated": "Last updated"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "tryAgain": "Try Again",
+    "close": "Close",
+    "open": "Open",
+    "menu": "Menu",
+    "theme": "Theme",
+    "language": "Language",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}
