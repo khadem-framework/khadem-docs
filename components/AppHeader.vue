@@ -6,7 +6,7 @@
         <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center space-x-2 rtl:space-x-reverse">
             <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-lg">خ</span>
+              <span class="text-white font-bold text-lg mb-2">خ</span>
             </div>
             <span class="text-xl font-bold text-gray-900 dark:text-white">Khadem</span>
           </NuxtLink>
