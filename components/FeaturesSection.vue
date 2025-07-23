@@ -7,7 +7,7 @@
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pl">
         <div
           v-for="feature in features"
           :key="feature.key"
@@ -37,12 +37,12 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const features = [
-  {
-    key: 'fast',
-    icon: BoltIcon,
-    titleKey: 'features.fast.title',
-    descriptionKey: 'features.fast.description'
-  },
+  // {
+  //   key: 'fast',
+  //   icon: BoltIcon,
+  //   titleKey: 'features.fast.title',
+  //   descriptionKey: 'features.fast.description'
+  // },
   {
     key: 'modular',
     icon: CubeIcon,

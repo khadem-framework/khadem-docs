@@ -13,7 +13,7 @@
     <ul class="list-disc pl-6 mb-8">
       <li><strong>🚀 Dart Isolates:</strong> Harness true concurrency and multithreading using Dart’s Isolate system. Handle thousands of connections with zero blocking.</li>
       <li><strong>🧠 Smart Architecture:</strong> Inspired by Laravel, structured with modular services, events, and middleware.</li>
-      <li><strong>🛠️ CLI First:</strong> Scaffolding, migrations, builds, and deployment — all from the command line.</li>
+      <!-- <li><strong>🛠️ CLI First:</strong> Scaffolding, migrations, builds, and deployment — all from the command line.</li> -->
       <li><strong>📦 Built for APIs:</strong> REST-first, JWT-ready, and highly customizable routing.</li>
       <li><strong>🧪 Testing Ready:</strong> Includes testable layers using mocks, DI, and service isolation.</li>
     </ul>
@@ -22,10 +22,10 @@
     <p class="mb-4">
       <strong>Khadem (خادم)</strong> is a modern and expressive backend framework built for the Dart language. It offers:
     </p>
-    <ul class="list-disc pl-6 mb-8">
+    <ul class="list-disc pl-6 mb-8"> 
       <li><strong>⚡ High Performance:</strong> Powered by Dart's JIT and AOT compilation</li>
       <li><strong>🧱 Modular Design:</strong> Clean architecture using Dependency Injection</li>
-      <li><strong>🛠️ CLI First:</strong> Rich set of commands to scaffold and manage your project</li>
+      <!-- <li><strong>🛠️ CLI First:</strong> Rich set of commands to scaffold and manage your project</li> -->
       <li><strong>🚀 Production Ready:</strong> Environment configs, JWT auth, and Docker-ready</li>
     </ul>
 

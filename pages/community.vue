@@ -18,7 +18,8 @@
         >
           <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
                :class="platform.bgColor">
-            <component :is="platform.icon" class="w-8 h-8 text-white" />
+               <Icon :icon="platform.icon" class="w-8 h-8 text-white"  />
+            <!-- <component :is="platform.icon" class="w-8 h-8 text-white" /> -->
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {{ platform.name }}
@@ -37,7 +38,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div class="card p-8">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             Contributing
@@ -109,13 +110,14 @@
             Read Full Code of Conduct
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script setup>
 import { CheckCircleIcon, HeartIcon } from '@heroicons/vue/24/outline'
+import { Icon } from '@iconify/vue'
 
 definePageMeta({
   layout: 'default'
@@ -124,28 +126,28 @@ definePageMeta({
 useHead({
   title: 'Community'
 })
-
 const platforms = [
   {
     name: 'GitHub',
-    description: 'Report issues, contribute code, and track development progress.',
+    description: 'Track development progress and contribute.',
     url: 'https://github.com/khadem-framework',
-    icon: 'svg',
+    icon: 'mdi:github', // Material Design Icon set
     bgColor: 'bg-gray-800'
   },
   {
     name: 'Discord',
-    description: 'Join real-time discussions, get help, and connect with other developers.',
+    description: 'Chat and collaborate in real time.',
     url: 'https://discord.gg/khadem',
-    icon: 'svg',
+    icon: 'mdi:discord',
     bgColor: 'bg-indigo-600'
   },
   {
     name: 'Twitter',
-    description: 'Follow @khadem_framework for updates, tips, and community highlights.',
+    description: 'Stay updated with latest news.',
     url: 'https://twitter.com/khadem_framework',
-    icon: 'svg',
+    icon: 'mdi:twitter',
     bgColor: 'bg-blue-400'
   }
 ]
+
 </script>

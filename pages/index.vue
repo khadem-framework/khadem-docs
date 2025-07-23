@@ -2,8 +2,8 @@
   <div>
     <HeroSection />
     <FeaturesSection />
-    <CodeExampleSection />
-    <TestimonialsSection />
+    <!-- <CodeExampleSection /> -->
+    <!-- <TestimonialsSection /> -->
   </div>
 </template>
 

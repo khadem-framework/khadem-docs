@@ -11,7 +11,7 @@
   "hero": {
     "title": "The Dart Backend Framework",
     "subtitle": "Build high-performance APIs and command-line tools with the elegance of Dart",
-    "description": "Khadem is a modern, modular backend framework inspired by Laravel and AdonisJS, designed for developers who want clean architecture and lightning-fast performance.",
+    "description": "Khadem is a modern, modular backend framework inspired by Laravel , designed for developers who want clean architecture and lightning-fast performance.",
     "getStarted": "Get Started",
     "viewDocs": "View Documentation",
     "installCommand": "dart pub global activate khadem"

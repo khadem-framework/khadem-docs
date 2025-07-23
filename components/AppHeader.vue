@@ -118,9 +118,9 @@ const mobileMenuOpen = ref(false)
 const navigation = [
   { key: 'nav.home', path: '/' },
   { key: 'nav.docs', path: '/docs' },
-  { key: 'nav.showcase', path: '/showcase' },
+  //{ key: 'nav.showcase', path: '/showcase' },
   { key: 'nav.community', path: '/community' },
-  { key: 'nav.blog', path: '/blog' }
+  //{ key: 'nav.blog', path: '/blog' }
 ]
 
 const toggleTheme = () => {

@@ -145,16 +145,16 @@ const navigation = [
     items: [
       { title: 'Overview', path: '/docs/cli' },
       { title: 'Build Command', path: '/docs/cli/build' },
-      { title: 'Migration Commands', path: '/docs/cli/migrate' },
-      { title: 'Custom Commands', path: '/docs/cli/custom' }
+      // { title: 'Migration Commands', path: '/docs/cli/migrate' },
+      // { title: 'Custom Commands', path: '/docs/cli/custom' }
     ]
   },
   {
     title: 'Advanced',
     items: [
       { title: 'Jobs & Scheduling', path: '/docs/jobs' },
-      { title: 'Deployment', path: '/docs/deployment' },
-      { title: 'Extending Framework', path: '/docs/extending' }
+      // { title: 'Deployment', path: '/docs/deployment' },
+      // { title: 'Extending Framework', path: '/docs/extending' }
     ]
   }
 ]
@@ -163,7 +163,7 @@ const navigation = [
 const tableOfContents = ref([])
 
 onMounted(() => {
-  const headings = document.querySelectorAll('h2, h3')
+  const headings = document.querySelectorAll('h2')
   tableOfContents.value = Array.from(headings).map(h => ({
     id: h.id,
     text: h.textContent,

@@ -1,23 +1,53 @@
 <template>
-  <div>
-    <h1>Environment & Configuration</h1>
-    <p>Khadem uses environment variables and configuration files to manage your application settings.</p>
+  <div class="prose dark:prose-invert max-w-4xl mx-auto py-16">
+    <h1>Configuration System</h1>
+    <p>
+      Khadem provides a robust configuration system based on JSON files, environment-specific overrides,
+      dot-notation access, TTL caching, and runtime modification.
+    </p>
 
-    <h2>Environment Variables</h2>
-    <p>Configure your application using the <code>.env</code> file in your project root:</p>
-    <CodeBlock :code="envCode" language="env" />
+    <h2>1. Configuration Structure</h2>
+    <p>Config files live in the <code>config/</code> folder:</p>
+    <CodeBlock :code="configStructure" language="bash" />
 
-    <h2>Configuration Files</h2>
-    <p>Access environment variables through typed configuration files in the <code>config/</code> directory:</p>
-    <CodeBlock :code="configCode" language="dart" />
+    <h2>2. Example Config</h2>
+    <p><strong>config/app.json</strong></p>
+    <CodeBlock :code="appJson" language="json" />
 
-    <h2>Using Configuration</h2>
-    <p>Access configuration values anywhere in your application:</p>
-    <CodeBlock :code="usageCode" language="dart" />
+    <p><strong>config/development/app.json</strong> (override)</p>
+    <CodeBlock :code="devJson" language="json" />
 
-    <h2>Custom Configuration</h2>
-    <p>Create custom configuration files for different aspects of your application:</p>
-    <CodeBlock :code="customConfigCode" language="dart" />
+    <h2>3. Accessing Config</h2>
+    <p>Use dot notation to access values:</p>
+    <CodeBlock :code="accessExample" language="dart" />
+
+    <h2>4. Runtime Overrides</h2>
+    <p>You can override config at runtime:</p>
+    <CodeBlock :code="setExample" language="dart" />
+
+    <h2>5. Reloading Configs</h2>
+    <p>Manually reload all configuration files:</p>
+    <CodeBlock :code="reloadExample" language="dart" />
+
+    <h2>6. Registry-Based Config</h2>
+    <p>Load configuration maps directly from code:</p>
+    <CodeBlock :code="registryExample" language="dart" />
+
+    <h2>7. Access Sections</h2>
+    <p>Fetch entire config sections as maps:</p>
+    <CodeBlock :code="sectionExample" language="dart" />
+
+    <h2>8. Summary</h2>
+    <ul>
+      <li><code>get('key')</code>: Retrieve a value</li>
+      <li><code>set('key', value)</code>: Set a value</li>
+      <li><code>has('key')</code>: Check existence</li>
+      <li><code>reload()</code>: Reload all configs</li>
+      <li><code>section('name')</code>: Get section</li>
+      <li><code>all()</code>: Get all config data</li>
+    </ul>
+
+    <p>Note: YAML parsing is not supported (yet).</p>
   </div>
 </template>
 
@@ -25,54 +55,42 @@
 definePageMeta({ layout: 'docs' })
 useHead({ title: 'Configuration' })
 
-const envCode = `# Server Configuration
-APP_NAME=My API
-APP_ENV=development
-APP_PORT=3000
+const configStructure = `config/
+├── app.json
+├── database.json
+└── development/
+    ├── app.json
+    └── database.json`
 
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=my_database
-DB_USER=postgres
-DB_PASS=secret`
-
-const configCode = `// config/app.dart
-import 'package:khadem/khadem.dart';
-
-class AppConfig implements Config {
-  final String name;
-  final String env;
-  final int port;
-
-  AppConfig() {
-    name = env('APP_NAME');
-    env = env('APP_ENV');
-    port = int.parse(env('APP_PORT'));
-  }
+const appJson = `{
+  "name": "Khadem",
+  "env": "production",
+  "port": 8080
 }`
 
-const usageCode = `// Accessing configuration values
-final config = app.make<AppConfig>();
-print(config.name); // "My API"
-print(config.port); // 3000`
-
-const customConfigCode = `// config/database.dart
-import 'package:khadem/khadem.dart';
-
-class DatabaseConfig implements Config {
-  final String host;
-  final int port;
-  final String name;
-  final String user;
-  final String password;
-
-  DatabaseConfig() {
-    host = env('DB_HOST');
-    port = int.parse(env('DB_PORT'));
-    name = env('DB_NAME');
-    user = env('DB_USER');
-    password = env('DB_PASS');
-  }
+const devJson = `{
+  "env": "development",
+  "port": 3000
 }`
+
+const accessExample = `final config = Khadem.config;
+
+print(config.get<String>('app.name'));   // "Khadem"
+print(config.get<int>('app.port'));      // 3000
+print(config.get<String>('non.key', 'default'));`
+
+const setExample = `config.set('app.name', 'CustomApp');
+print(config.get<String>('app.name')); // "CustomApp"`
+
+const reloadExample = `config.reload(); // Reload all configs`
+
+const registryExample = `Khadem.loadConfigs({
+  'database': {
+    'host': 'localhost',
+    'port': 5432
+  }
+});`
+
+const sectionExample = `final db = config.section('database');
+print(db?['host']);`
 </script>
