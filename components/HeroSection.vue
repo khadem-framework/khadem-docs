@@ -9,11 +9,12 @@
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       <div class="text-center">
         <!-- Logo -->
-        <div class="flex justify-center mb-8">
+        <!-- <div class="flex justify-center mb-8">
           <div class="w-20 h-20 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center shadow-2xl animate-bounce-subtle">
             <span class="text-white font-bold text-3xl">خ</span>
           </div>
-        </div>
+        </div> -->
+        <AppLogo :animated="true" containerSize="w-24 h-24" />
 
         <!-- Title -->
         <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 animate-slide-up">

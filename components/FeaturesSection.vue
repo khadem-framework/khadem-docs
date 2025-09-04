@@ -37,12 +37,12 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const features = [
-  // {
-  //   key: 'fast',
-  //   icon: BoltIcon,
-  //   titleKey: 'features.fast.title',
-  //   descriptionKey: 'features.fast.description'
-  // },
+  {
+    key: 'fast',
+    icon: BoltIcon,
+    titleKey: 'features.fast.title',
+    descriptionKey: 'features.fast.description'
+  },
   {
     key: 'modular',
     icon: CubeIcon,

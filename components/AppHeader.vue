@@ -5,9 +5,11 @@
         <!-- Logo -->
         <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center space-x-2 rtl:space-x-reverse">
-            <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+            <!-- <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
               <span class="text-white font-bold text-lg mb-2">خ</span>
-            </div>
+            </div> -->
+            <AppLogo :animated="false" containerSize="w-8 h-8" :withWrapper="false"  class=" bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg p-0.5" />
+
             <span class="text-xl font-bold text-gray-900 dark:text-white">Khadem</span>
           </NuxtLink>
         </div>
@@ -48,7 +50,7 @@
 
           <!-- GitHub Link -->
           <a
-            href="https://github.com/khadem-framework"
+            href="https://github.com/khedrmahmoud/khadem"
             target="_blank"
             rel="noopener noreferrer"
             class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

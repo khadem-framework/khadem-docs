@@ -130,22 +130,22 @@ const platforms = [
   {
     name: 'GitHub',
     description: 'Track development progress and contribute.',
-    url: 'https://github.com/khadem-framework',
-    icon: 'mdi:github', // Material Design Icon set
-    bgColor: 'bg-gray-800'
+    url: 'https://github.com/khedrmahmoud/khadem',
+    icon: 'fa6-brands:github-alt', // Material Design Icon set
+    bgColor: 'bg-gray-900'
   },
   {
     name: 'Discord',
     description: 'Chat and collaborate in real time.',
-    url: 'https://discord.gg/khadem',
+    url: 'https://discord.gg/XdbryzNJt9',
     icon: 'mdi:discord',
     bgColor: 'bg-indigo-600'
   },
   {
     name: 'Twitter',
     description: 'Stay updated with latest news.',
-    url: 'https://twitter.com/khadem_framework',
-    icon: 'mdi:twitter',
+    url: 'https://x.com/KhademFramework',
+    icon: 'prime:twitter',
     bgColor: 'bg-blue-400'
   }
 ]

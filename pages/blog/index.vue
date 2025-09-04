@@ -79,60 +79,60 @@ useHead({
 })
 
 const posts = [
-  {
-    id: 1,
-    title: 'Introducing Khadem: The Modern Dart Backend Framework',
-    excerpt: 'We\'re excited to announce the first stable release of Khadem, a new backend framework for Dart developers.',
-    date: '2024-01-15',
-    readTime: 5,
-    tags: ['Release', 'Announcement'],
-    slug: 'introducing-khadem'
-  },
-  {
-    id: 2,
-    title: 'Building High-Performance APIs with Khadem',
-    excerpt: 'Learn how to leverage Khadem\'s JIT compilation and optimized architecture for maximum performance.',
-    date: '2024-01-10',
-    readTime: 8,
-    tags: ['Tutorial', 'Performance'],
-    slug: 'high-performance-apis'
-  },
-  {
-    id: 3,
-    title: 'Dependency Injection in Khadem: A Complete Guide',
-    excerpt: 'Master the service container and dependency injection system in Khadem for clean, testable code.',
-    date: '2024-01-05',
-    readTime: 12,
-    tags: ['Tutorial', 'Architecture'],
-    slug: 'dependency-injection-guide'
-  },
-  {
-    id: 4,
-    title: 'Deploying Khadem Applications with Docker',
-    excerpt: 'Step-by-step guide to containerizing and deploying your Khadem applications using Docker.',
-    date: '2024-01-01',
-    readTime: 10,
-    tags: ['Tutorial', 'Docker', 'Deployment'],
-    slug: 'docker-deployment'
-  },
-  {
-    id: 5,
-    title: 'Event-Driven Architecture with Khadem',
-    excerpt: 'Explore how to build scalable, decoupled applications using Khadem\'s powerful event system.',
-    date: '2023-12-28',
-    readTime: 9,
-    tags: ['Tutorial', 'Architecture', 'Events'],
-    slug: 'event-driven-architecture'
-  },
-  {
-    id: 6,
-    title: 'Database Migrations and Schema Management',
-    excerpt: 'Learn how to manage your database schema evolution with Khadem\'s migration system.',
-    date: '2023-12-25',
-    readTime: 7,
-    tags: ['Tutorial', 'Database'],
-    slug: 'database-migrations'
-  }
+  // {
+  //   id: 1,
+  //   title: 'Introducing Khadem: The Modern Dart Backend Framework',
+  //   excerpt: 'We\'re excited to announce the first stable release of Khadem, a new backend framework for Dart developers.',
+  //   date: '2024-01-15',
+  //   readTime: 5,
+  //   tags: ['Release', 'Announcement'],
+  //   slug: 'introducing-khadem'
+  // },
+  // {
+  //   id: 2,
+  //   title: 'Building High-Performance APIs with Khadem',
+  //   excerpt: 'Learn how to leverage Khadem\'s JIT compilation and optimized architecture for maximum performance.',
+  //   date: '2024-01-10',
+  //   readTime: 8,
+  //   tags: ['Tutorial', 'Performance'],
+  //   slug: 'high-performance-apis'
+  // },
+  // {
+  //   id: 3,
+  //   title: 'Dependency Injection in Khadem: A Complete Guide',
+  //   excerpt: 'Master the service container and dependency injection system in Khadem for clean, testable code.',
+  //   date: '2024-01-05',
+  //   readTime: 12,
+  //   tags: ['Tutorial', 'Architecture'],
+  //   slug: 'dependency-injection-guide'
+  // },
+  // {
+  //   id: 4,
+  //   title: 'Deploying Khadem Applications with Docker',
+  //   excerpt: 'Step-by-step guide to containerizing and deploying your Khadem applications using Docker.',
+  //   date: '2024-01-01',
+  //   readTime: 10,
+  //   tags: ['Tutorial', 'Docker', 'Deployment'],
+  //   slug: 'docker-deployment'
+  // },
+  // {
+  //   id: 5,
+  //   title: 'Event-Driven Architecture with Khadem',
+  //   excerpt: 'Explore how to build scalable, decoupled applications using Khadem\'s powerful event system.',
+  //   date: '2023-12-28',
+  //   readTime: 9,
+  //   tags: ['Tutorial', 'Architecture', 'Events'],
+  //   slug: 'event-driven-architecture'
+  // },
+  // {
+  //   id: 6,
+  //   title: 'Database Migrations and Schema Management',
+  //   excerpt: 'Learn how to manage your database schema evolution with Khadem\'s migration system.',
+  //   date: '2023-12-25',
+  //   readTime: 7,
+  //   tags: ['Tutorial', 'Database'],
+  //   slug: 'database-migrations'
+  // }
 ]
 
 const formatDate = (dateString) => {

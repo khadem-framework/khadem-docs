@@ -19,8 +19,8 @@
   "features": {
     "title": "Why Choose Khadem?",
     "fast": {
-      "title": "Lightning Fast",
-      "description": "JIT compilation and optimized architecture deliver exceptional performance for your applications."
+      "title": "Developer-Friendly",
+      "description": "Designed with simplicity in mind, Khadem lets you focus on writing clean, scalable code without boilerplate."  
     },
     "modular": {
       "title": "Modular Architecture",
@@ -31,8 +31,8 @@
       "description": "Intuitive command-line tools for project scaffolding, migrations, and deployment automation."
     },
     "docker": {
-      "title": "Docker Ready",
-      "description": "Built-in Docker support with optimized containers for seamless deployment and scaling."
+      "title": "Docker Integration (Coming Soon)",
+      "description": "We're working on seamless Docker support to simplify deployment across environments."
     }
   },
   "codeExample": {
@@ -56,7 +56,9 @@
     "search": "Search documentation...",
     "onThisPage": "On this page",
     "edit": "Edit this page",
-    "lastUpdated": "Last updated"
+    "lastUpdated": "Last updated",
+    "warningMessage": "This documentation is currently under development. Some sections are incomplete or may contain inaccuracies."
+
   },
   "common": {
     "loading": "Loading...",
@@ -70,5 +72,24 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
-  }
+  },
+  
+    "legal": {
+      "privacy": {
+        "title": "Privacy Policy",
+        "content": "We respect your privacy. Khadem does not track or collect personal data unless explicitly provided."
+      },
+      "terms": {
+        "title": "Terms of Service",
+        "content": "By using Khadem, you agree not to modify or redistribute the framework except through approved contributions."
+      },
+      "license": {
+        "title": "License",
+        "line1": "MIT License © 2025 Khedr Mahmoud",
+        "line2": "Permission is granted to use Khadem for any purpose, but not to redistribute or rebrand it.",
+        "line3": "See LICENSE file for full details."
+      }
+    }
+  
+  
 }

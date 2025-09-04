@@ -1,12 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+  ssr: true,
+  
   devtools: { enabled: false },
-  modules: [
+   modules: [
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
-    '@nuxtjs/color-mode'
   ],
+
+  nitro: {
+    storage: {
+      cache: {
+        driver: 'memory' 
+      }
+    },
+    prerender: {
+      ignore: [
+        '/pages/**'
+      ]
+    }
+    
+  },
   i18n: {
     locales: [
       {
