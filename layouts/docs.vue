@@ -109,50 +109,68 @@ const navigation = [
     title: 'Getting Started',
     items: [
       { title: 'Introduction', path: '/docs' },
-      { title: 'Installation', path: '/docs/installation' },
-      { title: 'Creating a Project', path: '/docs/creating-project' },
-      { title: 'Folder Structure', path: '/docs/folder-structure' },
+      { title: 'Installation', path: '/docs/getting-started/installation' },
+      { title: 'Creating a Project', path: '/docs/getting-started/creating-project' },
+      { title: 'Folder Structure', path: '/docs/getting-started/folder-structure' },
+      { title: 'Configuration', path: '/docs/getting-started/configuration' }
     ]
   },
   {
     title: 'Core Concepts',
     items: [
-      { title: 'Routing', path: '/docs/routing' },
-      { title: 'Service Container', path: '/docs/container' },
-      // { title: 'Event System', path: '/docs/events' },
-      { title: 'Configuration System', path: '/docs/configuration' },
-      { title: 'Middleware', path: '/docs/middleware' }
+      { title: 'Routing', path: '/docs/core-concepts/routing' },
+      { title: 'Response System', path: '/docs/core-concepts/response' },
+      { title: 'Middleware', path: '/docs/core-concepts/middleware' },
+      { title: 'Service Container', path: '/docs/core-concepts/container' },
+      { title: 'Validation', path: '/docs/core-concepts/validation' }
     ]
   },
   {
-    title: 'Database',
+    title: 'Database & Models',
     items: [
-       { title: 'Migrations', path: '/docs/migrations' },
-      { title: 'Models', path: '/docs/models' },
-      { title: 'Query Builder', path: '/docs/queries' },
-      { title: 'Relationships', path: '/docs/relationships' },
-      { title: 'Eager Loading', path: '/docs/eager-loading' },
-      // { title: 'Controllers', path: '/docs/controllers' },
-      // { title: 'Timestamps', path: '/docs/timestamps' }
+      { title: 'Database Overview', path: '/docs/database-models/database' },
+      { title: 'ORM & Schema Builder', path: '/docs/database-models/orm' },
+      { title: 'Migrations', path: '/docs/database-models/migrations' },
+      { title: 'Models', path: '/docs/database-models/models' },
+      { title: 'Query Builder', path: '/docs/database-models/queries' },
+      { title: 'Relationships', path: '/docs/database-models/relationships' },
+      { title: 'Eager Loading', path: '/docs/database-models/eager-loading' }
     ]
   },
-  // {
-  //   title: 'CLI Commands',
-  //   items: [
-  //     { title: 'Overview', path: '/docs/cli' },
-  //     { title: 'Build Command', path: '/docs/cli/build' },
-  //     // { title: 'Migration Commands', path: '/docs/cli/migrate' },
-  //     // { title: 'Custom Commands', path: '/docs/cli/custom' }
-  //   ]
-  // },
-  // {
-  //   title: 'Advanced',
-  //   items: [
-  //     { title: 'Jobs & Scheduling', path: '/docs/jobs' },
-  //     // { title: 'Deployment', path: '/docs/deployment' },
-  //     // { title: 'Extending Framework', path: '/docs/extending' }
-  //   ]
-  // }
+  {
+    title: 'Authentication & Security',
+    items: [
+      { title: 'Authentication', path: '/docs/auth-security/auth' },
+      { title: 'Authorization', path: '/docs/auth-security/authorization' },
+      { title: 'Security Best Practices', path: '/docs/auth-security/security' }
+    ]
+  },
+  {
+    title: 'Advanced Features',
+    items: [
+      { title: 'Events & Listeners', path: '/docs/advanced-features/events' },
+      { title: 'Queue System', path: '/docs/advanced-features/queue' },
+      { title: 'File Storage', path: '/docs/advanced-features/storage' },
+      { title: 'Caching', path: '/docs/advanced-features/cache' },
+      { title: 'WebSockets', path: '/docs/advanced-features/websockets' },
+      { title: 'Task Scheduling', path: '/docs/advanced-features/scheduler' }
+    ]
+  },
+  {
+    title: 'Development Tools',
+    items: [
+      { title: 'CLI Commands', path: '/docs/dev-tools/cli' },
+      { title: 'Logging', path: '/docs/dev-tools/logging' }
+    ]
+  },
+  {
+    title: 'Deployment',
+    items: [
+      { title: 'Docker', path: '/docs/deployment/docker' },
+      { title: 'Production', path: '/docs/deployment/production' },
+      { title: 'Monitoring', path: '/docs/deployment/monitoring' }
+    ]
+  }
 ]
 
 // Extract table of contents (h2, h3)

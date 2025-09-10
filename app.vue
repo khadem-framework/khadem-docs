@@ -8,5 +8,5 @@
 // Global app configuration
 useHead({
   titleTemplate: '%s | Khadem - The Dart Backend Framework'
-})
+});
 </script>

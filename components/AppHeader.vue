@@ -50,7 +50,7 @@
 
           <!-- GitHub Link -->
           <a
-            href="https://github.com/khedrmahmoud/khadem"
+            :href="$config.public.socialLinks.github"
             target="_blank"
             rel="noopener noreferrer"
             class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   ssr: true,
-  
+
   devtools: { enabled: false },
    modules: [
     '@nuxtjs/tailwindcss',
@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   nitro: {
     storage: {
       cache: {
-        driver: 'memory' 
+        driver: 'memory'
       }
     },
     prerender: {
@@ -21,8 +21,24 @@ export default defineNuxtConfig({
         '/pages/**'
       ]
     }
-    
+
   },
+
+  runtimeConfig: {
+    public: {
+      siteName: 'Khadem',
+      siteDescription: 'The Dart Backend Framework',
+      siteUrl: 'https://khadem.dev',
+      socialLinks: {
+        github: 'https://github.com/khedrmahmoud/khadem',
+        discord: 'https://discord.gg/XdbryzNJt9',
+        twitter: 'https://x.com/KhademFramework',
+        linkedin: 'https://linkedin.com/company/khadem-framework',
+        youtube: 'https://youtube.com/@khadem-framework'
+      }
+    }
+  },
+
   i18n: {
     locales: [
       {
