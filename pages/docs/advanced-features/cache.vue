@@ -1,11 +1,99 @@
 <template>
   <div class="space-y-8">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Caching System</h1>
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Advanced Caching System</h1>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-        High-performance caching system with multiple drivers and advanced features for optimizing your Khadem application.
+        Comprehensive caching solution with multiple drivers, advanced features, and performance monitoring for optimizing your Khadem application.
       </p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">Multiple Drivers</span>
+        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">TTL Management</span>
+        <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Cache Tags</span>
+        <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm font-medium">Statistics</span>
+        <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium">Performance Monitoring</span>
+      </div>
     </header>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">System Overview</h2>
+
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+        <h3 class="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-4">CacheManager Architecture</h3>
+        <p class="text-blue-800 dark:text-blue-200 mb-4">
+          The Khadem CacheManager provides a unified interface for caching operations across different storage backends. It supports automatic driver management, TTL handling, cache tagging, and comprehensive statistics tracking.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Core Features</h4>
+            <ul class="space-y-2 text-blue-800 dark:text-blue-200">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                Multiple cache drivers (Memory, File, Redis, Hybrid)
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                Automatic TTL (Time-To-Live) management
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                Cache tagging for bulk invalidation
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                Comprehensive statistics and monitoring
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                Graceful error handling and fallbacks
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Advanced Capabilities</h4>
+            <ul class="space-y-2 text-blue-800 dark:text-blue-200">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                Cache warming and preloading
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                Distributed caching with Redis
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                Cache stampede prevention
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                Multi-level caching strategies
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                Event-driven cache invalidation
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h4 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">Important Note</h4>
+            <p class="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
+              Cache is not a replacement for proper database design. Use caching to improve performance, not to fix architectural issues.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Cache Drivers</h2>
@@ -16,59 +104,186 @@
         title="Cache Driver Configuration"
       />
 
-      <div class="grid md:grid-cols-3 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium text-green-600 dark:text-green-400">File Driver</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-            <li>Simple file-based storage</li>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center mb-3">
+            <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+            <h3 class="font-medium text-green-600 dark:text-green-400">Memory Driver</h3>
+          </div>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
+            <li>Fastest performance</li>
+            <li>Process-specific storage</li>
+            <li>Perfect for development</li>
+            <li>Lost on application restart</li>
             <li>No external dependencies</li>
-            <li>Good for development</li>
-            <li>Limited performance</li>
           </ul>
+          <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            <strong>Use Case:</strong> Development, testing, temporary data
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium text-blue-600 dark:text-blue-400">Redis Driver</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center mb-3">
+            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+            <h3 class="font-medium text-blue-600 dark:text-blue-400">File Driver</h3>
+          </div>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
+            <li>Persistent across restarts</li>
+            <li>Simple file-based storage</li>
+            <li>No external services needed</li>
+            <li>Slower than memory</li>
+            <li>File system limitations</li>
+          </ul>
+          <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            <strong>Use Case:</strong> Small applications, shared hosting
+          </div>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center mb-3">
+            <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+            <h3 class="font-medium text-red-600 dark:text-red-400">Redis Driver</h3>
+          </div>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
             <li>High-performance in-memory</li>
             <li>Distributed caching</li>
+            <li>Data persistence options</li>
             <li>Advanced data structures</li>
-            <li>Production ready</li>
+            <li>Requires Redis server</li>
           </ul>
+          <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            <strong>Use Case:</strong> Production, distributed systems
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium text-purple-600 dark:text-purple-400">Memory Driver</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-            <li>Fast in-memory storage</li>
-            <li>Process-specific</li>
-            <li>Development use</li>
-            <li>Lost on restart</li>
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center mb-3">
+            <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+            <h3 class="font-medium text-purple-600 dark:text-purple-400">Hybrid Driver</h3>
+          </div>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
+            <li>Combines memory + file</li>
+            <li>Fast access + persistence</li>
+            <li>Automatic fallback</li>
+            <li>Memory limits handled</li>
+            <li>Best of both worlds</li>
           </ul>
+          <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            <strong>Use Case:</strong> Balanced performance and persistence
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+        <h4 class="font-medium mb-2">Driver Selection Guide</h4>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th class="text-left py-2 px-3">Scenario</th>
+                <th class="text-left py-2 px-3">Recommended Driver</th>
+                <th class="text-left py-2 px-3">Reason</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+              <tr>
+                <td class="py-2 px-3">Development/Local</td>
+                <td class="py-2 px-3 font-medium text-green-600">Memory</td>
+                <td class="py-2 px-3">Fastest, no setup required</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3">Single Server Production</td>
+                <td class="py-2 px-3 font-medium text-blue-600">File</td>
+                <td class="py-2 px-3">Persistent, no external services</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3">Distributed System</td>
+                <td class="py-2 px-3 font-medium text-red-600">Redis</td>
+                <td class="py-2 px-3">Shared cache across instances</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3">High-Traffic App</td>
+                <td class="py-2 px-3 font-medium text-purple-600">Hybrid</td>
+                <td class="py-2 px-3">Memory speed + file persistence</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Basic Cache Operations</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Core Cache Operations</h2>
 
-      <CodeBlock
-        :code="basicCacheOperationsCode"
-        language="dart"
-        title="Basic Cache Operations"
-      />
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <CodeBlock
+            :code="basicOperationsCode"
+            language="dart"
+            title="Basic Cache Operations"
+          />
+        </div>
+
+        <div>
+          <CodeBlock
+            :code="advancedOperationsCode"
+            language="dart"
+            title="Advanced Operations"
+          />
+        </div>
+      </div>
 
       <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">Cache Methods</h3>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
-          <li><code>put(key, value, [duration])</code> - Store item in cache</li>
-          <li><code>get(key, [default])</code> - Retrieve item from cache</li>
-          <li><code>has(key)</code> - Check if item exists</li>
-          <li><code>forget(key)</code> - Remove item from cache</li>
-          <li><code>flush()</code> - Clear all cached items</li>
-          <li><code>remember(key, duration, callback)</code> - Get or store with callback</li>
-          <li><code>rememberForever(key, callback)</code> - Store permanently with callback</li>
-        </ul>
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-3">Available Methods</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">Basic Operations</h4>
+            <ul class="space-y-1 text-sm text-blue-600 dark:text-blue-400">
+              <li><code>put(key, value, ttl)</code> - Store with TTL</li>
+              <li><code>get(key)</code> - Retrieve value</li>
+              <li><code>has(key)</code> - Check existence</li>
+              <li><code>forget(key)</code> - Remove item</li>
+              <li><code>clear()</code> - Clear all items</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">Advanced Operations</h4>
+            <ul class="space-y-1 text-sm text-blue-600 dark:text-blue-400">
+              <li><code>remember(key, ttl, callback)</code> - Get or store</li>
+              <li><code>forever(key, value)</code> - Store permanently</li>
+              <li><code>increment(key, amount)</code> - Atomic increment</li>
+              <li><code>decrement(key, amount)</code> - Atomic decrement</li>
+              <li><code>putMany(items, ttl)</code> - Bulk store</li>
+              <li><code>many(keys)</code> - Bulk retrieve</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+        <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-3">Cache Key Best Practices</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <h4 class="font-medium text-green-700 dark:text-green-300 mb-2">✅ Good Patterns</h4>
+            <ul class="space-y-1 text-sm text-green-600 dark:text-green-400">
+              <li><code>user:123</code> - Entity-specific keys</li>
+              <li><code>posts:recent:page:1</code> - Descriptive keys</li>
+              <li><code>cache:user:profile:123</code> - Namespaced keys</li>
+              <li><code>api:response:v1:users</code> - Versioned keys</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-medium text-red-700 dark:text-red-300 mb-2">❌ Avoid These</h4>
+            <ul class="space-y-1 text-sm text-red-600 dark:text-red-400">
+              <li><code>123</code> - Non-descriptive keys</li>
+              <li><code>user_profile_123</code> - Underscore separators</li>
+              <li><code>UserProfile123</code> - Mixed case</li>
+              <li><code>very_long_key_name_that_is_hard_to_read</code></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -324,121 +539,115 @@ useHead({
   ]
 })
 
-const cacheDriversCode = `// Cache driver configuration
-// config/cache.dart
-return {
-  'default': env('CACHE_DRIVER', 'file'),
+const cacheDriversCode = `// Cache driver configuration and setup
+import 'package:khadem/khadem.dart';
 
-  'stores': {
-    'file': {
-      'driver': 'file',
-      'path': storage_path('framework/cache/data'),
-    },
+// Initialize cache manager
+final cacheManager = CacheManager();
 
-    'redis': {
-      'driver': 'redis',
-      'connection': 'cache',
-      'lock_connection': 'default',
-    },
+// Register cache drivers
+cacheManager.registerDriver('memory', MemoryCacheDriver());
+cacheManager.registerDriver('file', FileCacheDriver(config: {'path': 'storage/cache'}));
+cacheManager.registerDriver('hybrid', HybridCacheDriver(filePath: 'storage/cache'));
+cacheManager.registerDriver('redis', RedisCacheDriver(host: 'localhost', port: 6379));
 
-    'memcached': {
-      'driver': 'memcached',
-      'persistent_id': env('MEMCACHED_PERSISTENT_ID'),
-      'sasl': [
-        env('MEMCACHED_USERNAME'),
-        env('MEMCACHED_PASSWORD'),
-      ],
-      'options': {
-        // Memcached::OPT_CONNECT_TIMEOUT => 2000,
-      },
-      'servers': [
-        {
-          'host': env('MEMCACHED_HOST', '127.0.0.1'),
-          'port': env('MEMCACHED_PORT', 11211),
-          'weight': 100,
-        },
-      ],
-    },
+// Set default driver
+cacheManager.setDefaultDriver('memory');
 
-    'dynamodb': {
-      'driver': 'dynamodb',
-      'key': env('AWS_ACCESS_KEY_ID'),
-      'secret': env('AWS_SECRET_ACCESS_KEY'),
-      'region': env('AWS_DEFAULT_REGION', 'us-east-1'),
-      'table': env('DYNAMODB_CACHE_TABLE', 'cache'),
-      'endpoint': env('DYNAMODB_ENDPOINT'),
-    }
-  },
+// Load from configuration (alternative approach)
+final config = ConfigInterface(); // Your config implementation
+cacheManager.loadFromConfig(config);
 
-  'prefix': env('CACHE_PREFIX', 'khadem_cache'),
-};
+// Basic usage
+await cacheManager.put('user:123', {'name': 'John', 'email': 'john@example.com'}, Duration(hours: 1));
+final user = await cacheManager.get('user:123');
 
-// Usage in code
-final cache = Cache.store('redis'); // Use specific store
-final cache = Cache.store(); // Use default store`
+// Use specific driver
+final redisCache = cacheManager.driver('redis');
+await redisCache.put('session:abc', sessionData, Duration(hours: 2));
 
-const basicCacheOperationsCode = `// Basic cache operations
+// Get cache statistics
+final stats = cacheManager.stats;
+print('Hit rate: \${(stats.hitRate * 100).toStringAsFixed(1)}%');
+print('Total operations: \${stats.hits + stats.misses}');`
+
+const basicOperationsCode = `// Basic cache operations
 class CacheExample {
   static Future demonstrateBasicOperations() async {
-    // Store data in cache
-    await Cache.put('user:123', {'name': 'John', 'email': 'john@example.com'}, Duration(minutes: 10));
+    // Store data in cache with TTL
+    await Khadem.cache.put('user:123', {'name': 'John', 'email': 'john@example.com'}, Duration(minutes: 10));
 
     // Store with default TTL
-    await Cache.put('settings', {'theme': 'dark', 'lang': 'en'});
+    await Khadem.cache.put('settings', {'theme': 'dark', 'lang': 'en'});
 
     // Retrieve data
-    final user = await Cache.get('user:123');
+    final user = await Khadem.cache.get('user:123');
     if (user != null) {
       print('User: \$user');
     }
 
     // Get with default value
-    final settings = await Cache.get('settings', {'theme': 'light', 'lang': 'en'});
+    final settings = await Khadem.cache.get('settings', {'theme': 'light', 'lang': 'en'});
 
     // Check if key exists
-    if (await Cache.has('user:123')) {
+    if (await Khadem.cache.has('user:123')) {
       print('User exists in cache');
     }
 
     // Remove from cache
-    await Cache.forget('user:123');
+    await Khadem.cache.forget('user:123');
 
     // Store permanently
-    await Cache.forever('app_config', {'version': '1.0', 'features': []});
+    await Khadem.cache.forever('app_config', {'version': '1.0', 'features': []});
 
     // Get or store with callback
-    final posts = await Cache.remember('posts', Duration(hours: 1), () async {
+    final posts = await Khadem.cache.remember('posts', Duration(hours: 1), () async {
       return await Post.all();
     });
 
     // Clear all cache
-    await Cache.flush();
+    await Khadem.cache.clear();
   }
+}`
 
+const advancedOperationsCode = `// Advanced cache operations
+class AdvancedCacheExample {
   static Future demonstrateAdvancedOperations() async {
-    // Increment/decrement numeric values
-    await Cache.put('counter', 0);
-    await Cache.increment('counter'); // 1
-    await Cache.increment('counter', 5); // 6
-    await Cache.decrement('counter', 2); // 4
+    // Cache with remember pattern - fetch expensive data
+    final expensiveData = await Khadem.cache.remember('expensive_calculation', Duration(hours: 1), () async {
+      // Simulate expensive operation
+      await Future.delayed(Duration(seconds: 2));
+      return {'result': 42, 'computed': true};
+    });
 
-    // Store multiple items
-    await Cache.putMany({
-      'key1': 'value1',
-      'key2': 'value2',
-      'key3': 'value3'
-    }, Duration(minutes: 5));
+    // Cache with tags for group invalidation
+    await Khadem.cache.tag('user:123', ['users', 'active']);
+    await Khadem.cache.tag('user:456', ['users', 'active']);
+    await Khadem.cache.tag('post:789', ['posts', 'published']);
 
-    // Get multiple items
-    final values = await Cache.many(['key1', 'key2', 'key3']);
-    print(values); // {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}
+    // Invalidate all items with a specific tag
+    await Khadem.cache.forgetByTag('users');
 
-    // Add only if key doesn't exist
-    final added = await Cache.add('new_key', 'new_value', Duration(minutes: 5));
-    if (added) {
-      print('Key was added');
-    } else {
-      print('Key already exists');
+    // Cache statistics
+    final stats = Khadem.cache.stats;
+    print('Cache hit rate: \${(stats.hitRate * 100).toStringAsFixed(1)}%');
+    print('Total operations: \${stats.hits + stats.misses}');
+
+    // Multiple drivers usage
+    final memoryCache = Khadem.cache.driver('memory');
+    final fileCache = Khadem.cache.driver('file');
+
+    await memoryCache.put('quick_data', 'fast access', Duration(minutes: 5));
+    await fileCache.put('persistent_data', 'long term storage', Duration(days: 1));
+
+    // Error handling
+    try {
+      final data = await Khadem.cache.get('nonexistent_key');
+      if (data == null) {
+        print('Cache miss - data not found');
+      }
+    } catch (e) {
+      print('Cache error: \$e');
     }
   }
 }`
@@ -446,64 +655,78 @@ class CacheExample {
 const cacheTagsCode = `// Cache tags for grouped operations
 class TaggedCacheExample {
   static Future demonstrateTags() async {
-    // Store tagged cache items
-    await Cache.tags(['users', 'active']).put('user:123', userData, Duration(hours: 1));
-    await Cache.tags(['users', 'active']).put('user:456', userData2, Duration(hours: 1));
-    await Cache.tags(['posts', 'published']).put('post:789', postData, Duration(hours: 2));
+    // Tag cache items for group invalidation
+    await Khadem.cache.tag('user:123', ['users', 'active']);
+    await Khadem.cache.tag('user:456', ['users', 'active']);
+    await Khadem.cache.tag('post:789', ['posts', 'published']);
+
+    // Store tagged items
+    await Khadem.cache.put('user:123', userData, Duration(hours: 1));
+    await Khadem.cache.put('user:456', userData2, Duration(hours: 1));
+    await Khadem.cache.put('post:789', postData, Duration(hours: 2));
 
     // Retrieve tagged items
-    final user = await Cache.tags(['users', 'active']).get('user:123');
+    final user = await Khadem.cache.get('user:123');
 
     // Clear all items with specific tag
-    await Cache.tags(['users']).flush();
-
-    // Clear items with multiple tags
-    await Cache.tags(['users', 'active']).flush();
+    await Khadem.cache.forgetByTag('users');
 
     // Check if tagged item exists
-    if (await Cache.tags(['posts']).has('post:789')) {
+    if (await Khadem.cache.has('post:789')) {
       print('Post exists in cache');
     }
   }
 
   static Future userCacheManagement() async {
     // Cache user data with tags
-    final user = await Cache.tags(['users', 'profile']).remember('user:\${userId}', Duration(hours: 1), () async {
+    final user = await Khadem.cache.remember('user:\${userId}', Duration(hours: 1), () async {
       return await User.find(userId);
     });
 
+    // Tag the cached user
+    await Khadem.cache.tag('user:\${userId}', ['users', 'profile']);
+
     // Cache user's posts
-    final posts = await Cache.tags(['users', 'posts']).remember('user:\${userId}:posts', Duration(minutes: 30), () async {
+    final posts = await Khadem.cache.remember('user:\${userId}:posts', Duration(minutes: 30), () async {
       return await User.find(userId).posts().get();
     });
 
+    // Tag the cached posts
+    await Khadem.cache.tag('user:\${userId}:posts', ['users', 'posts']);
+
     // When user updates profile, clear related cache
-    await Cache.tags(['users', 'profile']).forget('user:\${userId}');
+    await Khadem.cache.forgetByTag('users');
 
     // When user creates new post, clear posts cache
-    await Cache.tags(['users', 'posts']).forget('user:\${userId}:posts');
+    await Khadem.cache.forgetByTag('posts');
   }
 
   static Future categoryBasedCaching() async {
     // Cache products by category
-    final electronics = await Cache.tags(['products', 'category:electronics']).remember(
+    final electronics = await Khadem.cache.remember(
       'products:category:electronics',
       Duration(hours: 2),
       () async => await Product.where('category_id', electronicsId).get()
     );
 
+    // Tag the cached category
+    await Khadem.cache.tag('products:category:electronics', ['products', 'category:electronics']);
+
     // Cache product details
-    final product = await Cache.tags(['products', 'details']).remember(
+    final product = await Khadem.cache.remember(
       'product:\${productId}',
       Duration(hours: 4),
       () async => await Product.with(['reviews', 'images']).find(productId)
     );
 
+    // Tag the cached product
+    await Khadem.cache.tag('product:\${productId}', ['products', 'details']);
+
     // Clear all product cache
-    await Cache.tags(['products']).flush();
+    await Khadem.cache.forgetByTag('products');
 
     // Clear specific category
-    await Cache.tags(['category:electronics']).flush();
+    await Khadem.cache.forgetByTag('category:electronics');
   }
 }`
 
@@ -511,7 +734,7 @@ const queryCachingCode = `// Database query caching
 class QueryCacheExample {
   static Future cachedQueries() async {
     // Cache expensive query results
-    final popularPosts = await Cache.remember('popular_posts', Duration(hours: 1), () async {
+    final popularPosts = await Khadem.cache.remember('popular_posts', Duration(hours: 1), () async {
       return await Post.query()
         .with(['user', 'tags'])
         .where('published', true)
@@ -521,7 +744,7 @@ class QueryCacheExample {
     });
 
     // Cache user statistics
-    final userStats = await Cache.remember('user_stats', Duration(minutes: 30), () async {
+    final userStats = await Khadem.cache.remember('user_stats', Duration(minutes: 30), () async {
       return await Database.query()
         .selectRaw('COUNT(*) as total_users, AVG(posts_count) as avg_posts')
         .from('users')
@@ -529,7 +752,7 @@ class QueryCacheExample {
     });
 
     // Cache search results with tags
-    final searchResults = await Cache.tags(['search']).remember(
+    final searchResults = await Khadem.cache.remember(
       'search:\${query}:\${page}',
       Duration(minutes: 15),
       () async {
@@ -538,49 +761,58 @@ class QueryCacheExample {
           .paginate(page, 20);
       }
     );
+
+    // Tag the search results for group invalidation
+    await Khadem.cache.tag('search:\${query}:\${page}', ['search']);
   }
 
   static Future smartCacheInvalidation() async {
     // Cache with automatic invalidation on model changes
-    final posts = await Cache.remember('user_posts:\${userId}', Duration(hours: 1), () async {
+    final posts = await Khadem.cache.remember('user_posts:\${userId}', Duration(hours: 1), () async {
       return await Post.where('user_id', userId).get();
     });
 
+    // Tag the cached posts
+    await Khadem.cache.tag('user_posts:\${userId}', ['posts']);
+
     // Invalidate cache when new post is created
     Event.listen('post.created', (post) async {
-      await Cache.forget('user_posts:\${post.user_id}');
-      await Cache.tags(['posts']).forget('user_posts:\${post.user_id}');
+      await Khadem.cache.forget('user_posts:\${post.user_id}');
+      await Khadem.cache.forgetByTag('posts');
     });
 
     // Invalidate cache when post is updated
     Event.listen('post.updated', (post) async {
-      await Cache.forget('post:\${post.id}');
-      await Cache.forget('user_posts:\${post.user_id}');
+      await Khadem.cache.forget('post:\${post.id}');
+      await Khadem.cache.forget('user_posts:\${post.user_id}');
     });
   }
 
   static Future cacheWithDependencies() async {
     // Cache with dependency tracking
-    final article = await Cache.remember('article:\${id}', Duration(hours: 2), () async {
+    final article = await Khadem.cache.remember('article:\${id}', Duration(hours: 2), () async {
       final article = await Article.find(id);
 
       // Cache related data
-      await Cache.remember('article:\${id}:comments', Duration(minutes: 30), () async {
+      await Khadem.cache.remember('article:\${id}:comments', Duration(minutes: 30), () async {
         return await article.comments().get();
       });
 
-      await Cache.remember('article:\${id}:author', Duration(hours: 1), () async {
+      await Khadem.cache.remember('article:\${id}:author', Duration(hours: 1), () async {
         return await article.author().first();
       });
 
       return article;
     });
 
+    // Tag related caches
+    await Khadem.cache.tag('article:\${id}', ['articles']);
+    await Khadem.cache.tag('article:\${id}:comments', ['articles']);
+    await Khadem.cache.tag('article:\${id}:author', ['articles']);
+
     // Clear all related cache when article is updated
     Event.listen('article.updated', (article) async {
-      await Cache.forget('article:\${article.id}');
-      await Cache.forget('article:\${article.id}:comments');
-      await Cache.forget('article:\${article.id}:author');
+      await Khadem.cache.forgetByTag('articles');
     });
   }
 }`
@@ -589,21 +821,21 @@ const modelCachingCode = `// Model caching
 class User extends Model {
   // Cache user instance
   static Future<User?> findCached(int id) async {
-    return await Cache.remember('user:\$id', Duration(hours: 1), () async {
+    return await Khadem.cache.remember('user:\$id', Duration(hours: 1), () async {
       return await User.find(id);
     });
   }
 
   // Cache user relationships
   Future<Collection<Post>> getCachedPosts() async {
-    return await Cache.remember('user:\${id}:posts', Duration(minutes: 30), () async {
+    return await Khadem.cache.remember('user:\${id}:posts', Duration(minutes: 30), () async {
       return await posts().get();
     });
   }
 
   // Cache computed properties
   Future<int> getCachedPostCount() async {
-    return await Cache.remember('user:\${id}:post_count', Duration(hours: 1), () async {
+    return await Khadem.cache.remember('user:\${id}:post_count', Duration(hours: 1), () async {
       return await posts().count();
     });
   }
@@ -612,14 +844,14 @@ class User extends Model {
 class Post extends Model {
   // Cache with tags for easy invalidation
   static Future<Post?> findCached(int id) async {
-    return await Cache.tags(['posts']).remember('post:\$id', Duration(hours: 2), () async {
+    return await Khadem.cache.remember('post:\$id', Duration(hours: 2), () async {
       return await Post.with(['user', 'comments', 'tags']).find(id);
     });
   }
 
   // Cache popular posts
   static Future<Collection<Post>> getPopularCached() async {
-    return await Cache.remember('posts:popular', Duration(hours: 1), () async {
+    return await Khadem.cache.remember('posts:popular', Duration(hours: 1), () async {
       return await Post.query()
         .with(['user'])
         .where('published', true)
@@ -636,9 +868,9 @@ class Post extends Model {
 
     if (result) {
       // Clear related caches
-      await Cache.forget('post:\${id}');
-      await Cache.tags(['posts']).forget('user:\${user_id}:posts');
-      await Cache.forget('posts:popular');
+      await Khadem.cache.forget('post:\${id}');
+      await Khadem.cache.forgetByTag('posts');
+      await Khadem.cache.forget('posts:popular');
     }
 
     return result;
@@ -651,7 +883,7 @@ class CacheWarmer {
     final users = await User.where('active', true).get();
 
     for (final user in users) {
-      await Cache.remember('user:\${user.id}', Duration(hours: 1), () async {
+      await Khadem.cache.remember('user:\${user.id}', Duration(hours: 1), () async {
         return user;
       });
     }
@@ -662,7 +894,7 @@ class CacheWarmer {
     await Post.getPopularCached();
 
     // Warm recent posts
-    final recentPosts = await Cache.remember('posts:recent', Duration(minutes: 30), () async {
+    final recentPosts = await Khadem.cache.remember('posts:recent', Duration(minutes: 30), () async {
       return await Post.query()
         .with(['user'])
         .where('published', true)
@@ -687,7 +919,7 @@ class ResponseCacheMiddleware implements Middleware {
     final cacheKey = generateCacheKey(req);
 
     // Check if response is cached
-    final cachedResponse = await Cache.get('response:\$cacheKey');
+    final cachedResponse = await Khadem.cache.get('response:\$cacheKey');
 
     if (cachedResponse != null) {
       // Return cached response
@@ -727,7 +959,7 @@ class ResponseCacheMiddleware implements Middleware {
         'cached_at': DateTime.now().toIso8601String()
       };
 
-      await Cache.put('response:\$cacheKey', cacheData, Duration(minutes: 5));
+      await Khadem.cache.put('response:\$cacheKey', cacheData, Duration(minutes: 5));
     }
   }
 }
@@ -783,7 +1015,7 @@ class ApiController {
     final userId = req.param('id');
 
     // Cache user data
-    final user = await Cache.remember('api:user:\$userId', Duration(hours: 1), () async {
+    final user = await Khadem.cache.remember('api:user:\$userId', Duration(hours: 1), () async {
       return await User.find(userId);
     });
 
@@ -861,12 +1093,12 @@ class CacheWarmer {
     final activeUsers = await User.where('active', true).get();
 
     for (final user in activeUsers) {
-      await Cache.remember('user:\${user.id}', Duration(hours: 2), () async {
+      await Khadem.cache.remember('user:\${user.id}', Duration(hours: 2), () async {
         return user;
       });
 
       // Cache user's recent posts
-      await Cache.remember('user:\${user.id}:recent_posts', Duration(minutes: 30), () async {
+      await Khadem.cache.remember('user:\${user.id}:recent_posts', Duration(minutes: 30), () async {
         return await user.posts().orderBy('created_at', 'desc').limit(5).get();
       });
     }
@@ -879,13 +1111,13 @@ class CacheWarmer {
     final settings = await Setting.all();
 
     for (final setting in settings) {
-      await Cache.remember('setting:\${setting.key}', Duration(hours: 24), () async {
+      await Khadem.cache.remember('setting:\${setting.key}', Duration(hours: 24), () async {
         return setting.value;
       });
     }
 
     // Cache grouped settings
-    await Cache.remember('settings:app', Duration(hours: 24), () async {
+    await Khadem.cache.remember('settings:app', Duration(hours: 24), () async {
       return await Setting.where('group', 'app').pluck('value', 'key');
     });
 
@@ -894,17 +1126,17 @@ class CacheWarmer {
 
   static Future warmReferenceData() async {
     // Cache categories
-    await Cache.remember('categories', Duration(hours: 6), () async {
+    await Khadem.cache.remember('categories', Duration(hours: 6), () async {
       return await Category.orderBy('name').get();
     });
 
     // Cache tags
-    await Cache.remember('tags', Duration(hours: 6), () async {
+    await Khadem.cache.remember('tags', Duration(hours: 6), () async {
       return await Tag.orderBy('name').get();
     });
 
     // Cache countries/states
-    await Cache.remember('countries', Duration(hours: 24), () async {
+    await Khadem.cache.remember('countries', Duration(hours: 24), () async {
       return await Country.orderBy('name').get();
     });
 
@@ -913,7 +1145,7 @@ class CacheWarmer {
 
   static Future warmPopularContent() async {
     // Cache popular posts
-    await Cache.remember('posts:popular', Duration(hours: 1), () async {
+    await Khadem.cache.remember('posts:popular', Duration(hours: 1), () async {
       return await Post.query()
         .with(['user'])
         .where('published', true)
@@ -923,7 +1155,7 @@ class CacheWarmer {
     });
 
     // Cache trending topics
-    await Cache.remember('trending:topics', Duration(minutes: 30), () async {
+    await Khadem.cache.remember('trending:topics', Duration(minutes: 30), () async {
       return await Database.query()
         .selectRaw('tags.name, COUNT(post_tags.post_id) as count')
         .from('tags')
@@ -988,21 +1220,21 @@ class EventBasedCacheWarmer {
   static void setupListeners() {
     // Warm user cache when user is created
     Event.listen('user.created', (user) async {
-      await Cache.remember('user:\${user.id}', Duration(hours: 2), () async {
+      await Khadem.cache.remember('user:\${user.id}', Duration(hours: 2), () async {
         return await User.find(user.id);
       });
     });
 
     // Warm post cache when post is published
     Event.listen('post.published', (post) async {
-      await Cache.forget('posts:popular'); // Invalidate popular posts cache
+      await Khadem.cache.forget('posts:popular'); // Invalidate popular posts cache
       await CacheWarmer.warmPopularContent(); // Re-warm popular content
     });
 
     // Warm settings cache when setting is updated
     Event.listen('setting.updated', (setting) async {
-      await Cache.forget('setting:\${setting.key}');
-      await Cache.forget('settings:app');
+      await Khadem.cache.forget('setting:\${setting.key}');
+      await Khadem.cache.forget('settings:app');
     });
   }
 }`
@@ -1092,7 +1324,7 @@ class CacheSynchronizer {
     // Subscribe to cache invalidation events
     await DistributedCache.subscribeInvalidation('cache_invalidation', (key) async {
       // Remove local cache entry
-      await Cache.forget(key);
+      await Khadem.cache.forget(key);
       print('Invalidated cache key: \$key');
     });
 
@@ -1122,7 +1354,7 @@ class CacheSynchronizer {
 class SynchronizedCache {
   static Future put(String key, dynamic value, [Duration? ttl]) async {
     // Store in local cache
-    await Cache.put(key, value, ttl);
+    await Khadem.cache.put(key, value, ttl);
 
     // Store in distributed cache
     await DistributedCache.set(key, value, ttl);
@@ -1130,7 +1362,7 @@ class SynchronizedCache {
 
   static Future<dynamic> get(String key) async {
     // Try local cache first
-    var value = await Cache.get(key);
+    var value = await Khadem.cache.get(key);
 
     if (value == null) {
       // Try distributed cache
@@ -1138,7 +1370,7 @@ class SynchronizedCache {
 
       if (value != null) {
         // Store in local cache for future requests
-        await Cache.put(key, value, Duration(minutes: 5));
+        await Khadem.cache.put(key, value, Duration(minutes: 5));
       }
     }
 
@@ -1147,7 +1379,7 @@ class SynchronizedCache {
 
   static Future forget(String key) async {
     // Remove from local cache
-    await Cache.forget(key);
+    await Khadem.cache.forget(key);
 
     // Remove from distributed cache
     await DistributedCache.delete(key);
@@ -1288,11 +1520,11 @@ class MonitoredCache {
   static Future put(String key, dynamic value, [Duration? ttl]) async {
     final size = _calculateSize(value);
     await CacheMonitor.recordSet(key, size);
-    return await Cache.put(key, value, ttl);
+    return await Khadem.cache.put(key, value, ttl);
   }
 
   static Future<dynamic> get(String key) async {
-    final value = await Cache.get(key);
+    final value = await Khadem.cache.get(key);
 
     if (value != null) {
       await CacheMonitor.recordHit(key);
@@ -1305,7 +1537,7 @@ class MonitoredCache {
 
   static Future forget(String key) async {
     await CacheMonitor.recordDelete(key);
-    return await Cache.forget(key);
+    return await Khadem.cache.forget(key);
   }
 
   static int _calculateSize(dynamic value) {
@@ -1387,7 +1619,7 @@ const advancedPatternsCode = `// Advanced caching patterns
 class CacheAsidePattern {
   static Future<User?> getUser(int id) async {
     // Check cache first
-    final cached = await Cache.get('user:\$id');
+    final cached = await Khadem.cache.get('user:\$id');
 
     if (cached != null) {
       return User.fromJson(cached);
@@ -1398,7 +1630,7 @@ class CacheAsidePattern {
 
     if (user != null) {
       // Store in cache for future requests
-      await Cache.put('user:\$id', user.toJson(), Duration(hours: 1));
+      await Khadem.cache.put('user:\$id', user.toJson(), Duration(hours: 1));
     }
 
     return user;
@@ -1410,11 +1642,11 @@ class CacheAsidePattern {
     await user?.update(data);
 
     // Invalidate cache
-    await Cache.forget('user:\$id');
+    await Khadem.cache.forget('user:\$id');
 
     // Optionally update cache with new data
     if (user != null) {
-      await Cache.put('user:\$id', user.toJson(), Duration(hours: 1));
+      await Khadem.cache.put('user:\$id', user.toJson(), Duration(hours: 1));
     }
   }
 }
@@ -1425,10 +1657,10 @@ class WriteThroughPattern {
     final post = await Post.create(data);
 
     // Immediately cache the post
-    await Cache.put('post:\${post.id}', post.toJson(), Duration(hours: 2));
+    await Khadem.cache.put('post:\${post.id}', post.toJson(), Duration(hours: 2));
 
     // Update related caches
-    await Cache.forget('user:\${post.user_id}:posts');
+    await Khadem.cache.forget('user:\${post.user_id}:posts');
 
     return post;
   }
@@ -1440,7 +1672,7 @@ class WriteThroughPattern {
 
     // Update cache immediately
     if (post != null) {
-      await Cache.put('post:\${post.id}', post.toJson(), Duration(hours: 2));
+      await Khadem.cache.put('post:\${post.id}', post.toJson(), Duration(hours: 2));
     }
 
     return post;
@@ -1451,7 +1683,7 @@ class WriteBehindPattern {
   static Future createPostAsync(Map<String, dynamic> data) async {
     // Store in cache first
     final tempId = 'temp_\${DateTime.now().millisecondsSinceEpoch}';
-    await Cache.put('temp_post:\$tempId', data, Duration(minutes: 5));
+    await Khadem.cache.put('temp_post:\$tempId', data, Duration(minutes: 5));
 
     // Queue database write
     await Queue.dispatch(WritePostToDatabase(tempId, data));
@@ -1462,9 +1694,9 @@ class WriteBehindPattern {
   static Future<Collection<Post>> getUserPosts(int userId) async {
     final cacheKey = 'user:\$userId:posts';
 
-    return await Cache.remember(cacheKey, Duration(minutes: 30), () async {
+    return await Khadem.cache.remember(cacheKey, Duration(minutes: 30), () async {
       // Check for pending writes
-      final pendingWrites = await Cache.get('pending_writes:user:\$userId') ?? [];
+      final pendingWrites = await Khadem.cache.get('pending_writes:user:\$userId') ?? [];
 
       // Apply pending writes to result
       final posts = await Post.where('user_id', userId).get();
@@ -1502,7 +1734,7 @@ class CacheStampedePrevention {
       final result = await callback();
 
       // Cache the result
-      await Cache.put(key, result, ttl);
+      await Khadem.cache.put(key, result, ttl);
 
       // Complete the request
       completer.complete(result);
@@ -1521,7 +1753,7 @@ class CacheStampedePrevention {
 
   static Future<T> getWithStampede<T>(String key, Future<T> Function() callback) async {
     // Check cache first
-    final cached = await Cache.get(key);
+    final cached = await Khadem.cache.get(key);
     if (cached != null) {
       return cached as T;
     }
@@ -1546,22 +1778,22 @@ class BackgroundCacheRefresh {
 
   static Future refreshCriticalCaches() async {
     // Refresh popular content
-    await Cache.remember('posts:popular', Duration(hours: 1), () async {
+    await Khadem.cache.remember('posts:popular', Duration(hours: 1), () async {
       return await Post.query()
         .with(['user'])
         .where('published', true)
         .orderBy('views', 'desc')
         .limit(20)
         .get();
-    }, refreshInBackground: true);
+    });
 
     // Refresh user statistics
-    await Cache.remember('user_stats', Duration(hours: 2), () async {
+    await Khadem.cache.remember('user_stats', Duration(hours: 2), () async {
       return await Database.query()
         .selectRaw('COUNT(*) as total_users, AVG(posts_count) as avg_posts')
         .from('users')
         .first();
-    }, refreshInBackground: true);
+    });
   }
 }
 

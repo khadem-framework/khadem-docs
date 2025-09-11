@@ -56,7 +56,8 @@
     "search": "Search documentation...",
     "onThisPage": "On this page",
     "edit": "Edit this page",
-    "lastUpdated": "Last updated"
+    "lastUpdated": "Last updated",
+    "warningMessage": "This documentation is a work in progress. Some features may not be fully documented yet."
   },
   "common": {
     "loading": "Loading...",
