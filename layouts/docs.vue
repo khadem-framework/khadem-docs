@@ -187,7 +187,7 @@ const navigation = [
       { title: 'Routing', path: '/docs/core-concepts/routing' },
       { title: 'Response System', path: '/docs/core-concepts/response' },
       { title: 'Requests', path: '/docs/core-concepts/request' },
-      { title: 'Controllers', path: '/docs/core-concepts/controllers' },
+      // { title: 'Controllers', path: '/docs/core-concepts/controllers' },
       { title: 'Middleware', path: '/docs/core-concepts/middleware' },
       { title: 'Service Container', path: '/docs/core-concepts/container' },
       { title: 'Validation', path: '/docs/core-concepts/validation' }

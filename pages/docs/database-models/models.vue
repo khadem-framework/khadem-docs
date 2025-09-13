@@ -1,308 +1,603 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <DocsLayout>
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="mb-8">
-          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Models & Relationships
-          </h1>
-          <p class="text-xl text-gray-600 dark:text-gray-400">
-            Learn how to create models and define relationships between them
-          </p>
+  <div>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">
+          Models & Relationships
+        </h1>
+        <p class="text-xl text-blue-100 mb-8">
+          Learn how to create models and define relationships between them in Khadem Dart
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+            <span class="text-sm font-medium">Eloquent-like ORM</span>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+            <span class="text-sm font-medium">Relationship Management</span>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+            <span class="text-sm font-medium">Query Building</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div>
+          <CodeBlock
+            :code="basicModelCode"
+            language="dart"
+            title="Basic Model"
+          />
         </div>
 
-        <div class="space-y-8">
-          <!-- Basic Models -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Creating Models
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Models represent database tables and provide an easy way to interact with your data.
-            </p>
+        <div>
+          <CodeBlock
+            :code="modelUsageCode"
+            language="dart"
+            title="Model Usage"
+          />
+        </div>
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Basic Model
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-import 'package:khadem/src/database/models/model.dart';
+        <div>
+          <CodeBlock
+            :code="queryScopesCode"
+            language="dart"
+            title="Query Scopes"
+          />
+        </div>
+      </div>
 
-class User extends Model {
+      <!-- Creating Models Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Creating Models
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Models represent database tables and provide an easy way to interact with your data.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <CodeBlock
+              :code="modelAttributesCode"
+              language="dart"
+              title="Model Attributes"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="accessorsMutatorsCode"
+              language="dart"
+              title="Accessors & Mutators"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Relationships Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Model Relationships
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Define relationships between your models to easily access related data.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <CodeBlock
+              :code="oneToOneCode"
+              language="dart"
+              title="One to One"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="oneToManyCode"
+              language="dart"
+              title="One to Many"
+            />
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <CodeBlock
+              :code="manyToManyCode"
+              language="dart"
+              title="Many to Many"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="polymorphicCode"
+              language="dart"
+              title="Polymorphic"
+            />
+          </div>
+        </div>
+
+        <CodeBlock
+          :code="hasManyThroughCode"
+          language="dart"
+          title="Has Many Through"
+        />
+      </section>
+
+      <!-- Eager Loading Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Eager Loading
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Load relationships efficiently to avoid N+1 query problems.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <CodeBlock
+              :code="basicEagerLoadingCode"
+              language="dart"
+              title="Basic Eager Loading"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="lazyEagerLoadingCode"
+              language="dart"
+              title="Lazy Eager Loading"
+            />
+          </div>
+        </div>
+
+        <CodeBlock
+          :code="constrainingEagerLoadsCode"
+          language="dart"
+          title="Constraining Eager Loads"
+        />
+      </section>
+
+      <!-- Model Events Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Model Events
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Hook into model lifecycle events to perform additional actions.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <CodeBlock
+              :code="eventListenersCode"
+              language="dart"
+              title="Event Listeners"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="observersCode"
+              language="dart"
+              title="Observers"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Serialization Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Model Serialization
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Convert models to JSON and arrays for API responses.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <CodeBlock
+              :code="basicSerializationCode"
+              language="dart"
+              title="Basic Serialization"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="apiResourcesCode"
+              language="dart"
+              title="API Resources"
+            />
+          </div>
+        </div>
+
+        <CodeBlock
+          :code="conditionalAttributesCode"
+          language="dart"
+          title="Conditional Attributes"
+        />
+      </section>
+
+      <!-- Testing Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Testing Models
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Test your models and their relationships.
+        </p>
+
+        <CodeBlock
+          :code="modelTestingCode"
+          language="dart"
+          title="Model Testing"
+        />
+      </section>
+    </div>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({ layout: 'docs' })
+
+useHead({
+  title: 'Models & Relationships',
+  meta: [
+    { name: 'description', content: 'Comprehensive guide to creating models and defining relationships in Khadem Dart' }
+  ]
+})
+
+// Basic Model Code Examples
+const basicModelCode = `// app/models/User.dart
+import 'package:khadem/khadem_dart.dart';
+
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  User({
+    this.name,
+    this.email,
+    this.password,
+    int? id,
+  }) {
+    this.id = id;
+  }
+
+  String? name;
+  String? email;
+  String? password;
+
   @override
-  String get table =&gt; 'users';
-
-  // Fillable attributes
-  @override
-  List&lt;String&gt; get fillable =&gt; [
+  List<String> get fillable => [
     'name',
     'email',
     'password',
   ];
 
-  // Hidden attributes (not included in JSON)
   @override
-  List&lt;String&gt; get hidden =&gt; [
+  List<String> get hidden => [
     'password',
     'remember_token',
   ];
 
-  // Cast attributes to specific types
   @override
-  Map&lt;String, String&gt; get casts =&gt; {
-    'email_verified_at': 'datetime',
-    'is_active': 'boolean',
-    'settings': 'json',
+  Map<String, Type> get casts => {
+    'email_verified_at': DateTime,
+    'is_active': bool,
+    'settings': Map,
   };
 
-  // Date attributes
   @override
-  List&lt;String&gt; get dates =&gt; [
-    'created_at',
-    'updated_at',
-    'deleted_at',
-  ];
+  Map<String, RelationDefinition> get relations => {
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+  };
 
-  // Accessors and Mutators
-  String get fullName =&gt; '\${first_name} \${last_name}';
-
-  set fullName(String value) {
-    final parts = value.split(' ');
-    first_name = parts[0];
-    last_name = parts.length &gt; 1 ? parts[1] : '';
+  @override
+  Object? getField(String key) {
+    return switch (key) {
+      'id' => id,
+      'name' => name,
+      'email' => email,
+      'password' => password,
+      'created_at' => createdAt,
+      'updated_at' => updatedAt,
+      _ => null
+    };
   }
 
-  // Check if user is admin
-  bool get isAdmin =&gt; role == 'admin';
+  @override
+  void setField(String key, dynamic value) {
+    return switch (key) {
+      'id' => id = value,
+      'name' => name = value,
+      'email' => email = value,
+      'password' => password = value,
+      'created_at' => createdAt = value,
+      'updated_at' => updatedAt = value,
+      _ => null
+    };
+  }
 
-  // Get user's avatar URL
-  String get avatarUrl =&gt; avatar != null
-      ? Storage.url(avatar)
-      : 'https://ui-avatars.com/api/?name=\${Uri.encodeComponent(name)}';
-}</code></pre>
-            </div>
+  @override
+  User newFactory(Map<String, dynamic> data) {
+    return User()..fromJson(data);
+  }
+}`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Model Usage
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Create a new user
+const modelUsageCode = `// Create a new user
 final user = User();
 user.name = 'John Doe';
 user.email = 'john@example.com';
-user.password = Hash.make('password');
+user.password = 'password'; // Note: Hashing should be done separately
 await user.save();
-
-// Create using mass assignment
-final user = await User.create({
-  'name': 'Jane Doe',
-  'email': 'jane@example.com',
-  'password': Hash.make('password'),
-});
 
 // Find user by ID
-final user = await User.find(1);
-
-// Find or fail (throws exception if not found)
-final user = await User.findOrFail(1);
+final user = await User().query.where('id', '=', 1).first();
 
 // Find by attributes
-final user = await User.where('email', 'john@example.com').first();
+final user = await User().query.where('email', '=', 'john@example.com').first();
 
 // Get all users
-final users = await User.all();
+final users = await User().query.get();
 
 // Get users with conditions
-final activeUsers = await User.where('is_active', true).get();
+final activeUsers = await User().query.where('is_active', '=', true).get();
 
 // Update user
-user.name = 'John Smith';
+user.name = 'Updated Name';
 await user.save();
-
-// Update using mass assignment
-await user.update({
-  'name': 'John Smith',
-  'updated_at': DateTime.now(),
-});
 
 // Delete user
 await user.delete();
 
-// Soft delete (if using soft deletes)
-await user.delete(); // Sets deleted_at
+// Refresh from database
+await user.refresh();`
 
-// Force delete
-await user.forceDelete();
-
-// Restore soft deleted
-await user.restore();</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Query Scopes
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
-  // Global scope
-  @override
-  void applyGlobalScopes() {
-    query.whereNull('deleted_at');
+const queryScopesCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Local query methods
+  QueryBuilderInterface<User> active() {
+    return query.where('is_active', '=', true);
   }
 
-  // Local scopes
-  QueryBuilder scopeActive(QueryBuilder query) {
-    return query.where('is_active', true);
-  }
-
-  QueryBuilder scopeVerified(QueryBuilder query) {
+  QueryBuilderInterface<User> verified() {
     return query.whereNotNull('email_verified_at');
   }
 
-  QueryBuilder scopeRecent(QueryBuilder query) {
-    return query.where('created_at', '&gt;', DateTime.now().subtract(Duration(days: 7)));
+  QueryBuilderInterface<User> recent() {
+    return query.where('created_at', '>', DateTime.now().subtract(Duration(days: 7)));
   }
 }
 
 // Usage
-final activeUsers = await User.active().get();
-final verifiedUsers = await User.verified().get();
-final recentUsers = await User.recent().get();
+final activeUsers = await User().active().get();
+final verifiedUsers = await User().verified().get();
+final recentUsers = await User().recent().get();
 
 // Combine scopes
-final activeVerifiedUsers = await User.active().verified().get();</code></pre>
-            </div>
-          </div>
+final activeVerifiedUsers = await User().active().verified().get();
 
-          <!-- Relationships -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Model Relationships
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Define relationships between your models to easily access related data.
-            </p>
+// Chain with other query methods
+final recentActiveUsers = await User()
+    .recent()
+    .active()
+    .orderBy('created_at', direction: 'desc')
+    .limit(10)
+    .get();`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                One to One
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
-  Profile profile() {
-    return hasOne(Profile);
+// Model Attributes Code Examples
+const modelAttributesCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // CRUD operations
+  Future<void> updateProfile(Map<String, dynamic> data) async {
+    fromJson(data);
+    await save();
   }
+
+  Future<void> deleteAccount() async {
+    await delete();
+  }
+
+  // Check if model exists
+  bool get exists => id != null;
+
+  // Check if model was recently created
+  bool get wasRecentlyCreated => createdAt != null &&
+    createdAt!.difference(DateTime.now()).inMinutes < 1;
+
+  // Get specific field value
+  dynamic getField(String key) {
+    return switch (key) {
+      'id' => id,
+      'name' => name,
+      'email' => email,
+      'password' => password,
+      'created_at' => createdAt,
+      'updated_at' => updatedAt,
+      _ => null
+    };
+  }
+
+  // Set specific field value
+  void setField(String key, dynamic value) {
+    return switch (key) {
+      'id' => id = value,
+      'name' => name = value,
+      'email' => email = value,
+      'password' => password = value,
+      'created_at' => createdAt = value,
+      'updated_at' => updatedAt = value,
+      _ => null
+    };
+  }
+}`
+
+const accessorsMutatorsCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Accessors
+  String get fullName => '\${name?.split(' ').first ?? ''} \${name?.split(' ').last ?? ''}';
+
+  String get avatarUrl => 'https://ui-avatars.com/api/?name=\${Uri.encodeComponent(name ?? '')}';
+
+  bool get isAdmin => role == 'admin';
+
+  // Mutators
+  set fullName(String value) {
+    name = value;
+  }
+
+  set password(String value) {
+    // Note: Hashing should be done before setting
+    this.password = value;
+  }
+
+  // Custom methods
+  Future<bool> sendPasswordReset() async {
+    // Send password reset email logic
+    return true;
+  }
+
+  Future<List<Post>> getPublishedPosts() async {
+    return await loadRelation('posts').then((_) {
+      final posts = getRelation('posts') as List<Post>? ?? [];
+      return posts.where((post) => post.published == true).toList();
+    });
+  }
+}`
+
+// Relationship Code Examples
+const oneToOneCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'profile': hasOne<Profile>(
+      foreignKey: 'user_id',
+      relatedTable: 'profiles',
+      factory: () => Profile(),
+    ),
+  };
 }
 
 // app/models/Profile.dart
-class Profile extends Model {
-  User user() {
-    return belongsTo(User);
-  }
+class Profile extends KhademModel<Profile> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'user': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User(),
+    ),
+  };
 }
 
 // Usage
-final user = await User.find(1);
-final profile = await user.profile;
-
-// Or with eager loading
-final user = await User.with('profile').find(1);
-final profile = user.profile;
+final user = await User().query.where('id', '=', 1).first();
+await user.load('profile');
+final profile = user.getRelation('profile');
 
 // Reverse relationship
-final profile = await Profile.find(1);
-final user = await profile.user;</code></pre>
-            </div>
+final profile = await Profile().query.where('id', '=', 1).first();
+await profile.load('user');
+final user = profile.getRelation('user');`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                One to Many
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
-  Collection&lt;Post&gt; posts() {
-    return hasMany(Post);
-  }
+const oneToManyCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+  };
 }
 
 // app/models/Post.dart
-class Post extends Model {
-  User user() {
-    return belongsTo(User);
-  }
+class Post extends KhademModel<Post> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'user': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User(),
+    ),
+  };
 }
 
 // Usage
-final user = await User.find(1);
-final posts = await user.posts;
+final user = await User().query.where('id', '=', 1).first();
+await user.load('posts');
+final posts = user.getRelation('posts') as List<Post>;
 
 // Get posts count
-final postsCount = await user.posts().count();
+final postsCount = await user.query
+    .where('user_id', '=', user.id)
+    .count();
 
 // Create post for user
-final post = await user.posts().create({
-  'title': 'New Post',
-  'content': 'Post content',
-});
+final post = Post();
+post.userId = user.id;
+post.title = 'New Post';
+post.content = 'Post content';
+await post.save();
 
 // Get user from post
-final post = await Post.find(1);
-final user = await post.user;</code></pre>
-            </div>
+final post = await Post().query.where('id', '=', 1).first();
+await post.load('user');
+final user = post.getRelation('user') as User;`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Many to Many
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
-  Collection&lt;Role&gt; roles() {
-    return belongsToMany(Role);
-  }
+const manyToManyCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'roles': belongsToMany<Role>(
+      pivotTable: 'user_roles',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'role_id',
+      relatedTable: 'roles',
+      localKey: 'id',
+      factory: () => Role(),
+    ),
+  };
 }
 
 // app/models/Role.dart
-class Role extends Model {
-  Collection&lt;User&gt; users() {
-    return belongsToMany(User);
-  }
+class Role extends KhademModel<Role> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'users': belongsToMany<User>(
+      pivotTable: 'user_roles',
+      foreignPivotKey: 'role_id',
+      relatedPivotKey: 'user_id',
+      relatedTable: 'users',
+      localKey: 'id',
+      factory: () => User(),
+    ),
+  };
 }
 
 // Usage
-final user = await User.find(1);
-final roles = await user.roles;
+final user = await User().query.where('id', '=', 1).first();
+await user.load('roles');
+final roles = user.getRelation('roles') as List<Role>;
 
-// Attach role to user
-await user.roles().attach(1); // Role ID
-await user.roles().attach([1, 2, 3]); // Multiple roles
+// Note: Attach/detach operations would need to be implemented
+// as custom methods since the framework doesn't provide them directly`
 
-// Attach with pivot data
-await user.roles().attach({
-  1: {'expires_at': DateTime.now().add(Duration(days: 30))},
-  2: {'expires_at': null},
-});
-
-// Detach role
-await user.roles().detach(1);
-await user.roles().detach(); // Detach all
-
-// Sync roles (removes old, adds new)
-await user.roles().sync([1, 2, 3]);
-
-// Check if user has role
-final hasRole = await user.roles().where('name', 'admin').exists();
-
-// Get users with specific role
-final admins = await Role.where('name', 'admin').first().users;</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Has Many Through
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/Country.dart
+const hasManyThroughCode = `// app/models/Country.dart
 class Country extends Model {
-  Collection&lt;Post&gt; posts() {
+  Collection<Post> posts() {
     return hasManyThrough(Post, User);
   }
 }
@@ -313,7 +608,7 @@ class User extends Model {
     return belongsTo(Country);
   }
 
-  Collection&lt;Post&gt; posts() {
+  Collection<Post> posts() {
     return hasMany(Post);
   }
 }
@@ -327,117 +622,83 @@ class Post extends Model {
 
 // Usage
 final country = await Country.find(1);
-final posts = await country.posts; // Posts through users</code></pre>
-            </div>
+final posts = await country.posts; // Posts through users`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Polymorphic Relationships
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/Post.dart
-class Post extends Model {
-  Collection&lt;Comment&gt; comments() {
-    return morphMany(Comment, 'commentable');
-  }
-
-  Collection&lt;Image&gt; images() {
-    return morphMany(Image, 'imageable');
-  }
-}
-
-// app/models/Video.dart
-class Video extends Model {
-  Collection&lt;Comment&gt; comments() {
-    return morphMany(Comment, 'commentable');
-  }
-
-  Collection&lt;Image&gt; images() {
-    return morphMany(Image, 'imageable');
-  }
+const polymorphicCode = `// app/models/Post.dart
+class Post extends KhademModel<Post> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'comments': morphMany<Comment>(
+      morphTypeField: 'commentable_type',
+      morphIdField: 'commentable_id',
+      relatedTable: 'comments',
+      factory: () => Comment(),
+    ),
+    'images': morphMany<Image>(
+      morphTypeField: 'imageable_type',
+      morphIdField: 'imageable_id',
+      relatedTable: 'images',
+      factory: () => Image(),
+    ),
+  };
 }
 
 // app/models/Comment.dart
-class Comment extends Model {
-  Model commentable() {
-    return morphTo('commentable');
-  }
-}
-
-// app/models/Image.dart
-class Image extends Model {
-  Model imageable() {
-    return morphTo('imageable');
-  }
+class Comment extends KhademModel<Comment> with Timestamps, HasRelationships {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'commentable': morphTo<Comment>(
+      morphTypeField: 'commentable_type',
+      morphIdField: 'commentable_id',
+      relatedTable: '', // Will be determined dynamically
+      factory: () => Comment(), // This would need to be dynamic
+    ),
+  };
 }
 
 // Database migrations
 // comments table
 table.integer('commentable_id');
-table.string('commentable_type'); // App\Models\Post or App\Models\Video
-
-// images table
-table.integer('imageable_id');
-table.string('imageable_type');
+table.string('commentable_type'); // Post, Video, etc.
 
 // Usage
-final post = await Post.find(1);
-final comments = await post.comments;
-final images = await post.images;
+final post = await Post().query.where('id', '=', 1).first();
+await post.load('comments');
+final comments = post.getRelation('comments') as List<Comment>;
 
-// Get the parent model
-final comment = await Comment.find(1);
-final parent = await comment.commentable; // Could be Post or Video</code></pre>
-            </div>
-          </div>
+// Note: morphTo implementation would need custom logic
+// to determine the correct model type based on commentable_type`
 
-          <!-- Eager Loading -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Eager Loading
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Load relationships efficiently to avoid N+1 query problems.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Basic Eager Loading
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Lazy loading (N+1 problem)
-final users = await User.all();
+// Eager Loading Code Examples
+const basicEagerLoadingCode = `// Lazy loading (N+1 problem)
+final users = await User().query.get();
 for (final user in users) {
-  final posts = await user.posts; // Executes N queries
+  await user.load('posts'); // N queries
 }
 
-// Eager loading (2 queries total)
-final users = await User.with('posts').get();
+// Eager loading (2 queries)
+final users = await User().query.withRelations(['posts']).get();
 for (final user in users) {
-  final posts = user.posts; // Already loaded
+  final posts = user.getRelation('posts'); // Already loaded
 }
 
 // Multiple relationships
-final users = await User.with(['posts', 'profile']).get();
+final users = await User().query.withRelations(['posts', 'profile']).get();
 
 // Nested relationships
-final users = await User.with([
+final users = await User().query.withRelations([
   'posts',
-  'posts.comments',
-  'posts.comments.user'
+  // Note: Nested relations would need custom implementation
 ]).get();
 
 // Conditional eager loading
-final users = await User.with([
-  'posts' =&gt; (query) =&gt; query.where('published', true),
-  'profile'
-]).get();</code></pre>
-            </div>
+final users = await User().query
+    .withRelations(['posts'])
+    .where('is_active', '=', true)
+    .get();`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Lazy Eager Loading
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Load relationships after the model is retrieved
-final user = await User.find(1);
+const lazyEagerLoadingCode = `// Load relationships after model retrieval
+final user = await User().query.where('id', '=', 1).first();
 
 // Load single relationship
 await user.load('posts');
@@ -445,310 +706,303 @@ await user.load('posts');
 // Load multiple relationships
 await user.load(['posts', 'profile']);
 
-// Load with conditions
-await user.load([
-  'posts' =&gt; (query) =&gt; query.where('published', true).limit(5),
-]);
-
 // Check if relationship is loaded
-if (user.postsLoaded) {
-  // Relationship is loaded
-}</code></pre>
-            </div>
+if (user.isRelationLoaded('posts')) {
+  final posts = user.getRelation('posts');
+}
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Constraining Eager Loads
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Limit related records
-final users = await User.with([
-  'posts' =&gt; (query) =&gt; query.limit(5),
-]).get();
+// Load missing relationships only
+await user.loadMissing(['posts', 'profile']);
 
-// Order related records
-final users = await User.with([
-  'posts' =&gt; (query) =&gt; query.orderBy('created_at', 'desc'),
-]).get();
+// Load with constraints (would need custom implementation)
+await user.load('posts');
+// Then filter manually
+final posts = user.getRelation('posts') as List<Post>;
+final publishedPosts = posts.where((post) => post.published == true).toList();`
 
-// Filter related records
-final users = await User.with([
-  'posts' =&gt; (query) =&gt; query.where('published', true),
-]).get();
+const constrainingEagerLoadsCode = `// Limit related records
+final users = await User().query
+    .withRelations(['posts'])
+    .get();
+
+// Then manually limit posts for each user
+for (final user in users) {
+  final posts = user.getRelation('posts') as List<Post>;
+  final limitedPosts = posts.take(5).toList();
+  user.setRelation('posts', limitedPosts);
+}
+
+// Order related records (would need custom query)
+final users = await User().query
+    .withRelations(['posts'])
+    .get();
+
+// Filter related records manually
+for (final user in users) {
+  final posts = user.getRelation('posts') as List<Post>;
+  final publishedPosts = posts.where((post) => post.published == true).toList();
+  user.setRelation('posts', publishedPosts);
+}
 
 // Count related records
-final users = await User.withCount('posts').get();
+final users = await User().query.get();
 for (final user in users) {
-  print('\${user.name} has \${user.posts_count} posts');
+  await user.load('posts');
+  final postsCount = (user.getRelation('posts') as List).length;
+  user.setAppended('posts_count', postsCount);
 }
 
-// Count with conditions
-final users = await User.withCount([
-  'posts',
-  'posts as published_posts_count' =&gt; (query) =&gt; query.where('published', true),
-]).get();</code></pre>
-            </div>
-          </div>
+// Note: Advanced constraining would need custom query builder extensions`
 
-          <!-- Model Events -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Model Events
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Hook into model lifecycle events to perform additional actions.
-            </p>
+// Model Events Code Examples
+const eventListenersCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Note: Event system would need to be implemented
+  // The current framework doesn't have built-in events like Laravel
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Event Listeners
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
+  // You could implement custom event handling
   @override
-  void boot() {
-    // Register event listeners
-    onCreating((user) {
-      user.uuid = Uuid().v4();
-    });
+  Future<void> save() async {
+    // Custom pre-save logic
+    if (password != null && password!.isNotEmpty) {
+      // Hash password before saving
+      password = 'hashed_' + password!;
+    }
 
-    onCreated((user) {
-      // Send welcome email
-      Queue.dispatch(SendWelcomeEmail(user));
-    });
+    touchUpdated();
+    if (id == null) {
+      touchCreated();
+    }
 
-    onUpdating((user) {
-      user.updated_at = DateTime.now();
-    });
+    await super.save();
 
-    onSaving((user) {
-      // Hash password if changed
-      if (user.isDirty('password')) {
-        user.password = Hash.make(user.password);
+    // Custom post-save logic
+    // Send welcome email, etc.
+  }
+
+  @override
+  Future<void> delete() async {
+    // Custom pre-delete logic
+    // Delete related records, etc.
+
+    await super.delete();
+
+    // Custom post-delete logic
+  }
+}
+
+// Available operations that can be overridden:
+// - save() - called on both create and update
+// - delete() - called on delete
+// - refresh() - called when refreshing from database`
+
+const observersCode = `// Note: Observer pattern is not built into the current Khadem framework
+// You can implement a similar pattern manually
+
+// app/observers/UserObserver.dart
+class UserObserver {
+  void beforeCreate(User user) {
+    // Generate UUID or other pre-create logic
+    print('Creating user: \${user.name}');
+  }
+
+  void afterCreate(User user) {
+    // Send welcome email, etc.
+    print('User created: \${user.name}');
+  }
+
+  void beforeUpdate(User user) {
+    print('Updating user: \${user.name}');
+  }
+
+  void afterUpdate(User user) {
+    print('User updated: \${user.name}');
+  }
+
+  void beforeDelete(User user) {
+    print('Deleting user: \${user.name}');
+  }
+
+  void afterDelete(User user) {
+    print('User deleted: \${user.name}');
+  }
+}
+
+// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  UserObserver? observer;
+
+  @override
+  Future<void> save() async {
+    if (observer != null) {
+      if (id == null) {
+        observer!.beforeCreate(this);
+      } else {
+        observer!.beforeUpdate(this);
       }
-    });
+    }
 
-    onDeleting((user) {
-      // Soft delete related records
-      await user.posts().update({'deleted_at': DateTime.now()});
-    });
-  }
-}
+    await super.save();
 
-// Available events:
-// - creating, created
-// - updating, updated
-// - saving, saved
-// - deleting, deleted
-// - restoring, restored</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Observers
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/observers/UserObserver.dart
-import 'package:khadem/src/database/models/observer.dart';
-
-class UserObserver extends Observer {
-  @override
-  void creating(User user) {
-    user.uuid = Uuid().v4();
-  }
-
-  @override
-  void created(User user) {
-    Queue.dispatch(SendWelcomeEmail(user));
-  }
-
-  @override
-  void updating(User user) {
-    user.updated_at = DateTime.now();
-  }
-
-  @override
-  void saving(User user) {
-    if (user.isDirty('password')) {
-      user.password = Hash.make(user.password);
+    if (observer != null) {
+      if (id != null && createdAt == updatedAt) {
+        observer!.afterCreate(this);
+      } else {
+        observer!.afterUpdate(this);
+      }
     }
   }
 
   @override
-  void deleting(User user) {
-    // Clean up related data
-    await user.posts().delete();
-    await Storage.delete(user.avatar);
+  Future<void> delete() async {
+    if (observer != null) {
+      observer!.beforeDelete(this);
+    }
+
+    await super.delete();
+
+    if (observer != null) {
+      observer!.afterDelete(this);
+    }
   }
 }
 
-// Register observer
-// app/providers/AppServiceProvider.dart
-class AppServiceProvider extends ServiceProvider {
-  @override
-  void boot() {
-    User.observe(UserObserver());
-  }
-}</code></pre>
-            </div>
-          </div>
+// Usage
+final user = User();
+user.observer = UserObserver();
+user.name = 'John Doe';
+await user.save(); // Will trigger observer methods`
 
-          <!-- Model Serialization -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Model Serialization
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Convert models to JSON and arrays for API responses.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Basic Serialization
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
+// Serialization Code Examples
+const basicSerializationCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
   @override
-  List&lt;String&gt; get hidden =&gt; ['password', 'remember_token'];
+  List<String> get hidden => ['password'];
 
   @override
-  Map&lt;String, String&gt; get casts =&gt; {
-    'created_at': 'datetime',
-    'is_active': 'boolean',
+  Map<String, Type> get casts => {
+    'created_at': DateTime,
+    'is_active': bool,
   };
 
-  // Custom accessor for JSON
-  Map&lt;String, dynamic&gt; toJson() {
+  // Custom toJson method
+  @override
+  Map<String, dynamic> toJson() {
     final json = super.toJson();
 
     // Add computed properties
-    json['full_name'] = fullName;
-    json['avatar_url'] = avatarUrl;
-    json['is_admin'] = isAdmin;
-
-    // Remove sensitive data
-    json.remove('password');
+    json['full_name'] = name;
+    json['avatar_url'] = 'https://example.com/avatar/\${id}';
+    json['is_admin'] = false; // Add custom logic
 
     return json;
   }
 }
 
 // Usage
-final user = await User.find(1);
+final user = await User().query.where('id', '=', 1).first();
 final json = user.toJson();
-final jsonString = jsonEncode(json);
 
 // Serialize collection
-final users = await User.all();
-final usersJson = users.toJson();</code></pre>
-            </div>
+final users = await User().query.get();
+final usersJson = users.map((user) => user.toJson()).toList();
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                API Resources
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/http/resources/UserResource.dart
-import 'package:khadem/src/http/resources/resource.dart';
+// Get only specific attributes
+final userData = user.only(['id', 'name', 'email']);
 
-class UserResource extends Resource {
-  @override
-  Map&lt;String, dynamic&gt; toArray(request) {
-    final user = resource;
+// Get all except specific attributes
+final userData = user.except(['password', 'remember_token']);
 
+// Make attributes visible/hidden dynamically
+user.makeVisible(['phone']);
+user.makeHidden(['created_at', 'updated_at']);`
+
+const apiResourcesCode = `// app/resources/UserResource.dart
+class UserResource {
+  final User user;
+
+  UserResource(this.user);
+
+  Map<String, dynamic> toArray() {
     return {
       'id': user.id,
       'name': user.name,
       'email': user.email,
-      'avatar_url': user.avatarUrl,
-      'is_admin': user.isAdmin,
-      'created_at': user.created_at,
-      'updated_at': user.updated_at,
-      'posts_count': user.posts_count ?? 0,
-      'profile': user.profile != null ? UserProfileResource(user.profile) : null,
+      'avatar_url': 'https://example.com/avatar/\${user.id}',
+      'is_admin': false, // Add custom logic
+      'created_at': user.createdAt,
+      'updated_at': user.updatedAt,
+      'posts_count': user.getAppended('posts_count') ?? 0,
+      'profile': user.getRelation('profile') != null
+          ? ProfileResource(user.getRelation('profile')).toArray()
+          : null,
     };
   }
-}
 
-// app/http/resources/UserProfileResource.dart
-class UserProfileResource extends Resource {
-  @override
-  Map&lt;String, dynamic&gt; toArray(request) {
-    final profile = resource;
-
-    return {
-      'bio': profile.bio,
-      'website': profile.website,
-      'location': profile.location,
-    };
+  static List<Map<String, dynamic>> collection(List<User> users) {
+    return users.map((user) => UserResource(user).toArray()).toList();
   }
 }
 
 // Usage in controller
-final users = await User.with(['profile']).withCount('posts').get();
-return response.json(UserResource.collection(users));</code></pre>
-            </div>
+final users = await User().query.get();
+for (final user in users) {
+  await user.load('posts');
+  user.setAppended('posts_count', (user.getRelation('posts') as List).length);
+}
+return UserResource.collection(users);`
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Conditional Attributes
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/http/resources/UserResource.dart
-class UserResource extends Resource {
-  @override
-  Map&lt;String, dynamic&gt; toArray(request) {
-    final user = resource;
+const conditionalAttributesCode = `// app/resources/UserResource.dart
+class UserResource {
+  final User user;
+  final bool isAdmin;
 
-    return {
+  UserResource(this.user, {this.isAdmin = false});
+
+  Map<String, dynamic> toArray() {
+    final result = {
       'id': user.id,
       'name': user.name,
       'email': user.email,
-      // Only include for admin users
-      'email_verified_at': when(user.isAdmin, user.email_verified_at),
-      // Only include if user owns the resource
-      'phone': when(request.user().id == user.id, user.phone),
-      // Merge conditional attributes
-      ...mergeWhen(user.isAdmin, {
-        'role': user.role,
-        'permissions': user.permissions,
-      }),
     };
+
+    // Only include for admin users
+    if (isAdmin) {
+      result['email_verified_at'] = user.emailVerifiedAt;
+      result['role'] = 'user'; // Add custom logic
+      result['permissions'] = ['read']; // Add custom logic
+    }
+
+    // Only include if user owns the resource
+    if (user.id == 1) { // Add ownership check logic
+      result['phone'] = user.phone;
+    }
+
+    return result;
   }
 }
 
 // Helper methods
-Map&lt;String, dynamic&gt; when(bool condition, dynamic value) {
-  return condition ? {'value': value} : {};
+Map<String, dynamic> mergeWhen(bool condition, Map<String, dynamic> attributes) {
+  return condition ? attributes : {};
 }
 
-Map&lt;String, dynamic&gt; mergeWhen(bool condition, Map&lt;String, dynamic&gt; attributes) {
-  return condition ? attributes : {};
-}</code></pre>
-            </div>
-          </div>
+// Usage
+final user = await User().query.where('id', '=', 1).first();
+final resource = UserResource(user, isAdmin: true);
+final data = resource.toArray();`
 
-          <!-- Model Testing -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Testing Models
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Test your models and their relationships.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// tests/unit/models/UserTest.dart
-import 'package:test/test.dart';
-import 'package:khadem/src/database/models/model.dart';
-import '../../app/models/User.dart';
-import '../../app/models/Post.dart';
-
+// Model Testing Code Examples
+const modelTestingCode = `// tests/unit/models/UserTest.dart
 void main() {
   group('User Model', () {
     setUp(() async {
-      // Set up database
-      await TestMigrations.run();
+      // Set up test database
+      // Note: Test database setup would depend on your testing framework
     });
 
     tearDown(() async {
-      await TestMigrations.rollback();
+      // Clean up test database
     });
 
     test('can create user', () async {
@@ -757,91 +1011,63 @@ void main() {
       user.email = 'test@example.com';
       user.password = 'password';
 
-      final saved = await user.save();
-
-      expect(saved, true);
+      await user.save();
       expect(user.id, isNotNull);
+      expect(user.name, 'Test User');
     });
 
     test('can find user by email', () async {
-      await User.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
+      final user = User();
+      user.name = 'Test User';
+      user.email = 'test@example.com';
+      user.password = 'password';
+      await user.save();
 
-      final user = await User.where('email', 'test@example.com').first();
-
-      expect(user, isNotNull);
-      expect(user.email, 'test@example.com');
+      final foundUser = await User().query
+          .where('email', '=', 'test@example.com')
+          .first();
+      expect(foundUser, isNotNull);
+      expect(foundUser!.email, 'test@example.com');
     });
 
     test('user has many posts relationship', () async {
-      final user = await User.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
-
-      await Post.create({
-        'user_id': user.id,
-        'title': 'Test Post',
-        'content': 'Test content',
-      });
-
-      final posts = await user.posts;
-
-      expect(posts.length, 1);
-      expect(posts.first.title, 'Test Post');
-    });
-
-    test('can update user', () async {
-      final user = await User.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
-
-      user.name = 'Updated Name';
+      final user = User();
+      user.name = 'Test User';
+      user.email = 'test@example.com';
+      user.password = 'password';
       await user.save();
 
-      final updatedUser = await User.find(user.id);
-      expect(updatedUser.name, 'Updated Name');
-    });
+      final post = Post();
+      post.userId = user.id;
+      post.title = 'Test Post';
+      post.content = 'Test content';
+      await post.save();
 
-    test('can delete user', () async {
-      final user = await User.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
-
-      await user.delete();
-
-      final deletedUser = await User.find(user.id);
-      expect(deletedUser, isNull);
+      await user.load('posts');
+      final posts = user.getRelation('posts') as List<Post>;
+      expect(posts.length, 1);
+      expect(posts.first.title, 'Test Post');
     });
 
     test('validates required fields', () async {
       final user = User();
 
-      expect(
-        () async =&gt; await user.save(),
-        throwsA(isA&lt;ValidationException&gt;())
-      );
+      // Note: Validation would need to be implemented separately
+      // The framework doesn't have built-in validation
+      expect(user.name, isNull);
+    });
+
+    test('serializes correctly', () async {
+      final user = User();
+      user.name = 'Test User';
+      user.email = 'test@example.com';
+      user.password = 'secret';
+
+      final json = user.toJson();
+      expect(json['name'], 'Test User');
+      expect(json['email'], 'test@example.com');
+      expect(json.containsKey('password'), false); // Should be hidden
     });
   });
-}</code></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-    </DocsLayout>
-  </div>
-</template>
-
-<script setup>
-definePageMeta({
-  layout: 'docs'
-})
+}`
 </script>

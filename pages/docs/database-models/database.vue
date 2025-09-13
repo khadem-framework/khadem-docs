@@ -1,203 +1,274 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <DocsLayout>
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="mb-8">
-          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Database & Migrations
-          </h1>
-          <p class="text-xl text-gray-600 dark:text-gray-400">
-            Learn how to work with databases, run migrations, and manage your data
-          </p>
+  <div class="space-y-8">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Database & ORM</h1>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+        Powerful database abstraction with migrations, query builder, and ORM capabilities for Khadem Dart.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">DatabaseManager</span>
+        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">KhademModel</span>
+        <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">QueryBuilder</span>
+        <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium">Migrations</span>
+        <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm font-medium">Seeders</span>
+      </div>
+    </header>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Database Configuration</h2>
+
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-4">Database Manager Setup</h3>
+
+        <CodeBlock
+          :code="databaseConfigCode"
+          language="dart"
+          title="Database Configuration"
+        />
+
+        <div class="mt-4 space-y-2 text-sm text-blue-700 dark:text-blue-300">
+          <p><strong>💡 Note:</strong> Configuration is loaded from <code>config/database.dart</code></p>
+          <p><strong>⚡ Tip:</strong> Use environment variables for sensitive connection details</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border">
+          <div class="flex items-center mb-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+            <h3 class="font-medium">SQLite</h3>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">File-based, no server</p>
+          <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">sqlite</code>
         </div>
 
-        <div class="space-y-8">
-          <!-- Database Configuration -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Database Configuration
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Configure database connections and settings.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Database Config
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// config/database.dart
-import 'package:khadem/src/database/database_config.dart';
-
-class DatabaseConfig extends Config {
-  @override
-  Map&lt;String, dynamic&gt; get config =&gt; {
-    'default': env('DB_CONNECTION', 'mysql'),
-
-    'connections': {
-      'sqlite': {
-        'driver': 'sqlite',
-        'url': env('DATABASE_URL'),
-        'database': env('DB_DATABASE', database_path('database.sqlite')),
-        'prefix': '',
-        'foreign_key_constraints': env('DB_FOREIGN_KEYS', true),
-      },
-
-      'mysql': {
-        'driver': 'mysql',
-        'url': env('DATABASE_URL'),
-        'host': env('DB_HOST', '127.0.0.1'),
-        'port': env('DB_PORT', '3306'),
-        'database': env('DB_DATABASE', 'khadem'),
-        'username': env('DB_USERNAME', 'root'),
-        'password': env('DB_PASSWORD', ''),
-        'unix_socket': env('DB_SOCKET', ''),
-        'charset': 'utf8mb4',
-        'collation': 'utf8mb4_unicode_ci',
-        'prefix': '',
-        'prefix_indexes': true,
-        'strict': true,
-        'engine': null,
-        'options': {},
-      },
-
-      'pgsql': {
-        'driver': 'pgsql',
-        'url': env('DATABASE_URL'),
-        'host': env('DB_HOST', '127.0.0.1'),
-        'port': env('DB_PORT', '5432'),
-        'database': env('DB_DATABASE', 'khadem'),
-        'username': env('DB_USERNAME', 'postgres'),
-        'password': env('DB_PASSWORD', ''),
-        'charset': 'utf8',
-        'prefix': '',
-        'prefix_indexes': true,
-        'schema': 'public',
-        'sslmode': 'prefer',
-      },
-
-      'sqlsrv': {
-        'driver': 'sqlsrv',
-        'url': env('DATABASE_URL'),
-        'host': env('DB_HOST', 'localhost'),
-        'port': env('DB_PORT', '1433'),
-        'database': env('DB_DATABASE', 'khadem'),
-        'username': env('DB_USERNAME', 'sa'),
-        'password': env('DB_PASSWORD', ''),
-        'charset': 'utf8',
-        'prefix': '',
-        'prefix_indexes': true,
-      },
-
-      'mongodb': {
-        'driver': 'mongodb',
-        'host': env('DB_HOST', '127.0.0.1'),
-        'port': env('DB_PORT', '27017'),
-        'database': env('DB_DATABASE', 'khadem'),
-        'username': env('DB_USERNAME'),
-        'password': env('DB_PASSWORD'),
-        'options': {
-          'replicaSet': env('DB_REPLICA_SET'),
-          'ssl': env('DB_SSL', false),
-          'authSource': env('DB_AUTH_SOURCE', 'admin'),
-        },
-      },
-    },
-
-    'migrations': 'migrations',
-
-    'redis': {
-      'client': env('REDIS_CLIENT', 'phpredis'),
-      'options': {
-        'cluster': env('REDIS_CLUSTER', 'redis'),
-        'prefix': env('REDIS_PREFIX', Str.slug(env('APP_NAME', 'khadem'), '_').value + '_database_'),
-      },
-
-      'default': {
-        'url': env('REDIS_URL'),
-        'host': env('REDIS_HOST', '127.0.0.1'),
-        'password': env('REDIS_PASSWORD'),
-        'port': env('REDIS_PORT', '6379'),
-        'database': env('REDIS_DB', '0'),
-      },
-
-      'cache': {
-        'url': env('REDIS_URL'),
-        'host': env('REDIS_HOST', '127.0.0.1'),
-        'password': env('REDIS_PASSWORD'),
-        'port': env('REDIS_PORT', '6379'),
-        'database': env('REDIS_CACHE_DB', '1'),
-      },
-    },
-  };
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Database Service Provider
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/providers/database_service_provider.dart
-import 'package:khadem/src/database/database_manager.dart';
-
-class DatabaseServiceProvider extends ServiceProvider {
-  @override
-  void register() {
-    app.singleton(DatabaseManager, () {
-      return DatabaseManager(config('database'));
-    });
-
-    app.bind('db', () {
-      return app.make(DatabaseManager).connection();
-    });
-  }
-
-  @override
-  void boot() {
-    // Register custom database types
-    DB.addTypes({
-      'json': JsonType(),
-      'uuid': UuidType(),
-      'enum': EnumType(),
-    });
-  }
-}</code></pre>
-            </div>
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border">
+          <div class="flex items-center mb-2">
+            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+            <h3 class="font-medium">MySQL</h3>
           </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Production-ready RDBMS</p>
+          <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">mysql</code>
+        </div>
 
-          <!-- Migrations -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Database Migrations
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Create and manage database schema changes.
-            </p>
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border">
+          <div class="flex items-center mb-2">
+            <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+            <h3 class="font-medium">PostgreSQL</h3>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Advanced features, JSON</p>
+          <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">pgsql</code>
+        </div>
+      </div>
+    </section>
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Creating Migrations
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Create a new migration
-php artisan make:migration create_users_table
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Migrations</h2>
 
-// Create migration for specific table
-php artisan make:migration add_email_to_users_table --table=users
+      <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border border-green-200 dark:border-green-800">
+        <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-4">Creating Migrations</h3>
 
-// Create migration with custom name
-php artisan make:migration create_posts_table --create=posts</code></pre>
-            </div>
+        <CodeBlock
+          :code="migrationCode"
+          language="dart"
+          title="Migration Structure"
+        />
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Migration Structure
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// database/migrations/2024_01_01_000001_create_users_table.dart
-import 'package:khadem/src/database/migrations/migration.dart';
+        <div class="mt-4 space-y-2 text-sm text-green-700 dark:text-green-300">
+          <p><strong>📁 Location:</strong> <code>database/migrations/</code></p>
+          <p><strong>🔄 Naming:</strong> <code>timestamp_description.dart</code></p>
+        </div>
+      </div>
 
-class CreateUsersTable extends Migration {
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <CodeBlock
+            :code="schemaBuilderCode"
+            language="dart"
+            title="Schema Builder"
+          />
+        </div>
+
+        <div>
+          <CodeBlock
+            :code="migrationCommandsCode"
+            language="dart"
+            title="Migration Commands"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Khadem Model (ORM)</h2>
+
+      <div class="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-lg border border-purple-200 dark:border-purple-800">
+        <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200 mb-4">Model Definition</h3>
+
+        <CodeBlock
+          :code="modelDefinitionCode"
+          language="dart"
+          title="Basic Model Structure"
+        />
+
+        <div class="mt-4 space-y-2 text-sm text-purple-700 dark:text-purple-300">
+          <p><strong>📁 Location:</strong> <code>app/models/</code></p>
+          <p><strong>🔗 Extends:</strong> <code>KhademModel</code></p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <CodeBlock
+            :code="modelCrudCode"
+            language="dart"
+            title="CRUD Operations"
+          />
+        </div>
+
+        <div>
+          <CodeBlock
+            :code="modelRelationshipsCode"
+            language="dart"
+            title="Model Relationships"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Query Builder</h2>
+
+      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-lg border border-indigo-200 dark:border-indigo-800">
+        <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200 mb-4">Fluent Query Interface</h3>
+
+        <CodeBlock
+          :code="queryBuilderCode"
+          language="dart"
+          title="Query Builder Usage"
+        />
+
+        <div class="mt-4 space-y-2 text-sm text-indigo-700 dark:text-indigo-300">
+          <p><strong>🔧 Interface:</strong> <code>QueryBuilderInterface</code></p>
+          <p><strong>📊 Supports:</strong> Complex queries, joins, aggregations</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <CodeBlock
+            :code="advancedQueriesCode"
+            language="dart"
+            title="Advanced Queries"
+          />
+        </div>
+
+        <div>
+          <CodeBlock
+            :code="rawQueriesCode"
+            language="dart"
+            title="Raw SQL Queries"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Seeders</h2>
+
+      <div class="bg-orange-50 dark:bg-orange-900/20 p-6 rounded-lg border border-orange-200 dark:border-orange-800">
+        <h3 class="text-lg font-medium text-orange-800 dark:text-orange-200 mb-4">Database Seeding</h3>
+
+        <CodeBlock
+          :code="seederCode"
+          language="dart"
+          title="Seeder Implementation"
+        />
+
+        <div class="mt-4 space-y-2 text-sm text-orange-700 dark:text-orange-300">
+          <p><strong>📁 Location:</strong> <code>database/seeders/</code></p>
+          <p><strong>🎯 Purpose:</strong> Populate database with test data</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <CodeBlock
+            :code="factorySeederCode"
+            language="dart"
+            title="Factory Pattern"
+          />
+        </div>
+
+        <div>
+          <CodeBlock
+            :code="seederCommandsCode"
+            language="dart"
+            title="Seeder Commands"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Database Transactions</h2>
+
+      <div class="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg border border-red-200 dark:border-red-800">
+        <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-4">Transaction Management</h3>
+
+        <CodeBlock
+          :code="transactionCode"
+          language="dart"
+          title="Transaction Usage"
+        />
+
+        <div class="mt-4 space-y-2 text-sm text-red-700 dark:text-red-300">
+          <p><strong>🔒 Ensures:</strong> Data consistency and integrity</p>
+          <p><strong>⚡ Performance:</strong> Batch operations efficiently</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<script setup>
+definePageMeta({ layout: 'docs' })
+useHead({
+  title: 'Database & ORM',
+  meta: [
+    { name: 'description', content: 'Comprehensive database and ORM documentation for Khadem Dart' }
+  ]
+})
+
+// Database Configuration Examples
+const databaseConfigCode = `// config/database.dart
+import 'package:khadem/khadem_dart.dart';
+
+class DatabaseConfig {
+  static Map<String, dynamic> get config => {
+    'driver': Khadem.env.getOrDefault('DB_CONNECTION', 'mysql'),
+    'host': Khadem.env.getOrDefault('DB_HOST', 'localhost'),
+    'port': Khadem.env.getInt('DB_PORT'),
+    'database': Khadem.env.get('DB_DATABASE'),
+    'username': Khadem.env.get('DB_USERNAME'),
+    'password': Khadem.env.get('DB_PASSWORD'),
+    'run_migrations': true,
+    'run_seeders': false,
+  };
+}`
+
+// Migration Examples
+const migrationCode = `// database/migrations/0_create_users_table.dart
+import 'package:khadem/khadem_dart.dart';
+
+class CreateUsersTable implements MigrationFile {
   @override
-  void up() {
-    schema.create('users', (table) {
+  String get name => 'create_users_table';
+
+  @override
+  Future<void> up(SchemaBuilder schema) async {
+    schema.create('users', (Blueprint table) {
       table.id();
       table.string('name');
       table.string('email').unique();
@@ -209,446 +280,446 @@ class CreateUsersTable extends Migration {
   }
 
   @override
-  void down() {
+  Future<void> down(SchemaBuilder schema) async {
     schema.dropIfExists('users');
   }
-}
+}`
 
-// database/migrations/2024_01_02_000002_create_posts_table.dart
-class CreatePostsTable extends Migration {
-  @override
-  void up() {
-    schema.create('posts', (table) {
-      table.id();
-      table.string('title');
-      table.text('content');
-      table.foreignId('user_id').constrained().onDelete('cascade');
-      table.timestamps();
-    });
-  }
+const schemaBuilderCode = `// Available column types in Blueprint
+schema.create('products', (Blueprint table) {
+  // Primary Keys
+  table.id(); // Auto-incrementing primary key
+  table.id('custom_id'); // Custom primary key name
 
-  @override
-  void down() {
-    schema.dropIfExists('posts');
-  }
-}</code></pre>
-            </div>
+  // Strings
+  table.string('name', length: 100); // VARCHAR with length
+  table.text('description'); // TEXT
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Running Migrations
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Run all pending migrations
-php artisan migrate
+  // Numbers
+  table.integer('quantity'); // INT
+  table.bigInteger('views'); // BIGINT
+  table.float('weight'); // FLOAT
 
-// Run migrations for specific path
-php artisan migrate --path=database/migrations/tenant
+  // Dates & Times
+  table.date('birth_date'); // DATE
+  table.timestamp('created_at'); // TIMESTAMP
 
-// Run migrations without prompting
-php artisan migrate --force
+  // Boolean & Enum
+  table.boolean('is_active'); // BOOLEAN
+  table.enumColumn('status', ['pending', 'approved', 'rejected']);
+
+  // JSON & Arrays
+  table.json('metadata'); // JSON
+  table.array('tags'); // ARRAY
+
+  // Special
+  table.timestamps(); // created_at and updated_at
+  table.softDeletes(); // deleted_at for soft deletes
+
+  // Foreign Keys
+  table.foreignId('user_id'); // Foreign key column
+  table.morphs('commentable'); // Polymorphic relation columns
+});`
+
+const migrationCommandsCode = `// Using the Migrator class
+import 'package:khadem/khadem_dart.dart';
+
+final migrator = Migrator(Khadem.db);
+
+// Run all pending migrations
+await migrator.upAll();
 
 // Rollback last migration
-php artisan migrate:rollback
-
-// Rollback specific number of migrations
-php artisan migrate:rollback --step=5
+await migrator.downAll();
 
 // Rollback all migrations
-php artisan migrate:reset
+await migrator.reset();
 
-// Rollback and re-run all migrations
-php artisan migrate:fresh
+// Refresh database (rollback + migrate)
+await migrator.refresh();
 
 // Show migration status
-php artisan migrate:status</code></pre>
-            </div>
-          </div>
+await migrator.status();
 
-          <!-- Schema Builder -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Schema Builder
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Create and modify database tables with the schema builder.
-            </p>
+// Run specific migration
+await migrator.up('create_users_table');
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Column Types
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// database/migrations/create_products_table.dart
-class CreateProductsTable extends Migration {
-  @override
-  void up() {
-    schema.create('products', (table) {
-      // Primary Keys
-      table.id(); // Auto-incrementing primary key
-      table.uuid('uuid'); // UUID primary key
-      table.ulid('ulid'); // ULID primary key
+// Rollback specific migration
+await migrator.down('create_users_table');`
 
-      // Strings
-      table.string('name', 100); // VARCHAR with length
-      table.text('description'); // TEXT
-      table.mediumText('content'); // MEDIUMTEXT
-      table.longText('article'); // LONGTEXT
+// Model Examples
+const modelDefinitionCode = `// app/models/user.dart
+import 'package:khadem/khadem_dart.dart';
 
-      // Numbers
-      table.integer('quantity'); // INTEGER
-      table.bigInteger('views'); // BIGINT
-      table.smallInteger('rating'); // SMALLINT
-      table.tinyInteger('status'); // TINYINT
-      table.decimal('price', 8, 2); // DECIMAL(8,2)
-      table.float('weight', 8, 2); // FLOAT
-      table.double('height', 8, 2); // DOUBLE
-
-      // Dates & Times
-      table.date('birth_date'); // DATE
-      table.dateTime('created_at'); // DATETIME
-      table.timestamp('updated_at'); // TIMESTAMP
-      table.time('start_time'); // TIME
-      table.year('year'); // YEAR
-
-      // Boolean & Enum
-      table.boolean('is_active'); // BOOLEAN/TINYINT(1)
-      table.enum('status', ['pending', 'approved', 'rejected']); // ENUM
-
-      // JSON & Arrays
-      table.json('metadata'); // JSON
-      table.jsonb('settings'); // JSONB (PostgreSQL)
-
-      // Binary
-      table.binary('data'); // BLOB
-      table.mediumBlob('image'); // MEDIUMBLOB
-      table.longBlob('video'); // LONGBLOB
-
-      // Special
-      table.rememberToken(); // VARCHAR(100) NULL for remember tokens
-      table.timestamps(); // created_at and updated_at TIMESTAMP
-      table.softDeletes(); // deleted_at TIMESTAMP NULL
-
-      // Indexes
-      table.index('email'); // Regular index
-      table.unique('email'); // Unique index
-      table.index(['first_name', 'last_name']); // Composite index
-    });
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  User({
+    this.name,
+    this.email,
+    this.password,
+    int? id,
+  }) {
+    this.id = id;
   }
-}</code></pre>
-            </div>
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Foreign Keys
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// database/migrations/add_foreign_keys.dart
-class AddForeignKeys extends Migration {
+  String? name;
+  String? email;
+  String? password;
+
   @override
-  void up() {
-    schema.table('posts', (table) {
-      // Basic foreign key
-      table.foreign('user_id').references('id').on('users');
+  List<String> get fillable => [
+    'name',
+    'email',
+    'password',
+    'created_at',
+    'updated_at'
+  ];
 
-      // Foreign key with cascade delete
-      table.foreign('category_id').references('id').on('categories')
-           .onDelete('cascade');
+  @override
+  List<String> get hidden => ['password'];
 
-      // Foreign key with set null
-      table.foreign('parent_id').references('id').on('posts')
-           .onDelete('set null');
+  @override
+  List<String> get appends => [];
 
-      // Named foreign key constraint
-      table.foreign('author_id', 'posts_author_id_foreign')
-           .references('id').on('users');
-    });
+  @override
+  Map<String, RelationDefinition> get relations => {
+    // 'posts': hasMany<Post>(
+    //   foreignKey: 'user_id',
+    //   relatedTable: 'posts',
+    //   factory: () => Post(),
+    // )
+  };
+
+  @override
+  dynamic getField(String key) {
+    return switch (key) {
+      'id' => id,
+      'name' => name,
+      'email' => email,
+      'password' => password,
+      'created_at' => createdAt,
+      'updated_at' => updatedAt,
+      _ => null
+    };
   }
 
   @override
-  void down() {
-    schema.table('posts', (table) {
-      table.dropForeign('posts_user_id_foreign');
-      table.dropForeign('posts_category_id_foreign');
-      table.dropForeign('posts_parent_id_foreign');
-      table.dropForeign('posts_author_id_foreign');
-    });
-  }
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Modifying Tables
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// database/migrations/modify_users_table.dart
-class ModifyUsersTable extends Migration {
-  @override
-  void up() {
-    schema.table('users', (table) {
-      // Add columns
-      table.string('phone').nullable();
-      table.boolean('is_verified').default(false);
-      table.timestamp('last_login_at').nullable();
-
-      // Modify columns
-      table.string('name', 150).change(); // Change length
-      table.integer('age').unsigned().change(); // Make unsigned
-
-      // Rename columns
-      table.renameColumn('created_at', 'registered_at');
-
-      // Drop columns
-      table.dropColumn('old_field');
-      table.dropColumn(['field1', 'field2']);
-
-      // Add indexes
-      table.index('phone');
-      table.unique('email');
-
-      // Drop indexes
-      table.dropIndex('users_email_index');
-      table.dropUnique('users_email_unique');
-    });
+  void setField(String key, dynamic value) {
+    return switch (key) {
+      'id' => id = value,
+      'name' => name = value,
+      'email' => email = value,
+      'password' => password = value,
+      'created_at' => createdAt = value,
+      'updated_at' => updatedAt = value,
+      _ => null
+    };
   }
 
   @override
-  void down() {
-    schema.table('users', (table) {
-      table.dropColumn(['phone', 'is_verified', 'last_login_at']);
-      table.string('name', 255).change();
-      table.integer('age').change();
-      table.renameColumn('registered_at', 'created_at');
-      table.dropIndex('users_phone_index');
-      table.dropUnique('users_email_unique');
-    });
+  User newFactory(Map<String, dynamic> data) {
+    return User()..fromJson(data);
   }
-}</code></pre>
-            </div>
-          </div>
+}`
 
-          <!-- Seeders -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Database Seeders
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Populate your database with test data.
-            </p>
+const modelCrudCode = `// Create a new user
+final user = User(name: 'John Doe', email: 'john@example.com');
+await user.save();
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Creating Seeders
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Create a seeder
-php artisan make:seeder UsersTableSeeder
+// Find user by ID
+final user = await User().findById(1);
 
-// database/seeders/UsersTableSeeder.dart
-import 'package:khadem/src/database/seeders/seeder.dart';
-import 'package:khadem/src/support/faker.dart';
+// Find users by condition
+final users = await User().findWhere('email', '=', 'john@example.com');
 
-class UsersTableSeeder extends Seeder {
-  @override
-  Future&lt;void&gt; run() async {
-    // Create specific users
-    await DB.table('users').insert({
-      'name': 'John Doe',
-      'email': 'john@example.com',
-      'password': Hash.make('password'),
-      'created_at': DateTime.now(),
-      'updated_at': DateTime.now(),
-    });
+// Update user
+user.name = 'John Smith';
+await user.save();
 
-    // Create multiple users using Faker
-    for (var i = 0; i &lt; 10; i++) {
-      await DB.table('users').insert({
-        'name': Faker.name(),
-        'email': Faker.email(),
-        'password': Hash.make('password'),
-        'created_at': DateTime.now(),
-        'updated_at': DateTime.now(),
-      });
-    }
-  }
+// Delete user
+await user.delete();
+
+// Query with relationships
+final userWithPosts = await User().load(['posts']);
+
+// Check if relation is loaded
+if (user.isRelationLoaded('posts')) {
+  final posts = user.getRelation('posts');
 }
 
-// database/seeders/DatabaseSeeder.dart
-class DatabaseSeeder extends Seeder {
+// Append computed attributes
+user.append(['full_name']);
+user.appendAttribute('display_name');
+
+// Get only specific attributes
+final userData = user.only(['name', 'email']);
+
+// Get all except specific attributes
+final userData = user.except(['password']);`
+
+const modelRelationshipsCode = `// One-to-One relationship
+class User extends KhademModel<User> {
   @override
-  Future&lt;void&gt; run() async {
-    // Run seeders in order
-    await this.call(UsersTableSeeder);
-    await this.call(PostsTableSeeder);
-    await this.call(CategoriesTableSeeder);
-  }
-}</code></pre>
-            </div>
+  Map<String, RelationDefinition> get relations => {
+    'profile': RelationDefinition<Profile>(
+      type: RelationType.hasOne,
+      relatedTable: 'profiles',
+      localKey: 'id',
+      foreignKey: 'user_id',
+      factory: () => Profile(),
+    ),
+  };
+}
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Running Seeders
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Run all seeders
-php artisan db:seed
+class Profile extends KhademModel<Profile> {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'user': RelationDefinition<User>(
+      type: RelationType.belongsTo,
+      relatedTable: 'users',
+      localKey: 'user_id',
+      foreignKey: 'id',
+      factory: () => User(),
+    ),
+  };
+}
 
-// Run specific seeder
-php artisan db:seed --class=UsersTableSeeder
+// One-to-Many relationship
+class User extends KhademModel<User> {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'posts': RelationDefinition<Post>(
+      type: RelationType.hasMany,
+      relatedTable: 'posts',
+      localKey: 'id',
+      foreignKey: 'user_id',
+      factory: () => Post(),
+    ),
+  };
+}
 
-// Run seeders with migrations
-php artisan migrate:fresh --seed
+class Post extends KhademModel<Post> {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'user': RelationDefinition<User>(
+      type: RelationType.belongsTo,
+      relatedTable: 'users',
+      localKey: 'user_id',
+      foreignKey: 'id',
+      factory: () => User(),
+    ),
+  };
+}
 
-// Run seeders without confirmation
-php artisan db:seed --force</code></pre>
-            </div>
-          </div>
+// Many-to-Many relationship (simplified)
+class User extends KhademModel<User> {
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'roles': RelationDefinition<Role>(
+      type: RelationType.belongsToMany,
+      relatedTable: 'roles',
+      localKey: 'id',
+      foreignKey: 'user_id',
+      factory: () => Role(),
+    ),
+  };
+}`
 
-          <!-- Query Builder -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Query Builder
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Build complex database queries with the fluent query builder.
-            </p>
+// Query Builder Examples
+const queryBuilderCode = `// Using DatabaseManager
+import 'package:khadem/khadem_dart.dart';
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Basic Queries
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Get all records
-final users = await DB.table('users').get();
+final db = Khadem.db;
+
+// Get all records
+final users = await db.table('users').get();
 
 // Get first record
-final user = await DB.table('users').first();
+final user = await db.table('users').first();
 
 // Get specific columns
-final names = await DB.table('users').select('name', 'email').get();
+final names = await db.table('users').select(['name', 'email']).get();
 
-// Get single record by ID
-final user = await DB.table('users').where('id', 1).first();
-
-// Get records with conditions
-final activeUsers = await DB.table('users')
-    .where('is_active', true)
+// Where clauses
+final activeUsers = await db.table('users')
+    .where('is_active', '=', true)
     .get();
 
 // Count records
-final count = await DB.table('users').where('is_active', true).count();
+final count = await db.table('users').count();
 
-// Check if records exist
-final exists = await DB.table('users').where('email', 'john@example.com').exists();</code></pre>
-            </div>
+// Check existence
+final exists = await db.table('users')
+    .where('email', '=', 'john@example.com')
+    .exists();
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Advanced Queries
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Where clauses
-final users = await DB.table('users')
-    .where('age', '&gt;', 18)
-    .where('city', 'New York')
-    .orWhere('city', 'Los Angeles')
-    .get();
-
-// Where with array
-final users = await DB.table('users')
-    .whereIn('id', [1, 2, 3, 4, 5])
-    .get();
-
-// Where between
-final users = await DB.table('users')
-    .whereBetween('age', [18, 65])
-    .get();
-
-// Where null
-final users = await DB.table('users')
-    .whereNull('deleted_at')
-    .get();
-
-// Ordering and limiting
-final users = await DB.table('users')
-    .orderBy('created_at', 'desc')
-    .limit(10)
-    .offset(20)
-    .get();
-
-// Grouping
-final stats = await DB.table('orders')
-    .select('status', DB.raw('COUNT(*) as count'))
-    .groupBy('status')
-    .get();
-
-// Joins
-final users = await DB.table('users')
-    .join('posts', 'users.id', '=', 'posts.user_id')
-    .select('users.name', 'posts.title')
-    .get();
-
-// Left join
-final users = await DB.table('users')
-    .leftJoin('profiles', 'users.id', '=', 'profiles.user_id')
-    .select('users.*', 'profiles.bio')
-    .get();</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Insert, Update, Delete
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Insert single record
-final id = await DB.table('users').insertGetId({
+// Insert record
+final userId = await db.table('users').insert({
   'name': 'John Doe',
   'email': 'john@example.com',
   'created_at': DateTime.now(),
   'updated_at': DateTime.now(),
 });
 
-// Insert multiple records
-await DB.table('users').insert([
-  {'name': 'Jane Doe', 'email': 'jane@example.com'},
-  {'name': 'Bob Smith', 'email': 'bob@example.com'},
-]);
-
 // Update records
-await DB.table('users')
-    .where('id', 1)
+await db.table('users')
+    .where('id', '=', 1)
     .update({
       'name': 'John Smith',
       'updated_at': DateTime.now(),
     });
 
-// Update with increment/decrement
-await DB.table('users')
-    .where('id', 1)
-    .increment('login_count');
-
-await DB.table('users')
-    .where('id', 1)
-    .decrement('credits', 5);
-
 // Delete records
-await DB.table('users')
-    .where('id', 1)
-    .delete();
+await db.table('users')
+    .where('id', '=', 1)
+    .delete();`
 
-// Delete all records
-await DB.table('users').delete();</code></pre>
-            </div>
-          </div>
+const advancedQueriesCode = `// Complex where conditions
+final users = await db.table('users')
+    .where('age', '>', 18)
+    .where('city', '=', 'New York')
+    .orWhere('city', '=', 'Los Angeles')
+    .get();
 
-          <!-- Database Transactions -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Database Transactions
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Ensure data consistency with database transactions.
-            </p>
+// Ordering and pagination
+final users = await db.table('users')
+    .orderBy('created_at', direction: 'DESC')
+    .limit(10)
+    .offset(20)
+    .get();
 
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Basic Transactions
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Using transaction method
-await DB.transaction((trx) async {
-  final userId = await trx.table('users').insertGetId({
+// Joins
+final users = await db.table('users')
+    .join('posts', 'users.id', '=', 'posts.user_id')
+    .select(['users.name', 'posts.title'])
+    .get();
+
+// Grouping and aggregation
+final stats = await db.table('posts')
+    .select(['user_id'])
+    .groupBy('user_id')
+    .having('COUNT(*)', '>', 5)
+    .get();
+
+// Raw queries
+final users = await db.table('users')
+    .whereRaw('created_at > ?', [DateTime.now().subtract(Duration(days: 30))])
+    .get();`
+
+const rawQueriesCode = `// Raw SQL queries using connection
+final connection = db.connection;
+
+// Raw select
+final users = await connection.query('SELECT * FROM users WHERE id = ?', [1]);
+
+// Raw insert
+final result = await connection.execute(
+  'INSERT INTO users (name, email) VALUES (?, ?)',
+  ['John Doe', 'john@example.com']
+);
+
+// Raw update
+await connection.execute(
+  'UPDATE users SET name = ? WHERE id = ?',
+  ['John Smith', 1]
+);
+
+// Raw delete
+await connection.execute('DELETE FROM users WHERE id = ?', [1]);`
+
+// Seeder Examples
+const seederCode = `// database/seeders/database_seeder.dart
+import 'package:khadem/khadem_dart.dart';
+
+class DatabaseSeeder implements Seeder {
+  @override
+  String get name => 'database_seeder';
+
+  @override
+  Future<void> run() async {
+    // Call other seeders
+    await UserSeeder().run();
+    await PostSeeder().run();
+    await CategorySeeder().run();
+  }
+}
+
+// database/seeders/user_seeder.dart
+class UserSeeder implements Seeder {
+  @override
+  String get name => 'user_seeder';
+
+  @override
+  Future<void> run() async {
+    // Create test users
+    await Khadem.db.table('users').insert([
+      {
+        'name': 'John Doe',
+        'email': 'john@example.com',
+        'password': 'hashed_password',
+        'created_at': DateTime.now(),
+        'updated_at': DateTime.now(),
+      },
+      {
+        'name': 'Jane Smith',
+        'email': 'jane@example.com',
+        'password': 'hashed_password',
+        'created_at': DateTime.now(),
+        'updated_at': DateTime.now(),
+      },
+    ]);
+  }
+}`
+
+const factorySeederCode = `// Using factories for seeding
+class UserFactory {
+  static Map<String, dynamic> make() {
+    return {
+      'name': 'Test User',
+      'email': 'test@example.com',
+      'password': 'hashed_password',
+      'created_at': DateTime.now(),
+      'updated_at': DateTime.now(),
+    };
+  }
+
+  static Map<String, dynamic> makeWithOverrides(Map<String, dynamic> overrides) {
+    return {...make(), ...overrides};
+  }
+}
+
+// In seeder
+class UserSeeder extends Seeder {
+  @override
+  void run() {
+    // Create 10 users using factory
+    for (var i = 0; i < 10; i++) {
+      db.table('users').insert(UserFactory.makeWithOverrides({
+        'name': 'User \$i',
+        'email': 'user\$i@example.com',
+      }));
+    }
+  }
+}`
+
+const seederCommandsCode = `// Using SeederManager
+import 'package:khadem/khadem_dart.dart';
+
+final seederManager = SeederManager();
+
+// Register seeders
+seederManager.register(DatabaseSeeder());
+seederManager.register(UserSeeder());
+
+// Run all seeders
+await seederManager.runAll();
+
+// Run specific seeder
+await seederManager.run('user_seeder');`
+
+// Transaction Examples
+const transactionCode = `// Using DatabaseManager transactions
+await Khadem.db.connection.transaction((trx) async {
+  final userId = await trx.table('users').insert({
     'name': 'John Doe',
     'email': 'john@example.com',
   });
@@ -659,11 +730,10 @@ await DB.transaction((trx) async {
   });
 });
 
-// Manual transaction
-final trx = await DB.beginTransaction();
-
-try {
-  final userId = await trx.table('users').insertGetId({
+// Manual transaction using connection
+final connection = Khadem.db.connection;
+await connection.transaction((trx) async {
+  final userId = await trx.table('users').insert({
     'name': 'John Doe',
     'email': 'john@example.com',
   });
@@ -672,83 +742,39 @@ try {
     'user_id': userId,
     'bio': 'Software developer',
   });
+});`
 
-  await trx.commit();
-} catch (e) {
-  await trx.rollback();
-  rethrow;
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Transaction in Models
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/models/User.dart
-class User extends Model {
-  Future&lt;bool&gt; createWithProfile(Map&lt;String, dynamic&gt; data) async {
-    return await DB.transaction((trx) async {
-      final user = await this.create(data, trx);
-
-      await Profile.create({
-        'user_id': user.id,
-        'bio': data['bio'],
-      }, trx);
-
-      return true;
-    });
-  }
-}
-
-// Usage
-final user = User();
-await user.createWithProfile({
-  'name': 'John Doe',
-  'email': 'john@example.com',
-  'bio': 'Developer',
-});</code></pre>
-            </div>
-          </div>
-
-          <!-- Testing Database -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Testing Database
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Test your database operations and migrations.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// tests/unit/database/user_repository_test.dart
+// Testing Examples
+const testingCode = `// tests/database/user_test.dart
 import 'package:test/test.dart';
-import 'package:khadem/src/database/database_manager.dart';
-import 'package:khadem/src/testing/database/migrations.dart';
-import '../../app/repositories/user_repository.dart';
+import 'package:khadem/khadem_dart.dart';
 
 void main() {
-  group('UserRepository', () {
+  group('User Model Tests', () {
     setUp(() async {
-      // Run migrations for testing
-      await TestMigrations.run();
-
-      // Seed test data
-      await DatabaseSeeder().run();
+      // Initialize database for testing
+      await Khadem.db.init();
+      
+      // Run migrations
+      final migrator = Migrator(Khadem.db);
+      await migrator.upAll();
     });
 
     tearDown(() async {
       // Clean up after tests
-      await TestMigrations.rollback();
+      final migrator = Migrator(Khadem.db);
+      await migrator.reset();
+      await Khadem.db.close();
     });
 
     test('creates user successfully', () async {
-      final repository = UserRepository();
+      final user = User(
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'password',
+      );
 
-      final user = await repository.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
+      await user.save();
 
       expect(user.id, isNotNull);
       expect(user.name, 'Test User');
@@ -756,71 +782,27 @@ void main() {
     });
 
     test('finds user by email', () async {
-      final repository = UserRepository();
+      final user = User(
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'password',
+      );
+      await user.save();
 
-      await repository.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
+      final foundUser = await User().findWhere('email', '=', 'test@example.com');
 
-      final user = await repository.findByEmail('test@example.com');
-
-      expect(user, isNotNull);
-      expect(user.email, 'test@example.com');
+      expect(foundUser, isNotEmpty);
+      expect(foundUser.first.email, 'test@example.com');
     });
 
-    test('throws exception for duplicate email', () async {
-      final repository = UserRepository();
-
-      await repository.create({
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password': 'password',
-      });
-
+    test('validates required fields', () async {
+      final user = User(); // Empty user
+      
       expect(
-        () async =&gt; await repository.create({
-          'name': 'Another User',
-          'email': 'test@example.com',
-          'password': 'password',
-        }),
-        throwsA(isA&lt;DatabaseException&gt;())
+        () async => await user.save(),
+        throwsA(isA<Exception>())
       );
     });
   });
-}
-
-// tests/TestCase.dart
-import 'package:khadem/src/testing/test_case.dart';
-
-class TestCase extends BaseTestCase {
-  @override
-  Future&lt;void&gt; setUp() async {
-    await super.setUp();
-
-    // Set up database for testing
-    await this.setUpDatabase();
-  }
-
-  @override
-  Future&lt;void&gt; tearDown() async {
-    // Clean up database
-    await this.tearDownDatabase();
-
-    await super.tearDown();
-  }
-}</code></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-    </DocsLayout>
-  </div>
-</template>
-
-<script setup>
-definePageMeta({
-  layout: 'docs'
-})
+}`
 </script>

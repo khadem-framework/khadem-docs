@@ -1,15 +1,15 @@
 <template>
     <div class="space-y-8">
       <header class="mb-10">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Khadem ORM</h1>
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Khadem ORM & Schema</h1>
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          The Khadem Object-Relational Mapping (ORM) system provides a fluent, type-safe interface for interacting with MySQL databases, including schema management, query building, relationship handling, and model management.
+          Complete guide to the Khadem Object-Relational Mapping system, Schema Builder, Query Builder, and relationship management for Dart applications.
         </p>
       </header>
   
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">MySQLSchemaBuilder</h2>
-        <p>The <code>MySQLSchemaBuilder</code> class provides methods for creating and managing database schemas, including table creation and modification.</p>
+        <h2 class="text-2xl font-semibold border-b pb-2">SchemaBuilder</h2>
+        <p>The <code>SchemaBuilder</code> class provides methods for creating and managing database schemas using the <code>Blueprint</code> class for table definitions.</p>
   
         <div class="space-y-8">
           <div>
@@ -70,8 +70,8 @@
       </section>
   
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">MySQLQueryBuilder</h2>
-        <p>The <code>MySQLQueryBuilder</code> class provides a fluent interface for building and executing SQL queries, supporting operations like select, insert, update, and delete.</p>
+        <h2 class="text-2xl font-semibold border-b pb-2">QueryBuilder</h2>
+        <p>The <code>QueryBuilderInterface</code> provides a fluent interface for building and executing SQL queries, supporting operations like select, insert, update, and delete.</p>
   
         <div class="space-y-8">
           <div>
@@ -188,40 +188,39 @@
       </section>
   
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">EagerLoader</h2>
-        <p>The <code>EagerLoader</code> class handles eager loading of relationships for models, supporting various relation types like hasOne, hasMany, belongsTo, and belongsToMany.</p>
+        <h2 class="text-2xl font-semibold border-b pb-2">Relationships & Eager Loading</h2>
+        <p>The framework supports eager loading of relationships through the <code>withRelations()</code> method in the query builder, supporting various relation types like hasOne, hasMany, belongsTo, and belongsToMany.</p>
   
         <div class="space-y-8">
           <div>
-            <h3 class="text-xl font-medium">loadRelations()</h3>
-            <p>Loads specified relationships for a list of models.</p>
+            <h3 class="text-xl font-medium">withRelations()</h3>
+            <p>Loads specified relationships eagerly when executing queries.</p>
             <div class="mt-4">
               <CodeBlock 
                 :code="loadRelationsCode" 
                 language="dart"
-                title="Loading Relations"
+                title="Eager Loading Relations"
               />
               <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 <p><strong>Parameters:</strong></p>
                 <ul class="list-disc pl-5 space-y-1">
-                  <li><code>models</code>: List of <code>KhademModel</code> instances</li>
-                  <li><code>relations</code>: List of relation names or configurations</li>
+                  <li><code>relations</code>: List of relation names to load</li>
                 </ul>
               </div>
             </div>
           </div>
-  
+
           <div>
-            <h3 class="text-xl font-medium">parseRelations()</h3>
-            <p>Parses raw relation inputs into <code>RelationMeta</code> objects for processing.</p>
+            <h3 class="text-xl font-medium">Relation Types</h3>
+            <p>The framework supports different relationship types through <code>RelationDefinition</code>.</p>
             <div class="mt-4">
               <CodeBlock 
                 :code="parseRelationsCode" 
                 language="dart"
-                title="Parsing Relations"
+                title="Relationship Types"
               />
               <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p>Supports string-based relation definitions (e.g., <code>comments:paginated:page=1:perPage=10</code>) and map-based configurations.</p>
+                <p>Supported relation types: <code>hasOne</code>, <code>hasMany</code>, <code>belongsTo</code>, <code>belongsToMany</code></p>
               </div>
             </div>
           </div>
@@ -306,93 +305,93 @@
   <script setup>
   definePageMeta({ layout: 'docs' });
   useHead({ 
-    title: 'Khadem ORM',
+    title: 'Khadem ORM & Schema',
     meta: [
-      { name: 'description', content: 'Complete reference for the Khadem ORM system, including schema management, query building, and relationship handling' }
+      { name: 'description', content: 'Complete reference for the Khadem ORM system, Schema Builder, Query Builder, and relationship handling' }
     ]
   });
   
   const createCode = `
   // Creating a users table
-  Khadem.db.schema.create('users', (table) {
-    table.increments('id');
-    table.string('name').notNullable();
-    table.string('email').unique().notNullable();
-    table.string('password').notNullable();
+  Khadem.db.schemaBuilder.create('users', (Blueprint table) {
+    table.id();
+    table.string('name');
+    table.string('email');
+    table.string('password');
     table.timestamps();
   });
   `;
   
   const createIfNotExistsCode = `
   // Creating a table if it doesn't exist
-  Khadem.db.schema.createIfNotExists('posts', (table) {
-    table.increments('id');
-    table.string('title').notNullable();
-    table.text('content').notNullable();
-    table.integer('user_id').unsigned().references('id').on('users');
+  Khadem.db.schemaBuilder.createIfNotExists('posts', (Blueprint table) {
+    table.id();
+    table.string('title');
+    table.text('content');
+    table.bigInteger('user_id');
+    table.timestamps();
   });
   `;
   
   const dropCode = `
   // Dropping a table
-  Khadem.db.schema.drop('users');
+  Khadem.db.schemaBuilder.drop('users');
   `;
   
   const dropIfExistsCode = `
   // Dropping a table if it exists
-  Khadem.db.schema.dropIfExists('posts');
+  Khadem.db.schemaBuilder.dropIfExists('posts');
   `;
   
   const selectCode = `
   // Selecting specific columns
-  final users = await User().query.select(['id', 'name', 'email']).get();
+  final users = await Khadem.db.table('users').select(['id', 'name', 'email']).get();
   `;
   
   const whereCode = `
   // Adding a WHERE clause
-  final user = await User().query.where('email', '=', 'test@example.com').first();
+  final user = await Khadem.db.table('users').where('email', '=', 'test@example.com').first();
   `;
   
   const getCode = `
   // Fetching all users
-  final users = await User().query.get();
+  final users = await Khadem.db.table('users').get();
   
   // Fetching with conditions
-  final activeUsers = await User().query.where('status', '=', 'active').get();
+  final activeUsers = await Khadem.db.table('users').where('status', '=', 'active').get();
   `;
   
   const insertCode = `
   // Inserting a new user
-  final id = await User().query.insert({
+  final id = await Khadem.db.table('users').insert({
     'name': 'John Doe',
     'email': 'john@example.com',
-    'password': HashHelper.make('password123'),
+    'password': 'hashed_password',
   });
   `;
   
   const paginateCode = `
   // Paginating users
-  final result = await User().query.paginate(perPage: 10, page: 2);
+  final result = await Khadem.db.table('users').paginate(perPage: 10, page: 2);
   print('Total: \${result.total}, Page: \${result.currentPage}');
   `;
   
   const withRelationsCode = `
   // Eager loading user and comments
-  final post = await Post().query.withRelations(['user', 'comments']).first();
+  final post = await Khadem.db.table('posts').withRelations(['user', 'comments']).first();
   `;
   
   const loadRelationsCode = `
-  // Loading relations for models
-  final users = await User().query.get();
-  await EagerLoader.loadRelations(users, ['posts', 'comments']);
+  // Loading relations for models using query builder
+  final posts = await Khadem.db.table('posts').withRelations(['user', 'comments']).get();
   `;
   
   const parseRelationsCode = `
-  // Parsing relation strings
-  final relations = EagerLoader().parseRelations([
-    'comments:paginated:page=1:perPage=10',
-    {'user': {'paginate': false}}
-  ]);
+  // Using relations in query builder
+  final posts = await Khadem.db.table('posts')
+      .withRelations(['user', 'comments'])
+      .where('published', '=', true)
+      .get();
   `;
   
   const modelDefinitionCode = `
@@ -400,6 +399,10 @@
     String? name;
     String? email;
     String? password;
+  
+    User({this.name, this.email, this.password, int? id}) {
+      this.id = id;
+    }
   
     @override
     List<String> get fillable => ['name', 'email', 'password', 'created_at', 'updated_at'];
@@ -409,12 +412,40 @@
   
     @override
     Map<String, RelationDefinition> get relations => {
-      'posts': hasMany<Post>(
-        foreignKey: 'user_id',
+      'posts': RelationDefinition<Post>(
+        type: RelationType.hasMany,
         relatedTable: 'posts',
+        localKey: 'id',
+        foreignKey: 'user_id',
         factory: () => Post(),
       )
     };
+  
+    @override
+    dynamic getField(String key) {
+      return switch (key) {
+        'id' => id,
+        'name' => name,
+        'email' => email,
+        'password' => password,
+        'created_at' => createdAt,
+        'updated_at' => updatedAt,
+        _ => null
+      };
+    }
+  
+    @override
+    void setField(String key, dynamic value) {
+      return switch (key) {
+        'id' => id = value,
+        'name' => name = value,
+        'email' => email = value,
+        'password' => password = value,
+        'created_at' => createdAt = value,
+        'updated_at' => updatedAt = value,
+        _ => null
+      };
+    }
   
     @override
     User newFactory(Map<String, dynamic> data) => User()..fromJson(data);
@@ -422,7 +453,7 @@
   `;
   
   const modelQueryCode = `
-  // Querying users
+  // Querying users using the model's query property
   final users = await User().query.where('status', '=', 'active').orderBy('name').get();
   `;
   
@@ -440,21 +471,22 @@
     void getUsers(Request req, Response res) async {
       int page = int.tryParse(req.query['page'] ?? '') ?? 1;
       int perPage = int.tryParse(req.query['perPage'] ?? '') ?? 10;
-      final users = await User().query.paginate(perPage: perPage, page: page);
-      res.sendJson({'users': users});
+      final result = await Khadem.db.table('users').paginate(perPage: perPage, page: page);
+      res.sendJson({'users': result.data, 'total': result.total});
     }
   }
   `;
   
   const relationshipExampleCode = `
-  // Defining and using relationships
-  final post = await Post()
-      .query
+  // Using relationships with query builder
+  final post = await Khadem.db.table('posts')
+      .withRelations(['user', 'comments'])
       .where('id', '=', 1)
-      .withRelations(['user', 'comments:paginated:page=1:perPage=5'])
       .first();
-  print(post?.relation.get('user')?.name);
-  print(post?.relation.get('comments')?.data);
+  
+  // Accessing loaded relations
+  print(post?['user']?['name']);
+  print(post?['comments']?.length);
   `;
   </script>
   
