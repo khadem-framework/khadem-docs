@@ -3,13 +3,13 @@
     <header class="mb-10">
       <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Task Scheduler</h1>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-        Powerful task scheduling system for running background jobs, cron jobs, and automated tasks in your Khadem application.
+        A lightweight and efficient task scheduling system for running background jobs and automated tasks in your Khadem application.
       </p>
       <div class="mt-6 flex flex-wrap gap-2">
         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">Background Jobs</span>
-        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">Cron Scheduling</span>
-        <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Queue Management</span>
-        <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm font-medium">Monitoring</span>
+        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">Interval Scheduling</span>
+        <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Task Monitoring</span>
+        <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm font-medium">Retry Logic</span>
       </div>
     </header>
 
@@ -19,7 +19,7 @@
       <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
         <h3 class="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-4">Scheduler Architecture</h3>
         <p class="text-blue-800 dark:text-blue-200 mb-4">
-          The Khadem Task Scheduler provides a robust system for scheduling and executing background tasks, cron jobs, and automated processes with built-in monitoring and error handling.
+          The Khadem Task Scheduler provides a simple yet powerful system for scheduling and executing background tasks with built-in monitoring, retry logic, and error handling.
         </p>
 
         <div class="grid md:grid-cols-2 gap-6">
@@ -28,19 +28,19 @@
             <ul class="space-y-2 text-blue-800 dark:text-blue-200">
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                Cron expression support
+                Duration-based task scheduling
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                Background job processing
+                Built-in retry mechanism
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                Queue-based task execution
+                Task state management
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                Task monitoring and logging
+                Real-time task monitoring
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
@@ -50,27 +50,27 @@
           </div>
 
           <div>
-            <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Advanced Capabilities</h4>
+            <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Key Components</h4>
             <ul class="space-y-2 text-blue-800 dark:text-blue-200">
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                Distributed task execution
+                SchedulerEngine - Main scheduler
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                Task chaining and dependencies
+                ScheduledTask - Task representation
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                Priority-based scheduling
+                ScheduledJob - Job interface
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                Real-time task monitoring
+                Job Registry - Job management
               </li>
               <li class="flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                Automatic retry mechanisms
+                Task Statistics - Monitoring
               </li>
             </ul>
           </div>
@@ -87,7 +87,7 @@
           <div class="ml-3">
             <h4 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">Important Note</h4>
             <p class="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
-              Scheduled tasks should be designed to be idempotent and handle failures gracefully to ensure system reliability.
+              The Khadem scheduler uses Duration-based intervals, not cron expressions. Tasks should be designed to be idempotent and handle failures gracefully.
             </p>
           </div>
         </div>
@@ -100,27 +100,27 @@
       <CodeBlock
         :code="schedulerSetupCode"
         language="dart"
-        title="Scheduler Setup"
+        title="Basic Scheduler Setup"
       />
 
       <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-3">Basic Usage</h3>
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-3">Quick Start</h3>
         <div class="space-y-4">
           <div>
-            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">1. Define a Task</h4>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">1. Create a Job</h4>
             <CodeBlock
-              :code="taskDefinitionCode"
+              :code="createJobCode"
               language="dart"
-              title="Task Definition"
+              title="Create a Scheduled Job"
             />
           </div>
 
           <div>
-            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">2. Schedule the Task</h4>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">2. Create and Schedule a Task</h4>
             <CodeBlock
-              :code="taskSchedulingCode"
+              :code="createTaskCode"
               language="dart"
-              title="Task Scheduling"
+              title="Create and Schedule Task"
             />
           </div>
         </div>
@@ -128,50 +128,50 @@
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Cron Expressions</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Task Intervals</h2>
 
       <CodeBlock
-        :code="cronExamplesCode"
+        :code="intervalExamplesCode"
         language="dart"
-        title="Cron Expression Examples"
+        title="Duration-based Intervals"
       />
 
       <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-        <h4 class="font-medium mb-2">Cron Expression Format</h4>
+        <h4 class="font-medium mb-2">Common Duration Patterns</h4>
         <div class="overflow-x-auto">
           <table class="min-w-full text-sm">
             <thead>
               <tr class="border-b border-gray-200 dark:border-gray-700">
-                <th class="text-left py-2 px-3">Field</th>
-                <th class="text-left py-2 px-3">Values</th>
-                <th class="text-left py-2 px-3">Special Characters</th>
+                <th class="text-left py-2 px-3">Use Case</th>
+                <th class="text-left py-2 px-3">Duration</th>
+                <th class="text-left py-2 px-3">Example</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
               <tr>
-                <td class="py-2 px-3 font-medium">Minute</td>
-                <td class="py-2 px-3">0-59</td>
-                <td class="py-2 px-3">, - * /</td>
+                <td class="py-2 px-3 font-medium">Health Check</td>
+                <td class="py-2 px-3">30 seconds</td>
+                <td class="py-2 px-3"><code>Duration(seconds: 30)</code></td>
               </tr>
               <tr>
-                <td class="py-2 px-3 font-medium">Hour</td>
-                <td class="py-2 px-3">0-23</td>
-                <td class="py-2 px-3">, - * /</td>
+                <td class="py-2 px-3 font-medium">Cache Cleanup</td>
+                <td class="py-2 px-3">5 minutes</td>
+                <td class="py-2 px-3"><code>Duration(minutes: 5)</code></td>
               </tr>
               <tr>
-                <td class="py-2 px-3 font-medium">Day of Month</td>
-                <td class="py-2 px-3">1-31</td>
-                <td class="py-2 px-3">, - * / ? L W</td>
+                <td class="py-2 px-3 font-medium">Database Backup</td>
+                <td class="py-2 px-3">1 hour</td>
+                <td class="py-2 px-3"><code>Duration(hours: 1)</code></td>
               </tr>
               <tr>
-                <td class="py-2 px-3 font-medium">Month</td>
-                <td class="py-2 px-3">1-12 or JAN-DEC</td>
-                <td class="py-2 px-3">, - * /</td>
+                <td class="py-2 px-3 font-medium">Weekly Report</td>
+                <td class="py-2 px-3">7 days</td>
+                <td class="py-2 px-3"><code>Duration(days: 7)</code></td>
               </tr>
               <tr>
-                <td class="py-2 px-3 font-medium">Day of Week</td>
-                <td class="py-2 px-3">0-7 or SUN-SAT</td>
-                <td class="py-2 px-3">, - * / ? L #</td>
+                <td class="py-2 px-3 font-medium">Monthly Cleanup</td>
+                <td class="py-2 px-3">30 days</td>
+                <td class="py-2 px-3"><code>Duration(days: 30)</code></td>
               </tr>
             </tbody>
           </table>
@@ -184,80 +184,145 @@
 
       <div class="grid md:grid-cols-2 gap-6">
         <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-3">Scheduled Tasks</h3>
+          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-3">Recurring Tasks</h3>
           <CodeBlock
-            :code="scheduledTaskCode"
+            :code="recurringTaskCode"
             language="dart"
-            title="Scheduled Task Example"
+            title="Recurring Task Example"
           />
           <p class="text-sm text-green-700 dark:text-green-300 mt-2">
-            Tasks that run at specific times or intervals using cron expressions.
+            Tasks that run repeatedly at specified intervals until stopped.
           </p>
         </div>
 
         <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-          <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200 mb-3">Background Jobs</h3>
+          <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200 mb-3">One-time Tasks</h3>
           <CodeBlock
-            :code="backgroundJobCode"
+            :code="oneTimeTaskCode"
             language="dart"
-            title="Background Job Example"
+            title="One-time Task Example"
           />
           <p class="text-sm text-purple-700 dark:text-purple-300 mt-2">
-            Asynchronous tasks that run in the background without blocking the main application.
+            Tasks that execute only once and then automatically stop.
           </p>
         </div>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Queue Management</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Built-in Jobs</h2>
 
-      <CodeBlock
-        :code="queueManagementCode"
-        language="dart"
-        title="Queue Management"
-      />
-
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Queue Priorities</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>high</code> - Critical tasks</li>
-            <li><code>default</code> - Standard tasks</li>
-            <li><code>low</code> - Non-urgent tasks</li>
-          </ul>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+          <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-3">Ping Job</h3>
+          <CodeBlock
+            :code="pingJobCode"
+            language="dart"
+            title="Ping Job Implementation"
+          />
+          <p class="text-sm text-blue-700 dark:text-blue-300 mt-2">
+            A simple job that logs a ping message. Useful for testing the scheduler or keeping services alive.
+          </p>
+          <div class="mt-3">
+            <strong class="text-blue-800 dark:text-blue-200">Usage:</strong>
+            <code class="bg-blue-100 dark:bg-blue-900/50 px-2 py-1 rounded text-sm ml-2">job: 'ping'</code>
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Queue Workers</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Multiple worker processes</li>
-            <li>Automatic load balancing</li>
-            <li>Graceful shutdown handling</li>
-            <li>Memory usage monitoring</li>
-          </ul>
+        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-3">TTL Cache Cleaner</h3>
+          <CodeBlock
+            :code="ttlCleanerJobCode"
+            language="dart"
+            title="TTL Cache Cleaner Implementation"
+          />
+          <p class="text-sm text-green-700 dark:text-green-300 mt-2">
+            Automatically removes expired cache files based on TTL values.
+          </p>
+          <div class="mt-3">
+            <strong class="text-green-800 dark:text-green-200">Usage:</strong>
+            <code class="bg-green-100 dark:bg-green-900/50 px-2 py-1 rounded text-sm ml-2">job: 'ttl_cleaner'</code>
+          </div>
+          <div class="mt-2">
+            <strong class="text-green-800 dark:text-green-200">Config:</strong>
+            <code class="bg-green-100 dark:bg-green-900/50 px-2 py-1 rounded text-sm ml-2">cachePath: 'storage/cache'</code>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Error Handling & Monitoring</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Configuration</h2>
+
+      <CodeBlock
+        :code="configExampleCode"
+        language="dart"
+        title="Configuration-based Tasks"
+      />
+
+      <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+        <h4 class="font-medium mb-2">Task Configuration Options</h4>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <h5 class="font-medium text-gray-900 dark:text-white mb-2">Required</h5>
+            <ul class="space-y-1 text-sm">
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">name</code> - Unique task identifier</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">interval</code> - Execution interval in seconds</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">job</code> - Job name to execute</li>
+            </ul>
+          </div>
+          <div>
+            <h5 class="font-medium text-gray-900 dark:text-white mb-2">Optional</h5>
+            <ul class="space-y-1 text-sm">
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">timezone</code> - Timezone (default: UTC)</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">retryOnFail</code> - Retry on failure</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">runOnce</code> - Run only once</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">maxRetries</code> - Max retry attempts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Task Monitoring</h2>
+
+      <CodeBlock
+        :code="monitoringCode"
+        language="dart"
+        title="Task Monitoring and Control"
+      />
+
+      <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
+        <h3 class="text-lg font-medium text-orange-800 dark:text-orange-200">Task Statistics</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-orange-700 dark:text-orange-300">
+          <li>Execution count (success/failure)</li>
+          <li>Last execution time</li>
+          <li>Next scheduled run</li>
+          <li>Average execution time</li>
+          <li>Current task status</li>
+          <li>Retry count and history</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Error Handling & Retry</h2>
 
       <CodeBlock
         :code="errorHandlingCode"
         language="dart"
-        title="Error Handling & Retry Logic"
+        title="Error Handling with Retry Logic"
       />
 
-      <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
-        <h3 class="text-lg font-medium text-orange-800 dark:text-orange-200">Monitoring Features</h3>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-orange-700 dark:text-orange-300">
-          <li>Task execution logs</li>
-          <li>Performance metrics</li>
-          <li>Failure notifications</li>
-          <li>Queue status monitoring</li>
-          <li>Automatic retry mechanisms</li>
-          <li>Dead letter queue handling</li>
+      <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
+        <h3 class="text-lg font-medium text-red-800 dark:text-red-200">Retry Behavior</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-red-700 dark:text-red-300">
+          <li>Exponential backoff: 5s, 10s, 15s (configurable)</li>
+          <li>Maximum retry attempts (default: 3)</li>
+          <li>Automatic failure logging</li>
+          <li>Task status updates on failure</li>
+          <li>Graceful handling of permanent failures</li>
         </ul>
       </div>
     </section>
@@ -269,26 +334,62 @@
         <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
           <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">✅ Do's</h3>
           <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
-            <li>Design tasks to be idempotent</li>
-            <li>Use appropriate queue priorities</li>
-            <li>Implement proper error handling</li>
-            <li>Monitor task performance</li>
-            <li>Use descriptive task names</li>
-            <li>Test tasks in development</li>
-            <li>Handle task timeouts gracefully</li>
+            <li>Design jobs to be idempotent (safe to run multiple times)</li>
+            <li>Use descriptive task names for easy identification</li>
+            <li>Implement proper error handling in job execute() methods</li>
+            <li>Monitor task execution and handle failures appropriately</li>
+            <li>Use configuration files for task definitions in production</li>
+            <li>Test jobs thoroughly before deploying to production</li>
+            <li>Log important events and errors within jobs</li>
+            <li>Use appropriate intervals based on task requirements</li>
           </ul>
         </div>
 
         <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
           <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">❌ Don'ts</h3>
           <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-            <li>Don't perform long-running operations without timeouts</li>
-            <li>Don't rely on task execution order</li>
-            <li>Don't store large amounts of data in task payloads</li>
-            <li>Don't forget to handle task failures</li>
-            <li>Don't use blocking operations in tasks</li>
-            <li>Don't schedule too many tasks simultaneously</li>
+            <li>Don't perform long-running operations without proper timeouts</li>
+            <li>Don't rely on task execution order or timing precision</li>
+            <li>Don't store large amounts of data in task configurations</li>
+            <li>Don't ignore errors or use empty catch blocks</li>
+            <li>Don't create tasks with very short intervals unnecessarily</li>
+            <li>Don't use blocking operations in job implementations</li>
+            <li>Don't forget to handle job cleanup and resource disposal</li>
+            <li>Don't use the scheduler for real-time or time-critical operations</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">API Reference</h2>
+
+      <div class="space-y-6">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-lg font-medium mb-3">SchedulerEngine</h3>
+          <CodeBlock
+            :code="schedulerEngineApiCode"
+            language="dart"
+            title="SchedulerEngine API"
+          />
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-lg font-medium mb-3">ScheduledTask</h3>
+          <CodeBlock
+            :code="scheduledTaskApiCode"
+            language="dart"
+            title="ScheduledTask API"
+          />
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-lg font-medium mb-3">ScheduledJob Interface</h3>
+          <CodeBlock
+            :code="scheduledJobApiCode"
+            language="dart"
+            title="ScheduledJob Interface"
+          />
         </div>
       </div>
     </section>
@@ -304,468 +405,504 @@ useHead({
   ]
 })
 
-const schedulerSetupCode = `// Scheduler setup in config/scheduler.dart
-return {
-  'default': env('QUEUE_CONNECTION', 'database'),
+const schedulerSetupCode = `// In your main.dart or bootstrap file
+import 'package:khadem/khadem.dart';
+import 'package:khadem/src/core/scheduler/scheduler_bootstrap.dart';
 
-  'connections': {
-    'database': {
-      'driver': 'database',
-      'table': 'jobs',
-      'queue': 'default',
-      'retry_after': 90,
-    },
+void main() async {
+  // Initialize Khadem
+  await Khadem.initialize();
 
-    'redis': {
-      'driver': 'redis',
-      'connection': 'default',
-      'queue': 'default',
-      'retry_after': 90,
-    },
-  },
+  // Start the scheduler system
+  startSchedulers();
 
-  'failed': {
-    'driver': 'database-uuids',
-    'database': env('DB_CONNECTION', 'mysql'),
-    'table': 'failed_jobs',
-  }
-};
+  print('🚀 Application started with scheduler');
 
-// Kernel registration in app/Kernel.dart
-class Kernel {
-  void schedule(Schedule schedule) {
-    // Define scheduled tasks here
-    schedule.call(() => new CleanUpOldData()).daily();
-    schedule.command('emails:send').everyMinute();
-    schedule.job(new ProcessPayments()).everyFiveMinutes();
+  // Graceful shutdown
+  ProcessSignal.sigint.watch().listen((_) {
+    print('🛑 Shutting down...');
+    stopSchedulers();
+    exit(0);
+  });
+}`
+
+const createJobCode = `import 'package:khadem/khadem.dart';
+import 'package:khadem/src/contracts/scheduler/scheduled_job.dart';
+
+class EmailNotificationJob extends ScheduledJob {
+  @override
+  String get name => 'email_notifications';
+
+  @override
+  Future<void> execute() async {
+    try {
+      // Your email sending logic here
+      final pendingEmails = await Database.table('pending_emails')
+          .where('sent', false)
+          .limit(10) // Process in batches
+          .get();
+
+      for (final email in pendingEmails) {
+        await sendEmail(
+          email['recipient'],
+          email['subject'],
+          email['body']
+        );
+
+        // Mark as sent
+        await Database.table('pending_emails')
+            .where('id', email['id'])
+            .update({'sent': true, 'sent_at': DateTime.now()});
+      }
+
+      Khadem.logger.info('✅ Processed \${pendingEmails.length} emails');
+    } catch (e) {
+      Khadem.logger.error('❌ Email job failed: \$e');
+      rethrow; // Let scheduler handle retry
+    }
   }
 }`
 
-const taskDefinitionCode = `// Define a custom task
-class SendWelcomeEmail implements ShouldQueue {
-  final User user;
+const createTaskCode = `import 'package:khadem/src/core/scheduler/core/scheduled_task.dart';
+import 'package:khadem/src/core/scheduler/scheduler.dart';
 
-  SendWelcomeEmail(this.user);
+void setupScheduledTasks() {
+  final scheduler = SchedulerEngine();
 
-  @override
-  String get queue => 'emails';
+  // Create a task that runs every 5 minutes
+  final emailTask = ScheduledTask(
+    name: 'send_pending_emails',
+    interval: Duration(minutes: 5),
+    job: EmailNotificationJob(),
+    retryOnFail: true,
+    maxRetries: 3,
+  );
 
-  @override
-  Future handle() async {
-    // Send welcome email logic
-    await Mail.to(user.email).send(new WelcomeEmail(user));
+  // Create a cleanup task that runs every hour
+  final cleanupTask = ScheduledTask(
+    name: 'cleanup_temp_files',
+    interval: Duration(hours: 1),
+    job: TempFileCleanupJob(),
+    retryOnFail: false,
+  );
 
-    print('Welcome email sent to \${user.email}');
-  }
-}
+  // Add tasks to scheduler
+  scheduler.add(emailTask);
+  scheduler.add(cleanupTask);
 
-// Define a scheduled task
-class CleanUpOldData {
-  @override
-  Future handle() async {
-    // Clean up old data
-    final cutoff = DateTime.now().subtract(Duration(days: 30));
-
-    await Database.table('logs')
-      .where('created_at', '<', cutoff)
-      .delete();
-
-    print('Old data cleaned up');
-  }
+  Khadem.logger.info('✅ Scheduled tasks initialized');
 }`
 
-const taskSchedulingCode = `// Schedule tasks in Kernel.dart
-class Kernel {
-  void schedule(Schedule schedule) {
-    // Run every minute
-    schedule.call(() => new SendWelcomeEmail(user)).everyMinute();
-
-    // Run daily at 2 AM
-    schedule.call(() => new CleanUpOldData()).dailyAt('02:00');
-
-    // Run on specific days
-    schedule.call(() => new GenerateReports()).weeklyOn(1, '08:00'); // Monday 8 AM
-
-    // Run with cron expression
-    schedule.call(() => new ProcessPayments()).cron('0 */2 * * *'); // Every 2 hours
-
-    // Run only when condition is met
-    schedule.call(() => new SendNotifications())
-      .everyFiveMinutes()
-      .when(() => Config.get('notifications.enabled'));
-
-    // Run with delay
-    schedule.call(() => new UpdateCache()).everyMinute().delay(Duration(seconds: 30));
-  }
-}`
-
-const cronExamplesCode = `// Common cron expression examples
-class CronExamples {
+const intervalExamplesCode = `// Duration-based scheduling examples
+class DurationExamples {
   static void examples() {
-    // Run every minute
-    '* * * * *'
+    // Run every 30 seconds
+    final healthCheck = ScheduledTask(
+      name: 'health_check',
+      interval: Duration(seconds: 30),
+      job: PingJob(),
+    );
 
     // Run every 5 minutes
-    '*/5 * * * *'
-
-    // Run every hour at minute 30
-    '30 * * * *'
-
-    // Run daily at 2 AM
-    '0 2 * * *'
-
-    // Run every Monday at 8 AM
-    '0 8 * * 1'
-
-    // Run on the first day of every month
-    '0 0 1 * *'
-
-    // Run every weekday at 9 AM
-    '0 9 * * 1-5'
-
-    // Run every 15 minutes between 9 AM and 5 PM on weekdays
-    '*/15 9-17 * * 1-5'
-
-    // Run at 10 AM, 2 PM, and 6 PM every day
-    '0 10,14,18 * * *'
-
-    // Run every hour from 9 AM to 5 PM on weekdays
-    '0 9-17 * * 1-5'
-  }
-}
-
-// Advanced scheduling
-class AdvancedScheduling {
-  static void advancedExamples(Schedule schedule) {
-    // Skip if condition is false
-    schedule.call(() => new BackupDatabase())
-      .daily()
-      .skipIf(() => Storage.disk('backup').isFull());
-
-    // Run only on production
-    schedule.call(() => new SendReports())
-      .weekly()
-      .environments(['production']);
-
-    // Run with custom timezone
-    schedule.call(() => new ProcessQueue())
-      .everyMinute()
-      .timezone('America/New_York');
-
-    // Chain multiple tasks
-    schedule.call(() => new Task1()).everyMinute()
-      .then(() => new Task2())
-      .then(() => new Task3());
-  }
-}`
-
-const scheduledTaskCode = `// Scheduled task example
-class DatabaseBackup implements ShouldQueue {
-  @override
-  String get queue => 'maintenance';
-
-  @override
-  Future handle() async {
-    try {
-      final timestamp = DateTime.now().toIso8601String();
-      final filename = 'backup_\${timestamp}.sql';
-
-      // Create database backup
-      await Process.run('mysqldump', [
-        '-u', env('DB_USERNAME'),
-        '-p\${env('DB_PASSWORD')}',
-        env('DB_DATABASE'),
-        '>', Storage.path('backups/\$filename')
-      ]);
-
-      // Compress the backup
-      await Process.run('gzip', [Storage.path('backups/\$filename')]);
-
-      // Clean up old backups (keep last 7 days)
-      final cutoff = DateTime.now().subtract(Duration(days: 7));
-      final oldBackups = await Storage.files('backups')
-        .where((file) => file.lastModified.isBefore(cutoff))
-        .toList();
-
-      for (final backup in oldBackups) {
-        await backup.delete();
-      }
-
-      Log.info('Database backup completed: \$filename');
-    } catch (e) {
-      Log.error('Database backup failed: \$e');
-      throw e; // Re-throw to mark task as failed
-    }
-  }
-}`
-
-const backgroundJobCode = `// Background job example
-class ProcessPayment implements ShouldQueue {
-  final Order order;
-  final PaymentMethod paymentMethod;
-
-  ProcessPayment(this.order, this.paymentMethod);
-
-  @override
-  String get queue => 'payments';
-
-  @override
-  int get priority => 10; // High priority
-
-  @override
-  Future handle() async {
-    try {
-      // Process payment
-      final payment = await PaymentProcessor.process(
-        amount: order.total,
-        method: paymentMethod,
-        orderId: order.id
-      );
-
-      if (payment.success) {
-        // Update order status
-        await order.update({'status': 'paid', 'payment_id': payment.id});
-
-        // Send confirmation email
-        await Mail.to(order.customer.email)
-          .send(new PaymentConfirmationEmail(order, payment));
-
-        // Update inventory
-        for (final item in order.items) {
-          await item.product.decrement('stock_quantity', item.quantity);
-        }
-
-        Log.info('Payment processed successfully for order \${order.id}');
-      } else {
-        // Handle payment failure
-        await order.update({'status': 'payment_failed'});
-        await Mail.to(order.customer.email)
-          .send(new PaymentFailedEmail(order, payment.error));
-
-        Log.warning('Payment failed for order \${order.id}: \${payment.error}');
-      }
-    } catch (e) {
-      Log.error('Payment processing failed for order \${order.id}: \$e');
-
-      // Retry logic
-      if (attempts < maxAttempts) {
-        await this.delay(Duration(minutes: 5));
-        throw new RetryException('Payment processing failed, will retry');
-      } else {
-        await order.update({'status': 'processing_failed'});
-      }
-    }
-  }
-}`
-
-const queueManagementCode = `// Queue management and worker configuration
-class QueueManager {
-  static Future configureQueues() async {
-    // Define queue connections
-    Queue.addConnection('database', {
-      'driver': 'database',
-      'table': 'jobs',
-      'queue': 'default',
-    });
-
-    Queue.addConnection('redis', {
-      'driver': 'redis',
-      'connection': 'default',
-      'queue': 'default',
-    });
-  }
-
-  static Future startWorkers() async {
-    // Start queue workers
-    await Queue.work('high', {
-      'sleep': 3,
-      'tries': 3,
-      'timeout': 90,
-    });
-
-    await Queue.work('default', {
-      'sleep': 3,
-      'tries': 3,
-      'timeout': 90,
-    });
-
-    await Queue.work('low', {
-      'sleep': 3,
-      'tries': 3,
-      'timeout': 90,
-    });
-  }
-}
-
-// Job dispatching
-class JobDispatcher {
-  static Future dispatchJobs() async {
-    // Dispatch to specific queue
-    await Queue.dispatch(
-      new ProcessPayment(order, paymentMethod),
-      'payments'
+    final cacheCleanup = ScheduledTask(
+      name: 'cache_cleanup',
+      interval: Duration(minutes: 5),
+      job: CacheCleanupJob(),
     );
 
-    // Dispatch with delay
-    await Queue.dispatch(
-      new SendWelcomeEmail(user),
-      'emails'
-    ).delay(Duration(minutes: 5));
-
-    // Dispatch to high priority queue
-    await Queue.dispatch(
-      new ProcessUrgentOrder(order),
-      'high'
+    // Run every hour
+    final backupTask = ScheduledTask(
+      name: 'database_backup',
+      interval: Duration(hours: 1),
+      job: DatabaseBackupJob(),
     );
 
-    // Chain jobs
-    await Queue.dispatch(new Job1())
-      .then(() => Queue.dispatch(new Job2()))
-      .then(() => Queue.dispatch(new Job3()));
+    // Run daily (24 hours)
+    final dailyReport = ScheduledTask(
+      name: 'daily_report',
+      interval: Duration(hours: 24),
+      job: DailyReportJob(),
+    );
+
+    // Run weekly (7 days)
+    final weeklyCleanup = ScheduledTask(
+      name: 'weekly_cleanup',
+      interval: Duration(days: 7),
+      job: WeeklyCleanupJob(),
+    );
+
+    // Custom duration
+    final customTask = ScheduledTask(
+      name: 'custom_task',
+      interval: Duration(hours: 2, minutes: 30), // 2.5 hours
+      job: CustomJob(),
+    );
+  }
+}`
+
+const recurringTaskCode = `// Recurring task example
+class DatabaseMaintenanceJob extends ScheduledJob {
+  @override
+  String get name => 'database_maintenance';
+
+  @override
+  Future<void> execute() async {
+    // Perform database maintenance tasks
+    await Database.raw('OPTIMIZE TABLE users, posts, comments');
+
+    // Clean up old logs
+    await Database.table('audit_logs')
+        .where('created_at', '<', DateTime.now().subtract(Duration(days: 30)))
+        .delete();
+
+    // Update statistics
+    await Database.raw('ANALYZE TABLE users, posts');
+
+    Khadem.logger.info('✅ Database maintenance completed');
   }
 }
 
-// Custom queue worker
-class CustomWorker {
-  static Future processQueue() async {
-    while (true) {
-      try {
-        final job = await Queue.pop('default');
+// Create recurring task
+final maintenanceTask = ScheduledTask(
+  name: 'db_maintenance',
+  interval: Duration(hours: 6), // Every 6 hours
+  job: DatabaseMaintenanceJob(),
+  retryOnFail: true,
+  maxRetries: 2,
+);
 
-        if (job != null) {
-          await job.fire();
+scheduler.add(maintenanceTask);`
 
-          // Mark job as completed
-          await job.delete();
-        } else {
-          // No jobs available, sleep
-          await Future.delayed(Duration(seconds: 3));
-        }
-      } catch (e) {
-        Log.error('Queue processing error: \$e');
+const oneTimeTaskCode = `// One-time task example
+class DataMigrationJob extends ScheduledJob {
+  @override
+  String get name => 'data_migration';
 
-        // Handle failed job
-        if (job != null) {
-          if (job.attempts < job.maxAttempts) {
-            // Retry job
-            await job.release(Duration(minutes: 5));
-          } else {
-            // Move to failed jobs
-            await job.fail();
+  @override
+  Future<void> execute() async {
+    // Perform one-time data migration
+    final users = await Database.table('old_users').get();
+
+    for (final user in users) {
+      await Database.table('users').insert({
+        'name': user['full_name'],
+        'email': user['email_address'],
+        'created_at': user['registration_date'],
+        'migrated_at': DateTime.now(),
+      });
+    }
+
+    // Mark migration as complete
+    await Database.table('migrations').insert({
+      'name': 'migrate_old_users',
+      'completed_at': DateTime.now(),
+    });
+
+    Khadem.logger.info('✅ Data migration completed');
+  }
+}
+
+// Create one-time task
+final migrationTask = ScheduledTask(
+  name: 'user_migration',
+  interval: Duration(seconds: 1), // Run immediately
+  job: DataMigrationJob(),
+  runOnce: true, // Stop after first execution
+);
+
+scheduler.add(migrationTask);`
+
+const pingJobCode = `import 'package:khadem/khadem.dart';
+import 'package:khadem/src/contracts/scheduler/scheduled_job.dart';
+
+class PingJob extends ScheduledJob {
+  @override
+  String get name => 'ping';
+
+  @override
+  Future<void> execute() async {
+    Khadem.logger.debug('📡 Ping at \${DateTime.now()}');
+    // Add your custom ping logic here
+  }
+}`
+
+const ttlCleanerJobCode = `import 'dart:io';
+import 'package:khadem/khadem.dart';
+import 'package:khadem/src/contracts/scheduler/scheduled_job.dart';
+
+class TTLFileCleanerJob extends ScheduledJob {
+  @override
+  String get name => 'ttl_cache_cleaner';
+
+  final String cachePath;
+
+  TTLFileCleanerJob({this.cachePath = 'storage/cache'});
+
+  @override
+  Future<void> execute() async {
+    final dir = Directory(cachePath);
+    if (!dir.existsSync()) return;
+
+    final files = dir.listSync();
+    int cleanedCount = 0;
+
+    for (final file in files) {
+      if (file is File) {
+        try {
+          final content = await file.readAsString();
+          final data = jsonDecode(content);
+
+          final ttl = data['ttl'];
+          final createdAt = DateTime.parse(data['created_at'] ?? DateTime.now().toIso8601String());
+
+          if (ttl != null && DateTime.now().isAfter(createdAt.add(Duration(seconds: ttl)))) {
+            await file.delete();
+            cleanedCount++;
           }
+        } catch (e) {
+          // Skip invalid files
+          Khadem.logger.warning('⚠️ Could not process cache file \${file.path}: \$e');
         }
       }
+    }
+
+    if (cleanedCount > 0) {
+      Khadem.logger.info('🧹 Cleaned \$cleanedCount expired cache files');
     }
   }
 }`
 
-const errorHandlingCode = `// Error handling and monitoring
-class TaskErrorHandler {
-  static Future handleTaskFailure(Task task, Exception error) async {
-    // Log the error
-    Log.error('Task \${task.name} failed: \$error');
-
-    // Send notification
-    await Notification.send(
-      new TaskFailedNotification(task, error)
-    );
-
-    // Store failure details
-    await Database.table('task_failures').insert({
-      'task_name': task.name,
-      'error_message': error.toString(),
-      'stack_trace': error.stackTrace.toString(),
-      'occurred_at': DateTime.now(),
-    });
+const configExampleCode = `// config/app.json
+{
+  "scheduler": {
+    "tasks": [
+      {
+        "name": "health_check",
+        "interval": 30,
+        "job": "ping",
+        "retryOnFail": false
+      },
+      {
+        "name": "cache_cleanup",
+        "interval": 300,
+        "job": "ttl_cleaner",
+        "cachePath": "storage/cache",
+        "retryOnFail": true,
+        "maxRetries": 3
+      },
+      {
+        "name": "email_notifications",
+        "interval": 60,
+        "job": "email_notifications",
+        "retryOnFail": true,
+        "maxRetries": 5
+      },
+      {
+        "name": "database_backup",
+        "interval": 3600,
+        "job": "database_backup",
+        "retryOnFail": true,
+        "maxRetries": 2
+      }
+    ]
   }
 }
 
-// Task with retry logic
-class RetryableTask implements ShouldQueue {
-  @override
-  int get tries => 3;
+// Tasks will be automatically loaded when calling startSchedulers()`
 
-  @override
-  Duration get retryDelay => Duration(minutes: 5);
+const monitoringCode = `// Task monitoring and control
+class TaskMonitor {
+  final SchedulerEngine _scheduler;
 
-  @override
-  Future handle() async {
-    try {
-      // Task implementation
-      await performTask();
-    } catch (e) {
-      if (attempts < tries) {
-        Log.warning('Task failed, retrying... (attempt \${attempts + 1}/\$tries)');
-        throw e; // Re-throw to trigger retry
-      } else {
-        Log.error('Task failed permanently after \$tries attempts');
-        await TaskErrorHandler.handleTaskFailure(this, e);
-        throw e;
+  TaskMonitor(this._scheduler);
+
+  void printTaskStatus() {
+    final stats = _scheduler.getStats();
+
+    print('\\n📊 Task Status Report:');
+    print('=' * 50);
+
+    for (final entry in stats.entries) {
+      final taskStats = entry.value;
+      print('\\n📋 Task: \${taskStats.name}');
+      print('   Status: \${taskStats.status}');
+      print('   Last Run: \${taskStats.lastRun ?? 'Never'}');
+      print('   Next Run: \${taskStats.nextRun ?? 'Not scheduled'}');
+      print('   Success Count: \${taskStats.successCount}');
+      print('   Failure Count: \${taskStats.failureCount}');
+      print('   Avg Execution Time: \${taskStats.averageExecutionTime.toStringAsFixed(2)}ms');
+    }
+  }
+
+  void pauseFailingTasks() {
+    final stats = _scheduler.getStats();
+
+    for (final entry in stats.entries) {
+      final taskStats = entry.value;
+      if (taskStats.failureCount > 3) {
+        _scheduler.pause(taskStats.name);
+        Khadem.logger.warning('⏸️ Paused failing task: \${taskStats.name}');
       }
+    }
+  }
+
+  List<String> getActiveTasks() {
+    return _scheduler.activeTasks();
+  }
+
+  bool isTaskRunning(String taskName) {
+    return _scheduler.isRunning(taskName);
+  }
+}
+
+// Usage
+final monitor = TaskMonitor(scheduler);
+
+// Check status every 5 minutes
+final statusTask = ScheduledTask(
+  name: 'status_monitor',
+  interval: Duration(minutes: 5),
+  job: StatusMonitorJob(monitor),
+);
+
+scheduler.add(statusTask);`
+
+const errorHandlingCode = `// Error handling with retry logic
+class RetryableJob extends ScheduledJob {
+  @override
+  String get name => 'retryable_job';
+
+  @override
+  Future<void> execute() async {
+    try {
+      // Your business logic here
+      await performUnreliableOperation();
+
+      Khadem.logger.info('✅ Job completed successfully');
+    } catch (e) {
+      Khadem.logger.error('❌ Job failed: \$e');
+
+      // The scheduler will automatically handle retries
+      // based on the task's retryOnFail and maxRetries settings
+      rethrow;
     }
   }
 }
 
-// Task monitoring
-class TaskMonitor {
-  static final Map<String, TaskMetrics> _metrics = {};
+// Create task with retry configuration
+final retryableTask = ScheduledTask(
+  name: 'unreliable_task',
+  interval: Duration(minutes: 10),
+  job: RetryableJob(),
+  retryOnFail: true,      // Enable retries
+  maxRetries: 3,          // Maximum 3 retry attempts
+);
 
-  static Future recordTaskStart(String taskName) async {
-    final metrics = _getMetrics(taskName);
-    metrics.startedAt = DateTime.now();
-    metrics.status = 'running';
+// Exponential backoff is automatic:
+// Attempt 1: immediate retry
+// Attempt 2: 5 seconds delay
+// Attempt 3: 10 seconds delay
+// Attempt 4: 15 seconds delay
+
+scheduler.add(retryableTask);
+
+// Custom error handling job
+class ErrorHandlingJob extends ScheduledJob {
+  @override
+  String get name => 'error_handler';
+
+  @override
+  Future<void> execute() async {
+    try {
+      await riskyOperation();
+    } on NetworkException catch (e) {
+      // Handle network errors specifically
+      Khadem.logger.warning('Network error, will retry: \$e');
+      rethrow;
+    } on DatabaseException catch (e) {
+      // Handle database errors
+      Khadem.logger.error('Database error: \$e');
+      // Don't retry for database errors
+      throw PermanentFailureException('Database unavailable');
+    } catch (e) {
+      // Handle other errors
+      Khadem.logger.error('Unexpected error: \$e');
+      rethrow;
+    }
   }
+}`
 
-  static Future recordTaskComplete(String taskName) async {
-    final metrics = _getMetrics(taskName);
-    metrics.completedAt = DateTime.now();
-    metrics.status = 'completed';
-    metrics.executionTime = metrics.completedAt!.difference(metrics.startedAt!);
-  }
+const schedulerEngineApiCode = `class SchedulerEngine implements SchedulerEngineContract {
+  // Core methods
+  void add(ScheduledTask task)           // Add a new task
+  void stop(String name)                 // Stop a specific task
+  void stopAll()                         // Stop all tasks
+  bool isRunning(String name)            // Check if task is running
+  List<String> activeTasks()             // Get active task names
+  void pause(String name)                // Pause a task
+  void resume(String name)               // Resume a paused task
+  Map<String, TaskStats> getStats()      // Get all task statistics
 
-  static Future recordTaskFailure(String taskName, Exception error) async {
-    final metrics = _getMetrics(taskName);
-    metrics.failedAt = DateTime.now();
-    metrics.status = 'failed';
-    metrics.error = error.toString();
-    metrics.failureCount++;
-  }
+  // Utility methods
+  ScheduledTask? getTask(String name)    // Get task by name
+  List<String> getTaskNames()            // Get all task names
+  bool hasTask(String name)              // Check if task exists
+  int get taskCount                      // Get total task count
+  void remove(String name)               // Remove a task
+  void clear()                           // Remove all tasks
+}`
 
-  static TaskMetrics _getMetrics(String taskName) {
-    return _metrics.putIfAbsent(taskName, () => TaskMetrics());
-  }
+const scheduledTaskApiCode = `class ScheduledTask {
+  // Constructor
+  ScheduledTask({
+    required String name,              // Unique task name
+    required Duration interval,        // Execution interval
+    required ScheduledJob job,         // Job to execute
+    String timeZone = 'UTC',           // Timezone (currently not used)
+    bool retryOnFail = false,          // Retry on failure
+    bool runOnce = false,              // Run only once
+    int maxRetries = 3,                // Maximum retry attempts
+  })
 
-  static Map<String, dynamic> getStats() {
-    return {
-      'total_tasks': _metrics.length,
-      'running_tasks': _metrics.values.where((m) => m.status == 'running').length,
-      'completed_tasks': _metrics.values.where((m) => m.status == 'completed').length,
-      'failed_tasks': _metrics.values.where((m) => m.status == 'failed').length,
-      'average_execution_time': _calculateAverageExecutionTime(),
-    };
-  }
+  // Properties
+  final String name
+  final Duration interval
+  final ScheduledJob job
+  final String timeZone
+  final bool retryOnFail
+  final bool runOnce
+  final int maxRetries
 
-  static Duration _calculateAverageExecutionTime() {
-    final completedTasks = _metrics.values.where((m) => m.executionTime != null);
-    if (completedTasks.isEmpty) return Duration.zero;
+  // Methods
+  void start(Function(Duration) scheduleNext)    // Start the task
+  void pause()                                   // Pause execution
+  void resume(Function(Duration) scheduleNext)   // Resume execution
+  Future<void> run(Function(Duration) scheduleNext) // Execute job
+  void stop()                                    // Stop permanently
+  TaskStats get stats                           // Get current statistics
 
-    final totalTime = completedTasks.fold<Duration>(
-      Duration.zero,
-      (sum, task) => sum + task.executionTime!
-    );
+  // Factory constructor
+  factory ScheduledTask.fromConfig(Map<String, dynamic> config)
+}`
 
-    return Duration(milliseconds: totalTime.inMilliseconds ~/ completedTasks.length);
-  }
+const scheduledJobApiCode = `abstract class ScheduledJob {
+  // Required property
+  String get name;                    // Unique job identifier
+
+  // Required method
+  Future<void> execute();             // Business logic implementation
 }
 
-class TaskMetrics {
-  DateTime? startedAt;
-  DateTime? completedAt;
-  DateTime? failedAt;
-  Duration? executionTime;
-  String status = 'pending';
-  String? error;
-  int failureCount = 0;
+// Example implementation
+class MyCustomJob extends ScheduledJob {
+  @override
+  String get name => 'my_custom_job';
+
+  @override
+  Future<void> execute() async {
+    // Your custom logic here
+    print('Custom job executed at \${DateTime.now()}');
+  }
 }`
 </script>
 

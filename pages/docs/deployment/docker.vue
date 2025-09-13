@@ -424,5 +424,4 @@ volumes:
 </template>
 
 <script setup>
-import CodeBlock from '~/components/common/CodeBlock.vue'
 </script>

@@ -7,123 +7,184 @@
             File Storage
           </h1>
           <p class="text-xl text-gray-600 dark:text-gray-400">
-            Learn how to manage files and storage in your Khadem application
+            Learn how to manage files and storage in your Khadem application using the StorageManager and StorageDisk contract
           </p>
         </div>
 
         <div class="space-y-8">
-          <!-- Basic File Operations -->
+          <!-- System Overview -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Basic File Operations
+              System Overview
             </h2>
             <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Store, retrieve, and manage files using the Storage facade.
+              Khadem's storage system is built around the <code>StorageManager</code> class and the <code>StorageDisk</code> contract.
+              The StorageManager handles multiple storage disks and drivers, while StorageDisk defines the interface for file operations.
             </p>
 
             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Storing Files
+                Core Components
               </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/http/controllers/file_controller.dart
-import 'package:khadem/src/core/storage/storage.dart';
-
-class FileController extends Controller {
-  Future&lt;Response&gt; upload(Request request) async {
-    final file = request.file('avatar');
-
-    if (file == null) {
-      return response.json({'error': 'No file uploaded'}, 400);
-    }
-
-    // Store file in default disk
-    final path = await Storage.put('avatars', file);
-
-    // Store with custom filename
-    final customPath = await Storage.putAs(
-      'avatars',
-      file,
-      'user_\${request.user().id}_avatar'
-    );
-
-    // Store in specific disk
-    final s3Path = await Storage.disk('s3').put('uploads', file);
-
-    return response.json({
-      'path': path,
-      'url': Storage.url(path),
-    });
-  }
-
-  Future&lt;Response&gt; uploadMultiple(Request request) async {
-    final files = request.files('photos');
-
-    final paths = &lt;String&gt;[];
-    for (final file in files) {
-      final path = await Storage.put('photos', file);
-      paths.add(path);
-    }
-
-    return response.json({'paths': paths});
-  }
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Retrieving Files
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Get file contents
-final contents = await Storage.get('avatars/user_123.jpg');
-
-// Check if file exists
-if (await Storage.exists('avatars/user_123.jpg')) {
-  // File exists
-}
-
-// Get file URL
-final url = Storage.url('avatars/user_123.jpg');
-
-// Get file size
-final size = await Storage.size('avatars/user_123.jpg');
-
-// Get file last modified time
-final lastModified = await Storage.lastModified('avatars/user_123.jpg');
-
-// Download file as response
-return Storage.download('reports/monthly.pdf', 'Monthly Report.pdf');</code></pre>
+              <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2">
+                <li><strong>StorageManager</strong>: Manages storage disks and drivers</li>
+                <li><strong>StorageDisk</strong>: Contract defining file operations interface</li>
+                <li><strong>LocalDisk</strong>: Built-in implementation for local file system storage</li>
+                <li><strong>Custom Drivers</strong>: Extend with your own storage implementations</li>
+              </ul>
             </div>
 
             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                File Management
+                StorageDisk Contract
               </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Copy file
-await Storage.copy('avatars/old.jpg', 'avatars/new.jpg');
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>abstract class StorageDisk {
+  /// Saves bytes to a path
+  Future&lt;void&gt; put(String path, List&lt;int&gt; bytes);
 
-// Move/rename file
-await Storage.move('avatars/temp.jpg', 'avatars/permanent.jpg');
+  /// Writes string content to a file
+  Future&lt;void&gt; writeString(String path, String content);
 
-// Delete file
-await Storage.delete('avatars/old.jpg');
+  /// Reads string content from a file
+  Future&lt;String&gt; readString(String path);
 
-// Delete multiple files
-await Storage.delete(['file1.jpg', 'file2.jpg', 'file3.jpg']);
+  /// Retrieves bytes from a path
+  Future&lt;List&lt;int&gt;&gt; get(String path);
 
-// Create directory
-await Storage.makeDirectory('new_folder');
+  /// Deletes a file
+  Future&lt;void&gt; delete(String path);
 
-// Delete directory
-await Storage.deleteDirectory('old_folder');
+  /// Checks if file exists
+  Future&lt;bool&gt; exists(String path);
+
+  /// Copies a file
+  Future&lt;void&gt; copy(String from, String to);
+
+  /// Moves a file
+  Future&lt;void&gt; move(String from, String to);
+
+  /// Returns file size
+  Future&lt;int&gt; size(String path);
+
+  /// Returns last modified time
+  Future&lt;DateTime&gt; lastModified(String path);
+
+  /// Lists files in directory
+  Future&lt;List&lt;String&gt;&gt; listFiles(String directoryPath);
+
+  /// Returns file URL/path
+  String url(String path);
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Basic Usage -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Basic Usage
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Get started with the StorageManager and LocalDisk for basic file operations.
+            </p>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Setting Up StorageManager
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>import 'package:khadem/src/core/storage/storage_manager.dart';
+import 'package:khadem/src/core/storage/local_disk.dart';
+
+// Create storage manager with default local disk
+final storageManager = StorageManager();
+
+// Or configure with custom settings
+final storageManager = StorageManager(
+  defaultDisk: 'local',
+  initialDisks: {
+    'local': LocalDisk(basePath: './storage/app'),
+  },
+);
+
+// Load configuration from map
+final config = {
+  'default': 'local',
+  'disks': {
+    'local': {
+      'driver': 'local',
+      'root': './storage/app',
+    },
+    'temp': {
+      'driver': 'local',
+      'root': './storage/temp',
+    },
+  },
+};
+
+storageManager.fromConfig(config);</code></pre>
+            </div>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Basic File Operations
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Get the default disk
+final disk = storageManager.disk();
+
+// Or get a specific disk
+final tempDisk = storageManager.disk('temp');
+
+// Write string content to file
+await disk.writeString('example.txt', 'Hello, World!');
+
+// Read string content from file
+final content = await disk.readString('example.txt');
+print(content); // Hello, World!
+
+// Write binary data
+final bytes = [72, 101, 108, 108, 111]; // "Hello" in bytes
+await disk.put('data.bin', bytes);
+
+// Read binary data
+final data = await disk.get('data.bin');
+
+// Check if file exists
+final exists = await disk.exists('example.txt');
+if (exists) {
+  print('File exists');
+}
+
+// Get file size
+final size = await disk.size('example.txt');
+
+// Get last modified time
+final modified = await disk.lastModified('example.txt');
+
+// Get file URL (for local disk, returns file:// path)
+final url = disk.url('example.txt');</code></pre>
+            </div>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                File Management Operations
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Copy a file
+await disk.copy('source.txt', 'destination.txt');
+
+// Move/rename a file
+await disk.move('old_name.txt', 'new_name.txt');
+
+// Delete a file
+await disk.delete('unwanted.txt');
 
 // List files in directory
-final files = await Storage.files('avatars');
+final files = await disk.listFiles('documents');
+for (final file in files) {
+  print('Found file: \$file');
+}
 
-// List all files recursively
-final allFiles = await Storage.allFiles('avatars');
-
-// List directories
-final directories = await Storage.directories('avatars');</code></pre>
+// Check multiple files
+final fileExists = await disk.exists('important.doc');
+final imageExists = await disk.exists('photo.jpg');</code></pre>
             </div>
           </div>
 
@@ -133,628 +194,440 @@ final directories = await Storage.directories('avatars');</code></pre>
               Storage Configuration
             </h2>
             <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Configure different storage disks and drivers.
+              Configure multiple storage disks and drivers using the StorageManager's fromConfig method.
             </p>
 
             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Storage Config
+                Configuration Format
               </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// config/filesystems.dart
-import 'package:khadem/src/core/storage/storage_config.dart';
-
-class FilesystemsConfig extends Config {
-  @override
-  Map&lt;String, dynamic&gt; get config =&gt; {
-    'default': env('FILESYSTEM_DISK', 'local'),
-
-    'disks': {
-      'local': {
-        'driver': 'local',
-        'root': storage_path('app'),
-        'throw': false,
-      },
-
-      'public': {
-        'driver': 'local',
-        'root': storage_path('app/public'),
-        'url': env('APP_URL') + '/storage',
-        'visibility': 'public',
-        'throw': false,
-      },
-
-      's3': {
-        'driver': 's3',
-        'key': env('AWS_ACCESS_KEY_ID'),
-        'secret': env('AWS_SECRET_ACCESS_KEY'),
-        'region': env('AWS_DEFAULT_REGION'),
-        'bucket': env('AWS_BUCKET'),
-        'url': env('AWS_URL'),
-        'endpoint': env('AWS_ENDPOINT'),
-        'use_path_style_endpoint': env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-        'throw': false,
-      },
-
-      'ftp': {
-        'driver': 'ftp',
-        'host': env('FTP_HOST'),
-        'username': env('FTP_USERNAME'),
-        'password': env('FTP_PASSWORD'),
-        'port': env('FTP_PORT', 21),
-        'root': env('FTP_ROOT'),
-        'passive': true,
-        'ssl': true,
-        'timeout': 30,
-      },
-
-      'rackspace': {
-        'driver': 'rackspace',
-        'username': env('RACKSPACE_USERNAME'),
-        'key': env('RACKSPACE_KEY'),
-        'container': env('RACKSPACE_CONTAINER'),
-        'endpoint': env('RACKSPACE_ENDPOINT'),
-        'region': env('RACKSPACE_REGION'),
-        'url_type': 'publicURL',
-      },
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Configuration map structure
+final config = {
+  'default': 'local',  // Default disk name
+  'disks': {
+    'local': {
+      'driver': 'local',
+      'root': './storage/app',  // Base path for local storage
     },
-
-    'links': {
-      storage_path('app/public') : public_path('storage'),
+    'temp': {
+      'driver': 'local',
+      'root': './storage/temp',
     },
-  };
-}</code></pre>
+    'cache': {
+      'driver': 'local',
+      'root': './storage/cache',
+    },
+  },
+};
+
+// Apply configuration to StorageManager
+storageManager.fromConfig(config);
+
+// Now you can use the configured disks
+final localDisk = storageManager.disk('local');    // Default disk
+final tempDisk = storageManager.disk('temp');      // Temp disk
+final cacheDisk = storageManager.disk('cache');    // Cache disk</code></pre>
+            </div>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Runtime Disk Management
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Register disks at runtime
+storageManager.registerDisk('uploads', LocalDisk(basePath: './uploads'));
+
+// Check available disks
+print('Available disks: \${storageManager.diskNames}');
+print('Total disks: \${storageManager.diskCount}');
+print('Default disk: \${storageManager.defaultDisk}');
+
+// Change default disk
+storageManager.setDefaultDisk('temp');
+print('New default: \${storageManager.defaultDisk}');
+
+// Check if disk exists
+if (storageManager.hasDisk('uploads')) {
+  print('Uploads disk is available');
+}
+
+// Remove a disk
+storageManager.removeDisk('temp');
+
+// Clear all disks
+storageManager.flush();</code></pre>
             </div>
 
             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Storage Service Provider
+                Custom Driver Registration
               </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/providers/storage_service_provider.dart
-import 'package:khadem/src/core/storage/storage_manager.dart';
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Register a custom storage driver
+storageManager.registerDriver('memory', (options) {
+  // Return your custom StorageDisk implementation
+  return MemoryDisk(); // Your custom implementation
+});
 
-class StorageServiceProvider extends ServiceProvider {
-  @override
-  void register() {
-    app.singleton(StorageManager, () {
-      return StorageManager(config('filesystems'));
-    });
-  }
+// Now you can use it in configuration
+final configWithCustom = {
+  'default': 'memory',
+  'disks': {
+    'memory': {
+      'driver': 'memory',
+      // Custom options for your driver
+    },
+  },
+};
 
-  @override
-  void boot() {
-    // Create symbolic link for public storage
-    if (!File(public_path('storage')).existsSync()) {
-      Link(public_path('storage')).createSync(storage_path('app/public'));
-    }
-  }
-}</code></pre>
+storageManager.fromConfig(configWithCustom);</code></pre>
             </div>
           </div>
 
-          <!-- File Uploads -->
+          <!-- Custom Storage Drivers -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              File Uploads
+              Custom Storage Drivers
             </h2>
             <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Handle file uploads with validation and processing.
+              Extend Khadem's storage system by implementing custom storage drivers for cloud services, databases, or other storage backends.
             </p>
 
             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Upload Validation
+                Implementing a Custom Driver
               </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/http/controllers/upload_controller.dart
-class UploadController extends Controller {
-  Future&lt;Response&gt; uploadAvatar(Request request) async {
-    // Validate the upload
-    final validator = Validator.make(request.all(), {
-      'avatar': 'required|file|image|max:2048|mimes:jpeg,png,jpg,gif',
-    });
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// lib/src/core/storage/s3_disk.dart
+import 'package:aws_s3_api/s3-2006-03-01.dart';
+import '../contracts/storage/storage_disk.dart';
 
-    if (validator.fails()) {
-      return response.json({
-        'errors': validator.errors()
-      }, 422);
-    }
+class S3Disk implements StorageDisk {
+  final String bucket;
+  final S3 client;
 
-    final file = request.file('avatar');
-
-    // Generate unique filename
-    final filename = 'avatar_\${request.user().id}_\${DateTime.now().millisecondsSinceEpoch}.\${file.extension}';
-
-    // Store the file
-    final path = await Storage.putAs('avatars', file, filename);
-
-    // Update user avatar
-    await request.user().update({'avatar': path});
-
-    return response.json({
-      'message': 'Avatar uploaded successfully',
-      'path': path,
-      'url': Storage.url(path),
-    });
-  }
-
-  Future&lt;Response&gt; uploadDocument(Request request) async {
-    final validator = Validator.make(request.all(), {
-      'document': 'required|file|mimes:pdf,doc,docx|max:10240', // 10MB
-    });
-
-    if (validator.fails()) {
-      return response.json({'errors': validator.errors()}, 422);
-    }
-
-    final file = request.file('document');
-
-    // Store in documents directory
-    final path = await Storage.put('documents', file);
-
-    // Create document record
-    final document = await Document.create({
-      'name': file.originalName,
-      'path': path,
-      'size': file.size,
-      'mime_type': file.mimeType,
-      'user_id': request.user().id,
-    });
-
-    return response.json({
-      'document': document,
-      'url': Storage.url(path),
-    });
-  }
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Image Processing
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/jobs/process_image.dart
-import 'package:khadem/src/core/storage/storage.dart';
-import 'package:image/image.dart' as img;
-
-class ProcessImage extends Job {
-  final String path;
-  final int width;
-  final int height;
-
-  ProcessImage(this.path, {this.width = 800, this.height = 600});
+  S3Disk({
+    required this.bucket,
+    required String accessKey,
+    required String secretKey,
+    required String region,
+  }) : client = S3(
+          region: region,
+          credentials: AwsClientCredentials(
+            accessKey: accessKey,
+            secretKey: secretKey,
+          ),
+        );
 
   @override
-  Future&lt;void&gt; handle() async {
-    // Get the image
-    final imageData = await Storage.get(path);
-    final image = img.decodeImage(imageData);
-
-    if (image == null) return;
-
-    // Resize the image
-    final resized = img.copyResize(image, width: width, height: height);
-
-    // Create thumbnail
-    final thumbnail = img.copyResize(image, width: 200, height: 200);
-
-    // Save resized image
-    final resizedPath = path.replaceFirst('.', '_resized.');
-    await Storage.put(resizedPath, img.encodeJpg(resized));
-
-    // Save thumbnail
-    final thumbPath = path.replaceFirst('.', '_thumb.');
-    await Storage.put(thumbPath, img.encodeJpg(thumbnail));
-
-    // Update database with processed images
-    await ImageModel.where('path', path).update({
-      'resized_path': resizedPath,
-      'thumbnail_path': thumbPath,
-      'processed_at': DateTime.now(),
-    });
-  }
-}
-
-// Usage in controller
-Future&lt;Response&gt; uploadImage(Request request) async {
-  final file = request.file('image');
-  final path = await Storage.put('images', file);
-
-  // Queue image processing
-  Queue.dispatch(ProcessImage(path));
-
-  return response.json({
-    'path': path,
-    'message': 'Image uploaded, processing in background'
-  });
-}</code></pre>
-            </div>
-          </div>
-
-          <!-- Cloud Storage -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Cloud Storage
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Work with cloud storage services like AWS S3.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                AWS S3 Integration
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/services/s3_service.dart
-import 'package:khadem/src/core/storage/storage.dart';
-
-class S3Service {
-  final Storage disk;
-
-  S3Service() : disk = Storage.disk('s3');
-
-  Future&lt;String&gt; uploadFile(File file, String path) async {
-    return await disk.put(path, file);
-  }
-
-  Future&lt;String&gt; uploadPublicFile(File file, String path) async {
-    return await disk.put(path, file, visibility: 'public');
-  }
-
-  Future&lt;String&gt; getSignedUrl(String path, Duration expiry) async {
-    return await disk.temporaryUrl(path, expiry);
-  }
-
-  Future&lt;void&gt; setVisibility(String path, String visibility) async {
-    await disk.setVisibility(path, visibility);
-  }
-
-  Future&lt;String&gt; getVisibility(String path) async {
-    return await disk.getVisibility(path);
-  }
-}
-
-// Usage
-final s3 = S3Service();
-
-// Upload private file
-final path = await s3.uploadFile(file, 'documents/secret.pdf');
-
-// Get signed URL for temporary access
-final signedUrl = await s3.getSignedUrl(path, Duration(hours: 1));
-
-// Make file public
-await s3.setVisibility(path, 'public');</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                CDN Integration
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// config/filesystems.dart - CDN configuration
-'s3': {
-  'driver': 's3',
-  'key': env('AWS_ACCESS_KEY_ID'),
-  'secret': env('AWS_SECRET_ACCESS_KEY'),
-  'region': env('AWS_DEFAULT_REGION'),
-  'bucket': env('AWS_BUCKET'),
-  'url': env('CDN_URL'), // Your CDN URL
-  'endpoint': env('AWS_ENDPOINT'),
-  'use_path_style_endpoint': env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-  'throw': false,
-},
-
-// app/services/cdn_service.dart
-class CdnService {
-  Future&lt;String&gt; getOptimizedUrl(String path, {String? format, int? quality}) async {
-    final baseUrl = Storage.disk('s3').url(path);
-
-    final params = &lt;String&gt;[];
-    if (format != null) params.add('format=$format');
-    if (quality != null) params.add('quality=$quality');
-
-    if (params.isNotEmpty) {
-      return '\$baseUrl?\${params.join('&amp;')}';
-    }
-
-    return baseUrl;
-  }
-
-  Future&lt;String&gt; getResponsiveImage(String path, int width) async {
-    final baseUrl = Storage.disk('s3').url(path);
-    return '$baseUrl?width=$width&amp;auto=format';
-  }
-}
-
-// Usage
-final cdn = CdnService();
-
-// Get WebP version
-final webpUrl = await cdn.getOptimizedUrl('image.jpg', format: 'webp', quality: 80);
-
-// Get responsive image
-final responsiveUrl = await cdn.getResponsiveImage('image.jpg', 800);</code></pre>
-            </div>
-          </div>
-
-          <!-- File Security -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              File Security
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Secure file access and prevent unauthorized downloads.
-            </p>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Access Control
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/http/controllers/file_controller.dart
-class FileController extends Controller {
-  Future&lt;Response&gt; download(Request request, String filename) async {
-    // Check if user owns the file
-    final file = await FileModel.where('filename', filename)
-                               .where('user_id', request.user().id)
-                               .first();
-
-    if (file == null) {
-      return response.json({'error': 'File not found'}, 404);
-    }
-
-    // Check permissions
-    if (!await this.canDownload(request.user(), file)) {
-      return response.json({'error': 'Access denied'}, 403);
-    }
-
-    // Log the download
-    await DownloadLog.create({
-      'user_id': request.user().id,
-      'file_id': file.id,
-      'downloaded_at': DateTime.now(),
-      'ip_address': request.ip(),
-    });
-
-    return Storage.download(file.path, file.original_name);
-  }
-
-  Future&lt;bool&gt; canDownload(User user, FileModel file) async {
-    // Check if file is public
-    if (file.visibility == 'public') {
-      return true;
-    }
-
-    // Check if user owns the file
-    if (file.user_id == user.id) {
-      return true;
-    }
-
-    // Check if user has permission through roles/groups
-    return await user.hasPermission('download_files') ||
-           await user.inGroup(file.group_id);
-  }
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Signed URLs
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/http/controllers/file_controller.dart
-class FileController extends Controller {
-  Future&lt;Response&gt; getSignedUrl(Request request) async {
-    final filename = request.input('filename');
-    final expiry = Duration(hours: 1); // 1 hour expiry
-
-    // Generate signed URL
-    final signedUrl = await Storage.temporaryUrl(filename, expiry);
-
-    return response.json({
-      'url': signedUrl,
-      'expires_at': DateTime.now().add(expiry),
-    });
-  }
-
-  Future&lt;Response&gt; getMultipleSignedUrls(Request request) async {
-    final filenames = request.input('filenames') as List&lt;String&gt;;
-    final expiry = Duration(hours: 24);
-
-    final urls = &lt;Map&lt;String, dynamic&gt;&gt;[];
-    for (final filename in filenames) {
-      final signedUrl = await Storage.temporaryUrl(filename, expiry);
-      urls.add({
-        'filename': filename,
-        'url': signedUrl,
-        'expires_at': DateTime.now().add(expiry),
-      });
-    }
-
-    return response.json({'urls': urls});
-  }
-}
-
-// Middleware for signed URL validation
-// app/http/middleware/validate_signed_url.dart
-class ValidateSignedUrl extends Middleware {
-  @override
-  Future&lt;Response&gt; handle(Request request, next) async {
-    final signature = request.query('signature');
-    final expires = request.query('expires');
-
-    if (signature == null || expires == null) {
-      return response.json({'error': 'Invalid signed URL'}, 403);
-    }
-
-    final expiryTime = DateTime.fromMillisecondsSinceEpoch(int.parse(expires));
-
-    if (DateTime.now().isAfter(expiryTime)) {
-      return response.json({'error': 'Signed URL has expired'}, 403);
-    }
-
-    // Validate signature (implementation depends on your signing method)
-    if (!this.isValidSignature(request.url, signature)) {
-      return response.json({'error': 'Invalid signature'}, 403);
-    }
-
-    return await next(request);
-  }
-}</code></pre>
-            </div>
-
-            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                File Encryption
-              </h3>
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// app/services/encrypted_storage.dart
-import 'dart:convert';
-import 'package:encrypt/encrypt.dart';
-import 'package:khadem/src/core/storage/storage.dart';
-
-class EncryptedStorage {
-  final Storage storage;
-  final Encrypter encrypter;
-
-  EncryptedStorage(this.storage, String key)
-      : encrypter = Encrypter(AES(Key.fromUtf8(key)));
-
-  Future&lt;String&gt; putEncrypted(String path, File file) async {
-    final bytes = await file.readAsBytes();
-    final encrypted = encrypter.encryptBytes(bytes);
-
-    // Store encrypted data
-    final encryptedFile = File.fromRawPath(encrypted.bytes);
-    return await storage.put(path, encryptedFile);
-  }
-
-  Future&lt;List&lt;int&gt;&gt; getDecrypted(String path) async {
-    final encryptedData = await storage.get(path);
-    final encrypted = Encrypted(encryptedData);
-    return encrypter.decryptBytes(encrypted);
-  }
-
-  Future&lt;Response&gt; downloadDecrypted(String path, String filename) async {
-    final decryptedBytes = await getDecrypted(path);
-    return response.download(
-      Stream.fromIterable([decryptedBytes]),
-      filename,
-      headers: {'Content-Type': 'application/octet-stream'}
+  Future&lt;void&gt; put(String path, List&lt;int&gt; bytes) async {
+    await client.putObject(
+      bucket: bucket,
+      key: path,
+      body: Stream.fromIterable([bytes]),
     );
   }
+
+  @override
+  Future&lt;List&lt;int&gt;&gt; get(String path) async {
+    final response = await client.getObject(bucket: bucket, key: path);
+    return await response.body!.readAsBytes();
+  }
+
+  @override
+  Future&lt;void&gt; delete(String path) async {
+    await client.deleteObject(bucket: bucket, key: path);
+  }
+
+  @override
+  Future&lt;bool&gt; exists(String path) async {
+    try {
+      await client.headObject(bucket: bucket, key: path);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  String url(String path) {
+    return 'https://\$bucket.s3.amazonaws.com/\$path';
+  }
+
+  // Implement other required methods...
+  @override
+  Future&lt;void&gt; writeString(String path, String content) async {
+    await put(path, utf8.encode(content));
+  }
+
+  @override
+  Future&lt;String&gt; readString(String path) async {
+    final bytes = await get(path);
+    return utf8.decode(bytes);
+  }
+
+  // ... other implementations
+}</code></pre>
+            </div>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Registering Custom Drivers
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Register your custom S3 driver
+storageManager.registerDriver('s3', (options) {
+  return S3Disk(
+    bucket: options['bucket'] as String,
+    accessKey: options['key'] as String,
+    secretKey: options['secret'] as String,
+    region: options['region'] as String,
+  );
+});
+
+// Use in configuration
+final config = {
+  'default': 's3',
+  'disks': {
+    's3': {
+      'driver': 's3',
+      'bucket': 'my-app-bucket',
+      'key': 'aws-access-key',
+      'secret': 'aws-secret-key',
+      'region': 'us-east-1',
+    },
+  },
+};
+
+storageManager.fromConfig(config);
+
+// Now use S3 disk
+final s3Disk = storageManager.disk('s3');
+await s3Disk.writeString('hello.txt', 'Hello from S3!');</code></pre>
+            </div>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Database Storage Driver Example
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// lib/src/core/storage/database_disk.dart
+class DatabaseDisk implements StorageDisk {
+  final DatabaseConnection db;
+
+  DatabaseDisk(this.db);
+
+  @override
+  Future&lt;void&gt; put(String path, List&lt;int&gt; bytes) async {
+    await db.table('files').insert({
+      'path': path,
+      'content': base64Encode(bytes),
+      'created_at': DateTime.now(),
+    });
+  }
+
+  @override
+  Future&lt;List&lt;int&gt;&gt; get(String path) async {
+    final record = await db.table('files')
+        .where('path', path)
+        .first();
+
+    return base64Decode(record['content']);
+  }
+
+  @override
+  Future&lt;bool&gt; exists(String path) async {
+    final count = await db.table('files')
+        .where('path', path)
+        .count();
+
+    return count > 0;
+  }
+
+  @override
+  String url(String path) {
+    return '/files/\$path'; // Web-accessible URL
+  }
+
+  // ... implement other methods
 }
 
-// Usage
-final encryptedStorage = EncryptedStorage(
-  Storage.disk('local'),
-  env('ENCRYPTION_KEY')
-);
-
-// Store encrypted file
-await encryptedStorage.putEncrypted('sensitive.docx', file);
-
-// Download decrypted file
-return await encryptedStorage.downloadDecrypted('sensitive.docx', 'document.docx');</code></pre>
+// Register and use
+storageManager.registerDriver('database', (options) {
+  return DatabaseDisk(databaseConnection);
+});</code></pre>
             </div>
           </div>
 
-          <!-- Testing Storage -->
+          <!-- Error Handling -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              Testing File Storage
+              Error Handling
             </h2>
             <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Test your file storage operations and uploads.
+              Handle storage-related errors gracefully in your Khadem applications.
+            </p>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Exception Types
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// lib/src/support/exceptions/storage_exception.dart
+class StorageException implements Exception {
+  final String message;
+  StorageException(this.message);
+
+  @override
+  String toString() =&gt; 'StorageException: \$message';
+}
+
+// lib/src/support/exceptions/not_found_exception.dart
+class NotFoundException implements Exception {
+  final String message;
+  NotFoundException(this.message);
+
+  @override
+  String toString() =&gt; 'NotFoundException: \$message';
+}</code></pre>
+            </div>
+
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Error Handling Examples
+              </h3>
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// Handle file operations with error checking
+Future&lt;String&gt; safeReadFile(String path) async {
+  try {
+    final disk = storageManager.disk();
+    return await disk.readString(path);
+  } on NotFoundException {
+    return 'File not found: \$path';
+  } on StorageException catch (e) {
+    return 'Storage error: \${e.message}';
+  } catch (e) {
+    return 'Unexpected error: \$e';
+  }
+}
+
+// Check disk availability
+Future&lt;bool&gt; isDiskAvailable(String diskName) async {
+  try {
+    final disk = storageManager.disk(diskName);
+    // Try a simple operation to test connectivity
+    await disk.exists('test');
+    return true;
+  } catch (e) {
+    print('Disk \$diskName is not available: \$e');
+    return false;
+  }
+}
+
+// Retry failed operations
+Future&lt;T&gt; retryOperation&lt;T&gt;(Future&lt;T&gt; Function() operation, {int maxRetries = 3}) async {
+  for (int i = 0; i &lt; maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (e) {
+      if (i == maxRetries - 1) rethrow;
+      await Future.delayed(Duration(seconds: 1)); // Wait before retry
+    }
+  }
+  throw 'Should not reach here';
+}
+
+// Usage
+final content = await retryOperation(() async {
+  return await storageManager.disk().readString('important.txt');
+});</code></pre>
+            </div>
+          </div>
+
+          <!-- Testing -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Testing Storage
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Test your storage operations using the existing test structure and mock implementations.
             </p>
 
             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// tests/unit/services/storage_service_test.dart
+              <pre class="text-sm text-gray-800 dark:text-gray-200"><code>// test/core/storage/storage_manager_test.dart
 import 'package:test/test.dart';
-import 'package:khadem/src/core/storage/storage.dart';
-import 'package:khadem/src/testing/fakes/storage_fake.dart';
-import '../../app/services/storage_service.dart';
+import 'package:khadem/src/core/storage/storage_manager.dart';
+import 'package:khadem/src/core/storage/local_disk.dart';
+import 'package:khadem/src/support/exceptions/storage_exception.dart';
+import 'package:khadem/src/support/exceptions/not_found_exception.dart';
 
 void main() {
-  group('StorageService', () {
-    late StorageService storageService;
+  group('StorageManager', () {
+    late StorageManager storageManager;
+    late LocalDisk localDisk;
 
     setUp(() {
-      Storage.fake();
-      storageService = StorageService();
+      storageManager = StorageManager();
+      localDisk = LocalDisk(basePath: Directory.systemTemp.path + '/test_storage');
     });
 
-    tearDown(() {
-      Storage.restore();
+    test('initializes with default local driver', () {
+      expect(storageManager.defaultDisk, equals('local'));
+      expect(storageManager.diskCount, equals(0)); // No disks registered yet
+      expect(storageManager.driverCount, equals(1)); // local driver registered
     });
 
-    test('uploads file successfully', () async {
-      final file = File('test.txt')..writeAsStringSync('Hello World');
+    test('registers disk successfully', () {
+      storageManager.registerDisk('test', localDisk);
 
-      final path = await storageService.uploadFile(file, 'test.txt');
-
-      expect(path, startsWith('uploads/'));
-      Storage.assertExists(path);
+      expect(storageManager.hasDisk('test'), isTrue);
+      expect(storageManager.diskCount, equals(1));
     });
 
-    test('deletes file successfully', () async {
-      final file = File('test.txt')..writeAsStringSync('Hello World');
-      final path = await storageService.uploadFile(file, 'test.txt');
-
-      await storageService.deleteFile(path);
-
-      Storage.assertMissing(path);
-    });
-
-    test('gets file URL', () async {
-      final file = File('test.txt')..writeAsStringSync('Hello World');
-      final path = await storageService.uploadFile(file, 'test.txt');
-
-      final url = storageService.getUrl(path);
-
-      expect(url, contains(path));
-    });
-
-    test('handles file not found', () async {
+    test('throws when registering disk with empty name', () {
       expect(
-        () async =&gt; await storageService.getFile('nonexistent.txt'),
-        throwsA(isA&lt;FileNotFoundException&gt;())
+        () =&gt; storageManager.registerDisk('', localDisk),
+        throwsA(isA&lt;StorageException&gt;()),
       );
     });
-  });
-}
 
-// tests/feature/file_upload_test.dart
-import 'package:test/test.dart';
-import '../../app/http/controllers/upload_controller.dart';
+    test('retrieves registered disk', () {
+      storageManager.registerDisk('test', localDisk);
 
-void main() {
-  group('File Upload', () {
-    test('validates file upload', () async {
-      final request = Request.fake()
-        .withFile('avatar', File('test.jpg'));
-
-      final controller = UploadController();
-      final response = await controller.uploadAvatar(request);
-
-      expect(response.statusCode, 200);
+      final disk = storageManager.disk('test');
+      expect(disk, equals(localDisk));
     });
 
-    test('rejects invalid file type', () async {
-      final request = Request.fake()
-        .withFile('avatar', File('test.exe'));
-
-      final controller = UploadController();
-      final response = await controller.uploadAvatar(request);
-
-      expect(response.statusCode, 422);
-      expect(response.json()['errors'], contains('avatar'));
+    test('throws when accessing non-existent disk', () {
+      expect(
+        () =&gt; storageManager.disk('nonexistent'),
+        throwsA(isA&lt;NotFoundException&gt;()),
+      );
     });
 
-    test('rejects file too large', () async {
-      final largeFile = File('large.jpg')..writeAsBytesSync(List.filled(3000000, 0)); // 3MB
+    test('loads configuration from map', () {
+      final config = {
+        'default': 'temp',
+        'disks': {
+          'temp': {
+            'driver': 'local',
+            'root': './temp',
+          },
+        },
+      };
 
-      final request = Request.fake()
-        .withFile('avatar', largeFile);
+      storageManager.fromConfig(config);
 
-      final controller = UploadController();
-      final response = await controller.uploadAvatar(request);
+      expect(storageManager.defaultDisk, equals('temp'));
+      expect(storageManager.hasDisk('temp'), isTrue);
+    });
 
-      expect(response.statusCode, 422);
+    test('removes disk successfully', () {
+      storageManager.registerDisk('test', localDisk);
+      expect(storageManager.hasDisk('test'), isTrue);
+
+      storageManager.removeDisk('test');
+      expect(storageManager.hasDisk('test'), isFalse);
+    });
+
+    test('throws when removing non-existent disk', () {
+      expect(
+        () =&gt; storageManager.removeDisk('nonexistent'),
+        throwsA(isA&lt;NotFoundException&gt;()),
+      );
     });
   });
 }</code></pre>

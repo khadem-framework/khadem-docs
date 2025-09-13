@@ -1,264 +1,273 @@
 <template>
   <div class="space-y-8">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">WebSockets</h1>
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">WebSocket System</h1>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-        Real-time communication with WebSockets for building interactive applications.
+        A powerful real-time communication system for building interactive applications with WebSocket support, middleware pipeline, and room-based messaging.
       </p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">Real-time Communication</span>
+        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">Room-based Messaging</span>
+        <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Middleware Pipeline</span>
+        <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm font-medium">Event-driven Architecture</span>
+      </div>
     </header>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">WebSocket Basics</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">System Overview</h2>
 
-      <CodeBlock
-        :code="websocketBasicsCode"
-        language="dart"
-        title="Basic WebSocket Server Setup"
-      />
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+        <h3 class="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-4">WebSocket Architecture</h3>
+        <p class="text-blue-800 dark:text-blue-200 mb-4">
+          Khadem's WebSocket system is built around a modular architecture with clear separation of concerns:
+        </p>
 
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Connection States</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>connecting</code> - Establishing connection</li>
-            <li><code>open</code> - Connection established</li>
-            <li><code>closing</code> - Connection closing</li>
-            <li><code>closed</code> - Connection closed</li>
-          </ul>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Core Components</h4>
+            <ul class="space-y-2 text-blue-800 dark:text-blue-200">
+              <li><strong>SocketServer:</strong> Main entry point for WebSocket connections</li>
+              <li><strong>SocketManager:</strong> Manages clients, rooms, and event routing</li>
+              <li><strong>SocketClient:</strong> Represents individual WebSocket connections</li>
+              <li><strong>SocketHandler:</strong> Processes incoming messages and executes middleware</li>
+              <li><strong>SocketMiddlewarePipeline:</strong> Executes middleware in priority order</li>
+            </ul>
+          </div>
+
+          <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+            <h4 class="font-semibold text-green-900 dark:text-green-100 mb-2">Key Features</h4>
+            <ul class="space-y-2 text-green-800 dark:text-green-200">
+              <li><strong>Event-driven:</strong> Register handlers for specific events</li>
+              <li><strong>Room-based:</strong> Group clients and broadcast to rooms</li>
+              <li><strong>Middleware:</strong> Connection, message, room, and disconnect middleware</li>
+              <li><strong>Authentication:</strong> Built-in auth callbacks and user context</li>
+              <li><strong>Type-safe:</strong> Strongly typed event handlers and middleware</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Message Types</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>text</code> - UTF-8 text messages</li>
-            <li><code>binary</code> - Binary data</li>
-            <li><code>ping/pong</code> - Heartbeat messages</li>
-            <li><code>close</code> - Connection close</li>
-          </ul>
+        <div class="mt-6 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+          <h4 class="font-semibold text-yellow-900 dark:text-yellow-100 mb-2">Message Format</h4>
+          <p class="text-yellow-800 dark:text-yellow-200 mb-2">
+            All WebSocket messages use JSON format with <code>event</code> and <code>data</code> fields:
+          </p>
+          <pre class="bg-yellow-100 dark:bg-yellow-900/30 p-3 rounded text-sm"><code>{
+  "event": "send_message",
+  "data": {
+    "message": "Hello World",
+    "room": "general"
+  }
+}</code></pre>
         </div>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">WebSocket Channels</h2>
-
-      <CodeBlock
-        :code="websocketChannelsCode"
-        language="dart"
-        title="Channel-based Communication"
-      />
+      <h2 class="text-2xl font-semibold border-b pb-2">Quick Start</h2>
 
       <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">Channel Types</h3>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
-          <li><strong>Public Channels:</strong> Anyone can subscribe</li>
-          <li><strong>Private Channels:</strong> Authentication required</li>
-          <li><strong>Presence Channels:</strong> Show online users</li>
-          <li><strong>Direct Messages:</strong> User-to-user communication</li>
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-3">Basic Server Setup</h3>
+        <div class="space-y-4">
+          <div>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">1. Create WebSocket Server</h4>
+            <CodeBlock
+              :code="basicServerSetupCode"
+              language="dart"
+              title="Basic WebSocket Server Setup"
+            />
+          </div>
+
+          <div>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">2. Handle Events</h4>
+            <CodeBlock
+              :code="basicEventHandlingCode"
+              language="dart"
+              title="Basic Event Handling"
+            />
+          </div>
+
+          <div>
+            <h4 class="font-medium text-blue-700 dark:text-blue-300 mb-2">3. Start Server</h4>
+            <CodeBlock
+              :code="startServerCode"
+              language="dart"
+              title="Start WebSocket Server"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Room-based Messaging</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-3">Room Management</h3>
+          <CodeBlock
+            :code="roomManagementCode"
+            language="dart"
+            title="Room Management Examples"
+          />
+          <p class="text-sm text-green-700 dark:text-green-300 mt-2">
+            Rooms allow you to group clients and broadcast messages to specific groups.
+          </p>
+        </div>
+
+        <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+          <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200 mb-3">Broadcasting</h3>
+          <CodeBlock
+            :code="broadcastingCode"
+            language="dart"
+            title="Broadcasting Messages"
+          />
+          <p class="text-sm text-purple-700 dark:text-purple-300 mt-2">
+            Send messages to all clients in a room or to individual clients.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Event Subscription System</h2>
+
+      <CodeBlock
+        :code="eventSubscriptionCode"
+        language="dart"
+        title="Event Subscription System"
+      />
+
+      <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
+        <h3 class="text-lg font-medium text-orange-800 dark:text-orange-200">Event Subscription Features</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-orange-700 dark:text-orange-300">
+          <li>Subscribe clients to specific events for targeted messaging</li>
+          <li>Broadcast events to all subscribed clients</li>
+          <li>Check subscription status and subscriber counts</li>
+          <li>Automatic cleanup when clients disconnect</li>
+          <li>Real-time subscription management</li>
         </ul>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Authentication & Authorization</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Middleware Pipeline</h2>
 
-      <CodeBlock
-        :code="websocketAuthCode"
-        language="dart"
-        title="WebSocket Authentication"
-      />
-
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Auth Methods</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Token-based authentication</li>
-            <li>Session-based auth</li>
-            <li>API key authentication</li>
-            <li>Custom auth middleware</li>
-          </ul>
+      <div class="space-y-6">
+        <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
+          <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200 mb-3">Middleware Types</h3>
+          <CodeBlock
+            :code="middlewareTypesCode"
+            language="dart"
+            title="Different Middleware Types"
+          />
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Security Features</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Origin validation</li>
-            <li>Rate limiting</li>
-            <li>Connection limits</li>
-            <li>Message size limits</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Real-time Chat Application</h2>
-
-      <CodeBlock
-        :code="chatApplicationCode"
-        language="dart"
-        title="Real-time Chat Implementation"
-      />
-
-      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-        <h3 class="text-lg font-medium text-green-800 dark:text-green-200">Chat Features</h3>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-green-700 dark:text-green-300">
-          <li>Real-time messaging</li>
-          <li>Typing indicators</li>
-          <li>Online status</li>
-          <li>Message history</li>
-          <li>Private messaging</li>
-          <li>Group chats</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Broadcasting Events</h2>
-
-      <CodeBlock
-        :code="broadcastingCode"
-        language="dart"
-        title="Event Broadcasting System"
-      />
-
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Broadcast Types</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>To all connected clients</li>
-            <li>To specific users</li>
-            <li>To channel subscribers</li>
-            <li>Except specific users</li>
-          </ul>
+        <div class="bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg border border-pink-200 dark:border-pink-800">
+          <h3 class="text-lg font-medium text-pink-800 dark:text-pink-200 mb-3">Authentication Middleware</h3>
+          <CodeBlock
+            :code="authMiddlewareCode"
+            language="dart"
+            title="Authentication Middleware Example"
+          />
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Use Cases</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>System notifications</li>
-            <li>Live updates</li>
-            <li>Game state sync</li>
-            <li>Collaborative editing</li>
-          </ul>
+        <div class="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg border border-teal-200 dark:border-teal-800">
+          <h3 class="text-lg font-medium text-teal-800 dark:text-teal-200 mb-3">Rate Limiting Middleware</h3>
+          <CodeBlock
+            :code="rateLimitMiddlewareCode"
+            language="dart"
+            title="Rate Limiting Middleware"
+          />
         </div>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Presence Channels</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Client Management</h2>
 
       <CodeBlock
-        :code="presenceChannelsCode"
+        :code="clientManagementCode"
         language="dart"
-        title="Presence Channel Implementation"
+        title="Client Management Examples"
       />
 
-      <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-        <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200">Presence Features</h3>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-purple-700 dark:text-purple-300">
-          <li>Track online users</li>
-          <li>User join/leave events</li>
-          <li>Real-time user lists</li>
-          <li>User information sharing</li>
-          <li>Presence state management</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Client-side Integration</h2>
-
-      <CodeBlock
-        :code="clientIntegrationCode"
-        language="dart"
-        title="JavaScript Client Integration"
-      />
-
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Client Libraries</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Native WebSocket API</li>
-            <li>Socket.IO client</li>
-            <li>Custom client libraries</li>
-            <li>Framework integrations</li>
-          </ul>
-        </div>
-
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Connection Handling</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Automatic reconnection</li>
-            <li>Connection pooling</li>
-            <li>Error handling</li>
-            <li>Message queuing</li>
-          </ul>
+      <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+        <h4 class="font-medium mb-2">Client Context Features</h4>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <h5 class="font-medium text-gray-900 dark:text-white mb-2">Context Storage</h5>
+            <ul class="space-y-1 text-sm">
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">set(key, value)</code> - Store data in client context</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">get(key)</code> - Retrieve data from context</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">isAuthorized</code> - Check authorization status</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">isAuthenticated</code> - Check authentication status</li>
+            </ul>
+          </div>
+          <div>
+            <h5 class="font-medium text-gray-900 dark:text-white mb-2">Header Access</h5>
+            <ul class="space-y-1 text-sm">
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">authToken</code> - Get authorization token</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">userAgent</code> - Get user agent string</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">getHeader(name)</code> - Get specific header</li>
+              <li><code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">getHeaderValues(name)</code> - Get all header values</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Scaling WebSockets</h2>
-
-      <CodeBlock
-        :code="scalingCode"
-        language="dart"
-        title="WebSocket Scaling Strategies"
-      />
-
-      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
-        <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200">Scaling Techniques</h3>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-indigo-700 dark:text-indigo-300">
-          <li>Load balancing with sticky sessions</li>
-          <li>Redis adapter for cross-server communication</li>
-          <li>Horizontal scaling with message queues</li>
-          <li>Connection limits and resource management</li>
-          <li>Database optimization for presence data</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Error Handling & Debugging</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Error Handling</h2>
 
       <CodeBlock
         :code="errorHandlingCode"
         language="dart"
-        title="Error Handling and Debugging"
+        title="Error Handling Examples"
       />
 
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Common Issues</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Connection drops</li>
-            <li>Message loss</li>
-            <li>Memory leaks</li>
-            <li>Rate limiting</li>
-          </ul>
-        </div>
-
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Debugging Tools</h3>
-          <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Connection logging</li>
-            <li>Message tracing</li>
-            <li>Performance monitoring</li>
-            <li>Client debugging</li>
-          </ul>
-        </div>
+      <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
+        <h3 class="text-lg font-medium text-red-800 dark:text-red-200">Exception Handler Features</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-red-700 dark:text-red-300">
+          <li>Automatic error logging with stack traces</li>
+          <li>Client-specific error responses</li>
+          <li>Development vs production error details</li>
+          <li>Middleware error handling</li>
+          <li>Connection and disconnection error handling</li>
+        </ul>
       </div>
     </section>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Complete Example</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Advanced Usage</h2>
 
-      <CodeBlock
-        :code="completeExampleCode"
-        language="dart"
-        title="Complete WebSocket Application"
-      />
+      <div class="space-y-6">
+        <div class="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-lg border border-cyan-200 dark:border-cyan-800">
+          <h3 class="text-lg font-medium text-cyan-800 dark:text-cyan-200 mb-3">Real-time Chat Application</h3>
+          <CodeBlock
+            :code="chatApplicationCode"
+            language="dart"
+            title="Real-time Chat Application"
+          />
+        </div>
+
+        <div class="bg-lime-50 dark:bg-lime-900/20 p-4 rounded-lg border border-lime-200 dark:border-lime-800">
+          <h3 class="text-lg font-medium text-lime-800 dark:text-lime-200 mb-3">Live Notifications</h3>
+          <CodeBlock
+            :code="notificationSystemCode"
+            language="dart"
+            title="Live Notification System"
+          />
+        </div>
+
+        <div class="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+          <h3 class="text-lg font-medium text-amber-800 dark:text-amber-200 mb-3">Game Server</h3>
+          <CodeBlock
+            :code="gameServerCode"
+            language="dart"
+            title="Real-time Game Server"
+          />
+        </div>
+      </div>
     </section>
 
     <section class="space-y-6">
@@ -268,35 +277,38 @@
         <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
           <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">✅ Do's</h3>
           <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
-            <li>Use secure WebSocket connections (WSS)</li>
-            <li>Implement proper authentication and authorization</li>
-            <li>Handle connection errors gracefully</li>
-            <li>Use channels for organized communication</li>
-            <li>Implement heartbeat/ping-pong for connection health</li>
-            <li>Validate and sanitize all messages</li>
-            <li>Use connection pooling for scalability</li>
-            <li>Monitor connection counts and performance</li>
-            <li>Implement rate limiting to prevent abuse</li>
-            <li>Use message queuing for reliability</li>
+            <li>Use rooms for organizing clients by context (chat rooms, game lobbies, etc.)</li>
+            <li>Implement proper authentication and authorization middleware</li>
+            <li>Use event subscriptions for targeted messaging</li>
+            <li>Handle errors gracefully and provide meaningful error messages</li>
+            <li>Use middleware for cross-cutting concerns like logging and rate limiting</li>
+            <li>Implement proper cleanup when clients disconnect</li>
+            <li>Use client context to store user-specific data</li>
+            <li>Test your WebSocket handlers thoroughly</li>
+            <li>Use meaningful event names and consistent message formats</li>
+            <li>Monitor connection counts and message throughput</li>
           </ul>
         </div>
 
         <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
           <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">❌ Don'ts</h3>
           <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-            <li>Don't send sensitive data without encryption</li>
-            <li>Don't trust client-side validation alone</li>
-            <li>Don't forget to handle connection cleanup</li>
-            <li>Don't use WebSockets for one-way communication when HTTP suffices</li>
-            <li>Don't ignore connection limits</li>
-            <li>Don't block the event loop with heavy operations</li>
-            <li>Don't forget to implement reconnection logic on the client</li>
-            <li>Don't use WebSockets for file transfers</li>
-            <li>Don't expose internal system information</li>
+            <li>Don't send sensitive data without proper authentication</li>
+            <li>Don't block the event loop with long-running operations</li>
+            <li>Don't rely on client-side validation alone</li>
+            <li>Don't forget to handle client disconnections</li>
+            <li>Don't use WebSocket for file uploads (use HTTP instead)</li>
+            <li>Don't broadcast to all clients when you only need specific rooms</li>
+            <li>Don't ignore middleware errors - they can break the connection</li>
+            <li>Don't store large amounts of data in client context</li>
+            <li>Don't use synchronous operations in async handlers</li>
+            <li>Don't forget to implement rate limiting for production</li>
           </ul>
         </div>
       </div>
     </section>
+
+   
   </div>
 </template>
 
@@ -309,167 +321,1580 @@ useHead({
   ]
 })
 
-const websocketBasicsCode = `// Basic WebSocket server setup
-import 'package:khadem/khadem_dart.dart';
+import CodeBlock from '~/components/CodeBlock.vue'
+
+const basicServerSetupCode = `import 'package:khadem/khadem_dart.dart';
 
 class WebSocketController {
-  static Future handleConnection(WebSocket socket, Request request) async {
-    print('New WebSocket connection: \${request.ip}');
-
-    // Handle incoming messages
-    socket.onMessage.listen((message) {
-      print('Received: \$message');
-
-      // Echo the message back
-      socket.send('Echo: \$message');
-    });
-
-    // Handle connection close
-    socket.onClose.listen((closeEvent) {
-      print('Connection closed: \${closeEvent.code} - \${closeEvent.reason}');
-    });
-
-    // Handle errors
-    socket.onError.listen((error) {
-      print('WebSocket error: \$error');
-    });
+  static Future handleConnection(SocketClient client, Request request) async {
+    print('New WebSocket connection: \${client.id} from \${request.ip}');
 
     // Send welcome message
-    socket.send('Welcome to Khadem WebSocket server!');
+    client.sendJson({
+      'event': 'welcome',
+      'message': 'Welcome to Khadem WebSocket server!',
+      'timestamp': DateTime.now().toIso8601String()
+    });
   }
 }
 
-// Setup WebSocket route
-void setupWebSocketRoutes(Server server) {
-  server.websocket('/ws', WebSocketController.handleConnection);
+// Setup WebSocket server
+void setupWebSocketServer(Server server) {
+  final socketServer = SocketServer();
+
+  // Add authentication
+  socketServer.useAuth((client, request) async {
+    final token = request.query['token'];
+    if (token == null) return null;
+
+    // Verify token and return user ID
+    final payload = await verifyJWTToken(token);
+    return payload?['sub'];
+  });
+
+  // Add connection middleware
+  socketServer.use((client, request) async {
+    print('Connection middleware: \${request.ip}');
+    return true;
+  });
+
+  // Setup event handlers
+  socketServer.on('ping', (client, data) async {
+    client.sendJson({
+      'event': 'pong',
+      'timestamp': DateTime.now().toIso8601String()
+    });
+  });
+
+  socketServer.on('echo', (client, data) async {
+    final message = data['message'];
+    if (message != null) {
+      client.sendJson({
+        'event': 'echo',
+        'message': message,
+        'timestamp': DateTime.now().toIso8601String()
+      });
+    }
+  });
+
+  // Handle connections
+  socketServer.onConnect((client) async {
+    print('Client connected: \${client.id}');
+  });
+
+  socketServer.onDisconnect((client) async {
+    print('Client disconnected: \${client.id}');
+  });
+
+  // Mount WebSocket server
+  server.websocket('/ws', (socket, request) async {
+    await socketServer.handleConnection(socket, request);
+  });
 }
 
-// Advanced WebSocket handling
-class AdvancedWebSocketHandler {
-  static final Map<String, WebSocket> _connections = {};
-  static int _connectionCount = 0;
+// Main server setup
+void main() async {
+  final server = Server();
 
-  static Future handleConnection(WebSocket socket, Request request) async {
-    final connectionId = 'conn_\${++_connectionCount}';
-    _connections[connectionId] = socket;
+  // Setup WebSocket routes
+  setupWebSocketServer(server);
 
-    print('Connection \$connectionId established from \${request.ip}');
+  // Start server
+  await server.listen(8080);
+  print('Server running on port 8080 with WebSocket support');
+}
 
-    // Send connection info
-    socket.send(jsonEncode({
-      'type': 'connection_established',
-      'connection_id': connectionId,
-      'timestamp': DateTime.now().toIso8601String()
-    }));
+// Helper function for JWT verification
+Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
+  try {
+    // Implement your JWT verification logic here
+    // This is a placeholder
+    return {
+      'sub': 'user123',
+      'username': 'john_doe'
+    };
+  } catch (e) {
+    return null;
+  }
+}`
 
-    // Handle messages with JSON parsing
-    socket.onMessage.listen((message) async {
+const basicEventHandlingCode = `class WebSocketController {
+  static Future handleConnection(SocketServer server) async {
+    // Setup event handlers
+    server.on('ping', (SocketClient client, Map<String, dynamic> data) async {
+      print('Received ping from \${client.id}');
+
+      // Send pong response
+      client.sendJson({
+        'event': 'pong',
+        'timestamp': DateTime.now().toIso8601String()
+      });
+    });
+
+    server.on('echo', (SocketClient client, Map<String, dynamic> data) async {
+      final message = data['message'];
+      print('Received echo from \${client.id}: \$message');
+
+      // Echo the message back
+      client.sendJson({
+        'event': 'echo_response',
+        'original_message': message,
+        'timestamp': DateTime.now().toIso8601String()
+      });
+    });
+
+    server.on('broadcast', (SocketClient client, Map<String, dynamic> data) async {
+      final message = data['message'];
+      print('Broadcast request from \${client.id}: \$message');
+
+      // Broadcast to all connected clients
+      await server.broadcast({
+        'event': 'broadcast_message',
+        'from': client.get('user_id'),
+        'message': message,
+        'timestamp': DateTime.now().toIso8601String()
+      });
+    });
+
+    // Handle connection events
+    server.onConnect((SocketClient client) async {
+      print('Client connected: \${client.id}');
+
+      // Send welcome message
+      client.sendJson({
+        'event': 'connected',
+        'client_id': client.id,
+        'timestamp': DateTime.now().toIso8601String()
+      });
+    });
+
+    server.onDisconnect((SocketClient client) async {
+      print('Client disconnected: \${client.id}');
+    });
+  }
+}
+
+// Usage
+void setupWebSocketEvents(SocketServer server) {
+  WebSocketController.handleConnection(server);
+}`
+
+const startServerCode = `import 'package:khadem/khadem_dart.dart';
+
+void main() async {
+  // Create HTTP server
+  final server = Server();
+
+  // Create WebSocket server
+  final socketServer = SocketServer();
+
+  // Setup authentication
+  socketServer.useAuth((client, request) async {
+    final token = request.query['token'];
+    if (token == null) return null;
+
+    // Verify token and return user ID
+    final payload = await verifyJWTToken(token);
+    return payload?['sub'];
+  });
+
+  // Setup event handlers
+  socketServer.on('ping', (client, data) async {
+    client.sendJson({'event': 'pong'});
+  });
+
+  socketServer.on('join_room', (client, data) async {
+    final roomName = data['room'];
+    if (roomName != null) {
+      await client.joinRoom(roomName);
+      client.sendJson({
+        'event': 'room_joined',
+        'room': roomName
+      });
+    }
+  });
+
+  socketServer.on('send_message', (client, data) async {
+    final roomName = data['room'];
+    final message = data['message'];
+
+    if (roomName != null && message != null) {
+      await socketServer.broadcastToRoom(roomName, {
+        'event': 'message',
+        'from': client.get('user_id'),
+        'message': message,
+        'timestamp': DateTime.now().toIso8601String()
+      }, exclude: client);
+    }
+  });
+
+  // Mount WebSocket server
+  server.websocket('/ws', (socket, request) async {
+    await socketServer.handleConnection(socket, request);
+  });
+
+  // Add HTTP routes
+  server.get('/', (request) async {
+    final html = '''
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Khadem WebSocket Server</title>
+        </head>
+        <body>
+          <h1>Khadem WebSocket Server</h1>
+          <p>WebSocket endpoint: <code>ws://localhost:8080/ws</code></p>
+          <CodeBlock
+            :code="clientExampleCode"
+            language="javascript"
+            title="Basic WebSocket Client Example"
+          />
+        </body>
+      </html>
+    ''';
+    return Response.html(html);
+  });
+
+  // Start server
+  await server.listen(8080);
+  print('Server running on http://localhost:8080');
+  print('WebSocket endpoint: ws://localhost:8080/ws');
+}
+
+// Helper function for JWT verification
+Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
+  try {
+    // Implement your JWT verification logic here
+    // This is a placeholder
+    return {
+      'sub': 'user123',
+      'username': 'john_doe'
+    };
+  } catch (e) {
+    return null;
+  }
+}`
+
+const roomManagementCode = `// Room management using SocketServer and SocketManager
+class ChatServer {
+  final SocketServer server;
+  final SocketManager manager;
+
+  ChatServer(this.server, this.manager) {
+    setupEventHandlers();
+  }
+
+  void setupEventHandlers() {
+    // Handle room join
+    server.on('join_room', (SocketClient client, Map<String, dynamic> data) async {
+      final roomName = data['room'] as String?;
+      if (roomName == null) return;
+
       try {
-        final data = jsonDecode(message);
+        await client.joinRoom(roomName);
 
-        switch (data['type']) {
-          case 'ping':
-            socket.send(jsonEncode({
-              'type': 'pong',
-              'timestamp': DateTime.now().toIso8601String()
-            }));
-            break;
+        // Notify others in the room
+        await manager.broadcastToRoom(roomName, {
+          'event': 'user_joined',
+          'user_id': client.get('user_id'),
+          'username': client.get('username'),
+          'room': roomName,
+          'timestamp': DateTime.now().toIso8601String()
+        }, exclude: client);
 
-          case 'broadcast':
-            await broadcastToAll(data['message'], exclude: connectionId);
-            break;
+        // Send room info to the client
+        final roomClients = manager.getClientsInRoom(roomName);
+        client.sendJson({
+          'event': 'room_joined',
+          'room': roomName,
+          'user_count': roomClients.length,
+          'users': roomClients.map((c) => {
+            'user_id': c.get('user_id'),
+            'username': c.get('username')
+          }).toList()
+        });
 
-          case 'private_message':
-            await sendToConnection(data['target_id'], data['message']);
-            break;
-
-          default:
-            socket.send(jsonEncode({
-              'type': 'error',
-              'message': 'Unknown message type: \${data['type']}'
-            }));
-        }
       } catch (e) {
-        socket.send(jsonEncode({
-          'type': 'error',
-          'message': 'Invalid JSON message',
-          'error': e.toString()
-        }));
+        client.sendJson({
+          'event': 'error',
+          'message': 'Failed to join room: \${e.toString()}'
+        });
       }
     });
 
-    // Handle disconnection
-    socket.onClose.listen((closeEvent) {
-      _connections.remove(connectionId);
-      print('Connection \$connectionId closed');
+    // Handle room leave
+    server.on('leave_room', (SocketClient client, Map<String, dynamic> data) async {
+      final roomName = data['room'] as String?;
+      if (roomName == null) return;
 
-      // Notify other clients
-      broadcastToAll('\$connectionId disconnected', system: true);
+      try {
+        await client.leaveRoom(roomName);
+
+        // Notify others in the room
+        await manager.broadcastToRoom(roomName, {
+          'event': 'user_left',
+          'user_id': client.get('user_id'),
+          'username': client.get('username'),
+          'room': roomName,
+          'timestamp': DateTime.now().toIso8601String()
+        });
+
+      } catch (e) {
+        client.sendJson({
+          'event': 'error',
+          'message': 'Failed to leave room: \${e.toString()}'
+        });
+      }
     });
 
-    // Handle errors
-    socket.onError.listen((error) {
-      print('Connection \$connectionId error: \$error');
-      _connections.remove(connectionId);
-    });
+    // Handle room messages
+    server.on('room_message', (SocketClient client, Map<String, dynamic> data) async {
+      final roomName = data['room'] as String?;
+      final message = data['message'] as String?;
 
-    // Notify other clients about new connection
-    broadcastToAll('\$connectionId connected', system: true, exclude: connectionId);
+      if (roomName == null || message == null) return;
+
+      // Check if client is in the room
+      if (!client.isInRoom(roomName)) {
+        client.sendJson({
+          'event': 'error',
+          'message': 'You are not in this room'
+        });
+        return;
+      }
+
+      // Broadcast message to room
+      await manager.broadcastToRoom(roomName, {
+        'event': 'room_message',
+        'user_id': client.get('user_id'),
+        'username': client.get('username'),
+        'message': message,
+        'room': roomName,
+        'timestamp': DateTime.now().toIso8601String()
+      }, exclude: client);
+    });
+  }
+}
+
+// Usage
+void main() async {
+  final server = SocketServer();
+  final manager = SocketManager();
+
+  final chatServer = ChatServer(server, manager);
+
+  // Add middleware
+  server.useAuth((client, request) async {
+    final token = request.query['token'];
+    if (token == null) return null;
+
+    // Verify token and return user ID
+    final payload = await verifyJWTToken(token);
+    return payload?['sub'];
+  });
+
+  // Start server
+  await server.listen(8080);
+  print('WebSocket server running on port 8080');
+}`
+
+const eventSubscriptionCode = `// Event subscription system using SocketServer
+class EventSubscriptionService {
+  final SocketServer server;
+  final Map<String, Set<SocketClient>> _eventSubscribers = {};
+
+  EventSubscriptionService(this.server) {
+    setupEventHandlers();
   }
 
-  static Future broadcastToAll(String message, {
-    bool system = false,
-    String? exclude
+  void setupEventHandlers() {
+    // Handle event subscription
+    server.on('subscribe', (SocketClient client, Map<String, dynamic> data) async {
+      final event = data['event'] as String?;
+      if (event == null) return;
+
+      _eventSubscribers.putIfAbsent(event, () => {}).add(client);
+
+      client.sendJson({
+        'event': 'subscribed',
+        'subscription_event': event,
+        'timestamp': DateTime.now().toIso8601String()
+      });
+
+      print('Client \${client.id} subscribed to event: \$event');
+    });
+
+    // Handle event unsubscription
+    server.on('unsubscribe', (SocketClient client, Map<String, dynamic> data) async {
+      final event = data['event'] as String?;
+      if (event == null) return;
+
+      final subscribers = _eventSubscribers[event];
+      if (subscribers != null) {
+        subscribers.remove(client);
+        if (subscribers.isEmpty) {
+          _eventSubscribers.remove(event);
+        }
+      }
+
+      client.sendJson({
+        'event': 'unsubscribed',
+        'subscription_event': event,
+        'timestamp': DateTime.now().toIso8601String()
+      });
+
+      print('Client \${client.id} unsubscribed from event: \$event');
+    });
+
+    // Handle event broadcasting
+    server.on('broadcast_event', (SocketClient client, Map<String, dynamic> data) async {
+      final event = data['event'] as String?;
+      final eventData = data['data'];
+
+      if (event == null) return;
+
+      await broadcastToEvent(event, {
+        'event': event,
+        'data': eventData,
+        'from_user': client.get('user_id'),
+        'timestamp': DateTime.now().toIso8601String()
+      }, exclude: client);
+    });
+
+    // Handle client disconnection
+    server.onDisconnect((SocketClient client) async {
+      // Remove client from all subscriptions
+      for (final subscribers in _eventSubscribers.values) {
+        subscribers.remove(client);
+      }
+
+      // Clean up empty subscription sets
+      _eventSubscribers.removeWhere((event, subscribers) => subscribers.isEmpty);
+    });
+  }
+
+  // Broadcast to all subscribers of an event
+  Future<void> broadcastToEvent(String event, Map<String, dynamic> message, {
+    SocketClient? exclude
   }) async {
-    final messageData = {
-      'type': system ? 'system_message' : 'broadcast',
+    final subscribers = _eventSubscribers[event];
+    if (subscribers == null) return;
+
+    final disconnectedClients = <SocketClient>[];
+
+    for (final subscriber in subscribers) {
+      if (subscriber != exclude && subscriber.isConnected) {
+        try {
+          subscriber.sendJson(message);
+        } catch (e) {
+          print('Failed to send to subscriber: \$e');
+          disconnectedClients.add(subscriber);
+        }
+      }
+    }
+
+    // Remove disconnected clients
+    for (final client in disconnectedClients) {
+      subscribers.remove(client);
+    }
+
+    if (subscribers.isEmpty) {
+      _eventSubscribers.remove(event);
+    }
+  }
+
+  // Get subscription statistics
+  Map<String, dynamic> getSubscriptionStats() {
+    return {
+      'total_events': _eventSubscribers.length,
+      'events': _eventSubscribers.map((event, subscribers) => MapEntry(event, {
+        'subscriber_count': subscribers.length,
+        'subscribers': subscribers.map((c) => c.get('user_id')).toList()
+      }))
+    };
+  }
+
+  // Check if client is subscribed to event
+  bool isSubscribed(SocketClient client, String event) {
+    final subscribers = _eventSubscribers[event];
+    return subscribers?.contains(client) ?? false;
+  }
+
+  // Get all events client is subscribed to
+  List<String> getClientSubscriptions(SocketClient client) {
+    final subscriptions = <String>[];
+
+    for (final entry in _eventSubscribers.entries) {
+      if (entry.value.contains(client)) {
+        subscriptions.add(entry.key);
+      }
+    }
+
+    return subscriptions;
+  }
+}
+
+// Usage example
+void setupEventSubscription(SocketServer server) {
+  final eventService = EventSubscriptionService(server);
+
+  // Add some predefined events
+  server.on('user_online', (SocketClient client, Map<String, dynamic> data) async {
+    await eventService.broadcastToEvent('user_status', {
+      'user_id': client.get('user_id'),
+      'status': 'online',
+      'timestamp': DateTime.now().toIso8601String()
+    });
+  });
+
+  server.on('user_offline', (SocketClient client, Map<String, dynamic> data) async {
+    await eventService.broadcastToEvent('user_status', {
+      'user_id': client.get('user_id'),
+      'status': 'offline',
+      'timestamp': DateTime.now().toIso8601String()
+    });
+  });
+
+  // Handle stats requests
+  server.on('get_subscription_stats', (SocketClient client, Map<String, dynamic> data) async {
+    final stats = eventService.getSubscriptionStats();
+    client.sendJson({
+      'event': 'subscription_stats',
+      'data': stats
+    });
+  });
+}`
+
+const middlewareTypesCode = `// SocketMiddleware types from the actual implementation
+abstract class SocketMiddleware {
+  // Handle connection
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    return true;
+  }
+
+  // Handle message
+  Future<bool> handleMessage(SocketClient client, String message) async {
+    return true;
+  }
+
+  // Handle room join
+  Future<bool> handleRoomJoin(SocketClient client, String roomName) async {
+    return true;
+  }
+
+  // Handle disconnect
+  Future<void> handleDisconnect(SocketClient client) async {}
+}
+
+// Connection middleware example
+class ConnectionLimitMiddleware extends SocketMiddleware {
+  static final Map<String, int> _connectionsPerIP = {};
+  final int maxConnectionsPerIP = 10;
+
+  @override
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    final ip = request.ip;
+    final currentCount = _connectionsPerIP[ip] ?? 0;
+
+    if (currentCount >= maxConnectionsPerIP) {
+      client.sendJson({
+        'event': 'connection_rejected',
+        'reason': 'Too many connections from this IP'
+      });
+      return false;
+    }
+
+    _connectionsPerIP[ip] = currentCount + 1;
+    client.set('ip', ip);
+
+    return true;
+  }
+
+  @override
+  Future<void> handleDisconnect(SocketClient client) async {
+    final ip = client.get('ip');
+    if (ip != null && _connectionsPerIP.containsKey(ip)) {
+      _connectionsPerIP[ip] = _connectionsPerIP[ip]! - 1;
+      if (_connectionsPerIP[ip] == 0) {
+        _connectionsPerIP.remove(ip);
+      }
+    }
+  }
+}
+
+// Message validation middleware
+class MessageValidationMiddleware extends SocketMiddleware {
+  @override
+  Future<bool> handleMessage(SocketClient client, String message) async {
+    try {
+      final data = jsonDecode(message);
+
+      // Validate required fields
+      if (!data.containsKey('event') || !data.containsKey('data')) {
+        client.sendJson({
+          'event': 'error',
+          'message': 'Invalid message format: missing event or data field'
+        });
+        return false;
+      }
+
+      // Validate event type
+      final event = data['event'];
+      if (event is! String || event.isEmpty) {
+        client.sendJson({
+          'event': 'error',
+          'message': 'Invalid event type'
+        });
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      client.sendJson({
+        'event': 'error',
+        'message': 'Invalid JSON format'
+      });
+      return false;
+    }
+  }
+}
+
+// Room permission middleware
+class RoomPermissionMiddleware extends SocketMiddleware {
+  @override
+  Future<bool> handleRoomJoin(SocketClient client, String roomName) async {
+    final userId = client.get('user_id');
+
+    // Public rooms (no permission check)
+    if (roomName.startsWith('public:')) {
+      return true;
+    }
+
+    // Private rooms (user-specific)
+    if (roomName.startsWith('private:')) {
+      return roomName == 'private:\$userId';
+    }
+
+    // Admin rooms
+    if (roomName.startsWith('admin:')) {
+      final isAdmin = client.get('is_admin') == true;
+      if (!isAdmin) {
+        client.sendJson({
+          'event': 'room_join_denied',
+          'room': roomName,
+          'reason': 'Admin access required'
+        });
+        return false;
+      }
+    }
+
+    return true;
+  }
+}
+
+// Logging middleware
+class LoggingMiddleware extends SocketMiddleware {
+  @override
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    print('WebSocket connection from \${request.ip} at \${DateTime.now()}');
+    return true;
+  }
+
+  @override
+  Future<bool> handleMessage(SocketClient client, String message) async {
+    final userId = client.get('user_id') ?? 'anonymous';
+    print('Message from user \$userId: \${message.substring(0, min(100, message.length))}');
+    return true;
+  }
+
+  @override
+  Future<void> handleDisconnect(SocketClient client) async {
+    final userId = client.get('user_id') ?? 'anonymous';
+    print('User \$userId disconnected');
+  }
+}`
+
+const authMiddlewareCode = `// Authentication middleware using server.useAuth()
+class AuthMiddleware extends SocketMiddleware {
+  @override
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    // Check for authentication token in query parameters or headers
+    final token = request.query['token'] ?? request.headers['authorization'];
+
+    if (token == null || token.isEmpty) {
+      client.sendJson({
+        'event': 'auth_required',
+        'message': 'Authentication token required'
+      });
+      return false;
+    }
+
+    try {
+      // Verify JWT token (implement your JWT verification logic)
+      final payload = await verifyJWTToken(token);
+
+      if (payload == null) {
+        throw Exception('Invalid token');
+      }
+
+      // Store user information in client context
+      client.set('user_id', payload['sub']);
+      client.set('username', payload['username']);
+      client.set('is_admin', payload['role'] == 'admin');
+      client.set('authenticated', true);
+
+      // Send authentication success
+      client.sendJson({
+        'event': 'authenticated',
+        'user_id': payload['sub'],
+        'username': payload['username']
+      });
+
+      return true;
+    } catch (e) {
+      client.sendJson({
+        'event': 'auth_failed',
+        'message': 'Authentication failed: \${e.toString()}'
+      });
+      return false;
+    }
+  }
+}
+
+// Usage with SocketServer
+void setupWebSocketServer() {
+  final server = SocketServer();
+
+  // Add authentication middleware
+  server.useAuth((SocketClient client, Request request) async {
+    final token = request.query['token'];
+    if (token == null) return null;
+
+    // Return user ID if authenticated, null otherwise
+    final payload = await verifyJWTToken(token);
+    return payload?['sub'];
+  });
+
+  // Add other middleware
+  server.use((SocketClient client, Request request) async {
+    // Connection middleware logic
+    return true;
+  });
+
+  // Setup event handlers
+  server.on('join_room', (SocketClient client, Map<String, dynamic> data) async {
+    final roomName = data['room'];
+    if (roomName != null) {
+      await client.joinRoom(roomName);
+      client.sendJson({
+        'event': 'room_joined',
+        'room': roomName
+      });
+    }
+  });
+
+  server.on('send_message', (SocketClient client, Map<String, dynamic> data) async {
+    final roomName = data['room'];
+    final message = data['message'];
+
+    if (roomName != null && message != null) {
+      await server.broadcastToRoom(roomName, {
+        'event': 'message',
+        'user_id': client.get('user_id'),
+        'username': client.get('username'),
+        'message': message,
+        'timestamp': DateTime.now().toIso8601String()
+      }, exclude: client);
+    }
+  });
+}
+
+// Helper function for JWT verification
+Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
+  try {
+    // Implement your JWT verification logic here
+    // This is a placeholder - use a proper JWT library
+    return {
+      'sub': 'user123',
+      'username': 'john_doe',
+      'role': 'user'
+    };
+  } catch (e) {
+    return null;
+  }
+}`
+
+const rateLimitMiddlewareCode = `// Rate limiting middleware for SocketClient
+class RateLimitMiddleware extends SocketMiddleware {
+  static final Map<String, RateLimiter> _rateLimiters = {};
+  final Map<String, int> _limits = {
+    'message': 60,      // 60 messages per minute
+    'join_room': 10,    // 10 room joins per minute
+    'leave_room': 10,   // 10 room leaves per minute
+    'ping': 120,        // 120 pings per minute
+  };
+
+  @override
+  Future<bool> handleMessage(SocketClient client, String message) async {
+    try {
+      final data = jsonDecode(message);
+      final event = data['event'] as String?;
+
+      if (event == null) return true;
+
+      final userId = client.get('user_id') ?? client.id;
+      final limit = _limits[event] ?? 30; // Default 30 requests per minute
+
+      final key = '\$userId:\$event';
+      final limiter = _rateLimiters.putIfAbsent(
+        key,
+        () => RateLimiter(maxRequests: limit, window: Duration(minutes: 1))
+      );
+
+      final result = await limiter.check(userId);
+
+      if (!result.allowed) {
+        client.sendJson({
+          'event': 'rate_limited',
+          'message': 'Too many \$event requests. Try again later.',
+          'retry_after_seconds': result.retryAfter?.inSeconds ?? 60
+        });
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      // If message parsing fails, allow it through
+      return true;
+    }
+  }
+}
+
+// Rate limiter implementation
+class RateLimiter {
+  final int maxRequests;
+  final Duration window;
+  final List<DateTime> _requests = [];
+
+  RateLimiter({required this.maxRequests, required this.window});
+
+  Future<RateLimitResult> check(String identifier) async {
+    final now = DateTime.now();
+
+    // Remove old requests outside the window
+    _requests.removeWhere((time) => now.difference(time) > window);
+
+    if (_requests.length >= maxRequests) {
+      final oldestRequest = _requests.first;
+      final resetTime = oldestRequest.add(window);
+      final retryAfter = resetTime.difference(now);
+
+      return RateLimitResult(
+        allowed: false,
+        retryAfter: retryAfter
+      );
+    }
+
+    _requests.add(now);
+    return RateLimitResult(allowed: true, retryAfter: null);
+  }
+}
+
+class RateLimitResult {
+  final bool allowed;
+  final Duration? retryAfter;
+
+  RateLimitResult({required this.allowed, this.retryAfter});
+}
+
+// Usage with SocketServer
+void setupRateLimitedServer() {
+  final server = SocketServer();
+
+  // Add rate limiting middleware
+  server.use((SocketClient client, Request request) async {
+    // Rate limiting is handled per message in the middleware above
+    return true;
+  });
+
+  // Add rate limiting specifically for connections
+  final connectionLimiter = RateLimiter(maxRequests: 100, window: Duration(minutes: 1));
+
+  server.use((SocketClient client, Request request) async {
+    final ip = request.ip;
+    final result = await connectionLimiter.check(ip);
+
+    if (!result.allowed) {
+      client.sendJson({
+        'event': 'connection_rate_limited',
+        'message': 'Too many connections from this IP'
+      });
+      return false;
+    }
+
+    return true;
+  });
+}`
+
+const clientManagementCode = `// Client management using SocketClient and SocketManager
+class ClientManager {
+  final SocketManager manager;
+  final Map<String, SocketClient> _clients = {};
+  final Map<String, Map<String, dynamic>> _clientMetadata = {};
+
+  ClientManager(this.manager);
+
+  // Add client
+  void addClient(SocketClient client) {
+    final userId = client.get('user_id') ?? client.id;
+    _clients[userId] = client;
+
+    // Store metadata
+    _clientMetadata[userId] = {
+      'connected_at': DateTime.now().toIso8601String(),
+      'ip': client.get('ip'),
+      'user_agent': client.get('user_agent'),
+      'rooms': <String>[],
+      'last_activity': DateTime.now().toIso8601String()
+    };
+
+    print('Client added: \$userId');
+  }
+
+  // Remove client
+  void removeClient(String userId) {
+    final client = _clients.remove(userId);
+    if (client != null) {
+      // Leave all rooms
+      final metadata = _clientMetadata[userId];
+      if (metadata != null) {
+        final rooms = List<String>.from(metadata['rooms'] ?? []);
+        for (final room in rooms) {
+          client.leaveRoom(room);
+        }
+      }
+
+      _clientMetadata.remove(userId);
+      print('Client removed: \$userId');
+    }
+  }
+
+  // Get client by user ID
+  SocketClient? getClient(String userId) {
+    return _clients[userId];
+  }
+
+  // Get all clients
+  List<SocketClient> getAllClients() {
+    return _clients.values.toList();
+  }
+
+  // Update client metadata
+  void updateClientMetadata(String userId, String key, dynamic value) {
+    if (_clientMetadata.containsKey(userId)) {
+      _clientMetadata[userId]![key] = value;
+      _clientMetadata[userId]!['last_activity'] = DateTime.now().toIso8601String();
+    }
+  }
+
+  // Get client metadata
+  Map<String, dynamic>? getClientMetadata(String userId) {
+    return _clientMetadata[userId];
+  }
+
+  // Broadcast to all clients
+  Future<void> broadcastToAll(Map<String, dynamic> message) async {
+    await manager.broadcast(message);
+  }
+
+  // Send message to specific client
+  Future<void> sendToClient(String userId, Map<String, dynamic> message) async {
+    final client = _clients[userId];
+    if (client != null && client.isConnected) {
+      client.sendJson(message);
+    }
+  }
+
+  // Get client statistics
+  Map<String, dynamic> getStats() {
+    final now = DateTime.now();
+    final activeClients = _clients.values.where((c) => c.isConnected).length;
+
+    return {
+      'total_clients': _clients.length,
+      'active_clients': activeClients,
+      'inactive_clients': _clients.length - activeClients,
+      'clients': _clientMetadata.entries.map((entry) => {
+        'user_id': entry.key,
+        'connected_at': entry.value['connected_at'],
+        'last_activity': entry.value['last_activity'],
+        'rooms': entry.value['rooms'],
+        'is_active': _clients[entry.key]?.isConnected ?? false
+      }).toList()
+    };
+  }
+
+  // Clean up inactive clients
+  void cleanupInactiveClients() {
+    final inactiveClients = <String>[];
+
+    for (final entry in _clients.entries) {
+      if (!entry.value.isConnected) {
+        inactiveClients.add(entry.key);
+      }
+    }
+
+    for (final userId in inactiveClients) {
+      removeClient(userId);
+    }
+  }
+}
+
+// SocketClient extension methods
+extension SocketClientExtensions on SocketClient {
+  // Check if client is in a room
+  bool isInRoom(String roomName) {
+    // This would be implemented in the actual SocketClient class
+    return get('rooms')?.contains(roomName) ?? false;
+  }
+
+  // Get client rooms
+  List<String> getRooms() {
+    return List<String>.from(get('rooms') ?? []);
+  }
+
+  // Join room with metadata update
+  Future<void> joinRoom(String roomName) async {
+    // Implementation would call the actual joinRoom method
+    final rooms = getRooms();
+    if (!rooms.contains(roomName)) {
+      rooms.add(roomName);
+      set('rooms', rooms);
+    }
+  }
+
+  // Leave room with metadata update
+  Future<void> leaveRoom(String roomName) async {
+    // Implementation would call the actual leaveRoom method
+    final rooms = getRooms();
+    rooms.remove(roomName);
+    set('rooms', rooms);
+  }
+
+  // Send JSON message
+  void sendJson(Map<String, dynamic> data) {
+    try {
+      final message = jsonEncode(data);
+      send(message);
+    } catch (e) {
+      print('Failed to send JSON message: \$e');
+    }
+  }
+}
+
+// Usage example
+void setupClientManagement(SocketServer server, SocketManager manager) {
+  final clientManager = ClientManager(manager);
+
+  // Handle client connections
+  server.onConnect((SocketClient client) async {
+    clientManager.addClient(client);
+
+    // Send welcome message
+    client.sendJson({
+      'event': 'welcome',
+      'user_id': client.get('user_id'),
+      'timestamp': DateTime.now().toIso8601String()
+    });
+  });
+
+  // Handle client disconnections
+  server.onDisconnect((SocketClient client) async {
+    final userId = client.get('user_id') ?? client.id;
+    clientManager.removeClient(userId);
+  });
+
+  // Handle client info requests
+  server.on('get_client_info', (SocketClient client, Map<String, dynamic> data) async {
+    final userId = data['user_id'] as String?;
+    if (userId != null) {
+      final metadata = clientManager.getClientMetadata(userId);
+      if (metadata != null) {
+        client.sendJson({
+          'event': 'client_info',
+          'user_id': userId,
+          'data': metadata
+        });
+      }
+    }
+  });
+
+  // Handle stats requests
+  server.on('get_client_stats', (SocketClient client, Map<String, dynamic> data) async {
+    final stats = clientManager.getStats();
+    client.sendJson({
+      'event': 'client_stats',
+      'data': stats
+    });
+  });
+}`
+
+const errorHandlingCode = `class ErrorHandler {
+  static void handle(WebSocket socket, dynamic error, StackTrace? stackTrace) {
+    print('WebSocket error: \$error');
+    if (stackTrace != null) {
+      print('Stack trace: \$stackTrace');
+    }
+
+    // Send error to client
+    try {
+      socket.send(jsonEncode({
+        'type': 'error',
+        'message': 'An error occurred',
+        'timestamp': DateTime.now().toIso8601String()
+      }));
+    } catch (e) {
+      print('Failed to send error to client: \$e');
+    }
+  }
+
+  static void handleConnectionError(WebSocket socket, dynamic error) {
+    print('Connection error: \$error');
+
+    try {
+      socket.send(jsonEncode({
+        'type': 'connection_error',
+        'message': 'Connection failed',
+        'error': error.toString()
+      }));
+    } catch (e) {
+      // Socket might be closed, ignore
+    }
+  }
+
+  static void handleMessageError(WebSocket socket, String message, dynamic error) {
+    print('Message processing error: \$error');
+
+    try {
+      socket.send(jsonEncode({
+        'type': 'message_error',
+        'message': 'Failed to process message',
+        'original_message': message,
+        'error': error.toString()
+      }));
+    } catch (e) {
+      print('Failed to send message error: \$e');
+    }
+  }
+}`
+
+const notificationSystemCode = `class NotificationManager {
+  static final Map<String, Set<WebSocket>> _userSockets = {};
+
+  // Register user socket
+  static void registerUser(String userId, WebSocket socket) {
+    _userSockets.putIfAbsent(userId, () => {}).add(socket);
+  }
+
+  // Unregister user socket
+  static void unregisterUser(String userId, WebSocket socket) {
+    final sockets = _userSockets[userId];
+    if (sockets != null) {
+      sockets.remove(socket);
+      if (sockets.isEmpty) {
+        _userSockets.remove(userId);
+      }
+    }
+  }
+
+  // Send notification to user
+  static void sendNotification(String userId, String title, String message, {
+    String type = 'info',
+    Map<String, dynamic>? data
+  }) {
+    final sockets = _userSockets[userId];
+    if (sockets != null) {
+      final notification = {
+        'type': 'notification',
+        'title': title,
+        'message': message,
+        'notification_type': type,
+        'data': data,
+        'timestamp': DateTime.now().toIso8601String()
+      };
+
+      for (final socket in sockets) {
+        socket.send(jsonEncode(notification));
+      }
+    }
+  }
+
+  // Broadcast notification to all users
+  static void broadcastNotification(String title, String message, {
+    String type = 'info',
+    Map<String, dynamic>? data
+  }) {
+    final notification = {
+      'type': 'notification',
+      'title': title,
       'message': message,
+      'notification_type': type,
+      'data': data,
       'timestamp': DateTime.now().toIso8601String()
     };
 
-    for (final entry in _connections.entries) {
-      if (entry.key != exclude) {
-        try {
-          entry.value.send(jsonEncode(messageData));
-        } catch (e) {
-          print('Failed to send to \${entry.key}: \$e');
-          _connections.remove(entry.key);
-        }
+    for (final sockets in _userSockets.values) {
+      for (final socket in sockets) {
+        socket.send(jsonEncode(notification));
       }
     }
   }
+}`
 
-  static Future sendToConnection(String connectionId, String message) async {
-    final socket = _connections[connectionId];
+const gameServerCode = `class GameServer {
+  static final Map<String, GameRoom> _rooms = {};
+  static final Map<String, Player> _players = {};
 
-    if (socket != null) {
-      try {
-        socket.send(jsonEncode({
-          'type': 'private_message',
-          'message': message,
-          'from': connectionId,
-          'timestamp': DateTime.now().toIso8601String()
-        }));
-      } catch (e) {
-        print('Failed to send private message: \$e');
-        _connections.remove(connectionId);
-      }
+  // Create game room
+  static String createRoom(String gameType, String hostId) {
+    final roomId = generateRoomId();
+    final room = GameRoom(roomId, gameType, hostId);
+    _rooms[roomId] = room;
+    return roomId;
+  }
+
+  // Join game room
+  static bool joinRoom(String roomId, String playerId, WebSocket socket) {
+    final room = _rooms[roomId];
+    if (room == null) return false;
+
+    final player = Player(playerId, socket);
+    _players[playerId] = player;
+
+    room.addPlayer(player);
+    return true;
+  }
+
+  // Handle game message
+  static void handleGameMessage(String roomId, String playerId, Map<String, dynamic> message) {
+    final room = _rooms[roomId];
+    final player = _players[playerId];
+
+    if (room != null && player != null) {
+      room.handleMessage(player, message);
     }
   }
 
-  static Future getConnectionCount() async {
-    return _connections.length;
+  // Start game
+  static void startGame(String roomId) {
+    final room = _rooms[roomId];
+    if (room != null) {
+      room.startGame();
+    }
+  }
+}
+
+class GameRoom {
+  final String id;
+  final String gameType;
+  final String hostId;
+  final List<Player> players = [];
+  bool gameStarted = false;
+
+  GameRoom(this.id, this.gameType, this.hostId);
+
+  void addPlayer(Player player) {
+    players.add(player);
+    broadcast({
+      'type': 'player_joined',
+      'player_id': player.id,
+      'players_count': players.length
+    });
   }
 
-  static Future closeAllConnections() async {
-    for (final socket in _connections.values) {
-      try {
-        await socket.close();
-      } catch (e) {
-        print('Error closing connection: \$e');
-      }
+  void handleMessage(Player sender, Map<String, dynamic> message) {
+    // Process game-specific messages
+    switch (message['action']) {
+      case 'move':
+        handleMove(sender, message);
+        break;
+      case 'attack':
+        handleAttack(sender, message);
+        break;
+      case 'chat':
+        handleChat(sender, message);
+        break;
     }
-    _connections.clear();
+  }
+
+  void handleMove(Player player, Map<String, dynamic> data) {
+    broadcast({
+      'type': 'player_moved',
+      'player_id': player.id,
+      'position': data['position']
+    });
+  }
+
+  void handleAttack(Player attacker, Map<String, dynamic> data) {
+    broadcast({
+      'type': 'player_attacked',
+      'attacker_id': attacker.id,
+      'target_id': data['target_id'],
+      'damage': data['damage']
+    });
+  }
+
+  void handleChat(Player sender, Map<String, dynamic> data) {
+    broadcast({
+      'type': 'chat_message',
+      'player_id': sender.id,
+      'message': data['message']
+    });
+  }
+
+  void broadcast(Map<String, dynamic> message) {
+    final jsonMessage = jsonEncode(message);
+    for (final player in players) {
+      player.socket.send(jsonMessage);
+    }
+  }
+
+  void startGame() {
+    gameStarted = true;
+    broadcast({
+      'type': 'game_started',
+      'players': players.map((p) => p.id).toList()
+    });
+  }
+}
+
+class Player {
+  final String id;
+  final WebSocket socket;
+
+  Player(this.id, this.socket);
+
+  void send(Map<String, dynamic> message) {
+    socket.send(jsonEncode(message));
+  }
+}
+
+String generateRoomId() {
+  return 'room_\${DateTime.now().millisecondsSinceEpoch}';
+}`
+
+const socketServerApiCode = `class SocketServer {
+  // Constructor
+  SocketServer();
+
+  // Start server
+  Future<void> listen(int port, {String host = '0.0.0.0'}) async {}
+
+  // Authentication
+  void useAuth(Future<String?> Function(SocketClient client, Request request) authCallback) {}
+
+  // Middleware
+  void use(Future<bool> Function(SocketClient client, Request request) middleware) {}
+
+  // Event handlers
+  void on(String event, Future<void> Function(SocketClient client, Map<String, dynamic> data) handler) {}
+  void onConnect(Future<void> Function(SocketClient client) handler) {}
+  void onDisconnect(Future<void> Function(SocketClient client) handler) {}
+
+  // Broadcasting
+  Future<void> broadcast(Map<String, dynamic> message) async {}
+  Future<void> broadcastToRoom(String roomName, Map<String, dynamic> message, {SocketClient? exclude}) async {}
+
+  // Client management
+  SocketClient? getClient(String clientId) {}
+  List<SocketClient> getAllClients() {}
+  int getTotalClients() {}
+
+  // Room management
+  List<String> getAllRooms() {}
+  int getTotalRooms() {}
+  List<SocketClient> getClientsInRoom(String roomName) {}
+
+  // Server control
+  Future<void> close() async {}
+  bool get isRunning => false;
+}`
+
+const socketManagerApiCode = `class SocketManager {
+  // Constructor
+  SocketManager();
+
+  // Client management
+  void addClient(SocketClient client) {}
+  void removeClient(String clientId) {}
+  SocketClient? getClient(String clientId) {}
+  SocketClient? getClientByUserId(String userId) {}
+  List<SocketClient> getAllClients() {}
+  int getTotalClients() {}
+
+  // Room management
+  Future<void> clientJoinRoom(SocketClient client, String roomName) async {}
+  Future<void> clientLeaveRoom(SocketClient client, String roomName) async {}
+  List<SocketClient> getClientsInRoom(String roomName) {}
+  List<String> getAllRooms() {}
+  int getTotalRooms() {}
+  bool isClientInRoom(SocketClient client, String roomName) {}
+
+  // Broadcasting
+  Future<void> broadcast(Map<String, dynamic> message) async {}
+  Future<void> broadcastToRoom(String roomName, Map<String, dynamic> message, {SocketClient? exclude}) async {}
+  Future<void> broadcastToUser(String userId, Map<String, dynamic> message) async {}
+
+  // Statistics
+  Map<String, dynamic> getStats() {}
+  void cleanup() {}
+}`
+
+const socketClientApiCode = `class SocketClient {
+  final String id;
+  final WebSocket socket;
+  final DateTime connectedAt;
+
+  SocketClient(this.id, this.socket) : connectedAt = DateTime.now();
+
+  // Context management
+  void set(String key, dynamic value) {}
+  dynamic get(String key) {}
+  bool has(String key) {}
+  void remove(String key) {}
+
+  // Authentication helpers
+  bool get isAuthenticated => get('authenticated') == true;
+  String? get userId => get('user_id');
+  String? get authToken => get('auth_token');
+
+  // Connection info
+  String? get ip => get('ip');
+  String? get userAgent => get('user_agent');
+  Duration get connectionDuration => DateTime.now().difference(connectedAt);
+
+  // Room management
+  Future<void> joinRoom(String roomName) async {}
+  Future<void> leaveRoom(String roomName) async {}
+  bool isInRoom(String roomName) {}
+  List<String> getRooms() {}
+
+  // Messaging
+  void send(String message) {}
+  void sendJson(Map<String, dynamic> data) {}
+
+  // Connection status
+  bool get isConnected => socket.readyState == WebSocket.open;
+  bool get isConnecting => socket.readyState == WebSocket.connecting;
+  bool get isClosing => socket.readyState == WebSocket.closing;
+  bool get isClosed => socket.readyState == WebSocket.closed;
+
+  // Connection control
+  void close([int code = 1000, String reason = '']) {}
+}`
+
+const socketMiddlewareApiCode = `abstract class SocketMiddleware {
+  // Handle connection
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    return true;
+  }
+
+  // Handle message
+  Future<bool> handleMessage(SocketClient client, String message) async {
+    return true;
+  }
+
+  // Handle room join
+  Future<bool> handleRoomJoin(SocketClient client, String roomName) async {
+    return true;
+  }
+
+  // Handle disconnect
+  Future<void> handleDisconnect(SocketClient client) async {}
+}
+
+class SocketMiddlewarePipeline {
+  final List<SocketMiddleware> _middlewares = [];
+
+  void add(SocketMiddleware middleware) {
+    _middlewares.add(middleware);
+  }
+
+  void remove(SocketMiddleware middleware) {
+    _middlewares.remove(middleware);
+  }
+
+  Future<bool> runConnection(SocketClient client, Request request) async {
+    for (final middleware in _middlewares) {
+      final result = await middleware.handleConnection(client, request);
+      if (!result) return false;
+    }
+    return true;
+  }
+
+  Future<bool> runMessage(SocketClient client, String message) async {
+    for (final middleware in _middlewares) {
+      final result = await middleware.handleMessage(client, message);
+      if (!result) return false;
+    }
+    return true;
+  }
+
+  Future<bool> runRoomJoin(SocketClient client, String roomName) async {
+    for (final middleware in _middlewares) {
+      final result = await middleware.handleRoomJoin(client, roomName);
+      if (!result) return false;
+    }
+    return true;
+  }
+
+  Future<void> runDisconnect(SocketClient client) async {
+    for (final middleware in _middlewares) {
+      await middleware.handleDisconnect(client);
+    }
+  }
+}
+
+// Built-in middlewares
+class AuthMiddleware extends SocketMiddleware {
+  @override
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    final token = request.query['token'];
+    if (token == null) return false;
+
+    // Verify token and set user context
+    final payload = await verifyJWTToken(token);
+    if (payload != null) {
+      client.set('user_id', payload['sub']);
+      client.set('authenticated', true);
+      return true;
+    }
+    return false;
+  }
+}
+
+class RateLimitMiddleware extends SocketMiddleware {
+  final Map<String, RateLimiter> _limiters = {};
+
+  @override
+  Future<bool> handleMessage(SocketClient client, String message) async {
+    final userId = client.get('user_id') ?? client.id;
+    final limiter = _limiters.putIfAbsent(userId, () => RateLimiter());
+
+    return await limiter.check();
+  }
+}
+
+class LoggingMiddleware extends SocketMiddleware {
+  @override
+  Future<bool> handleConnection(SocketClient client, Request request) async {
+    print('WebSocket connection: \${request.ip}');
+    return true;
+  }
+
+  @override
+  Future<void> handleDisconnect(SocketClient client) async {
+    print('Client \${client.id} disconnected');
   }
 }`
 
@@ -1198,249 +2623,130 @@ class ChatMessageHandler {
   }
 }`
 
-const broadcastingCode = `// Event broadcasting system
-class Broadcaster {
-  static final Map<String, Set<WebSocket>> _subscribers = {};
-  static final Map<String, Map<String, dynamic>> _userInfo = {};
+const broadcastingCode = `// Broadcasting using SocketManager
+class BroadcastingService {
+  final SocketManager manager;
 
-  // Subscribe to events
-  static Future subscribe(String event, WebSocket socket, String userId) async {
-    _subscribers.putIfAbsent(event, () => {}).add(socket);
-    _userInfo.putIfAbsent(userId, () => {})['socket'] = socket;
+  BroadcastingService(this.manager);
 
-    print('User \$userId subscribed to event: \$event');
+  // Broadcast to all connected clients
+  Future<void> broadcastToAll(Map<String, dynamic> message) async {
+    await manager.broadcast(message);
   }
 
-  // Unsubscribe from events
-  static Future unsubscribe(String event, WebSocket socket, String userId) async {
-    final subscribers = _subscribers[event];
-    if (subscribers != null) {
-      subscribers.remove(socket);
-      if (subscribers.isEmpty) {
-        _subscribers.remove(event);
-      }
+  // Broadcast to specific room
+  Future<void> broadcastToRoom(String roomName, Map<String, dynamic> message, {
+    SocketClient? exclude
+  }) async {
+    await manager.broadcastToRoom(roomName, message, exclude: exclude);
+  }
+
+  // Broadcast to specific user
+  Future<void> broadcastToUser(String userId, Map<String, dynamic> message) async {
+    final client = manager.getClientByUserId(userId);
+    if (client != null) {
+      client.sendJson(message);
     }
   }
 
-  // Broadcast event to all subscribers
-  static Future broadcast(String event, dynamic data) async {
-    final subscribers = _subscribers[event];
-    if (subscribers != null) {
-      final message = jsonEncode({
-        'event': event,
-        'data': data,
-        'timestamp': DateTime.now().toIso8601String()
-      });
-
-      for (final socket in subscribers) {
-        try {
-          socket.send(message);
-        } catch (e) {
-          print('Failed to broadcast event \$event: \$e');
-          subscribers.remove(socket);
-        }
-      }
-    }
-  }
-
-  // Broadcast to specific users
-  static Future broadcastToUsers(String event, dynamic data, List<String> userIds) async {
-    final message = jsonEncode({
-      'event': event,
-      'data': data,
-      'timestamp': DateTime.now().toIso8601String()
-    });
-
+  // Broadcast to multiple users
+  Future<void> broadcastToUsers(List<String> userIds, Map<String, dynamic> message) async {
     for (final userId in userIds) {
-      final socket = _userInfo[userId]?['socket'];
-      if (socket != null) {
-        try {
-          socket.send(message);
-        } catch (e) {
-          print('Failed to broadcast to user \$userId: \$e');
-          _userInfo.remove(userId);
-        }
-      }
+      await broadcastToUser(userId, message);
     }
   }
 
   // Broadcast except specific users
-  static Future broadcastExcept(String event, dynamic data, List<String> excludeUserIds) async {
-    final subscribers = _subscribers[event];
-    if (subscribers != null) {
-      final message = jsonEncode({
-        'event': event,
-        'data': data,
-        'timestamp': DateTime.now().toIso8601String()
-      });
+  Future<void> broadcastExcept(List<String> excludeUserIds, Map<String, dynamic> message) async {
+    final allClients = manager.getAllClients();
 
-      for (final socket in subscribers) {
-        final userId = getUserIdForSocket(socket);
-        if (userId != null && !excludeUserIds.contains(userId)) {
-          try {
-            socket.send(message);
-          } catch (e) {
-            print('Failed to broadcast event \$event: \$e');
-            subscribers.remove(socket);
-          }
-        }
+    for (final client in allClients) {
+      final userId = client.get('user_id');
+      if (userId != null && !excludeUserIds.contains(userId)) {
+        client.sendJson(message);
       }
     }
   }
 
-  // Broadcast with conditions
-  static Future broadcastWhere(String event, dynamic data, bool Function(String userId) condition) async {
-    final subscribers = _subscribers[event];
-    if (subscribers != null) {
-      final message = jsonEncode({
-        'event': event,
-        'data': data,
-        'timestamp': DateTime.now().toIso8601String()
-      });
-
-      for (final socket in subscribers) {
-        final userId = getUserIdForSocket(socket);
-        if (userId != null && condition(userId)) {
-          try {
-            socket.send(message);
-          } catch (e) {
-            print('Failed to broadcast event \$event: \$e');
-            subscribers.remove(socket);
-          }
-        }
-      }
-    }
+  // Get room statistics
+  Map<String, dynamic> getRoomStats(String roomName) {
+    final clients = manager.getClientsInRoom(roomName);
+    return {
+      'room': roomName,
+      'user_count': clients.length,
+      'users': clients.map((c) => c.get('user_id')).toList()
+    };
   }
 
-  // Helper function to get user ID for socket
-  static String? getUserIdForSocket(WebSocket socket) {
-    for (final entry in _userInfo.entries) {
-      if (entry.value['socket'] == socket) {
-        return entry.key;
-      }
-    }
-    return null;
-  }
-
-  // Clean up disconnected sockets
-  static void cleanup() {
-    for (final subscribers in _subscribers.values) {
-      subscribers.removeWhere((socket) {
-        // Check if socket is still connected
-        try {
-          socket.send('ping');
-          return false;
-        } catch (e) {
-          return true;
-        }
-      });
-    }
-
-    _userInfo.removeWhere((userId, info) {
-      final socket = info['socket'];
-      try {
-        socket.send('ping');
-        return false;
-      } catch (e) {
-        return true;
-      }
-    });
+  // Get server statistics
+  Map<String, dynamic> getServerStats() {
+    return {
+      'total_clients': manager.getTotalClients(),
+      'total_rooms': manager.getTotalRooms(),
+      'rooms': manager.getAllRooms().map((roomName) => getRoomStats(roomName)).toList()
+    };
   }
 }
 
-// Event broadcasting handler
-class BroadcastingHandler {
-  static Future handleMessage(WebSocket socket, String message, String userId) async {
+// Usage example
+void setupBroadcasting(SocketServer server, SocketManager manager) {
+  final broadcaster = BroadcastingService(manager);
+
+  // Handle broadcast requests
+  server.on('broadcast', (SocketClient client, Map<String, dynamic> data) async {
+    final target = data['target'];
+    final message = data['message'];
+
+    if (target == null || message == null) return;
+
     try {
-      final data = jsonDecode(message);
+      switch (target['type']) {
+        case 'all':
+          await broadcaster.broadcastToAll({
+            'event': 'broadcast',
+            'from': client.get('user_id'),
+            'message': message
+          });
+          break;
 
-      switch (data['type']) {
-        case 'subscribe':
-          final event = data['event'];
-          if (event != null) {
-            await Broadcaster.subscribe(event, socket, userId);
-            socket.send(jsonEncode({
-              'type': 'subscribed',
-              'event': event
-            }));
+        case 'room':
+          final roomName = target['room'];
+          if (roomName != null) {
+            await broadcaster.broadcastToRoom(roomName, {
+              'event': 'room_broadcast',
+              'from': client.get('user_id'),
+              'message': message
+            }, exclude: client);
           }
           break;
 
-        case 'unsubscribe':
-          final event = data['event'];
-          if (event != null) {
-            await Broadcaster.unsubscribe(event, socket, userId);
-            socket.send(jsonEncode({
-              'type': 'unsubscribed',
-              'event': event
-            }));
+        case 'user':
+          final userId = target['user_id'];
+          if (userId != null) {
+            await broadcaster.broadcastToUser(userId, {
+              'event': 'direct_message',
+              'from': client.get('user_id'),
+              'message': message
+            });
           }
           break;
-
-        case 'broadcast':
-          final event = data['event'];
-          final eventData = data['data'];
-          if (event != null && eventData != null) {
-            await Broadcaster.broadcast(event, eventData);
-          }
-          break;
-
-        default:
-          socket.send(jsonEncode({
-            'type': 'error',
-            'message': 'Unknown message type: \${data['type']}'
-          }));
       }
     } catch (e) {
-      socket.send(jsonEncode({
-        'type': 'error',
-        'message': 'Invalid message format'
-      }));
+      client.sendJson({
+        'event': 'error',
+        'message': 'Broadcast failed: \${e.toString()}'
+      });
     }
-  }
-}
+  });
 
-// Integration with application events
-class EventBroadcaster {
-  static void setupEventListeners() {
-    // Broadcast user registration
-    Event.listen('user.registered', (user) async {
-      await Broadcaster.broadcast('user.registered', {
-        'user_id': user.id,
-        'username': user.name,
-        'registered_at': user.created_at.toIso8601String()
-      });
+  // Handle stats requests
+  server.on('get_stats', (SocketClient client, Map<String, dynamic> data) async {
+    final stats = broadcaster.getServerStats();
+    client.sendJson({
+      'event': 'stats',
+      'data': stats
     });
-
-    // Broadcast new post
-    Event.listen('post.created', (post) async {
-      await Broadcaster.broadcast('post.created', {
-        'post_id': post.id,
-        'title': post.title,
-        'author_id': post.user_id,
-        'created_at': post.created_at.toIso8601String()
-      });
-    });
-
-    // Broadcast user-specific events
-    Event.listen('notification.sent', (notification) async {
-      await Broadcaster.broadcastToUsers('notification', {
-        'notification_id': notification.id,
-        'message': notification.message,
-        'type': notification.type
-      }, [notification.user_id]);
-    });
-
-    // Broadcast system announcements
-    Event.listen('system.announcement', (announcement) async {
-      await Broadcaster.broadcast('system.announcement', {
-        'title': announcement.title,
-        'message': announcement.message,
-        'level': announcement.level,
-        'timestamp': DateTime.now().toIso8601String()
-      });
-    });
-  }
+  });
 }`
 
 const presenceChannelsCode = `// Presence channel implementation
@@ -2301,323 +3607,6 @@ class RedisAdapter {
 
   static String getCurrentServerId() {
     return env('SERVER_ID', 'server_1');
-  }
-}`
-
-const errorHandlingCode = `// Error handling and debugging for WebSockets
-class WebSocketErrorHandler {
-  static final Map<String, int> _errorCounts = {};
-  static final Map<String, DateTime> _lastErrors = {};
-
-  // Handle WebSocket errors
-  static Future handleError(WebSocket socket, dynamic error, String context) async {
-    final errorKey = '\$context:\${error.runtimeType}';
-    _errorCounts[errorKey] = (_errorCounts[errorKey] ?? 0) + 1;
-    _lastErrors[errorKey] = DateTime.now();
-
-    // Log error
-    await Logger.error('WebSocket error in \$context', error, StackTrace.current);
-
-    // Send error to client if possible
-    try {
-      socket.send(jsonEncode({
-        'type': 'error',
-        'message': getClientErrorMessage(error),
-        'context': context,
-        'timestamp': DateTime.now().toIso8601String()
-      }));
-    } catch (e) {
-      // Socket might be closed
-      print('Failed to send error to client: \$e');
-    }
-
-    // Check for error patterns
-    await checkErrorPatterns(errorKey);
-
-    // Cleanup if too many errors
-    if (_errorCounts[errorKey]! > 10) {
-      await handleExcessiveErrors(socket, errorKey);
-    }
-  }
-
-  // Handle connection errors
-  static Future handleConnectionError(WebSocket socket, String userId, dynamic error) async {
-    await Logger.warning('WebSocket connection error for user \$userId', error);
-
-    // Track connection failures
-    final key = 'connection_error:\$userId';
-    final count = await Cache.get(key, 0) + 1;
-    await Cache.put(key, count, Duration(hours: 1));
-
-    if (count > 5) {
-      // Too many connection failures, might be abusive
-      await handlePotentialAbuse(socket, userId);
-    }
-
-    // Attempt cleanup
-    await cleanupFailedConnection(socket, userId);
-  }
-
-  // Handle message parsing errors
-  static Future handleMessageError(WebSocket socket, String rawMessage, dynamic error) async {
-    await Logger.error('Failed to parse WebSocket message', error);
-
-    // Log the problematic message (truncated for security)
-    final truncatedMessage = rawMessage.length > 100
-      ? rawMessage.substring(0, 100) + '...'
-      : rawMessage;
-
-    await Logger.info('Problematic message', {'message': truncatedMessage});
-
-    // Send error response
-    socket.send(jsonEncode({
-      'type': 'parse_error',
-      'message': 'Invalid message format',
-      'timestamp': DateTime.now().toIso8601String()
-    }));
-  }
-
-  // Handle rate limiting violations
-  static Future handleRateLimitViolation(WebSocket socket, String userId, String action) async {
-    await Logger.warning('Rate limit violation for user \$userId on action \$action');
-
-    socket.send(jsonEncode({
-      'type': 'rate_limit_exceeded',
-      'action': action,
-      'message': 'Too many requests. Please slow down.',
-      'retry_after': 60, // seconds
-      'timestamp': DateTime.now().toIso8601String()
-    }));
-
-    // Track violations
-    final key = 'rate_limit_violations:\$userId';
-    final violations = await Cache.get(key, 0) + 1;
-    await Cache.put(key, violations, Duration(hours: 1));
-
-    if (violations > 10) {
-      await handleExcessiveViolations(socket, userId);
-    }
-  }
-
-  // Handle authentication failures
-  static Future handleAuthFailure(WebSocket socket, String reason) async {
-    await Logger.warning('WebSocket authentication failure: \$reason');
-
-    socket.send(jsonEncode({
-      'type': 'auth_failed',
-      'message': 'Authentication failed',
-      'reason': reason,
-      'timestamp': DateTime.now().toIso8601String()
-    }));
-
-    // Close connection after short delay
-    Future.delayed(Duration(seconds: 2), () async {
-      try {
-        await socket.close(1008, 'Authentication failed');
-      } catch (e) {
-        // Socket might already be closed
-      }
-    });
-  }
-
-  // Check for error patterns
-  static Future checkErrorPatterns(String errorKey) async {
-    final count = _errorCounts[errorKey] ?? 0;
-    final lastError = _lastErrors[errorKey];
-
-    if (lastError != null) {
-      final timeSinceLastError = DateTime.now().difference(lastError);
-
-      // Check for rapid error bursts
-      if (count > 5 && timeSinceLastError.inMinutes < 5) {
-        await Logger.alert('Error burst detected', {
-          'error_key': errorKey,
-          'count': count,
-          'time_span': timeSinceLastError.inMinutes
-        });
-
-        // Could trigger alerts or automatic mitigation
-      }
-    }
-  }
-
-  // Handle excessive errors
-  static Future handleExcessiveErrors(WebSocket socket, String errorKey) async {
-    await Logger.alert('Excessive errors detected', {'error_key': errorKey});
-
-    // Close connection to prevent further issues
-    try {
-      await socket.close(1011, 'Too many errors');
-    } catch (e) {
-      // Socket might already be closed
-    }
-  }
-
-  // Handle potential abuse
-  static Future handlePotentialAbuse(WebSocket socket, String userId) async {
-    await Logger.alert('Potential WebSocket abuse detected', {'user_id': userId});
-
-    // Could implement temporary bans, notifications, etc.
-    await Cache.put('websocket_banned:\$userId', true, Duration(hours: 1));
-
-    try {
-      await socket.close(1008, 'Connection blocked due to suspicious activity');
-    } catch (e) {
-      // Socket might already be closed
-    }
-  }
-
-  // Handle excessive rate limit violations
-  static Future handleExcessiveViolations(WebSocket socket, String userId) async {
-    await Logger.alert('Excessive rate limit violations', {'user_id': userId});
-
-    // Temporary ban
-    await Cache.put('rate_limit_banned:\$userId', true, Duration(minutes: 15));
-
-    socket.send(jsonEncode({
-      'type': 'banned',
-      'message': 'Temporarily banned due to excessive violations',
-      'ban_duration': 15 * 60, // seconds
-      'timestamp': DateTime.now().toIso8601String()
-    }));
-
-    Future.delayed(Duration(seconds: 5), () async {
-      try {
-        await socket.close(1008, 'Temporarily banned');
-      } catch (e) {
-        // Socket might already be closed
-      }
-    });
-  }
-
-  // Cleanup failed connections
-  static Future cleanupFailedConnection(WebSocket socket, String userId) async {
-    // Remove from channels
-    await ChannelManager.removeUserFromAllChannels(userId);
-
-    // Remove from presence channels
-    await PresenceChannel.removeUserFromAllChannels(userId);
-
-    // Clean up any user-specific data
-    await cleanupUserData(userId);
-
-    // Log cleanup
-    await Logger.info('Cleaned up failed connection', {'user_id': userId});
-  }
-
-  // Get client-friendly error messages
-  static String getClientErrorMessage(dynamic error) {
-    // Don't expose internal error details to clients
-    if (error is FormatException) {
-      return 'Invalid data format';
-    } else if (error is TimeoutException) {
-      return 'Request timed out';
-    } else if (error is SocketException) {
-      return 'Connection error';
-    } else {
-      return 'An error occurred';
-    }
-  }
-
-  // Get error statistics
-  static Map<String, dynamic> getErrorStats() {
-    return {
-      'error_counts': Map.from(_errorCounts),
-      'last_errors': _lastErrors.map((key, value) =>
-        MapEntry(key, value.toIso8601String())),
-      'total_errors': _errorCounts.values.fold(0, (sum, count) => sum + count)
-    };
-  }
-
-  // Reset error tracking
-  static void resetErrorStats() {
-    _errorCounts.clear();
-    _lastErrors.clear();
-  }
-}
-
-// WebSocket debugging utilities
-class WebSocketDebugger {
-  static bool _debugEnabled = false;
-  static final List<Map<String, dynamic>> _messageLog = [];
-
-  static void enableDebug() {
-    _debugEnabled = true;
-  }
-
-  static void disableDebug() {
-    _debugEnabled = false;
-  }
-
-  // Log WebSocket message
-  static void logMessage(String direction, String type, dynamic data, {String? userId, String? channel}) {
-    if (!_debugEnabled) return;
-
-    final logEntry = {
-      'timestamp': DateTime.now().toIso8601String(),
-      'direction': direction, // 'incoming' or 'outgoing'
-      'type': type,
-      'data': data,
-      'user_id': userId,
-      'channel': channel,
-      'data_size': data.toString().length
-    };
-
-    _messageLog.add(logEntry);
-
-    // Keep only last 1000 messages
-    if (_messageLog.length > 1000) {
-      _messageLog.removeRange(0, _messageLog.length - 1000);
-    }
-
-    print('[WS DEBUG] \$direction \$type: \${data.toString().substring(0, min(100, data.toString().length))}');
-  }
-
-  // Log connection event
-  static void logConnection(String event, String userId, {String? channel, dynamic data}) {
-    if (!_debugEnabled) return;
-
-    print('[WS DEBUG] Connection \$event for user \$userId\${channel != null ? ' in channel \$channel' : ''}');
-
-    if (data != null) {
-      logMessage('system', event, data, userId: userId, channel: channel);
-    }
-  }
-
-  // Get message log
-  static List<Map<String, dynamic>> getMessageLog({int limit = 100}) {
-    return _messageLog.reversed.take(limit).toList();
-  }
-
-  // Get messages for specific user
-  static List<Map<String, dynamic>> getUserMessages(String userId, {int limit = 50}) {
-    return _messageLog
-      .where((log) => log['user_id'] == userId)
-      .take(limit)
-      .toList();
-  }
-
-  // Get messages for specific channel
-  static List<Map<String, dynamic>> getChannelMessages(String channel, {int limit = 50}) {
-    return _messageLog
-      .where((log) => log['channel'] == channel)
-      .take(limit)
-      .toList();
-  }
-
-  // Export debug data
-  static Future<String> exportDebugData() async {
-    final debugData = {
-      'timestamp': DateTime.now().toIso8601String(),
-      'message_log': _messageLog,
-      'stats': {
-        'total_messages': _messageLog.length,
-        'users': _messageLog.map((log) => log['user_id']).where((id) => id != null).toSet().length,
-        'channels': _messageLog.map((log) => log['channel']).where((ch) => ch != null).toSet().length
-      }
-    };
-
-    return jsonEncode(debugData);
   }
 }`
 
