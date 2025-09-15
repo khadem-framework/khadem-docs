@@ -8,7 +8,25 @@
     </header>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Getting Started</h2>
+      <h2 class="text-2xl font          <li>Use descrip          <li>Don't run migrations on production without testing</li>
+          <li>Don't use generic names for database tables</li>
+          <li>Don't skip database backups before major changes</li>
+          <li>Don't deploy without building JIT snapshot</li>
+          <li>Don't hardcode sensitive data in source code</li>
+          <li>Don't run multiple queue workers without monitoring</li>
+          <li>Don't forget to install dependencies with <code>dart pub get</code></li>
+          <li>Don't use development database for testing migrations</li>
+          <li>Don't skip code analysis with <code>dart analyze</code></li>
+          <li>Don't deploy without testing the build</li> for generated components</li>
+          <li>Run migrations before deploying to production</li>
+          <li>Use version control for migration files</li>
+          <li>Test applications with <code>dart test</code></li>
+          <li>Use <code>dart analyze</code> for code quality</li>
+          <li>Regularly update Dart SDK</li>
+          <li>Use hot reload during development</li>
+          <li>Backup database before running migrations</li>
+          <li>Monitor queue worker processes</li>
+          <li>Build JIT snapshots for production deployment</li>border-b pb-2">Getting Started</h2>
 
       <CodeBlock
         :code="cliInstallationCode"
@@ -152,24 +170,23 @@
 
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Test Types</h3>
+          <h3 class="font-medium">Testing Tools</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Dart's built-in test runner</li>
             <li>Unit tests for individual functions</li>
             <li>Integration tests for components</li>
-            <li>End-to-end API tests</li>
-            <li>Performance and load tests</li>
-            <li>Database tests with transactions</li>
+            <li>Coverage reporting with lcov</li>
+            <li>Test file organization in test/ directory</li>
           </ul>
         </div>
 
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <h3 class="font-medium">Quality Tools</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Code formatting and linting</li>
-            <li>Security vulnerability scanning</li>
-            <li>Dependency analysis</li>
-            <li>Performance profiling</li>
-            <li>Coverage reporting</li>
+            <li><code>dart analyze</code> - Static analysis</li>
+            <li><code>dart format</code> - Code formatting</li>
+            <li>Manual test coverage generation</li>
+            <li>Dependency checking with pub</li>
           </ul>
         </div>
       </div>
@@ -185,14 +202,14 @@
       />
 
       <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
-        <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200">Build Optimization</h3>
+        <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200">Build Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-indigo-700 dark:text-indigo-300">
-          <li>Tree shaking for smaller bundles</li>
-          <li>Code splitting for better loading</li>
-          <li>Asset optimization and compression</li>
-          <li>Docker container generation</li>
-          <li>Multi-stage build support</li>
-          <li>CDN asset deployment</li>
+          <li>JIT snapshot compilation for faster startup</li>
+          <li>Code obfuscation for production</li>
+          <li>Archive creation with dependencies</li>
+          <li>Custom output path configuration</li>
+          <li>Includes config files and assets</li>
+          <li>Production-ready executable generation</li>
         </ul>
       </div>
     </section>
@@ -210,20 +227,18 @@
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <h3 class="font-medium">Queue Management</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Job queue processing</li>
-            <li>Failed job management</li>
-            <li>Queue monitoring</li>
-            <li>Worker process control</li>
+            <li>Process jobs from queue</li>
+            <li>Background job processing</li>
+            <li>Queue worker management</li>
           </ul>
         </div>
 
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <h3 class="font-medium">Cache Operations</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Cache clearing and warming</li>
-            <li>Cache statistics</li>
-            <li>Distributed cache management</li>
-            <li>Cache key inspection</li>
+            <li>Clear application cache</li>
+            <li>Cache management for performance</li>
+            <li>Memory and storage cache clearing</li>
           </ul>
         </div>
       </div>
@@ -241,12 +256,10 @@
       <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
         <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200">Environment Management</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-yellow-700 dark:text-yellow-300">
-          <li>Environment file generation</li>
-          <li>Configuration validation</li>
-          <li>Secret key management</li>
-          <li>Database connection testing</li>
-          <li>Service dependency checking</li>
-          <li>Configuration documentation</li>
+          <li>Manual .env file configuration</li>
+          <li>Automatic JWT secret generation</li>
+          <li>Project-specific environment setup</li>
+          <li>Configuration validation through code</li>
         </ul>
       </div>
     </section>
@@ -263,12 +276,11 @@
       <div class="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg border border-teal-200 dark:border-teal-800">
         <h3 class="text-lg font-medium text-teal-800 dark:text-teal-200">Interactive Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-teal-700 dark:text-teal-300">
-          <li>Guided project setup wizard</li>
-          <li>Interactive code generation</li>
-          <li>Database schema builder</li>
-          <li>Configuration editor</li>
-          <li>Command history and favorites</li>
-          <li>Context-aware help system</li>
+          <li>Development server with keyboard controls</li>
+          <li>Hot reload and restart during development</li>
+          <li>Real-time file watching</li>
+          <li>Interactive error feedback</li>
+          <li>Manual code generation commands</li>
         </ul>
       </div>
     </section>
@@ -286,20 +298,20 @@
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <h3 class="font-medium">Command Structure</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Command class inheritance</li>
+            <li>Inheritance from KhademCommand</li>
             <li>Argument and option definition</li>
-            <li>Input validation</li>
-            <li>Output formatting</li>
+            <li>Async handle method implementation</li>
+            <li>Logger integration</li>
           </ul>
         </div>
 
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Advanced Features</h3>
+          <h3 class="font-medium">Available Features</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Progress bars and spinners</li>
-            <li>Interactive prompts</li>
-            <li>File system operations</li>
-            <li>External API integration</li>
+            <li>Built-in logger for output</li>
+            <li>Argument parsing with validation</li>
+            <li>Exit code management</li>
+            <li>Error handling and reporting</li>
           </ul>
         </div>
       </div>
@@ -439,19 +451,22 @@
           <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200">Common Issues</h3>
           <div class="mt-2 space-y-2">
             <div>
-              <strong>Command not found:</strong> Ensure Khadem CLI is installed and in PATH
+              <strong>Command not found:</strong> Ensure Dart SDK is installed and khadem is activated globally
             </div>
             <div>
-              <strong>Permission denied:</strong> Run with appropriate permissions or use sudo
+              <strong>Port already in use:</strong> Use different port with <code>khadem serve --port=3001</code>
             </div>
             <div>
-              <strong>Database connection failed:</strong> Check database credentials and connectivity
+              <strong>Database connection failed:</strong> Check database configuration and connectivity
             </div>
             <div>
               <strong>Migration errors:</strong> Review migration files and database schema
             </div>
             <div>
-              <strong>Build failures:</strong> Check for syntax errors and missing dependencies
+              <strong>Build failures:</strong> Check for syntax errors with <code>dart analyze</code>
+            </div>
+            <div>
+              <strong>Hot reload not working:</strong> Ensure VM service connection (check port 8181)
             </div>
           </div>
         </div>
@@ -640,65 +655,43 @@ khadem make:model --name=User
 khadem make:controller --name=UserController
 khadem make:migration --name=create_users_table`
 
-const customCommandsCode = `import 'package:khadem/khadem_dart.dart';
+const customCommandsCode = `import 'dart:io';
+import 'package:khadem/src/cli/bus/command.dart';
 
-class CustomCommand extends Command {
+class CustomCommand extends KhademCommand {
   @override
   String get name => 'custom:example';
 
   @override
   String get description => 'Example custom command';
 
-  @override
-  void configure() {
-    addArgument('name', mode: ArgumentMode.REQUIRED, description: 'Name argument');
-    addOption('count', abbr: 'c', defaultsTo: '1', description: 'Count option');
-    addFlag('verbose', abbr: 'v', description: 'Verbose output');
+  CustomCommand({required super.logger}) {
+    argParser.addOption('name', abbr: 'n', help: 'Name argument');
+    argParser.addFlag('verbose', abbr: 'v', help: 'Verbose output');
   }
 
   @override
-  Future<int> execute(CommandContext context) async {
-    final name = context.getArgument('name');
-    final count = int.parse(context.getOption('count'));
-    final verbose = context.getFlag('verbose');
+  Future<void> handle(List<String> args) async {
+    final name = argResults?['name'] as String?;
+    final verbose = argResults?['verbose'] as bool? ?? false;
 
     if (verbose) {
-      context.writeln('Starting custom command...');
+      logger.info('Starting custom command...');
     }
 
-    // Show progress bar
-    final progress = context.progress('Processing items');
-    progress.start();
+    // Your custom logic here
+    logger.info('Hello, \$name!');
 
-    for (var i = 0; i < count; i++) {
-      // Simulate work
-      await Future.delayed(Duration(milliseconds: 100));
-      progress.advance();
+    if (verbose) {
+      logger.info('Custom command completed.');
     }
 
-    progress.finish();
-
-    context.success('Custom command completed for $name!');
-
-    return CommandExitCode.success;
+    exit(0);
   }
 }
 
-// Register custom command
-class CustomCommandProvider extends ServiceProvider {
-  @override
-  Future<void> register() async {
-    // Register command
-    this.app.singleton<CustomCommand>((container) => CustomCommand());
-  }
-
-  @override
-  Future<void> boot() async {
-    // Add to CLI
-    final command = await this.app.make<CustomCommand>();
-    CLI.add(command);
-  }
-}`
+// Register in command registry
+// Add to CommandRegistry._registerCoreCommands() or create custom registry`
 
 const troubleshootingCode = `# Check CLI version and available commands
 khadem --help
