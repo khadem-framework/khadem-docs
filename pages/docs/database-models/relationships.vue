@@ -607,14 +607,66 @@ const advancedLoadingCode = `
 import 'package:khadem_dart/khadem_dart.dart';
 
 // Advanced loading with constraints and nested relations
-class User extends KhademModel {
+class User extends KhademModel with HasRelationships {
   @override
   String get table => 'users';
 
-  // Define relationships
-  HasMany<Post> posts() => hasMany(Post);
-  HasMany<Comment> comments() => hasMany(Comment);
-  BelongsTo<Profile> profile() => belongsTo(Profile);
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post()
+    ),
+    'comments': hasMany<Comment>(
+      foreignKey: 'user_id',
+      relatedTable: 'comments',
+      factory: () => Comment()
+    ),
+    'profile': belongsTo<Profile>(
+      localKey: 'profile_id',
+      relatedTable: 'profiles',
+      factory: () => Profile()
+    )
+  };
+}
+
+class Post extends KhademModel with HasRelationships {
+  @override
+  String get table => 'posts';
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'comments': hasMany<Comment>(
+      foreignKey: 'post_id',
+      relatedTable: 'comments',
+      factory: () => Comment()
+    ),
+    'author': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User()
+    )
+  };
+}
+
+class ChatRoom extends KhademModel with HasRelationships {
+  @override
+  String get table => 'chat_rooms';
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'messages': hasMany<ChatMessage>(
+      foreignKey: 'room_id',
+      relatedTable: 'chat_messages',
+      factory: () => ChatMessage()
+    ),
+    'latestMessage': hasOne<ChatMessage>(
+      foreignKey: 'room_id',
+      relatedTable: 'chat_messages',
+      factory: () => ChatMessage()
+    ).whereRaw('created_at = (SELECT MAX(created_at) FROM chat_messages WHERE room_id = chat_rooms.id)')
+  };
 }
 
 // Load with constraints and nested relationships
@@ -670,16 +722,6 @@ final roomsWithPagination = await ChatRoom.query()
   ])
   .get();
 
-// hasOne with query constraints for latest records
-class ChatRoom extends KhademModel {
-  @override
-  String get table => 'chat_rooms';
-
-  HasMany<ChatMessage> messages() => hasMany(ChatMessage);
-  HasOne<ChatMessage> latestMessage() => hasOne(ChatMessage)
-    .whereRaw('created_at = (SELECT MAX(created_at) FROM chat_messages WHERE room_id = chat_rooms.id)');
-}
-
 // Load with complex relationship patterns
 final complexData = await User.query()
   .withRelations([
@@ -714,12 +756,23 @@ const performanceCode = `
 import 'package:khadem_dart/khadem_dart.dart';
 
 // Performance optimization patterns
-class Post extends KhademModel {
+class Post extends KhademModel with HasRelationships {
   @override
   String get table => 'posts';
 
-  HasMany<Comment> comments() => hasMany(Comment);
-  BelongsTo<User> author() => belongsTo(User);
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'comments': hasMany<Comment>(
+      foreignKey: 'post_id',
+      relatedTable: 'comments',
+      factory: () => Comment()
+    ),
+    'author': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User()
+    )
+  };
 }
 
 // Batch loading for better performance
@@ -755,22 +808,52 @@ const realWorldCode = `
 import 'package:khadem_dart/khadem_dart.dart';
 
 // E-commerce platform relationships
-class Order extends KhademModel {
+class Order extends KhademModel with HasRelationships {
   @override
   String get table => 'orders';
 
-  BelongsTo<User> customer() => belongsTo(User);
-  HasMany<OrderItem> items() => hasMany(OrderItem);
-  BelongsTo<Address> shippingAddress() => belongsTo(Address);
-  HasOne<Payment> payment() => hasOne(Payment);
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'customer': belongsTo<User>(
+      localKey: 'customer_id',
+      relatedTable: 'users',
+      factory: () => User()
+    ),
+    'items': hasMany<OrderItem>(
+      foreignKey: 'order_id',
+      relatedTable: 'order_items',
+      factory: () => OrderItem()
+    ),
+    'shippingAddress': belongsTo<Address>(
+      localKey: 'shipping_address_id',
+      relatedTable: 'addresses',
+      factory: () => Address()
+    ),
+    'payment': hasOne<Payment>(
+      foreignKey: 'order_id',
+      relatedTable: 'payments',
+      factory: () => Payment()
+    )
+  };
 }
 
-class OrderItem extends KhademModel {
+class OrderItem extends KhademModel with HasRelationships {
   @override
   String get table => 'order_items';
 
-  BelongsTo<Order> order() => belongsTo(Order);
-  BelongsTo<Product> product() => belongsTo(Product);
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'order': belongsTo<Order>(
+      localKey: 'order_id',
+      relatedTable: 'orders',
+      factory: () => Order()
+    ),
+    'product': belongsTo<Product>(
+      localKey: 'product_id',
+      relatedTable: 'products',
+      factory: () => Product()
+    )
+  };
 }
 
 // Load complete order with all related data
@@ -795,12 +878,23 @@ const paginationCode = `
 import 'package:khadem_dart/khadem_dart.dart';
 
 // Object format pagination with relationships
-class ChatRoom extends KhademModel {
+class ChatRoom extends KhademModel with HasRelationships {
   @override
   String get table => 'chat_rooms';
 
-  HasMany<ChatMessage> messages() => hasMany(ChatMessage);
-  HasOne<ChatMessage> latestMessage() => hasOne(ChatMessage);
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'messages': hasMany<ChatMessage>(
+      foreignKey: 'room_id',
+      relatedTable: 'chat_messages',
+      factory: () => ChatMessage()
+    ),
+    'latestMessage': hasOne<ChatMessage>(
+      foreignKey: 'room_id',
+      relatedTable: 'chat_messages',
+      factory: () => ChatMessage()
+    )
+  };
 }
 
 // Paginate messages with nested sender relationship
@@ -849,6 +943,157 @@ final users = await User.query()
       }
     }
   ])
+  .get();
+`;
+
+const socialMediaCode = `
+import 'package:khadem_dart/khadem_dart.dart';
+
+// Social media platform relationships
+class User extends KhademModel with HasRelationships {
+  @override
+  String get table => 'users';
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post()
+    ),
+    'comments': hasMany<Comment>(
+      foreignKey: 'user_id',
+      relatedTable: 'comments',
+      factory: () => Comment()
+    ),
+    'followers': belongsToMany<User>(
+      pivotTable: 'user_followers',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'follower_id',
+      relatedTable: 'users',
+      localKey: 'id',
+      factory: () => User()
+    ),
+    'following': belongsToMany<User>(
+      pivotTable: 'user_followers',
+      foreignPivotKey: 'follower_id',
+      relatedPivotKey: 'user_id',
+      relatedTable: 'users',
+      localKey: 'id',
+      factory: () => User()
+    ),
+    'likes': hasMany<Like>(
+      foreignKey: 'user_id',
+      relatedTable: 'likes',
+      factory: () => Like()
+    )
+  };
+}
+
+class Post extends KhademModel with HasRelationships {
+  @override
+  String get table => 'posts';
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'author': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User()
+    ),
+    'comments': hasMany<Comment>(
+      foreignKey: 'post_id',
+      relatedTable: 'comments',
+      factory: () => Comment()
+    ),
+    'likes': hasMany<Like>(
+      foreignKey: 'post_id',
+      relatedTable: 'likes',
+      factory: () => Like()
+    ),
+    'images': morphMany<Image>(
+      morphTypeField: 'imageable_type',
+      morphIdField: 'imageable_id',
+      relatedTable: 'images',
+      factory: () => Image()
+    )
+  };
+}
+
+class Comment extends KhademModel with HasRelationships {
+  @override
+  String get table => 'comments';
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'author': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User()
+    ),
+    'post': belongsTo<Post>(
+      localKey: 'post_id',
+      relatedTable: 'posts',
+      factory: () => Post()
+    ),
+    'commentable': morphTo<Commentable>(
+      morphTypeField: 'commentable_type',
+      morphIdField: 'commentable_id',
+      relatedTable: '', // Determined dynamically
+      factory: () => throw UnimplementedError() // Would need dynamic factory
+    )
+  };
+}
+
+class Like extends KhademModel with HasRelationships {
+  @override
+  String get table => 'likes';
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'user': belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User()
+    ),
+    'likeable': morphTo<Likeable>(
+      morphTypeField: 'likeable_type',
+      morphIdField: 'likeable_id',
+      relatedTable: '', // Determined dynamically
+      factory: () => throw UnimplementedError() // Would need dynamic factory
+    )
+  };
+}
+
+// Load user's feed with all relationships
+final feedPosts = await Post.query()
+  .withRelations([
+    'author',
+    'comments.author',
+    'likes',
+    'images'
+  ])
+  .whereIn('author_id', followingIds)
+  .orderBy('created_at', direction: 'desc')
+  .paginate(page: 1, perPage: 20);
+
+// Get user's engagement stats
+final userStats = await User.query()
+  .withRelations([
+    'posts',
+    'followers',
+    'following',
+    'likes'
+  ])
+  .withCount(['posts', 'followers', 'following', 'likes'])
+  .find(userId);
+
+// Polymorphic content interaction
+final popularContent = await Post.query()
+  .withRelations(['likes', 'comments'])
+  .withCount(['likes', 'comments'])
+  .orderBy('likes_count', direction: 'desc')
+  .limit(10)
   .get();
 `;
 

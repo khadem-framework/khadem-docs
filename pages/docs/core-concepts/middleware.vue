@@ -9,12 +9,7 @@
 
     <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Overview</h2>
-
-      <CodeBlock
-        :code="middlewareOverviewCode"
-        language="dart"
-        title="Middleware Pipeline Architecture"
-      />
+ 
 
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
@@ -101,7 +96,7 @@
       </div>
     </section>
 
-    <section class="space-y-6">
+    <!-- <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Built-in Middleware</h2>
 
       <div class="grid md:grid-cols-2 gap-6">
@@ -139,9 +134,9 @@
           </p>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="space-y-6">
+    <!-- <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Middleware Pipeline</h2>
 
       <CodeBlock
@@ -160,7 +155,7 @@
           <li>Automatic priority-based sorting</li>
         </ul>
       </div>
-    </section>
+    </section> -->
 
     <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Registration Patterns</h2>
@@ -263,7 +258,7 @@
       </div>
     </section>
 
-    <section class="space-y-6">
+    <!-- <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Testing Middleware</h2>
 
       <CodeBlock
@@ -282,7 +277,7 @@
           <li>Use dependency injection for testable middleware</li>
         </ul>
       </div>
-    </section>
+    </section> -->
 
     <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Complete Example</h2>

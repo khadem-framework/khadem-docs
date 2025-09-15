@@ -1,9 +1,10 @@
 <template>
   <div>
+  
     <h1>Getting Started with Khadem</h1>
 
     <p class="mb-6 text-lg">
-      Welcome to <strong>Khadem</strong> — the Laravel-inspired, Dart-powered backend framework for building fast, scalable APIs and CLI tools.
+      Welcome to <strong>Khadem</strong> — the Dart-powered backend framework for building fast, scalable APIs and CLI tools.
     </p>
 
     <h2 id="why-khadem">Why Khadem?</h2>
@@ -12,7 +13,7 @@
     </p>
     <ul class="list-disc pl-6 mb-8">
       <li><strong>🚀 Dart Isolates:</strong> Harness true concurrency and multithreading using Dart’s Isolate system. Handle thousands of connections with zero blocking.</li>
-      <li><strong>🧠 Smart Architecture:</strong> Inspired by Laravel, structured with modular services, events, and middleware.</li>
+      <li><strong>🧠 Smart Architecture:</strong> Structured with modular services, events, and middleware for clean, maintainable code.</li>
       <!-- <li><strong>🛠️ CLI First:</strong> Scaffolding, migrations, builds, and deployment — all from the command line.</li> -->
       <li><strong>📦 Built for APIs:</strong> REST-first, JWT-ready, and highly customizable routing.</li>
       <li><strong>🧪 Testing Ready:</strong> Includes testable layers using mocks, DI, and service isolation.</li>

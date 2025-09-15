@@ -19,12 +19,14 @@
       <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
         <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">CLI Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
-          <li>Project scaffolding and generation</li>
-          <li>Database migrations and seeders</li>
-          <li>Code generation for models, controllers, and services</li>
-          <li>Development server management</li>
-          <li>Testing and quality assurance tools</li>
-          <li>Deployment and build optimization</li>
+          <li>Project scaffolding from template</li>
+          <li>Code generation for models, controllers, middleware, providers, jobs, listeners</li>
+          <li>Development server with hot reload and hot restart</li>
+          <li>Database migration management</li>
+          <li>Database seeding</li>
+          <li>Queue job processing</li>
+          <li>Cache management</li>
+          <li>JIT snapshot building for production</li>
         </ul>
       </div>
     </section>
@@ -40,22 +42,21 @@
 
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Project Templates</h3>
+          <h3 class="font-medium">Project Creation</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>basic</code> - Minimal setup</li>
-            <li><code>api</code> - REST API focused</li>
-            <li><code>full</code> - Complete application</li>
-            <li><code>microservice</code> - Service-oriented</li>
+            <li>Single template based on khadem_template</li>
+            <li>Automatic .env configuration</li>
+            <li>JWT secret key generation</li>
+            <li>Project name replacement in files</li>
           </ul>
         </div>
 
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <h3 class="font-medium">Project Options</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>--database</code> - Database type</li>
-            <li><code>--auth</code> - Authentication setup</li>
-            <li><code>--websocket</code> - WebSocket support</li>
-            <li><code>--docker</code> - Docker configuration</li>
+            <li><code>--name</code> - Project name (required)</li>
+            <li>Automatic folder structure creation</li>
+            <li>Dependency installation ready</li>
           </ul>
         </div>
       </div>
@@ -73,12 +74,13 @@
       <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
         <h3 class="text-lg font-medium text-green-800 dark:text-green-200">Server Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-green-700 dark:text-green-300">
-          <li>Hot reload for instant development</li>
-          <li>Built-in debugging and logging</li>
-          <li>Environment-specific configurations</li>
-          <li>Automatic dependency injection</li>
-          <li>Request/response monitoring</li>
-          <li>Graceful shutdown handling</li>
+          <li>Hot reload for instant code changes</li>
+          <li>Hot restart for full application restart</li>
+          <li>Automatic file watching</li>
+          <li>VM Service integration for debugging</li>
+          <li>Custom port configuration</li>
+          <li>Interactive keyboard controls</li>
+          <li>Error handling and recovery</li>
         </ul>
       </div>
     </section>
@@ -94,23 +96,25 @@
 
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Generated Files</h3>
+          <h3 class="font-medium">Generated Components</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Models with relationships</li>
-            <li>Controllers with CRUD operations</li>
-            <li>Services with business logic</li>
-            <li>Middleware for request handling</li>
-            <li>Tests for generated code</li>
+            <li>Models with relationships and traits</li>
+            <li>Controllers with basic CRUD methods</li>
+            <li>Middleware classes</li>
+            <li>Service providers</li>
+            <li>Job classes for queue processing</li>
+            <li>Event listeners</li>
+            <li>Database migrations</li>
           </ul>
         </div>
 
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <h3 class="font-medium">Generation Options</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>--migration</code> - Create database migration</li>
-            <li><code>--factory</code> - Generate model factory</li>
-            <li><code>--resource</code> - Create API resource</li>
-            <li><code>--test</code> - Generate unit tests</li>
+            <li><code>--name</code> - Component name (required)</li>
+            <li>Folder structure support (e.g., Auth/User)</li>
+            <li>Automatic file placement</li>
+            <li>Basic code stubs with comments</li>
           </ul>
         </div>
       </div>
@@ -128,12 +132,11 @@
       <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
         <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200">Migration Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-purple-700 dark:text-purple-300">
-          <li>Automatic migration generation</li>
-          <li>Schema versioning and rollback</li>
-          <li>Database seeding for test data</li>
-          <li>Multi-environment support</li>
-          <li>Migration status tracking</li>
-          <li>Database optimization tools</li>
+          <li>Run all pending migrations</li>
+          <li>Reset all migrations (rollback all)</li>
+          <li>Fresh migration (drop all and rerun)</li>
+          <li>Database seeding support</li>
+          <li>Automatic migration file generation</li>
         </ul>
       </div>
     </section>
@@ -318,42 +321,72 @@
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem new</td>
               <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Create a new Khadem project</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--template, --database, --auth</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem serve</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Start development server</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--port, --host, --env</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Start development server with hot reload</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--port, --watch</td>
             </tr>
             <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem generate</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate code components</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--model, --controller, --migration</td>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:model</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new model class</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:controller</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new controller class</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:migration</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new migration file</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:middleware</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new middleware class</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:provider</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new service provider</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:job</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new job class</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem make:listener</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate a new event listener</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem migrate</td>
               <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Run database migrations</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--fresh, --seed, --step</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--reset, --fresh</td>
             </tr>
             <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem test</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Run test suites</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--coverage, --verbose, --filter</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem build</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Build for production</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--optimize, --analyze, --docker</td>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem seed</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Run database seeders</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">None</td>
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem queue:work</td>
               <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Process queue jobs</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--queue, --timeout, --tries</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">None</td>
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem cache:clear</td>
               <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Clear application cache</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--tags, --store</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">None</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem build</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Build JIT snapshot for production</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--output, --archive</td>
             </tr>
           </tbody>
         </table>
@@ -448,277 +481,164 @@ dart pub global activate khadem_cli
 # Verify installation
 khadem --version
 
-# Update CLI to latest version
-khadem self-update
-
 # View help
-khadem --help`
+khadem --help
+
+# View available commands
+khadem`;
 
 const projectCommandsCode = `# Create a new Khadem project
-khadem new my_project
+khadem new --name=my_project
 
-# Create project with specific template
-khadem new my_api --template=api
+# Create project with specific name
+khadem new --name=my_api
 
-# Create project with database and auth
-khadem new my_app --database=postgresql --auth=jwt
+# List available templates (if any)
+khadem new --help
 
-# Create project with WebSocket support
-khadem new my_chat --websocket
+# Initialize project in existing directory (if supported)
+# khadem init (not currently available)`
 
-# List available templates
-khadem new --list-templates
-
-# Initialize project in existing directory
-khadem init
-
-# Show project information
-khadem info`
-
-const serverCommandsCode = `# Start development server
+const serverCommandsCode = `# Start development server with hot reload
 khadem serve
 
 # Start server on specific port
 khadem serve --port=3001
 
-# Start server with custom host
-khadem serve --host=0.0.0.0
+# Start server with file watching disabled
+khadem serve --no-watch
 
-# Start server in specific environment
-khadem serve --env=staging
-
-# Start server with hot reload disabled
-khadem serve --no-reload
-
-# Start server with debug logging
-khadem serve --debug
-
-# Stop development server
-khadem serve:stop
-
-# Restart development server
-khadem serve:restart`
+# Interactive commands during development:
+# r - Hot reload
+# R - Hot restart  
+# q - Quit server`
 
 const generateCommandsCode = `# Generate a model
-khadem generate model User
+khadem make:model --name=User
 
-# Generate model with migration
-khadem generate model Product --migration
+# Generate model with folder structure
+khadem make:model --name=Auth/User
 
 # Generate controller
-khadem generate controller ApiController
+khadem make:controller --name=UserController
 
-# Generate service
-khadem generate service UserService
+# Generate controller with folder
+khadem make:controller --name=auth/AuthController
 
 # Generate middleware
-khadem generate middleware AuthMiddleware
+khadem make:middleware --name=AuthMiddleware
 
-# Generate all CRUD operations
-khadem generate scaffold Post
+# Generate provider
+khadem make:provider --name=AuthServiceProvider
 
-# Generate API resource
-khadem generate resource UserResource
+# Generate job
+khadem make:job --name=SendEmailJob
 
-# Generate factory for testing
-khadem generate factory UserFactory
+# Generate listener
+khadem make:listener --name=UserEventListener
 
-# Generate migration only
-khadem generate migration create_posts_table
-
-# List generated files
-khadem generate:list`
+# Generate migration
+khadem make:migration --name=create_users_table`
 
 const databaseCommandsCode = `# Run all pending migrations
 khadem migrate
 
-# Run migrations for specific environment
-khadem migrate --env=production
+# Reset all migrations (rollback all)
+khadem migrate --reset
 
-# Rollback last migration
-khadem migrate:rollback
-
-# Rollback multiple migrations
-khadem migrate:rollback --step=3
-
-# Reset all migrations
-khadem migrate:reset
-
-# Fresh migration (drop all tables and re-run)
-khadem migrate:fresh
+# Fresh migration (drop all tables and rerun)
+khadem migrate --fresh
 
 # Run seeders
-khadem db:seed
+khadem seed`
 
-# Run specific seeder
-khadem db:seed --class=UserSeeder
-
-# Create database if it doesn't exist
-khadem db:create
-
-# Drop database
-khadem db:drop
-
-# Show migration status
-khadem migrate:status
-
-# Generate migration file
-khadem make:migration create_users_table`
-
-const testingCommandsCode = `# Run all tests
-khadem test
+const testingCommandsCode = `# Run all tests (using pub run test)
+dart test
 
 # Run specific test file
-khadem test tests/unit/UserTest.dart
+dart test test/unit/user_test.dart
 
 # Run tests with coverage
-khadem test --coverage
+dart test --coverage
 
 # Run tests in verbose mode
-khadem test --verbose
+dart test --verbose
 
 # Run tests matching pattern
-khadem test --filter="User.*"
+dart test -k "User"
 
 # Generate test coverage report
-khadem test:coverage
+dart test --coverage && genhtml coverage/lcov.info -o coverage/html
 
-# Run integration tests only
-khadem test:integration
+# Run integration tests
+dart test test/integration/
 
 # Run performance tests
-khadem test:performance
+dart test test/performance/
 
-# Generate test file
-khadem make:test UserTest
+# Generate test file (manual creation recommended)
+# No automated test generation command available`
 
-# Lint code
-khadem lint
-
-# Format code
-khadem format
-
-# Run security scan
-khadem security:scan`
-
-const deploymentCommandsCode = `# Build for production
+const deploymentCommandsCode = `# Build JIT snapshot for production
 khadem build
 
-# Build with optimization
-khadem build --optimize
+# Build with custom output path
+khadem build --output=bin/my_app.jit
 
-# Build with bundle analysis
-khadem build --analyze
+# Build and create archive
+khadem build --archive
 
-# Build Docker image
-khadem build --docker
+# Build without deleting temp files
+khadem build --no-delete-temp
 
-# Build for specific platform
-khadem build --platform=linux
+# Deploy (manual process - no automated deploy command)
+# Manual deployment steps:
+# 1. Build the application: khadem build --archive
+# 2. Upload the archive to your server
+# 3. Extract and configure environment
+# 4. Start the application`
 
-# Deploy to server
-khadem deploy
-
-# Deploy to specific environment
-khadem deploy --env=production
-
-# Rollback deployment
-khadem deploy:rollback
-
-# Show deployment status
-khadem deploy:status
-
-# Setup deployment configuration
-khadem deploy:setup
-
-# Run pre-deployment checks
-khadem deploy:check`
-
-const advancedCommandsCode = `# Queue management
+const advancedCommandsCode = `# Process queue jobs
 khadem queue:work
-khadem queue:work --queue=high_priority
-khadem queue:failed
-khadem queue:retry
-khadem queue:clear
 
-# Cache operations
+# Clear application cache
 khadem cache:clear
-khadem cache:clear --tags=user,post
-khadem cache:warm
-khadem cache:stats
-khadem cache:keys
 
-# Schedule management
-khadem schedule:run
-khadem schedule:list
-khadem schedule:work
+# Run scheduled tasks (if implemented)
+# khadem schedule:run (not currently available)
 
-# Event management
-khadem event:generate
-khadem event:list
-khadem event:clear
+# Additional available commands:
+# khadem seed - Run database seeders
+# khadem build - Build JIT snapshot
+# khadem make:* - Various code generation commands`
 
-# Route management
-khadem route:list
-khadem route:cache
-khadem route:clear
+const configCommandsCode = `# View help for any command
+khadem --help
+khadem <command> --help
 
-# Configuration
-khadem config:cache
-khadem config:clear
-khadem config:list`
+# Check system status (manual)
+# No automated doctor command available
+# Manual system checks:
+# - Verify Dart SDK: dart --version
+# - Check dependencies: dart pub get
+# - Test database: manual verification
 
-const configCommandsCode = `# Generate environment file
-khadem env:generate
+# Environment configuration (manual)
+# Edit .env file directly for configuration
+# No automated env generation command available`
 
-# Validate configuration
-khadem config:validate
+const interactiveCommandsCode = `# Interactive development with serve command
+khadem serve
 
-# Show current configuration
-khadem config:show
+# During development, use these keyboard shortcuts:
+# r - Hot reload (reload code changes)
+# R - Hot restart (full application restart)
+# q - Quit the development server
 
-# Edit configuration interactively
-khadem config:edit
-
-# Generate secret keys
-khadem key:generate
-
-# Test database connection
-khadem db:test
-
-# Check system requirements
-khadem doctor
-
-# Show application information
-khadem about
-
-# Clear all caches
-khadem optimize`
-
-const interactiveCommandsCode = `# Start interactive mode
-khadem interactive
-
-# Guided project setup
-khadem new --interactive
-
-# Interactive code generation
-khadem generate --interactive
-
-# Database schema builder
-khadem db:build
-
-# Configuration wizard
-khadem config:wizard
-
-# Help system
-khadem help --interactive
-
-# Command history
-khadem history
-
-# Favorite commands
-khadem favorite:add "khadem serve --debug"
-khadem favorite:run 1`
+# Manual code generation (no interactive mode available)
+khadem make:model --name=User
+khadem make:controller --name=UserController
+khadem make:migration --name=create_users_table`
 
 const customCommandsCode = `import 'package:khadem/khadem_dart.dart';
 
@@ -780,39 +700,34 @@ class CustomCommandProvider extends ServiceProvider {
   }
 }`
 
-const troubleshootingCode = `# Check CLI version and status
-khadem --version
-khadem doctor
+const troubleshootingCode = `# Check CLI version and available commands
+khadem --help
+khadem <command> --help
 
-# Clear all caches
-khadem optimize
+# Check Dart SDK version
+dart --version
 
-# Reset database (development only)
-khadem migrate:fresh --seed
+# Install/update dependencies
+dart pub get
 
-# Check file permissions
-ls -la
+# Check for syntax errors
+dart analyze
 
-# Check available disk space
-df -h
+# Run tests to verify functionality
+dart test
 
-# Check running processes
-ps aux | grep khadem
+# Clear any cached files (manual)
+# Delete .dart_tool directory if needed
+# rm -rf .dart_tool
 
-# View application logs
-tail -f storage/logs/app.log
+# Check database connectivity (manual)
+# Verify database configuration in config files
 
-# Check database connectivity
-khadem db:test
+# View application logs (if running)
+# tail -f logs/app.log (if log files exist)
 
-# Validate configuration
-khadem config:validate
-
-# Run security scan
-khadem security:scan
-
-# Check dependencies
-khadem dependencies:check`
+# Restart development server
+# Stop with Ctrl+C, then run: khadem serve`
 </script>
 
 <style scoped>

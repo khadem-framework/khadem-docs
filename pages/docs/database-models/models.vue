@@ -228,7 +228,7 @@
       </section>
 
       <!-- Testing Section -->
-      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
+      <!-- <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
         <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
           Testing Models
         </h2>
@@ -241,7 +241,7 @@
           language="dart"
           title="Model Testing"
         />
-      </section>
+      </section> -->
     </div>
   </div>
 </template>
@@ -282,7 +282,7 @@ class User extends KhademModel<User> with Timestamps, HasRelationships {
   ];
 
   @override
-  List<String> get hidden => [
+  List<String> get initialHidden => [
     'password',
     'remember_token',
   ];
@@ -605,18 +605,30 @@ class Country extends Model {
 // app/models/User.dart
 class User extends Model {
   Country country() {
-    return belongsTo(Country);
+    return belongsTo<Country>(
+      localKey: 'country_id',
+      relatedTable: 'countries',
+      factory: () => Country()
+    );
   }
 
   Collection<Post> posts() {
-    return hasMany(Post);
+    return hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post()
+    );
   }
 }
 
 // app/models/Post.dart
 class Post extends Model {
   User user() {
-    return belongsTo(User);
+    return belongsTo<User>(
+      localKey: 'user_id',
+      relatedTable: 'users',
+      factory: () => User()
+    );
   }
 }
 
@@ -877,7 +889,7 @@ await user.save(); // Will trigger observer methods`
 const basicSerializationCode = `// app/models/User.dart
 class User extends KhademModel<User> with Timestamps, HasRelationships {
   @override
-  List<String> get hidden => ['password'];
+  List<String> get initialHidden => ['password'];
 
   @override
   Map<String, Type> get casts => {

@@ -176,7 +176,7 @@ const navigation = [
     title: 'Getting Started',
     items: [
       { title: 'Introduction', path: '/docs' },
-      { title: 'Installation', path: '/docs/getting-started/installation' },
+      // { title: 'Installation', path: '/docs/getting-started/installation' },
       { title: 'Creating a Project', path: '/docs/getting-started/creating-project' },
       { title: 'Folder Structure', path: '/docs/getting-started/folder-structure' },
     ]
@@ -209,8 +209,8 @@ const navigation = [
     title: 'Authentication & Security',
     items: [
       { title: 'Authentication', path: '/docs/auth-security/auth' },
-      { title: 'Authorization', path: '/docs/auth-security/authorization' },
-      { title: 'Security Best Practices', path: '/docs/auth-security/security' }
+      // { title: 'Authorization', path: '/docs/auth-security/authorization' },
+      // { title: 'Security Best Practices', path: '/docs/auth-security/security' }
     ]
   },
   {
@@ -220,8 +220,8 @@ const navigation = [
       { title: 'Events & Listeners', path: '/docs/advanced-features/events' },
       { title: 'Queue System', path: '/docs/advanced-features/queue' },
       { title: 'WebSocket System', path: '/docs/advanced-features/websockets' },
-      { title: 'Task Scheduling', path: '/docs/core-concepts/scheduler' },
-      { title: 'File Storage', path: '/docs/advanced-features/storage' },
+      { title: 'Task Scheduling', path: '/docs/advanced-features/scheduler' },
+      // { title: 'File Storage', path: '/docs/advanced-features/storage' },
       { title: 'Caching', path: '/docs/advanced-features/cache' },
       { title: 'Configuration', path: '/docs/advanced-features/configuration' },
       { title: 'Localization', path: '/docs/advanced-features/localization' },

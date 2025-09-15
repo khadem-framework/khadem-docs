@@ -6,7 +6,6 @@
         Internationalization and localization with parameter replacement, pluralization, and namespace support.
       </p>
       <div class="mt-6 flex flex-wrap gap-2">
-        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">i18n</span>
         <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">Parameters</span>
         <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Pluralization</span>
         <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium">Namespaces</span>
