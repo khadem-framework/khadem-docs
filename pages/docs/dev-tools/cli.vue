@@ -8,25 +8,7 @@
     </header>
 
     <section class="space-y-6">
-      <h2 class="text-2xl font          <li>Use descrip          <li>Don't run migrations on production without testing</li>
-          <li>Don't use generic names for database tables</li>
-          <li>Don't skip database backups before major changes</li>
-          <li>Don't deploy without building JIT snapshot</li>
-          <li>Don't hardcode sensitive data in source code</li>
-          <li>Don't run multiple queue workers without monitoring</li>
-          <li>Don't forget to install dependencies with <code>dart pub get</code></li>
-          <li>Don't use development database for testing migrations</li>
-          <li>Don't skip code analysis with <code>dart analyze</code></li>
-          <li>Don't deploy without testing the build</li> for generated components</li>
-          <li>Run migrations before deploying to production</li>
-          <li>Use version control for migration files</li>
-          <li>Test applications with <code>dart test</code></li>
-          <li>Use <code>dart analyze</code> for code quality</li>
-          <li>Regularly update Dart SDK</li>
-          <li>Use hot reload during development</li>
-          <li>Backup database before running migrations</li>
-          <li>Monitor queue worker processes</li>
-          <li>Build JIT snapshots for production deployment</li>border-b pb-2">Getting Started</h2>
+      <h2 class="text-2xl font-semibold border-b pb-2">Getting Started</h2>
 
       <CodeBlock
         :code="cliInstallationCode"
@@ -35,16 +17,14 @@
       />
 
       <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">CLI Features</h3>
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">Available Commands</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
-          <li>Project scaffolding from template</li>
-          <li>Code generation for models, controllers, middleware, providers, jobs, listeners</li>
-          <li>Development server with hot reload and hot restart</li>
-          <li>Database migration management</li>
-          <li>Database seeding</li>
-          <li>Queue job processing</li>
-          <li>Cache management</li>
-          <li>JIT snapshot building for production</li>
+          <li><strong>Project Management:</strong> <code>khadem new</code> - Create new projects</li>
+          <li><strong>Development:</strong> <code>khadem serve</code> - Hot reload development server</li>
+          <li><strong>Code Generation:</strong> <code>khadem make:*</code> - Generate models, controllers, etc.</li>
+          <li><strong>Build & Deploy:</strong> <code>khadem build</code> - Production builds with multiple options</li>
+          <li><strong>Database:</strong> <code>khadem migrate</code>, <code>khadem db:seed</code> (coming soon)</li>
+          <li><strong>Queue:</strong> <code>khadem queue:work</code> (coming soon)</li>
         </ul>
       </div>
     </section>
@@ -60,21 +40,23 @@
 
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Project Creation</h3>
+          <h3 class="font-medium">Project Creation Features</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Single template based on khadem_template</li>
-            <li>Automatic .env configuration</li>
-            <li>JWT secret key generation</li>
-            <li>Project name replacement in files</li>
+            <li>Uses <code>khadem_template</code> as base</li>
+            <li>Automatic placeholder replacement</li>
+            <li>JWT secret key auto-generation</li>
+            <li>Project name validation</li>
+            <li>Environment file configuration</li>
           </ul>
         </div>
 
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Project Options</h3>
+          <h3 class="font-medium">Project Structure</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li><code>--name</code> - Project name (required)</li>
+            <li><code>--name</code> - Required project name</li>
             <li>Automatic folder structure creation</li>
             <li>Dependency installation ready</li>
+            <li>Pre-configured with best practices</li>
           </ul>
         </div>
       </div>
@@ -90,15 +72,15 @@
       />
 
       <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-        <h3 class="text-lg font-medium text-green-800 dark:text-green-200">Server Features</h3>
+        <h3 class="text-lg font-medium text-green-800 dark:text-green-200">Advanced Server Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-green-700 dark:text-green-300">
-          <li>Hot reload for instant code changes</li>
-          <li>Hot restart for full application restart</li>
-          <li>Automatic file watching</li>
-          <li>VM Service integration for debugging</li>
-          <li>Custom port configuration</li>
-          <li>Interactive keyboard controls</li>
-          <li>Error handling and recovery</li>
+          <li><strong>VM Service Integration:</strong> Hot reload and restart via Dart VM</li>
+          <li><strong>File Watching:</strong> Automatic detection of Dart file changes</li>
+          <li><strong>Interactive Controls:</strong> Keyboard shortcuts during development</li>
+          <li><strong>Error Recovery:</strong> Automatic restart on compilation errors</li>
+          <li><strong>Custom Port:</strong> Configurable server port</li>
+          <li><strong>Debounced Reloads:</strong> Prevents excessive reloads during rapid changes</li>
+          <li><strong>Process Management:</strong> Proper cleanup and signal handling</li>
         </ul>
       </div>
     </section>
@@ -148,14 +130,21 @@
       />
 
       <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-        <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200">Migration Features</h3>
+        <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200">Database Commands (Available but Disabled)</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-purple-700 dark:text-purple-300">
-          <li>Run all pending migrations</li>
-          <li>Reset all migrations (rollback all)</li>
-          <li>Fresh migration (drop all and rerun)</li>
-          <li>Database seeding support</li>
-          <li>Automatic migration file generation</li>
+          <li><strong>Migration System:</strong> Full migration framework with Dart mirrors</li>
+          <li><strong>Auto-Discovery:</strong> Automatic migration file discovery and loading</li>
+          <li><strong>Production Safety:</strong> Force flags and confirmation prompts</li>
+          <li><strong>Seeder Support:</strong> Database seeding with mirror-based discovery</li>
+          <li><strong>Status Tracking:</strong> Migration status and rollback capabilities</li>
+          <li><strong>Batch Operations:</strong> Step-by-step and reset operations</li>
         </ul>
+        <div class="mt-3 p-3 bg-purple-100 dark:bg-purple-900/40 rounded">
+          <p class="text-sm text-purple-800 dark:text-purple-200">
+            <strong>Note:</strong> Database commands are implemented but currently disabled in the CLI registry.
+            They will be enabled in a future release with full testing and documentation.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -204,12 +193,14 @@
       <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
         <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200">Build Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-indigo-700 dark:text-indigo-300">
-          <li>JIT snapshot compilation for faster startup</li>
-          <li>Code obfuscation for production</li>
-          <li>Archive creation with dependencies</li>
-          <li>Custom output path configuration</li>
-          <li>Includes config files and assets</li>
-          <li>Production-ready executable generation</li>
+          <li><strong>JIT/AOT Compilation:</strong> Choose between JIT snapshots or AOT executables</li>
+          <li><strong>Archive Creation:</strong> Package application with all dependencies</li>
+          <li><strong>Docker Integration:</strong> Generate Dockerfiles and docker-compose.yml</li>
+          <li><strong>Multi-Service Support:</strong> MySQL, PostgreSQL, MongoDB, Redis, Nginx</li>
+          <li><strong>Source Deployment:</strong> Prepare for cross-platform compilation</li>
+          <li><strong>Environment Templates:</strong> Auto-generate .env.example and docker configs</li>
+          <li><strong>Cross-Platform:</strong> Linux, Windows, macOS support</li>
+          <li><strong>Production Ready:</strong> Obfuscation and optimization options</li>
         </ul>
       </div>
     </section>
@@ -225,11 +216,14 @@
 
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium">Queue Management</h3>
+          <h3 class="font-medium">Queue Management (Available but Disabled)</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
-            <li>Process jobs from queue</li>
-            <li>Background job processing</li>
-            <li>Queue worker management</li>
+            <li><strong>Mirror-based Discovery:</strong> Auto-discover job classes using Dart mirrors</li>
+            <li><strong>Registry Support:</strong> Load jobs from app/jobs/jobs.dart registry</li>
+            <li><strong>Background Processing:</strong> Process jobs asynchronously</li>
+            <li><strong>Job Limits:</strong> Configurable max jobs and timeouts</li>
+            <li><strong>Signal Handling:</strong> Graceful shutdown with Ctrl+C</li>
+            <li><strong>Error Recovery:</strong> Continue processing on individual job failures</li>
           </ul>
         </div>
 
@@ -376,29 +370,9 @@
               <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--name</td>
             </tr>
             <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem migrate</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Run database migrations</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--reset, --fresh</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem seed</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Run database seeders</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">None</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem queue:work</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Process queue jobs</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">None</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem cache:clear</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Clear application cache</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">None</td>
-            </tr>
-            <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem build</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Build JIT snapshot for production</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--output, --archive</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Build application for production deployment</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--aot, --archive, --docker, --output, --services, --source-deploy, --verbose</td>
             </tr>
           </tbody>
         </table>
@@ -414,30 +388,31 @@
           <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
             <li>Use descriptive names for generated components</li>
             <li>Run tests before deploying to production</li>
-            <li>Use version control for migration files</li>
+            <li>Use version control for all generated files</li>
             <li>Document custom CLI commands</li>
             <li>Use environment-specific configurations</li>
             <li>Regularly update CLI to latest version</li>
             <li>Use interactive mode for complex setups</li>
-            <li>Backup database before running migrations</li>
-            <li>Monitor queue worker processes</li>
+            <li>Backup database before manual database changes</li>
             <li>Use cache warming for better performance</li>
+            <li>Test code generation output before using in production</li>
+            <li>Follow Dart naming conventions for generated classes</li>
           </ul>
         </div>
 
         <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
           <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">❌ Don'ts</h3>
           <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-            <li>Don't run migrations on production without testing</li>
             <li>Don't use generic names for database tables</li>
-            <li>Don't skip database backups before major changes</li>
-            <li>Don't ignore failed queue jobs</li>
+            <li>Don't skip database backups before manual changes</li>
             <li>Don't hardcode sensitive data in commands</li>
-            <li>Don't run multiple queue workers without monitoring</li>
             <li>Don't forget to clear cache after configuration changes</li>
-            <li>Don't use development database for testing migrations</li>
+            <li>Don't use development database for production testing</li>
             <li>Don't skip code generation tests</li>
             <li>Don't deploy without running the build command</li>
+            <li>Don't modify generated code directly (use inheritance instead)</li>
+            <li>Don't use the same port for multiple development servers</li>
+            <li>Don't skip dependency installation after project creation</li>
           </ul>
         </div>
       </div>
@@ -460,13 +435,19 @@
               <strong>Database connection failed:</strong> Check database configuration and connectivity
             </div>
             <div>
-              <strong>Migration errors:</strong> Review migration files and database schema
-            </div>
-            <div>
               <strong>Build failures:</strong> Check for syntax errors with <code>dart analyze</code>
             </div>
             <div>
-              <strong>Hot reload not working:</strong> Ensure VM service connection (check port 8181)
+              <strong>Hot reload not working:</strong> Ensure VM service connection (check port 8181) and Dart files are being watched
+            </div>
+            <div>
+              <strong>Server crashes on startup:</strong> Check for syntax errors with <code>dart analyze bin/server.dart</code>
+            </div>
+            <div>
+              <strong>Build fails with archive:</strong> Ensure all required files exist in the project structure
+            </div>
+            <div>
+              <strong>Docker build issues:</strong> Check that Docker is installed and services are properly configured
             </div>
           </div>
         </div>
@@ -521,12 +502,15 @@ khadem serve
 khadem serve --port=3001
 
 # Start server with file watching disabled
-khadem serve --no-watch
+khadem serve --watch=false
 
 # Interactive commands during development:
-# r - Hot reload
-# R - Hot restart  
-# q - Quit server`
+# r - Hot reload (reload code changes)
+# f - Hot restart (full application restart)
+# c - Clear consecutive failure count
+# q - Quit server
+
+# VM Service will be available on port 8181 for debugging`
 
 const generateCommandsCode = `# Generate a model
 khadem make:model --name=User
@@ -555,17 +539,25 @@ khadem make:listener --name=UserEventListener
 # Generate migration
 khadem make:migration --name=create_users_table`
 
-const databaseCommandsCode = `# Run all pending migrations
-khadem migrate
+const databaseCommandsCode = `# Database commands (currently disabled but implemented)
+# These commands exist in the codebase but are commented out
 
-# Reset all migrations (rollback all)
-khadem migrate --reset
+# Migration commands (when enabled):
+# khadem migrate - Run all pending migrations
+# khadem migrate --reset - Rollback and re-run all migrations
+# khadem migrate --fresh - Drop all tables and re-run migrations
+# khadem migrate --status - Show migration status
+# khadem migrate --force - Run in production (dangerous)
+# khadem migrate --step=5 - Run migrations in batches
+# khadem migrate --verbose - Detailed migration information
 
-# Fresh migration (drop all tables and rerun)
-khadem migrate --fresh
+# Seeder commands (when enabled):
+# khadem db:seed - Run all seeders
+# khadem db:seed --class=UserSeeder - Run specific seeder
+# khadem db:seed --force - Run in production
+# khadem db:seed --verbose - Detailed seeder information
 
-# Run seeders
-khadem seed`
+# For now, manage database manually or use direct SQL queries`
 
 const testingCommandsCode = `# Run all tests (using pub run test)
 dart test
@@ -594,38 +586,51 @@ dart test test/performance/
 # Generate test file (manual creation recommended)
 # No automated test generation command available`
 
-const deploymentCommandsCode = `# Build JIT snapshot for production
+const deploymentCommandsCode = `# Build JIT snapshot for production (default)
 khadem build
 
-# Build with custom output path
-khadem build --output=bin/my_app.jit
+# Build AOT executable for better performance
+khadem build --aot
 
-# Build and create archive
+# Build with custom output path
+khadem build --output=bin/my_app.exe
+
+# Build and create archive with all files
 khadem build --archive
 
+# Generate Docker setup with services
+khadem build --docker --services=mysql,redis,nginx
+
+# Generate source-only deployment
+khadem build --source-deploy
+
+# Build with verbose logging
+khadem build --verbose
+
 # Build without deleting temp files
-khadem build --no-delete-temp
+khadem build --delete-temp=false
 
-# Deploy (manual process - no automated deploy command)
-# Manual deployment steps:
-# 1. Build the application: khadem build --archive
-# 2. Upload the archive to your server
-# 3. Extract and configure environment
-# 4. Start the application`
+# Docker deployment options:
+# - mysql: MySQL database service
+# - postgres: PostgreSQL database service
+# - mongo: MongoDB database service
+# - redis: Redis cache service
+# - nginx: Nginx reverse proxy`
 
-const advancedCommandsCode = `# Process queue jobs
-khadem queue:work
+const advancedCommandsCode = `# Queue worker (currently disabled but implemented)
+# khadem queue:work - Start processing queued jobs
+# khadem queue:work --max-jobs=100 - Process max 100 jobs
+# khadem queue:work --delay=2 - 2 second delay between jobs
+# khadem queue:work --timeout=3600 - Stop after 1 hour
 
-# Clear application cache
-khadem cache:clear
-
-# Run scheduled tasks (if implemented)
-# khadem schedule:run (not currently available)
+# Cache management (not implemented yet)
+# khadem cache:clear (planned)
 
 # Additional available commands:
-# khadem seed - Run database seeders
-# khadem build - Build JIT snapshot
-# khadem make:* - Various code generation commands`
+# khadem build - Advanced build options
+# khadem make:* - Code generation commands
+# khadem new - Project creation
+# khadem serve - Development server`
 
 const configCommandsCode = `# View help for any command
 khadem --help
@@ -647,7 +652,8 @@ khadem serve
 
 # During development, use these keyboard shortcuts:
 # r - Hot reload (reload code changes)
-# R - Hot restart (full application restart)
+# f - Hot restart (full application restart)
+# c - Clear consecutive failure count
 # q - Quit the development server
 
 # Manual code generation (no interactive mode available)

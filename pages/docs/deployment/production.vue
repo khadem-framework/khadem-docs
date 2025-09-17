@@ -1,84 +1,395 @@
 <template>
-  <div>
-    <h1>Production Deployment</h1>
-    <p>Learn how to deploy your Khadem application to production environments with best practices for security, performance, and scalability.</p>
+  <div class="space-y-8">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Production Deployment</h1>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+        Comprehensive guide for deploying Khadem applications to production environments with automated deployment, security hardening, and performance optimization.
+      </p>
+    </header>
 
-    <h2>Environment Configuration</h2>
-    <p>Production environments require careful configuration for security and performance.</p>
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Automated Production Setup</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Khadem provides automated production deployment through the CLI, generating optimized configurations and deployment scripts for various hosting platforms.
+      </p>
 
-    <h2>Environment Variables</h2>
-    <CodeBlock language="bash" title=".env.production" :code="envCode" />
+      <CodeBlock
+        :code="automatedProductionCode"
+        language="bash"
+        title="Generate Production Setup Automatically"
+      />
 
-    <h2>Production Checklist</h2>
-    <ul>
-      <li>✅ Set APP_DEBUG=false</li>
-      <li>✅ Use strong APP_KEY (32 characters)</li>
-      <li>✅ Configure proper database credentials</li>
-      <li>✅ Set up Redis for caching and sessions</li>
-      <li>✅ Configure mail settings</li>
-      <li>✅ Set up file storage (local or cloud)</li>
-      <li>✅ Configure logging</li>
-      <li>✅ Set up SSL/TLS certificates</li>
-      <li>✅ Configure firewall rules</li>
-      <li>✅ Set up monitoring and alerts</li>
-      <li>✅ Configure backup strategy</li>
-      <li>✅ Set up CI/CD pipeline</li>
-    </ul>
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">Automated Features</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
+          <li>Systemd service configuration</li>
+          <li>Nginx reverse proxy setup</li>
+          <li>SSL/TLS certificate automation</li>
+          <li>Database and Redis configuration</li>
+          <li>Firewall and security hardening</li>
+          <li>Log rotation and monitoring</li>
+          <li>Backup automation scripts</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>Server Requirements</h2>
-    <CodeBlock language="bash" title="System Requirements" :code="systemRequirementsCode" />
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Environment Configuration</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Production environments require secure configuration with proper environment variables and security settings.
+      </p>
 
-    <h2>Server Setup</h2>
-    <CodeBlock language="bash" title="Ubuntu Server Setup" :code="ubuntuSetupCode" />
+      <CodeBlock
+        :code="envConfigCode"
+        language="bash"
+        title="Production Environment Configuration"
+      />
 
-    <h2>Application Deployment</h2>
-    <CodeBlock language="bash" title="Deployment Script" :code="deploymentScriptCode" />
+      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+        <h3 class="text-lg font-medium text-green-800 dark:text-green-200">Production Checklist</h3>
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
+          <div>
+            <h4 class="font-medium mb-2">Security & Configuration</h4>
+            <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
+              <li>✅ APP_DEBUG=false</li>
+              <li>✅ Strong APP_KEY (32+ characters)</li>
+              <li>✅ Secure database credentials</li>
+              <li>✅ Redis authentication enabled</li>
+              <li>✅ Environment variables for secrets</li>
+              <li>✅ CORS properly configured</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-2">Infrastructure & Monitoring</h4>
+            <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
+              <li>✅ SSL/TLS certificates</li>
+              <li>✅ Firewall configuration</li>
+              <li>✅ Log aggregation setup</li>
+              <li>✅ Monitoring and alerts</li>
+              <li>✅ Automated backups</li>
+              <li>✅ CI/CD pipeline</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <h2>SSL Configuration</h2>
-    <CodeBlock language="bash" title="SSL Setup with Let's Encrypt" :code="sslSetupCode" />
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Server Requirements</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Minimum and recommended server specifications for running Khadem applications in production.
+      </p>
 
-    <h2>Process Management</h2>
-    <CodeBlock language="bash" title="Systemd Service Management" :code="systemdManagementCode" />
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="font-medium mb-3">Minimum Requirements</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>OS:</strong> Ubuntu 20.04 LTS or CentOS 8+</li>
+            <li><strong>RAM:</strong> 2GB (4GB recommended)</li>
+            <li><strong>CPU:</strong> 2 cores (4 recommended)</li>
+            <li><strong>Storage:</strong> 20GB SSD</li>
+            <li><strong>Dart:</strong> SDK 3.0+</li>
+          </ul>
+        </div>
 
-    <h2>Database Backup</h2>
-    <CodeBlock language="bash" title="Automated Database Backup" :code="databaseBackupCode" />
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="font-medium mb-3">Recommended Stack</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Web Server:</strong> Nginx or Apache</li>
+            <li><strong>Database:</strong> PostgreSQL 15+ or MySQL 8+</li>
+            <li><strong>Cache:</strong> Redis 7+</li>
+            <li><strong>SSL:</strong> Let's Encrypt certificates</li>
+            <li><strong>Firewall:</strong> ufw or firewalld</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-    <h2>Monitoring Setup</h2>
-    <CodeBlock language="bash" title="Monitoring with Prometheus and Grafana" :code="monitoringSetupCode" />
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Server Setup & Configuration</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Automated server setup with Khadem CLI or manual configuration for production environments.
+      </p>
 
-    <h2>Performance Optimization</h2>
-    <ul>
-      <li>Use connection pooling for database connections</li>
-      <li>Implement caching for frequently accessed data</li>
-      <li>Use CDN for static assets</li>
-      <li>Enable gzip compression</li>
-      <li>Optimize database queries</li>
-      <li>Use Redis for session storage</li>
-      <li>Implement rate limiting</li>
-      <li>Set up horizontal scaling with load balancer</li>
-    </ul>
+      <CodeBlock
+        :code="serverSetupCode"
+        language="bash"
+        title="Automated Server Setup with Khadem CLI"
+      />
 
-    <h2>Security Best Practices</h2>
-    <ul>
-      <li>Keep system and dependencies updated</li>
-      <li>Use strong passwords and SSH keys</li>
-      <li>Configure firewall properly</li>
-      <li>Use SSL/TLS for all connections</li>
-      <li>Implement proper authentication and authorization</li>
-      <li>Regular security audits and penetration testing</li>
-      <li>Monitor logs for suspicious activities</li>
-      <li>Use environment variables for sensitive data</li>
-    </ul>
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+        <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200">Setup Components</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-yellow-700 dark:text-yellow-300">
+          <li><strong>Dart SDK:</strong> Latest stable version installation</li>
+          <li><strong>Database:</strong> PostgreSQL/MySQL with optimized configuration</li>
+          <li><strong>Redis:</strong> In-memory cache and session storage</li>
+          <li><strong>Nginx:</strong> Reverse proxy with SSL termination</li>
+          <li><strong>Firewall:</strong> UFW configuration for security</li>
+          <li><strong>SSL:</strong> Let's Encrypt certificate automation</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>Troubleshooting</h2>
-    <CodeBlock language="bash" title="Common Issues and Solutions" :code="troubleshootingCode" />
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Application Deployment</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Streamlined deployment process with automated build, migration, and service management.
+      </p>
+
+      <CodeBlock
+        :code="deploymentCode"
+        language="bash"
+        title="Automated Production Deployment"
+      />
+
+      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
+        <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200">Deployment Features</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-indigo-700 dark:text-indigo-300">
+          <li><strong>Zero-downtime:</strong> Rolling updates with health checks</li>
+          <li><strong>Auto-scaling:</strong> Horizontal scaling support</li>
+          <li><strong>Rollback:</strong> Quick reversion to previous versions</li>
+          <li><strong>Health Monitoring:</strong> Automated service health checks</li>
+          <li><strong>Log Aggregation:</strong> Centralized logging setup</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Process Management</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Systemd service management for reliable production operation with automatic restarts and logging.
+      </p>
+
+      <CodeBlock
+        :code="systemdCode"
+        language="ini"
+        title="Khadem Systemd Service Configuration"
+      />
+
+      <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+        <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200">Service Management</h3>
+        <CodeBlock
+          :code="serviceManagementCode"
+          language="bash"
+          title="Systemd Service Commands"
+        />
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">SSL/TLS Configuration</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Automated SSL certificate management with Let's Encrypt for secure HTTPS connections.
+      </p>
+
+      <CodeBlock
+        :code="sslCode"
+        language="bash"
+        title="SSL Setup with Let's Encrypt"
+      />
+
+      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+        <h3 class="text-lg font-medium text-green-800 dark:text-green-200">SSL Best Practices</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-green-700 dark:text-green-300">
+          <li><strong>Auto-renewal:</strong> Certificates renew automatically</li>
+          <li><strong>HSTS Headers:</strong> Force HTTPS connections</li>
+          <li><strong>Modern Ciphers:</strong> TLS 1.2+ with secure cipher suites</li>
+          <li><strong>Certificate Pinning:</strong> Optional HPKP implementation</li>
+          <li><strong>Monitoring:</strong> Certificate expiry alerts</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Database Backup & Recovery</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Automated database backup strategies with cloud storage integration and disaster recovery procedures.
+      </p>
+
+      <CodeBlock
+        :code="backupCode"
+        language="bash"
+        title="Automated Database Backup Script"
+      />
+
+      <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="font-medium">Backup Strategies</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li><strong>Daily Backups:</strong> Full database snapshots</li>
+            <li><strong>Incremental:</strong> Hourly change tracking</li>
+            <li><strong>Cloud Storage:</strong> AWS S3, Google Cloud, Azure</li>
+            <li><strong>Retention:</strong> Configurable retention policies</li>
+            <li><strong>Encryption:</strong> At-rest and in-transit encryption</li>
+          </ul>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="font-medium">Recovery Procedures</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li><strong>Point-in-time:</strong> Restore to specific timestamp</li>
+            <li><strong>Failover:</strong> Automatic switch to backup</li>
+            <li><strong>Testing:</strong> Regular recovery testing</li>
+            <li><strong>Documentation:</strong> Detailed recovery guides</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Monitoring & Observability</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Comprehensive monitoring stack with Prometheus, Grafana, and alerting for production applications.
+      </p>
+
+      <CodeBlock
+        :code="monitoringCode"
+        language="yaml"
+        title="Monitoring Stack Configuration"
+      />
+
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">Monitoring Components</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
+          <li><strong>Application Metrics:</strong> Response times, error rates, throughput</li>
+          <li><strong>System Metrics:</strong> CPU, memory, disk, network usage</li>
+          <li><strong>Database Metrics:</strong> Connection pools, query performance</li>
+          <li><strong>Custom Dashboards:</strong> Business-specific KPIs</li>
+          <li><strong>Alerting:</strong> Email, Slack, PagerDuty integration</li>
+          <li><strong>Log Aggregation:</strong> ELK stack or similar</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Performance Optimization</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Production performance tuning with caching, connection pooling, and optimization strategies.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+          <h3 class="text-lg font-medium text-green-800 dark:text-green-200">Application Optimization</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-green-700 dark:text-green-300">
+            <li><strong>AOT Compilation:</strong> Faster startup and lower memory</li>
+            <li><strong>Connection Pooling:</strong> Database connection optimization</li>
+            <li><strong>Caching Strategy:</strong> Multi-layer caching (Redis + CDN)</li>
+            <li><strong>Query Optimization:</strong> Database query performance</li>
+            <li><strong>Asset Optimization:</strong> Minification and compression</li>
+            <li><strong>Rate Limiting:</strong> API protection and abuse prevention</li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+          <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">Infrastructure Optimization</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
+            <li><strong>Load Balancing:</strong> Distribute traffic across instances</li>
+            <li><strong>Auto-scaling:</strong> Automatic resource scaling</li>
+            <li><strong>CDN Integration:</strong> Global content delivery</li>
+            <li><strong>Database Sharding:</strong> Horizontal data partitioning</li>
+            <li><strong>Read Replicas:</strong> Separate read and write workloads</li>
+            <li><strong>Horizontal Scaling:</strong> Multiple application instances</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Security Best Practices</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Comprehensive security measures for production Khadem deployments.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
+          <h3 class="text-lg font-medium text-red-800 dark:text-red-200">Infrastructure Security</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-red-700 dark:text-red-300">
+            <li><strong>Firewall:</strong> Restrict unnecessary ports and services</li>
+            <li><strong>SSH Hardening:</strong> Key-based authentication, disable root</li>
+            <li><strong>Updates:</strong> Regular security updates and patches</li>
+            <li><strong>Network Security:</strong> VPC isolation and security groups</li>
+            <li><strong>Access Control:</strong> Principle of least privilege</li>
+            <li><strong>Monitoring:</strong> Intrusion detection and log analysis</li>
+          </ul>
+        </div>
+
+        <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
+          <h3 class="text-lg font-medium text-orange-800 dark:text-orange-200">Application Security</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-orange-700 dark:text-orange-300">
+            <li><strong>Input Validation:</strong> Sanitize all user inputs</li>
+            <li><strong>Authentication:</strong> Secure authentication mechanisms</li>
+            <li><strong>Authorization:</strong> Role-based access control</li>
+            <li><strong>Data Encryption:</strong> Encrypt sensitive data at rest</li>
+            <li><strong>API Security:</strong> Rate limiting and API keys</li>
+            <li><strong>Security Headers:</strong> HTTP security headers</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Troubleshooting & Maintenance</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Common production issues and maintenance procedures for Khadem applications.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="font-medium mb-2">Common Issues</h3>
+          <CodeBlock
+            :code="troubleshootingCode"
+            language="bash"
+            title="Diagnostic Commands"
+          />
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+          <h3 class="font-medium mb-2">Maintenance Tasks</h3>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li><strong>Log Rotation:</strong> Regular log cleanup and archiving</li>
+            <li><strong>Database Maintenance:</strong> Index optimization and vacuuming</li>
+            <li><strong>Cache Clearing:</strong> Redis cache maintenance</li>
+            <li><strong>SSL Renewal:</strong> Certificate renewal monitoring</li>
+            <li><strong>Performance Tuning:</strong> Regular performance audits</li>
+            <li><strong>Security Updates:</strong> Dependency and system updates</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800 mt-4">
+        <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200">Emergency Procedures</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-yellow-700 dark:text-yellow-300">
+          <li><strong>Service Restart:</strong> <code>sudo systemctl restart khadem</code></li>
+          <li><strong>Database Recovery:</strong> Use latest backup for restoration</li>
+          <li><strong>Rollback Deployment:</strong> Quick reversion to stable version</li>
+          <li><strong>Traffic Management:</strong> Use load balancer for maintenance</li>
+          <li><strong>Incident Response:</strong> Documented escalation procedures</li>
+        </ul>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
+definePageMeta({ layout: 'docs' })
+useHead({
+  title: 'Production Deployment - Khadem Dart',
+  meta: [
+    { name: 'description', content: 'Comprehensive production deployment documentation for Khadem Dart' }
+  ]
+})
 import CodeBlock from '~/components/CodeBlock.vue'
 
-const envCode = `# Application Configuration
+const automatedProductionCode = `# Generate complete production setup
+dart run khadem build --production
+
+# Or specify components
+dart run khadem build --production --services=nginx,ssl,systemd
+
+# Generate for specific environment
+dart run khadem build --production --env=production`
+
+const envConfigCode = `# Application Configuration
 APP_NAME="Khadem App"
 APP_ENV=production
 APP_KEY=base64:your-32-character-secret-key-here
@@ -120,7 +431,7 @@ MAIL_USERNAME=your-email@gmail.com
 MAIL_PASSWORD=your-app-password
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=your-email@gmail.com
-MAIL_FROM_NAME="$&#123;APP_NAME&#125;"
+MAIL_FROM_NAME="\${APP_NAME}"
 
 # File Storage
 FILESYSTEM_DISK=local
@@ -137,21 +448,23 @@ LOG_LEVEL=error
 SANCTUM_STATEFUL_DOMAINS=yourdomain.com
 CORS_ALLOWED_ORIGINS=https://yourdomain.com`
 
-const systemRequirementsCode = `# Minimum Requirements
-- Ubuntu 20.04 LTS or CentOS 8+
-- 2GB RAM (4GB recommended)
-- 2 CPU cores (4 recommended)
-- 20GB SSD storage
-- Dart SDK 3.0+
+const systemdCode = `[Unit]
+Description=Khadem Application
+After=network.target postgresql.service redis-server.service
 
-# Recommended Stack
-- Nginx or Apache
-- PostgreSQL 13+ or MySQL 8+
-- Redis 6+
-- SSL certificate (Let's Encrypt)
-- Firewall (ufw or firewalld)`
+[Service]
+Type=simple
+User=khadem
+WorkingDirectory=/var/www/khadem
+ExecStart=/var/www/khadem/bin/server
+Restart=always
+RestartSec=5
+Environment=APP_ENV=production
 
-const ubuntuSetupCode = `# Update system
+[Install]
+WantedBy=multi-user.target`
+
+const serverSetupCode = `# Update system
 sudo apt update && sudo apt upgrade -y
 
 # Install required packages
@@ -188,7 +501,7 @@ sudo apt install nginx -y
 sudo systemctl start nginx
 sudo systemctl enable nginx`
 
-const deploymentScriptCode = `#!/bin/bash
+const deploymentCode = `#!/bin/bash
 
 # Production deployment script for Khadem
 set -e
@@ -353,7 +666,7 @@ EOF
 echo "✅ Deployment completed successfully!"
 echo "🌐 Your application is now running at https://$DOMAIN"`
 
-const sslSetupCode = `# Install Certbot
+const sslCode = `# Install Certbot
 sudo apt install certbot python3-certbot-nginx -y
 
 # Obtain SSL certificate
@@ -367,7 +680,7 @@ sudo crontab -e
 # Add this line:
 # 0 */12 * * * /usr/bin/certbot renew --quiet`
 
-const systemdManagementCode = `# Start the application
+const serviceManagementCode = `# Start the application
 sudo systemctl start khadem
 
 # Stop the application
@@ -388,7 +701,7 @@ sudo systemctl enable khadem
 # Disable auto-start
 sudo systemctl disable khadem`
 
-const databaseBackupCode = `#!/bin/bash
+const backupCode = `#!/bin/bash
 
 # Database backup script
 BACKUP_DIR="/var/backups/khadem"
@@ -413,7 +726,7 @@ find $BACKUP_DIR -name "*.sql.gz" -mtime +7 -delete
 
 echo "✅ Database backup completed: $&#123;DB_NAME&#125;_$&#123;DATE&#125;.sql.gz"`
 
-const monitoringSetupCode = `# Install Prometheus
+const monitoringCode = `# Install Prometheus
 wget https://github.com/prometheus/prometheus/releases/download/v2.40.0/prometheus-2.40.0.linux-amd64.tar.gz
 tar xvf prometheus-2.40.0.linux-amd64.tar.gz
 sudo mv prometheus-2.40.0.linux-amd64 /opt/prometheus
