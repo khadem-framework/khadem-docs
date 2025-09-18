@@ -241,7 +241,7 @@ const navigation = [
     items: [
       { title: 'Docker', path: '/docs/deployment/docker' },
       { title: 'Production', path: '/docs/deployment/production' },
-      { title: 'Monitoring', path: '/docs/deployment/monitoring' }
+      // { title: 'Monitoring', path: '/docs/deployment/monitoring' }
     ]
   }
 ]
