@@ -499,8 +499,8 @@ class AuthMiddleware extends Middleware {
       final user = await _verifyToken(token);
       _attachUserToRequest(req, user);
       await next();
-    } catch (e) {
-      throw AuthException('Authentication failed: ${e.toString()}');
+    } catch (error) {
+      throw AuthException('Authentication failed: \${error.toString()}');
     }
   }
 
@@ -747,8 +747,8 @@ class AuthController {
         'success': true,
         'data': result,
       });
-    } catch (e) {
-      final errorResponse = await AuthErrorHandler.handleAuthError(req, e);
+    } catch (error) {
+      final errorResponse = await AuthErrorHandler.handleAuthError(req, error);
       res.status(errorResponse['status_code']).sendJson(errorResponse);
     }
   }

@@ -31,7 +31,7 @@
       "description": "Intuitive command-line tools for project scaffolding, migrations, and deployment automation."
     },
     "docker": {
-      "title": "Docker Integration (Coming Soon)",
+      "title": "Docker Integration",
       "description": "We're working on seamless Docker support to simplify deployment across environments."
     }
   },

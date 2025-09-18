@@ -64,7 +64,7 @@
         </div>
 
         <!-- Legal -->
-        <div>
+        <!-- <div>
           <h3 class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
             {{ $t('footer.legal') }}
           </h3>
@@ -73,7 +73,7 @@
             <li><a href="/terms" class="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors">{{ $t('footer.terms') }}</a></li>
             <li><a href="/license" class="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors">{{ $t('footer.license') }}</a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
 
       <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
