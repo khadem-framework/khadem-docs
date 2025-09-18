@@ -176,7 +176,7 @@ const navigation = [
     title: 'Getting Started',
     items: [
       { title: 'Introduction', path: '/docs' },
-      // { title: 'Installation', path: '/docs/getting-started/installation' },
+      { title: 'Installation', path: '/docs/getting-started/installation' },
       { title: 'Creating a Project', path: '/docs/getting-started/creating-project' },
       { title: 'Folder Structure', path: '/docs/getting-started/folder-structure' },
     ]

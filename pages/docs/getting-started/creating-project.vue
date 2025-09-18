@@ -12,7 +12,7 @@
         <div>
           <h3 class="font-semibold text-blue-800 dark:text-blue-200">Prerequisites</h3>
           <p class="text-blue-700 dark:text-blue-300 text-sm">
-            Make sure you have <a href="/docs/installation" class="underline">Khadem CLI installed</a> before proceeding
+            Make sure you have <a href="/docs/getting-started/installation" class="underline">Khadem CLI installed</a> before proceeding
           </p>
         </div>
       </div>

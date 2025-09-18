@@ -56,14 +56,14 @@
     <p>Follow these steps to spin up your first project:</p>
     <CodeBlock :code="quickStartCode" language="bash" />
 
-    <h2 id="next-steps">Next Steps</h2>
+    <!-- <h2 id="next-steps">Next Steps</h2>
     <p>Once your project is created, here’s what you can explore next:</p>
     <ol class="list-decimal pl-6 mt-4">
       <li><NuxtLink class="text-primary-600 hover:text-primary-700" to="/docs/installation">Complete Installation Guide</NuxtLink></li>
       <li><NuxtLink class="text-primary-600 hover:text-primary-700" to="/docs/creating-project">Creating Your First Project</NuxtLink></li>
       <li><NuxtLink class="text-primary-600 hover:text-primary-700" to="/docs/folder-structure">Understanding the Folder Structure</NuxtLink></li>
       <li><NuxtLink class="text-primary-600 hover:text-primary-700" to="/docs/configuration">Environment & Configuration</NuxtLink></li>
-    </ol>
+    </ol> -->
   </div>
 </template>
 
