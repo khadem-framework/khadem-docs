@@ -16,7 +16,6 @@
       <li><strong>🧠 Smart Architecture:</strong> Structured with modular services, events, and middleware for clean, maintainable code.</li>
       <!-- <li><strong>🛠️ CLI First:</strong> Scaffolding, migrations, builds, and deployment — all from the command line.</li> -->
       <li><strong>📦 Built for APIs:</strong> REST-first, JWT-ready, and highly customizable routing.</li>
-      <li><strong>🧪 Testing Ready:</strong> Includes testable layers using mocks, DI, and service isolation.</li>
     </ul>
 
     <h2 id="what-is-khadem">What is Khadem?</h2>

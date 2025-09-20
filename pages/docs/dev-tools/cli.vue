@@ -199,14 +199,12 @@
       <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
         <h3 class="text-lg font-medium text-indigo-800 dark:text-indigo-200">Build Features</h3>
         <ul class="list-disc pl-5 mt-2 space-y-1 text-indigo-700 dark:text-indigo-300">
-          <li><strong>JIT/AOT Compilation:</strong> Choose between JIT snapshots or AOT executables</li>
-          <li><strong>Archive Creation:</strong> Package application with all dependencies</li>
-          <li><strong>Docker Integration:</strong> Generate Dockerfiles and docker-compose.yml</li>
+          <li><strong>Docker Generation:</strong> Automatically creates Dockerfile and docker-compose.yml</li>
           <li><strong>Multi-Service Support:</strong> MySQL, PostgreSQL, MongoDB, Redis, Nginx</li>
-          <li><strong>Source Deployment:</strong> Prepare for cross-platform compilation</li>
-          <li><strong>Environment Templates:</strong> Auto-generate .env.example and docker configs</li>
-          <li><strong>Cross-Platform:</strong> Linux, Windows, macOS support</li>
-          <li><strong>Production Ready:</strong> Obfuscation and optimization options</li>
+          <li><strong>Environment Templates:</strong> Auto-generates .env.example and .dockerignore</li>
+          <li><strong>Production Ready:</strong> Optimized Docker configurations with health checks</li>
+          <li><strong>Cross-Platform:</strong> Works on Linux, Windows, macOS via Docker</li>
+          <li><strong>Service Configuration:</strong> Flexible external service integration</li>
         </ul>
       </div>
     </section>
@@ -405,8 +403,8 @@
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">khadem build</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Build application for production deployment</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--aot, --archive, --docker, --output, --services, --source-deploy, --verbose</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Generate Docker setup for production deployment</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">--services, --verbose, --delete-temp</td>
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">custom:*</td>
@@ -487,10 +485,7 @@
               <strong>Server crashes on startup:</strong> Check for syntax errors with <code>dart analyze bin/server.dart</code>
             </div>
             <div>
-              <strong>Build fails with archive:</strong> Ensure all required files exist in the project structure
-            </div>
-            <div>
-              <strong>Docker build issues:</strong> Check that Docker is installed and services are properly configured
+              <strong>Docker build issues:</strong> Check that Docker is installed and services are properly configured in .env
             </div>
             <div>
               <strong>Custom command not discovered:</strong> Ensure command is in <code>app/commands/</code> directory and extends <code>KhademCommand</code>
@@ -635,36 +630,31 @@ dart test test/performance/
 # Generate test file (manual creation recommended)
 # No automated test generation command available`
 
-const deploymentCommandsCode = `# Build JIT snapshot for production (default)
+const deploymentCommandsCode = `# Generate Docker setup for production deployment (default)
 khadem build
 
-# Build AOT executable for better performance
-khadem build --aot
+# Generate Docker setup with specific services
+khadem build --services=mysql,redis,nginx
 
-# Build with custom output path
-khadem build --output=bin/my_app.exe
-
-# Build and create archive with all files
-khadem build --archive
-
-# Generate Docker setup with services
-khadem build --docker --services=mysql,redis,nginx
-
-# Generate source-only deployment
-khadem build --source-deploy
-
-# Build with verbose logging
+# Generate Docker setup with verbose logging
 khadem build --verbose
 
-# Build without deleting temp files
+# Generate Docker setup without deleting temp files
 khadem build --delete-temp=false
 
-# Docker deployment options:
+# Available service options:
 # - mysql: MySQL database service
 # - postgres: PostgreSQL database service
 # - mongo: MongoDB database service
 # - redis: Redis cache service
-# - nginx: Nginx reverse proxy`
+# - nginx: Nginx reverse proxy
+
+# After running khadem build:
+# 1. Dockerfile and docker-compose.yml will be generated
+# 2. .env.example template will be created
+# 3. .dockerignore file will be generated
+# 4. Copy .env.example to .env and configure your environment
+# 5. Run: docker-compose up -d`
 
 const advancedCommandsCode = `# Queue worker (currently disabled but implemented)
 # khadem queue:work - Start processing queued jobs
@@ -676,7 +666,7 @@ const advancedCommandsCode = `# Queue worker (currently disabled but implemented
 # khadem cache:clear (planned)
 
 # Additional available commands:
-# khadem build - Advanced build options
+# khadem build - Generate Docker setup for deployment
 # khadem make:* - Code generation commands
 # khadem new - Project creation
 # khadem serve - Development server`
