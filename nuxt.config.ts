@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   ],
 
   nitro: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/khadem-docs/' : '/',
     storage: {
       cache: {
         driver: 'memory'
@@ -77,6 +76,7 @@ export default defineNuxtConfig({
     }
   },
   app: {
+    baseURL: process.env.NODE_ENV === 'production' ? '/khadem-docs/' : '/',
     head: {
       title: 'Khadem - The Dart Backend Framework',
       meta: [
@@ -85,7 +85,7 @@ export default defineNuxtConfig({
         { name: 'description', content: 'A high-performance, modular backend framework for building APIs and command-line tools with Dart' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '~/favicon.ico' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' }

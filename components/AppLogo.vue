@@ -7,7 +7,7 @@
         animated ? 'animate-bounce-subtle' : '',
         containerSize
     ]" :style="containerStyle">
-            <img src='~/assets/images/logo.png' :alt="alt" class="w-full h-full object-contain"  style="pointer-events: none;"/>
+            <img src='/assets/images/logo.png' :alt="alt" class="w-full h-full object-contain"  style="pointer-events: none;"/>
         </div>
     </component>
 
@@ -17,7 +17,7 @@
 defineProps({
     src: {
         type: String,
-        default: '~/assets/images/khadem_logo.png',
+        default: '/assets/images/khadem_logo.png',
     },
     alt: {
         type: String,
