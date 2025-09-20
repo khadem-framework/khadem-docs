@@ -39,8 +39,14 @@ const props = defineProps({
 const copied = ref(false)
 
 const highlightedCode = computed(() => {
-  const grammar = Prism.languages[props.language] || Prism.languages.plaintext
-  return Prism.highlight(props.code, grammar, props.language)
+  try {
+    const grammar = Prism.languages[props.language] || Prism.languages.plaintext
+    return Prism.highlight(props.code, grammar, props.language)
+  } catch (error) {
+    console.warn(`Failed to highlight code with language ${props.language}:`, error)
+    // Return the original code if highlighting fails
+    return props.code
+  }
 })
 
 const copyCode = async () => {

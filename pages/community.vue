@@ -10,7 +10,7 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
         <div
           v-for="platform in platforms"
           :key="platform.name"
@@ -141,13 +141,13 @@ const platforms = [
     icon: 'mdi:discord',
     bgColor: 'bg-indigo-600'
   },
-  {
-    name: 'Twitter',
-    description: 'Stay updated with latest news.',
-    url: 'https://x.com/KhademFramework',
-    icon: 'prime:twitter',
-    bgColor: 'bg-blue-400'
-  }
+  // {
+  //   name: 'Twitter',
+  //   description: 'Stay updated with latest news.',
+  //   url: 'https://x.com/KhademFramework',
+  //   icon: 'prime:twitter',
+  //   bgColor: 'bg-blue-400'
+  // }
 ]
 
 </script>
