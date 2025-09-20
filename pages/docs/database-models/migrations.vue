@@ -143,7 +143,7 @@
       <!-- Next Section -->
       <section class="space-y-4">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Next Up</h2>
-        <p>Explore how to create <NuxtLink to="/docs/models" class="text-blue-600 dark:text-blue-400 hover:underline">Models</NuxtLink> and interact with your tables using Dart classes.</p>
+        <p>Explore how to create <NuxtLink to="/docs/database-models/models" class="text-blue-600 dark:text-blue-400 hover:underline">Models</NuxtLink> and interact with your tables using Dart classes.</p>
       </section>
     </div>
   </div>

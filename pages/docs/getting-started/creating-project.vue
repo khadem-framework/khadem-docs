@@ -152,7 +152,7 @@
     <p class="mb-4">Your Khadem project is ready! Continue exploring:</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <NuxtLink to="/docs/routing" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+      <NuxtLink to="/docs/core-concepts/routing" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
         <div class="flex items-center">
           <div class="text-2xl mr-3">🛣️</div>
           <div>
@@ -162,7 +162,7 @@
         </div>
       </NuxtLink>
 
-      <NuxtLink to="/docs/configuration" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+      <NuxtLink to="/docs/getting-started/configuration" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
         <div class="flex items-center">
           <div class="text-2xl mr-3">⚙️</div>
           <div>
@@ -172,7 +172,7 @@
         </div>
       </NuxtLink>
 
-      <NuxtLink to="/docs/models" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+      <NuxtLink to="/docs/database-models/models" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
         <div class="flex items-center">
           <div class="text-2xl mr-3">🗄️</div>
           <div>
@@ -182,7 +182,7 @@
         </div>
       </NuxtLink>
 
-      <NuxtLink to="/docs/container" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+      <NuxtLink to="/docs/core-concepts/container" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
         <div class="flex items-center">
           <div class="text-2xl mr-3">📦</div>
           <div>

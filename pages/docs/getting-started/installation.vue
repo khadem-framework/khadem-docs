@@ -216,7 +216,7 @@
     <p class="mb-4">Khadem is now installed and ready! Continue with these guides:</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <NuxtLink to="/docs/creating-project" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+      <NuxtLink to="/docs/getting-started/creating-project" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
         <div class="flex items-center">
           <div class="text-2xl mr-3">🚀</div>
           <div>
@@ -226,7 +226,7 @@
         </div>
       </NuxtLink>
 
-      <NuxtLink to="/docs/configuration" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+      <NuxtLink to="/docs/getting-started/configuration" class="block p-4 border border-primary-200 dark:border-primary-800 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
         <div class="flex items-center">
           <div class="text-2xl mr-3">⚙️</div>
           <div>
