@@ -104,51 +104,6 @@
       </p>
     </div>
 
-    <h2 id="environment-setup">Environment Setup</h2>
-
-    <h3>Add Khadem to PATH</h3>
-    <p class="mb-4">Ensure Khadem's executable is in your system PATH:</p>
-
-    <div class="space-y-4 mb-6">
-      <div>
-        <h4 class="font-semibold mb-2">Windows (PowerShell)</h4>
-        <CodeBlock :code="pathSetupWindowsCode" language="powershell" />
-      </div>
-
-      <div>
-        <h4 class="font-semibold mb-2">macOS/Linux (Bash/Zsh)</h4>
-        <CodeBlock :code="pathSetupUnixCode" language="bash" />
-      </div>
-    </div>
-
-    <h3>Verify PATH Setup</h3>
-    <p class="mb-4">Test that Khadem is accessible from any directory:</p>
-    <CodeBlock :code="verifyPathCode" language="bash" />
-
-    <h2 id="ide-setup">Development Environment</h2>
-    <p class="mb-4">Set up your IDE for the best Khadem development experience:</p>
-
-    <h3>Visual Studio Code (Recommended)</h3>
-    <ol class="list-decimal pl-6 mb-6 space-y-2">
-      <li>
-        Download and install <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline">Visual Studio Code</a>
-      </li>
-      <li>
-        Install the <a href="https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline">Dart Extension</a>
-      </li>
-      <li>
-        Install the <a href="https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline">Flutter Extension</a> (optional, for UI development)
-      </li>
-      <li>Restart VS Code to activate all Dart tools</li>
-    </ol>
-
-    <h3>Other IDEs</h3>
-    <ul class="list-disc pl-6 mb-6 space-y-2">
-      <li><strong>IntelliJ IDEA:</strong> Built-in Dart support available</li>
-      <li><strong>Android Studio:</strong> Full Dart and Flutter support</li>
-      <li><strong>Vim/Neovim:</strong> Use Dart LSP with appropriate plugins</li>
-    </ul>
-
     <h2 id="updating">Updating Khadem</h2>
     <p class="mb-4">Keep Khadem up-to-date with the latest features and bug fixes:</p>
 
@@ -160,28 +115,9 @@
       </p>
     </div>
 
-    <h2 id="troubleshooting">Troubleshooting</h2>
-
+  
     <div class="space-y-4 mb-8">
-      <div class="border border-red-200 dark:border-red-800 rounded-lg p-4">
-        <h3 class="font-semibold text-red-800 dark:text-red-200 mb-2">❌ Command Not Found</h3>
-        <p class="text-red-700 dark:text-red-300 text-sm mb-2">
-          If you get "khadem: command not found":
-        </p>
-        <ul class="text-red-700 dark:text-red-300 text-sm space-y-1 ml-4">
-          <li>• Ensure Dart's bin directory is in your PATH</li>
-          <li>• Try restarting your terminal/command prompt</li>
-          <li>• On Windows, you may need to restart your computer</li>
-        </ul>
-      </div>
-
-      <div class="border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-        <h3 class="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">⚠️ Permission Issues</h3>
-        <p class="text-yellow-700 dark:text-yellow-300 text-sm mb-2">
-          On macOS/Linux, if you get permission errors:
-        </p>
-        <CodeBlock :code="permissionFixCode" language="bash" />
-      </div>
+  
 
       <div class="border border-orange-200 dark:border-orange-800 rounded-lg p-4">
         <h3 class="font-semibold text-orange-800 dark:text-orange-200 mb-2">🔄 Version Conflicts</h3>
