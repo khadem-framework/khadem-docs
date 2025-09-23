@@ -25,7 +25,7 @@
           <li><strong>Build & Deploy:</strong> <code>khadem build</code> - Production builds with multiple options</li>
           <li><strong>Database:</strong> <code>khadem migrate</code>, <code>khadem db:seed</code> (coming soon)</li>
           <li><strong>Queue:</strong> <code>khadem queue:work</code> (coming soon)</li>
-          <li><strong>Custom Commands:</strong> Automatically discovered from <code>app/commands/</code> directory</li>
+          <li><strong>Custom Commands:</strong> Automatically discovered from <code>lib/app/commands/</code> directory</li>
         </ul>
         <div class="mt-3 p-2 bg-blue-100 dark:bg-blue-900/40 rounded">
           <p class="text-sm text-blue-800 dark:text-blue-200">
@@ -223,7 +223,7 @@
           <h3 class="font-medium">Queue Management (Available but Disabled)</h3>
           <ul class="list-disc pl-5 mt-2 space-y-1">
             <li><strong>Mirror-based Discovery:</strong> Auto-discover job classes using Dart mirrors</li>
-            <li><strong>Registry Support:</strong> Load jobs from app/jobs/jobs.dart registry</li>
+            <li><strong>Registry Support:</strong> Load jobs from lib/app/jobs/jobs.dart registry</li>
             <li><strong>Background Processing:</strong> Process jobs asynchronously</li>
             <li><strong>Job Limits:</strong> Configurable max jobs and timeouts</li>
             <li><strong>Signal Handling:</strong> Graceful shutdown with Ctrl+C</li>
@@ -290,7 +290,7 @@
         <h3 class="text-lg font-medium text-emerald-800 dark:text-emerald-200">🎯 Automatic Command Discovery</h3>
         <p class="mt-2 text-emerald-700 dark:text-emerald-300">
           Khadem automatically discovers and registers custom commands using <strong>Dart mirrors</strong>. 
-          Simply create your command class in the <code>app/commands/</code> directory, and it will be 
+          Simply create your command class in the <code>lib/app/commands/</code> directory, and it will be 
           automatically available in the CLI without any manual registration required!
         </p>
       </div>
@@ -333,7 +333,7 @@
       <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
         <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200">How Auto-Discovery Works</h3>
         <ol class="list-decimal pl-5 mt-2 space-y-1 text-blue-700 dark:text-blue-300">
-          <li>Khadem scans the <code>app/commands/</code> directory for <code>.dart</code> files</li>
+          <li>Khadem scans the <code>lib/app/commands/</code> directory for <code>.dart</code> files</li>
           <li>Uses Dart mirrors to load and inspect each file</li>
           <li>Identifies classes that extend <code>KhademCommand</code></li>
           <li>Automatically instantiates and registers discovered commands</li>
@@ -408,7 +408,7 @@
             </tr>
             <tr>
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-white font-mono">custom:*</td>
-              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Custom commands auto-discovered from app/commands/</td>
+              <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Custom commands auto-discovered from lib/app/commands/</td>
               <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">Varies by command</td>
             </tr>
           </tbody>
@@ -434,7 +434,7 @@
             <li>Use cache warming for better performance</li>
             <li>Test code generation output before using in production</li>
             <li>Follow Dart naming conventions for generated classes</li>
-            <li>Place custom commands in the <code>app/commands/</code> directory for auto-discovery</li>
+            <li>Place custom commands in the <code>lib/app/commands/</code> directory for auto-discovery</li>
             <li>Use flexible constructor patterns for better compatibility</li>
           </ul>
         </div>
@@ -453,7 +453,7 @@
             <li>Don't use the same port for multiple development servers</li>
             <li>Don't skip dependency installation after project creation</li>
             <li>Don't manually register custom commands (use auto-discovery instead)</li>
-            <li>Don't place custom commands outside of <code>app/commands/</code> directory</li>
+            <li>Don't place custom commands outside of <code>lib/app/commands/</code> directory</li>
           </ul>
         </div>
       </div>
@@ -482,13 +482,13 @@
               <strong>Hot reload not working:</strong> Ensure VM service connection (check port 8181) and Dart files are being watched
             </div>
             <div>
-              <strong>Server crashes on startup:</strong> Check for syntax errors with <code>dart analyze bin/server.dart</code>
+              <strong>Server crashes on startup:</strong> Check for syntax errors with <code>dart analyze lib/main.dart</code>
             </div>
             <div>
               <strong>Docker build issues:</strong> Check that Docker is installed and services are properly configured in .env
             </div>
             <div>
-              <strong>Custom command not discovered:</strong> Ensure command is in <code>app/commands/</code> directory and extends <code>KhademCommand</code>
+              <strong>Custom command not discovered:</strong> Ensure command is in <code>lib/app/commands/</code> directory and extends <code>KhademCommand</code>
             </div>
             <div>
               <strong>Mirror loading failed:</strong> Check that your command class has a compatible constructor (supports named or positional logger parameter)
@@ -700,7 +700,7 @@ khadem make:model --name=User
 khadem make:controller --name=UserController
 khadem make:migration --name=create_users_table`
 
-const customCommandsCode = `// File: app/commands/my_custom_command.dart
+const customCommandsCode = `// File: lib/app/commands/my_custom_command.dart
 import 'dart:io';
 import 'package:khadem/src/cli/bus/command.dart';
 
@@ -739,10 +739,10 @@ class MyCustomCommand extends KhademCommand {
 
 // No manual registration needed! 
 // Khadem automatically discovers and registers this command
-// when placed in the app/commands/ directory`;
+// when placed in the lib/app/commands/ directory`;
 
 const autoDiscoveryExampleCode = `# 1. Create your custom command file
-# File: app/commands/my_custom_command.dart
+# File: lib/app/commands/my_custom_command.dart
 # (See example above)
 
 # 2. Run khadem to see your command automatically discovered
@@ -798,7 +798,7 @@ dart test
 # Stop with Ctrl+C, then run: khadem serve
 
 # Check custom command discovery
-# Verify command file is in app/commands/ directory
+# Verify command file is in lib/app/commands/ directory
 # Ensure command extends KhademCommand
 # Check for syntax errors in command file`
 </script>

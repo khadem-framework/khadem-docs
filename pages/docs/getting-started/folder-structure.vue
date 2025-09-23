@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div>
         <h1>Project Structure</h1>
 
@@ -29,10 +29,10 @@
                     <span class="text-green-600 mr-2">📂</span> Application Layer
                 </h3>
                 <ul class="space-y-2 text-sm">
-                    <li><strong>app/</strong> - Business logic and domain code</li>
+                    <li><strong>lib/app/</strong> - Business logic and domain code</li>
+                    <li><strong>lib/core/</strong> - Application kernel and bootstrap</li>
                     <li><strong>routes/</strong> - HTTP and WebSocket route definitions</li>
                     <li><strong>config/</strong> - Environment-specific configurations</li>
-                    <li><strong>core/</strong> - Application kernel and bootstrap</li>
                 </ul>
             </div>
 
@@ -41,7 +41,7 @@
                     <span class="text-blue-600 mr-2">🗄️</span> Data & Storage
                 </h3>
                 <ul class="space-y-2 text-sm">
-                    <li><strong>database/</strong> - Migrations and database seeders</li>
+                    <li><strong>lib/database/</strong> - Migrations and database seeders</li>
                     <li><strong>storage/</strong> - File storage and cache directories</li>
                     <li><strong>lang/</strong> - Localization files</li>
                     <li><strong>resources/</strong> - Views and assets</li>
@@ -49,7 +49,12 @@
             </div>
         </div>
 
-        <h2 id="app-directory">app/ Directory</h2>
+        <h2 id="lib-directory">lib/ Directory</h2>
+        <p class="mb-4">
+            The core of your Dart application, following modern Dart package conventions. All application code lives within the <code>lib/</code> directory.
+        </p>
+
+        <h3>lib/app/ Directory</h3>
         <p class="mb-4">
             The heart of your application. Contains all business logic, domain models, and application services.
         </p>
@@ -97,19 +102,19 @@
 
         <CodeBlock :code="configExample" language="dart" />
 
-        <h2 id="core-directory">core/ Directory</h2>
+        <h2 id="core-directory">lib/core/ Directory</h2>
         <p class="mb-4">
             Contains the application kernel that handles bootstrapping, service registration, and core framework setup:
         </p>
 
         <CodeBlock :code="kernelExample" language="dart" />
 
-        <h2 id="database-directory">database/ Directory</h2>
+        <h2 id="database-directory">lib/database/ Directory</h2>
         <p class="mb-4">
             Database-related files including migrations and seeders:
         </p>
         <ul class="list-disc pl-6 mb-6 space-y-2">
-            <li><strong>migrations/</strong> - Database schema changes</li>
+            <li><strong>migrations/</strong> - Database schema changes and migrations.dart registry</li>
             <li><strong>seeders/</strong> - Database seeding scripts</li>
         </ul>
 
@@ -153,12 +158,22 @@
             <li><strong>views/</strong> - Template files for rendering</li>
         </ul>
 
-        <h2 id="bin-directory">bin/ Directory</h2>
+        <h2 id="main-entry">lib/main.dart</h2>
         <p class="mb-4">
-            Application entry points and command-line scripts:
+            The main application entry point following Dart package conventions:
         </p>
         <ul class="list-disc pl-6 mb-6 space-y-2">
-            <li><strong>server.dart</strong> - Main application entry point</li>
+            <li><strong>lib/main.dart</strong> - Application bootstrap and server startup</li>
+        </ul>
+
+        <CodeBlock :code="mainEntryPoint" language="dart" />
+
+        <h2 id="bin-directory">bin/ Directory</h2>
+        <p class="mb-4">
+            CLI entry points and command-line scripts:
+        </p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+            <li><strong>server.dart</strong> - CLI wrapper for the main application</li>
         </ul>
 
         <CodeBlock :code="serverEntryPoint" language="dart" />
@@ -219,7 +234,7 @@
         <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
             <h3 class="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">⚠️ Important</h3>
             <p class="text-yellow-700 dark:text-yellow-300 text-sm">
-                When customizing the structure, ensure you update the corresponding imports and service registrations in <code>core/kernel.dart</code>.
+                When customizing the structure, ensure you update the corresponding imports and service registrations in <code>lib/core/kernel.dart</code>.
             </p>
         </div>
 
@@ -259,19 +274,26 @@ definePageMeta({ layout: 'docs' })
 useHead({ title: 'Project Structure - Khadem Docs' })
 
 const structureCode = `my_api/
-├── app/
-│   ├── http/
-│   │   ├── controllers/
-│   │   │   └── home_controller.dart
-│   │   └── middleware/
-│   │       └── cors_middleware.dart
-│   ├── jobs/
-│   ├── listeners/
-│   ├── models/
-│   └── providers/
-│       ├── app_service_provider.dart
-│       ├── event_service_provider.dart
-│       └── scheduler_service_provider.dart
+├── lib/
+│   ├── app/
+│   │   ├── http/
+│   │   │   ├── controllers/
+│   │   │   │   └── home_controller.dart
+│   │   │   └── middleware/
+│   │   │       └── cors_middleware.dart
+│   │   ├── jobs/
+│   │   ├── listeners/
+│   │   ├── models/
+│   │   └── providers/
+│   │       ├── app_service_provider.dart
+│   │       ├── event_service_provider.dart
+│   │       └── scheduler_service_provider.dart
+│   ├── core/
+│   │   └── kernel.dart
+│   ├── database/
+│   │   ├── migrations/
+│   │   └── seeders/
+│   └── main.dart
 ├── bin/
 │   └── server.dart
 ├── config/
@@ -279,11 +301,6 @@ const structureCode = `my_api/
 │   ├── development/
 │   │   └── logging.json
 │   └── production/
-├── core/
-│   └── kernel.dart
-├── database/
-│   ├── migrations/
-│   └── seeders/
 ├── lang/
 │   ├── ar/
 │   └── en/
@@ -304,15 +321,21 @@ const structureCode = `my_api/
 │   └── logs/
 ├── tests/
 ├── .env
+├── .env.example
 ├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
 ├── pubspec.yaml
 └── README.md`
 
-const appStructureCode = `app/
+const appStructureCode = `lib/app/
 ├── http/
 │   ├── controllers/
 │   │   ├── home_controller.dart
-│   │   └── user_controller.dart
+│   │   ├── user_controller.dart
+│   │   └── api/
+│   │       └── v1/
+│   │           └── auth_controller.dart
 │   └── middleware/
 │       ├── auth_middleware.dart
 │       ├── cors_middleware.dart
@@ -325,15 +348,17 @@ const appStructureCode = `app/
 │   ├── event_service_provider.dart
 │   └── scheduler_service_provider.dart
 ├── jobs/
-│   ├── send_welcome_email.dart
-│   └── process_image.dart
+│   ├── send_welcome_email_job.dart
+│   ├── process_image_job.dart
+│   └── email/
+│       └── send_notification_job.dart
 ├── listeners/
 │   └── user_registered_listener.dart`
 
 const routesExample = `// routes/web.dart
 import 'package:khadem/khadem_dart.dart';
-import '../app/http/controllers/home_controller.dart';
-import '../core/kernel.dart';
+import '../lib/app/http/controllers/home_controller.dart';
+import '../lib/core/kernel.dart';
 
 void registerRoutes(Server server) {
   // Register global middlewares
@@ -415,12 +440,13 @@ class AppConfig {
   };
 }`
 
-const kernelExample = `// core/kernel.dart
+const kernelExample = `// lib/core/kernel.dart
 import 'package:khadem/khadem_dart.dart';
 import '../app/providers/app_service_provider.dart';
 import '../app/providers/event_service_provider.dart';
 import '../app/providers/scheduler_service_provider.dart';
-import '../config/app.dart';
+import '../../config/app.dart';
+import '../database/migrations/migrations.dart';
 
 class Kernel {
   Kernel._();
@@ -449,6 +475,7 @@ class Kernel {
   ];
 
   static final Map<String, Map<String, dynamic>> configs = AppConfig.configs;
+  static List<MigrationFile> get migrations => migrationsFiles;
 
   static Future<void> bootstrap() async {
     await Khadem.registerCoreServices();
@@ -457,16 +484,17 @@ class Kernel {
     await Khadem.boot();
 
     if (configs['database']?['run_migrations'] == true) {
-      await Khadem.migrator.upAll();
+      await Khadem.migrator.upAll(migrations);
     }
   }
 }`
 
-const databaseStructureCode = `database/
+const databaseStructureCode = `lib/database/
 ├── migrations/
 │   ├── 001_create_users_table.dart
 │   ├── 002_create_posts_table.dart
-│   └── 003_add_user_id_to_posts.dart
+│   ├── 003_add_user_id_to_posts.dart
+│   └── migrations.dart
 └── seeders/
     ├── database_seeder.dart
     ├── user_seeder.dart
@@ -486,11 +514,11 @@ const storageStructureCode = `storage/
     ├── khadem.log
     └── error.log`
 
-const serverEntryPoint = `// bin/server.dart
+const mainEntryPoint = `// lib/main.dart
 import 'dart:async';
 import 'dart:io';
 import 'package:khadem/khadem_dart.dart';
-import '../core/kernel.dart';
+import 'lib/core/kernel.dart';
 import '../routes/socket.dart';
 import '../routes/web.dart';
 
@@ -533,6 +561,13 @@ int? _extractPort(List<String> args) {
     return int.tryParse(args[portIndex + 1]);
   }
   return null;
+}`
+
+const serverEntryPoint = `// lib/main.dart
+import '../lib/main.dart' as app;
+
+Future<void> main(List<String> args) async {
+  await app.main(args);
 }`
 
 const pubspecExample = `name: my_api
@@ -610,18 +645,21 @@ storage/framework/views/*
 storage/logs/*`
 
 const customStructureExample = `my_api/
-├── app/
-│   ├── http/
-│   ├── services/
-│   │   ├── payment/
-│   │   │   ├── stripe_service.dart
-│   │   │   └── paypal_service.dart
-│   │   └── notification/
-│   │       ├── email_service.dart
-│   │       └── sms_service.dart
-│   └── repositories/
-│       ├── user_repository.dart
-│       └── post_repository.dart
+├── lib/
+│   ├── app/
+│   │   ├── http/
+│   │   ├── services/
+│   │   │   ├── payment/
+│   │   │   │   ├── stripe_service.dart
+│   │   │   │   └── paypal_service.dart
+│   │   │   └── notification/
+│   │   │       ├── email_service.dart
+│   │   │       └── sms_service.dart
+│   │   └── repositories/
+│   │       ├── user_repository.dart
+│   │       └── post_repository.dart
+│   ├── core/
+│   └── database/
 ├── config/
 │   ├── payment.dart
 │   └── notification.dart

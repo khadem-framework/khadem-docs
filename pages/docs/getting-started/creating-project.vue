@@ -40,11 +40,11 @@
           <span class="text-blue-600 mr-2">📁</span> Key Directories
         </h3>
         <ul class="space-y-2 text-sm">
-          <li><strong>app/</strong> - Application logic and business code</li>
+          <li><strong>lib/app/</strong> - Application logic and business code</li>
+          <li><strong>lib/core/</strong> - Application kernel and bootstrap</li>
+          <li><strong>lib/database/</strong> - Migrations and seeders</li>
           <li><strong>config/</strong> - Environment-specific configurations</li>
           <li><strong>routes/</strong> - HTTP and WebSocket route definitions</li>
-          <li><strong>database/</strong> - Migrations and seeders</li>
-          <li><strong>core/</strong> - Application kernel and bootstrap</li>
         </ul>
       </div>
 
@@ -53,10 +53,11 @@
           <span class="text-green-600 mr-2">📄</span> Key Files
         </h3>
         <ul class="space-y-2 text-sm">
-          <li><strong>bin/server.dart</strong> - Application entry point</li>
+          <li><strong>lib/main.dart</strong> - Application entry point</li>
+          <li><strong>lib/main.dart</strong> - Application entry point</li>
           <li><strong>pubspec.yaml</strong> - Project dependencies</li>
           <li><strong>.env</strong> - Environment variables</li>
-          <li><strong>core/kernel.dart</strong> - Service registration</li>
+          <li><strong>lib/core/kernel.dart</strong> - Service registration</li>
         </ul>
       </div>
     </div>
@@ -76,7 +77,7 @@
     <h3>Create Home Controller</h3>
     <CodeBlock :code="createControllerCode" language="bash" />
 
-    <p class="mb-4">Add the controller logic in <code>app/http/controllers/home_controller.dart</code>:</p>
+    <p class="mb-4">Add the controller logic in <code>lib/app/http/controllers/home_controller.dart</code>:</p>
     <CodeBlock :code="homeControllerCode" language="dart" />
 
     <h3>Register Routes</h3>
@@ -242,19 +243,26 @@ dart pub get
 khadem serve`
 
 const projectStructureCode = `my_first_api/
-├── app/
-│   ├── http/
-│   │   ├── controllers/
-│   │   │   └── home_controller.dart
-│   │   └── middleware/
-│   │       └── cors_middleware.dart
-│   ├── jobs/
-│   ├── listeners/
-│   ├── models/
-│   └── providers/
-│       ├── app_service_provider.dart
-│       ├── event_service_provider.dart
-│       └── scheduler_service_provider.dart
+├── lib/
+│   ├── app/
+│   │   ├── http/
+│   │   │   ├── controllers/
+│   │   │   │   └── home_controller.dart
+│   │   │   └── middleware/
+│   │   │       └── cors_middleware.dart
+│   │   ├── jobs/
+│   │   ├── listeners/
+│   │   ├── models/
+│   │   └── providers/
+│   │       ├── app_service_provider.dart
+│   │       ├── event_service_provider.dart
+│   │       └── scheduler_service_provider.dart
+│   ├── core/
+│   │   └── kernel.dart
+│   ├── database/
+│   │   ├── migrations/
+│   │   └── seeders/
+│   └── main.dart
 ├── bin/
 │   └── server.dart
 ├── config/
@@ -262,11 +270,6 @@ const projectStructureCode = `my_first_api/
 │   ├── development/
 │   │   └── logging.json
 │   └── production/
-├── core/
-│   └── kernel.dart
-├── database/
-│   ├── migrations/
-│   └── seeders/
 ├── lang/
 │   ├── ar/
 │   └── en/
@@ -396,8 +399,8 @@ class HomeController {
 }`
 
 const routesCode = `import 'package:khadem/khadem_dart.dart';
-import '../app/http/controllers/home_controller.dart';
-import '../core/kernel.dart';
+import '../lib/app/http/controllers/home_controller.dart';
+import '../lib/core/kernel.dart';
 
 void registerRoutes(Server server) {
   // Register global middlewares
