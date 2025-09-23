@@ -275,6 +275,7 @@ useHead({ title: 'Project Structure - Khadem Docs' })
 
 const structureCode = `my_api/
 ├── lib/
+│   ├── main.dart               # Application entry point
 │   ├── app/
 │   │   ├── http/
 │   │   │   ├── controllers/
@@ -282,51 +283,59 @@ const structureCode = `my_api/
 │   │   │   └── middleware/
 │   │   │       └── cors_middleware.dart
 │   │   ├── jobs/
+│   │   │   └── send_user_notification_job.dart
 │   │   ├── listeners/
+│   │   │   └── user_events_handler.dart
 │   │   ├── models/
+│   │   │   └── user.dart
 │   │   └── providers/
 │   │       ├── app_service_provider.dart
 │   │       ├── event_service_provider.dart
 │   │       └── scheduler_service_provider.dart
+│   ├── bin/                    # CLI commands and utilities
+│   ├── config/
+│   │   └── app.dart           # Application configuration
 │   ├── core/
-│   │   └── kernel.dart
+│   │   └── kernel.dart        # Application kernel
 │   ├── database/
 │   │   ├── migrations/
+│   │   │   ├── 0_create_users_table.dart
+│   │   │   ├── 0_create_personal_access_token_table.dart
+│   │   │   └── migrations.dart
 │   │   └── seeders/
-│   └── main.dart
-├── bin/
-│   └── server.dart
+│   │       ├── seeders.dart
+│   │       └── user_seeder.dart
+│   └── routes/
+│       ├── socket.dart
+│       └── web.dart
 ├── config/
-│   ├── app.dart
 │   ├── development/
 │   │   └── logging.json
 │   └── production/
+│       └── logging.json
 ├── lang/
 │   ├── ar/
+│   │   ├── ar.json
+│   │   ├── fields.json
+│   │   └── validation.json
 │   └── en/
+│       ├── en.json
+│       ├── fields.json
+│       └── validation.json
 ├── public/
-│   ├── index.html
 │   └── assets/
+│       └── logo.png
 ├── resources/
 │   └── views/
-├── routes/
-│   ├── socket.dart
-│   └── web.dart
+│       └── welcome.khdm.html
 ├── storage/
-│   ├── app/
-│   ├── framework/
-│   │   ├── cache/
-│   │   ├── sessions/
-│   │   └── views/
 │   └── logs/
-├── tests/
-├── .env
-├── .env.example
-├── .gitignore
-├── Dockerfile
-├── docker-compose.yml
-├── pubspec.yaml
-└── README.md`
+│       └── app.log
+├── tests/                      # Test files
+├── .env                        # Environment variables
+├── .gitignore                  # Git ignore rules
+├── pubspec.yaml                # Package configuration
+└── pubspec.lock                # Package lock file`;
 
 const appStructureCode = `lib/app/
 ├── http/
@@ -355,10 +364,10 @@ const appStructureCode = `lib/app/
 ├── listeners/
 │   └── user_registered_listener.dart`
 
-const routesExample = `// routes/web.dart
+const routesExample = `// lib/routes/web.dart
 import 'package:khadem/khadem_dart.dart';
-import '../lib/app/http/controllers/home_controller.dart';
-import '../lib/core/kernel.dart';
+import '../app/http/controllers/home_controller.dart';
+import '../core/kernel.dart';
 
 void registerRoutes(Server server) {
   // Register global middlewares

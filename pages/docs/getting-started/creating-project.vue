@@ -44,7 +44,7 @@
           <li><strong>lib/core/</strong> - Application kernel and bootstrap</li>
           <li><strong>lib/database/</strong> - Migrations and seeders</li>
           <li><strong>config/</strong> - Environment-specific configurations</li>
-          <li><strong>routes/</strong> - HTTP and WebSocket route definitions</li>
+          <li><strong>lib/routes/</strong> - HTTP and WebSocket route definitions</li>
         </ul>
       </div>
 
@@ -54,7 +54,7 @@
         </h3>
         <ul class="space-y-2 text-sm">
           <li><strong>lib/main.dart</strong> - Application entry point</li>
-          <li><strong>lib/main.dart</strong> - Application entry point</li>
+          <li><strong>lib/config/app.dart</strong> - Application configuration</li>
           <li><strong>pubspec.yaml</strong> - Project dependencies</li>
           <li><strong>.env</strong> - Environment variables</li>
           <li><strong>lib/core/kernel.dart</strong> - Service registration</li>
@@ -244,6 +244,7 @@ khadem serve`
 
 const projectStructureCode = `my_first_api/
 ├── lib/
+│   ├── main.dart               # Application entry point
 │   ├── app/
 │   │   ├── http/
 │   │   │   ├── controllers/
@@ -257,42 +258,36 @@ const projectStructureCode = `my_first_api/
 │   │       ├── app_service_provider.dart
 │   │       ├── event_service_provider.dart
 │   │       └── scheduler_service_provider.dart
+│   ├── bin/                    # CLI commands and utilities
+│   ├── config/
+│   │   └── app.dart           # Application configuration
 │   ├── core/
-│   │   └── kernel.dart
+│   │   └── kernel.dart        # Application kernel
 │   ├── database/
 │   │   ├── migrations/
 │   │   └── seeders/
-│   └── main.dart
-├── bin/
-│   └── server.dart
+│   └── routes/
+│       ├── socket.dart
+│       └── web.dart
 ├── config/
-│   ├── app.dart
 │   ├── development/
 │   │   └── logging.json
 │   └── production/
+│       └── logging.json
 ├── lang/
 │   ├── ar/
 │   └── en/
 ├── public/
-│   ├── index.html
 │   └── assets/
 ├── resources/
 │   └── views/
-├── routes/
-│   ├── socket.dart
-│   └── web.dart
 ├── storage/
-│   ├── app/
-│   ├── framework/
-│   │   ├── cache/
-│   │   ├── sessions/
-│   │   └── views/
 │   └── logs/
 ├── tests/
 ├── .env
 ├── .gitignore
 ├── pubspec.yaml
-└── README.md`
+└── pubspec.lock`;
 
 const pubspecCode = `name: my_api
 description: A backend API using Khadem
@@ -307,7 +302,7 @@ dependencies:
 dev_dependencies:
   test: ^1.21.0`
 
-const appConfigCode = `// config/app.dart
+const appConfigCode = `// lib/config/app.dart
 import 'package:khadem/khadem.dart';
 
 class AppConfig {
@@ -325,7 +320,7 @@ class AppConfig {
   };
 }`
 
-const handlerCode = `// routes/web.dart
+const handlerCode = `// lib/routes/web.dart
 
 server.get('/say-hello', (req, res) {
   res.sendJson({
