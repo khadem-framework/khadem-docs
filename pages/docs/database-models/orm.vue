@@ -1,500 +1,825 @@
 <template>
-    <div class="space-y-8">
-      <header class="mb-10">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Khadem ORM & Schema</h1>
-        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Complete guide to the Khadem Object-Relational Mapping system, Schema Builder, Query Builder, and relationship management for Dart applications.
-        </p>
-      </header>
-  
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">SchemaBuilder</h2>
-        <p>The <code>SchemaBuilder</code> class provides methods for creating and managing database schemas using the <code>Blueprint</code> class for table definitions.</p>
-  
-        <div class="space-y-8">
-          <div>
-            <h3 class="text-xl font-medium">create()</h3>
-            <p>Creates a new table with the specified structure using a <code>Blueprint</code> callback.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="createCode" 
-                language="dart"
-                title="Creating a Table"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>tableName</code>: The name of the table to create</li>
-                  <li><code>callback</code>: A function that defines the table structure using a <code>Blueprint</code></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">createIfNotExists()</h3>
-            <p>Creates a table only if it does not already exist.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="createIfNotExistsCode" 
-                language="dart"
-                title="Conditional Table Creation"
-              />
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">drop()</h3>
-            <p>Drops a specified table from the database.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="dropCode" 
-                language="dart"
-                title="Dropping a Table"
-              />
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">dropIfExists()</h3>
-            <p>Drops a table if it exists.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="dropIfExistsCode" 
-                language="dart"
-                title="Conditional Table Drop"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-  
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">QueryBuilder</h2>
-        <p>The <code>QueryBuilderInterface</code> provides a fluent interface for building and executing SQL queries, supporting operations like select, insert, update, and delete.</p>
-  
-        <div class="space-y-8">
-          <div>
-            <h3 class="text-xl font-medium">select()</h3>
-            <p>Specifies columns to retrieve in the query.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="selectCode" 
-                language="dart"
-                title="Selecting Columns"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>columns</code>: List of column names to select</li>
-                </ul>
-                <p><strong>Returns:</strong> <code>QueryBuilderInterface</code> for method chaining</p>
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">where()</h3>
-            <p>Adds a WHERE clause to the query.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="whereCode" 
-                language="dart"
-                title="Adding WHERE Clause"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>column</code>: Column name</li>
-                  <li><code>operator</code>: Comparison operator (e.g., '=', '>', '<')</li>
-                  <li><code>value</code>: Value to compare against</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">get()</h3>
-            <p>Executes the query and returns all matching results as a list of type <code>T</code>.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="getCode" 
-                language="dart"
-                title="Fetching Results"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <!-- <p><strong>Returns:</strong> <code>Future<List<T>></code></p> -->
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">insert()</h3>
-            <p>Inserts a new record into the table.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="insertCode" 
-                language="dart"
-                title="Inserting a Record"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>data</code>: Map of column names to values</li>
-                </ul>
-                <!-- <p><strong>Returns:</strong> <code>Future<int></code> (the insert ID)</p> -->
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">paginate()</h3>
-            <p>Fetches a paginated list of results.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="paginateCode" 
-                language="dart"
-                title="Paginating Results"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>perPage</code>: Number of items per page (default: 10)</li>
-                  <li><code>page</code>: Page number to fetch (default: 1)</li>
-                </ul>
-                <!-- <p><strong>Returns:</strong> <code>Future<PaginatedResult<T>></code></p> -->
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">withRelations()</h3>
-            <p>Loads related models eagerly.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="withRelationsCode" 
-                language="dart"
-                title="Eager Loading Relations"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>relations</code>: List of relation names or configurations</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-  
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Relationships & Eager Loading</h2>
-        <p>The framework supports eager loading of relationships through the <code>withRelations()</code> method in the query builder, supporting various relation types like hasOne, hasMany, belongsTo, and belongsToMany.</p>
-  
-        <div class="space-y-8">
-          <div>
-            <h3 class="text-xl font-medium">withRelations()</h3>
-            <p>Loads specified relationships eagerly when executing queries.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="loadRelationsCode" 
-                language="dart"
-                title="Eager Loading Relations"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Parameters:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>relations</code>: List of relation names to load</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+  <div class="space-y-10">
+    <header>
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">ORM Features & Traits</h1>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+        Advanced ORM features including Model Observers, Timestamps, Soft Deletes, Slugs,
+        UUID Primary Keys, Query Scopes, and more.
+      </p>
+    </header>
 
-          <div>
-            <h3 class="text-xl font-medium">Relation Types</h3>
-            <p>The framework supports different relationship types through <code>RelationDefinition</code>.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="parseRelationsCode" 
-                language="dart"
-                title="Relationship Types"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p>Supported relation types: <code>hasOne</code>, <code>hasMany</code>, <code>belongsTo</code>, <code>belongsToMany</code></p>
-              </div>
-            </div>
-          </div>
+    <!-- Model Observers -->
+    <DocSection title="Model Observers">
+      <template #description>
+        Observers provide a clean way to separate event handling logic from your models.
+        Listen to model lifecycle events and execute code before/after operations.
+      </template>
+      <CodeBlock :code="observerBasic" language="dart" title="Creating an Observer" />
+      <CodeBlock :code="observerRegistration" language="dart" title="Registering an Observer" class="mt-4" />
+      
+      <div class="mt-4 overflow-x-auto">
+        <h4 class="font-semibold mb-2">Observer Lifecycle Methods:</h4>
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-800">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Method</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">When Called</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Can Cancel?</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">creating()</td>
+              <td class="px-6 py-4 text-sm">Before INSERT query</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">created()</td>
+              <td class="px-6 py-4 text-sm">After INSERT succeeds</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">updating()</td>
+              <td class="px-6 py-4 text-sm">Before UPDATE query</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">updated()</td>
+              <td class="px-6 py-4 text-sm">After UPDATE succeeds</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">saving()</td>
+              <td class="px-6 py-4 text-sm">Before INSERT or UPDATE</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">saved()</td>
+              <td class="px-6 py-4 text-sm">After INSERT or UPDATE</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">deleting()</td>
+              <td class="px-6 py-4 text-sm">Before DELETE query</td>
+              <td class="px-6 py-4 text-sm text-green-600">Yes (return false)</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">deleted()</td>
+              <td class="px-6 py-4 text-sm">After DELETE succeeds</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">retrieving()</td>
+              <td class="px-6 py-4 text-sm">Before SELECT query</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">retrieved()</td>
+              <td class="px-6 py-4 text-sm">After SELECT succeeds</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">restoring()</td>
+              <td class="px-6 py-4 text-sm">Before soft delete restore</td>
+              <td class="px-6 py-4 text-sm text-green-600">Yes (return false)</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">restored()</td>
+              <td class="px-6 py-4 text-sm">After restore succeeds</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">forceDeleting()</td>
+              <td class="px-6 py-4 text-sm">Before permanent delete</td>
+              <td class="px-6 py-4 text-sm text-green-600">Yes (return false)</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm font-mono">forceDeleted()</td>
+              <td class="px-6 py-4 text-sm">After permanent delete</td>
+              <td class="px-6 py-4 text-sm">No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <CodeBlock :code="observerAdvanced" language="dart" title="Advanced Observer Example" class="mt-6" />
+    </DocSection>
+
+    <!-- Timestamps Trait -->
+    <DocSection title="Timestamps Trait">
+      <template #description>
+        Automatically manage `created_at` and `updated_at` timestamps when creating or updating models.
+      </template>
+      <CodeBlock :code="timestampsBasic" language="dart" title="Using Timestamps" />
+      <CodeBlock :code="timestampsCustom" language="dart" title="Customizing Timestamps" class="mt-4" />
+      <CodeBlock :code="timestampsHelpers" language="dart" title="Timestamp Helper Methods" class="mt-4" />
+    </DocSection>
+
+    <!-- Soft Deletes Trait -->
+    <DocSection title="Soft Deletes Trait">
+      <template #description>
+        Soft delete records by setting a `deleted_at` timestamp instead of permanently removing them.
+      </template>
+      <CodeBlock :code="softDeletesBasic" language="dart" title="Using Soft Deletes" />
+      <CodeBlock :code="softDeletesQuery" language="dart" title="Querying Soft Deleted Records" class="mt-4" />
+      <CodeBlock :code="softDeletesRestore" language="dart" title="Restoring and Force Deleting" class="mt-4" />
+    </DocSection>
+
+    <!-- HasSlug Trait -->
+    <DocSection title="HasSlug Trait">
+      <template #description>
+        Automatically generate URL-friendly slugs from text fields (e.g., titles).
+      </template>
+      <CodeBlock :code="slugBasic" language="dart" title="Using HasSlug" />
+      <CodeBlock :code="slugAdvanced" language="dart" title="Advanced Slug Usage" class="mt-4" />
+    </DocSection>
+
+    <!-- UuidPrimaryKey Trait -->
+    <DocSection title="UuidPrimaryKey Trait">
+      <template #description>
+        Use UUIDs as primary keys instead of auto-incrementing integers.
+      </template>
+      <CodeBlock :code="uuidBasic" language="dart" title="Using UUID Primary Keys" />
+      <CodeBlock :code="uuidAdvanced" language="dart" title="UUID with Observer" class="mt-4" />
+    </DocSection>
+
+    <!-- Query Scopes -->
+    <DocSection title="Query Scopes">
+      <template #description>
+        Define reusable query constraints that can be chained for cleaner, more maintainable code.
+      </template>
+      <CodeBlock :code="scopesBasic" language="dart" title="Defining Query Scopes" />
+      <CodeBlock :code="scopesAdvanced" language="dart" title="Advanced Scope Usage" class="mt-4" />
+      <CodeBlock :code="scopesConditional" language="dart" title="Conditional Scopes" class="mt-4" />
+    </DocSection>
+
+    <!-- Combining Traits -->
+    <DocSection title="Combining Multiple Traits">
+      <template #description>
+        Models can use multiple traits together for powerful functionality.
+      </template>
+      <CodeBlock :code="combinedTraits" language="dart" title="Using Multiple Traits" />
+    </DocSection>
+
+    <!-- Best Practices -->
+    <DocSection title="Best Practices">
+      <template #description>
+        Follow these guidelines when using ORM features and traits.
+      </template>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+          <h4 class="font-semibold text-green-900 dark:text-green-100 mb-2">✅ Do:</h4>
+          <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
+            <li>Use observers for cross-cutting concerns</li>
+            <li>Keep observer logic focused and single-purpose</li>
+            <li>Use soft deletes for audit trails</li>
+            <li>Generate slugs in observers for consistency</li>
+            <li>Use query scopes for reusable queries</li>
+            <li>Combine traits for rich model functionality</li>
+            <li>Document custom timestamp columns</li>
+            <li>Use UUIDs for distributed systems</li>
+          </ul>
         </div>
-      </section>
-  
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">KhademModel</h2>
-        <p>The <code>KhademModel</code> class is the base class for all models, providing serialization, relationship management, and database operations.</p>
-  
-        <div class="space-y-8">
-          <div>
-            <h3 class="text-xl font-medium">Defining a Model</h3>
-            <p>Extend <code>KhademModel</code> to create a model with fields, relations, and database interaction.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="modelDefinitionCode" 
-                language="dart"
-                title="Defining a User Model"
-              />
-              <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <p><strong>Key Properties:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li><code>fillable</code>: Fields that can be mass-assigned</li>
-                  <li><code>hidden</code>: Fields to exclude from serialization</li>
-                  <li><code>relations</code>: Map of relationship definitions</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">Querying</h3>
-            <p>Use the <code>query</code> property to build queries for the model.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="modelQueryCode" 
-                language="dart"
-                title="Querying Models"
-              />
-            </div>
-          </div>
-  
-          <div>
-            <h3 class="text-xl font-medium">Saving and Deleting</h3>
-            <p>Persist or remove models using <code>save()</code> and <code>delete()</code>.</p>
-            <div class="mt-4">
-              <CodeBlock 
-                :code="saveDeleteCode" 
-                language="dart"
-                title="Persisting Models"
-              />
-            </div>
-          </div>
+        <div class="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+          <h4 class="font-semibold text-red-900 dark:text-red-100 mb-2">❌ Don't:</h4>
+          <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
+            <li>Put heavy logic in observers (use jobs)</li>
+            <li>Create circular observer dependencies</li>
+            <li>Force delete unless necessary</li>
+            <li>Forget to add deleted_at index</li>
+            <li>Regenerate slugs after publication</li>
+            <li>Use too many traits on one model</li>
+            <li>Disable timestamps without good reason</li>
+            <li>Mix UUID and integer primary keys</li>
+          </ul>
         </div>
-      </section>
-  
-      <section class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h2 class="text-xl font-semibold text-blue-700 dark:text-blue-200 mb-3">Usage Patterns</h2>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <h3 class="font-medium text-blue-700 dark:text-blue-300">Controller Example</h3>
-            <CodeBlock 
-              :code="controllerExampleCode" 
-              language="dart"
-              compact
-            />
-          </div>
-          <div>
-            <h3 class="font-medium text-blue-700 dark:text-blue-300">Relationship Example</h3>
-            <CodeBlock 
-              :code="relationshipExampleCode" 
-              language="dart"
-              compact
-            />
-          </div>
-        </div>
-      </section>
-    </div>
-  </template>
-  
-  <script setup>
-  definePageMeta({ layout: 'docs' });
-  useHead({ 
-    title: 'Khadem ORM & Schema',
-    meta: [
-      { name: 'description', content: 'Complete reference for the Khadem ORM system, Schema Builder, Query Builder, and relationship handling' }
-    ]
-  });
-  
-  const createCode = `
-  // Creating a users table
-  Khadem.db.schemaBuilder.create('users', (Blueprint table) {
-    table.id();
-    table.string('name');
-    table.string('email');
-    table.string('password');
-    table.timestamps();
-  });
-  `;
-  
-  const createIfNotExistsCode = `
-  // Creating a table if it doesn't exist
-  Khadem.db.schemaBuilder.createIfNotExists('posts', (Blueprint table) {
-    table.id();
-    table.string('title');
-    table.text('content');
-    table.bigInteger('user_id');
-    table.timestamps();
-  });
-  `;
-  
-  const dropCode = `
-  // Dropping a table
-  Khadem.db.schemaBuilder.drop('users');
-  `;
-  
-  const dropIfExistsCode = `
-  // Dropping a table if it exists
-  Khadem.db.schemaBuilder.dropIfExists('posts');
-  `;
-  
-  const selectCode = `
-  // Selecting specific columns
-  final users = await Khadem.db.table('users').select(['id', 'name', 'email']).get();
-  `;
-  
-  const whereCode = `
-  // Adding a WHERE clause
-  final user = await Khadem.db.table('users').where('email', '=', 'test@example.com').first();
-  `;
-  
-  const getCode = `
-  // Fetching all users
-  final users = await Khadem.db.table('users').get();
-  
-  // Fetching with conditions
-  final activeUsers = await Khadem.db.table('users').where('status', '=', 'active').get();
-  `;
-  
-  const insertCode = `
-  // Inserting a new user
-  final id = await Khadem.db.table('users').insert({
-    'name': 'John Doe',
-    'email': 'john@example.com',
-    'password': 'hashed_password',
-  });
-  `;
-  
-  const paginateCode = `
-  // Paginating users
-  final result = await Khadem.db.table('users').paginate(perPage: 10, page: 2);
-  print('Total: \${result.total}, Page: \${result.currentPage}');
-  `;
-  
-  const withRelationsCode = `
-  // Eager loading user and comments
-  final post = await Khadem.db.table('posts').withRelations(['user', 'comments']).first();
-  `;
-  
-  const loadRelationsCode = `
-  // Loading relations for models using query builder
-  final posts = await Khadem.db.table('posts').withRelations(['user', 'comments']).get();
-  `;
-  
-  const parseRelationsCode = `
-  // Using relations in query builder
-  final posts = await Khadem.db.table('posts')
-      .withRelations(['user', 'comments'])
-      .where('published', '=', true)
-      .get();
-  `;
-  
-  const modelDefinitionCode = `
-  class User extends KhademModel<User> with Timestamps, HasRelationships {
-    String? name;
-    String? email;
-    String? password;
-  
-    User({this.name, this.email, this.password, int? id}) {
-      this.id = id;
-    }
-  
-    @override
-    List<String> get fillable => ['name', 'email', 'password', 'created_at', 'updated_at'];
-  
-    @override
-    List<String> get hidden => ['password'];
-  
-    @override
-    Map<String, RelationDefinition> get relations => {
-      'posts': RelationDefinition<Post>(
-        type: RelationType.hasMany,
-        relatedTable: 'posts',
-        localKey: 'id',
-        foreignKey: 'user_id',
-        factory: () => Post(),
-      )
-    };
-  
-    @override
-    dynamic getField(String key) {
-      return switch (key) {
-        'id' => id,
-        'name' => name,
-        'email' => email,
-        'password' => password,
-        'created_at' => createdAt,
-        'updated_at' => updatedAt,
-        _ => null
-      };
-    }
-  
-    @override
-    void setField(String key, dynamic value) {
-      return switch (key) {
-        'id' => id = value,
-        'name' => name = value,
-        'email' => email = value,
-        'password' => password = value,
-        'created_at' => createdAt = value,
-        'updated_at' => updatedAt = value,
-        _ => null
-      };
-    }
-  
-    @override
-    User newFactory(Map<String, dynamic> data) => User()..fromJson(data);
+      </div>
+    </DocSection>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({ layout: 'docs' });
+useHead({
+  title: 'ORM Features & Traits',
+  meta: [{ name: 'description', content: 'Advanced ORM features in Khadem framework' }]
+});
+
+const observerBasic = `
+import 'package:khadem/khadem.dart';
+
+class UserObserver extends ModelObserver<User> {
+  @override
+  void creating(User user) {
+    // Set UUID before creating
+    user.ensureUuidGenerated();
+    user.createdBy = getCurrentUserId();
+    
+    print('Creating user: \${user.email}');
   }
-  `;
-  
-  const modelQueryCode = `
-  // Querying users using the model's query property
-  final users = await User().query.where('status', '=', 'active').orderBy('name').get();
-  `;
-  
-  const saveDeleteCode = `
-  // Saving a model
-  final user = User(name: 'John', email: 'john@example.com');
-  await user.save();
-  
-  // Deleting a model
-  await user.delete();
-  `;
-  
-  const controllerExampleCode = `
-  class UserController {
-    void getUsers(Request req, Response res) async {
-      int page = int.tryParse(req.query['page'] ?? '') ?? 1;
-      int perPage = int.tryParse(req.query['perPage'] ?? '') ?? 10;
-      final result = await Khadem.db.table('users').paginate(perPage: perPage, page: page);
-      res.sendJson({'users': result.data, 'total': result.total});
+
+  @override
+  void created(User user) {
+    // Send welcome email after creation
+    print('User created: \${user.email}');
+    sendWelcomeEmail(user);
+  }
+
+  @override
+  void updating(User user) {
+    print('Updating user: \${user.id}');
+    user.updatedBy = getCurrentUserId();
+  }
+
+  @override
+  void updated(User user) {
+    print('User updated: \${user.id}');
+    clearUserCache(user.id);
+  }
+
+  @override
+  bool deleting(User user) {
+    // Prevent deletion if user has active posts
+    if (user.postsCount > 0) {
+      print('Cannot delete user with active posts');
+      return false; // Cancel deletion
+    }
+    return true; // Allow deletion
+  }
+
+  @override
+  void deleted(User user) {
+    print('User deleted: \${user.id}');
+    logUserDeletion(user);
+  }
+}`;
+
+const observerRegistration = `
+// Register observer globally (in service provider or bootstrap)
+User.observe(UserObserver());
+
+// Or register in model
+class User extends KhademModel<User> {
+  static void boot() {
+    observe(UserObserver());
+  }
+}
+
+// Now all User operations will trigger observer methods
+final user = User()
+  ..name = 'John Doe'
+  ..email = 'john@example.com';
+
+await user.save(); // Triggers creating() and created()
+
+user.name = 'Jane Doe';
+await user.save(); // Triggers updating() and updated()
+
+await user.delete(); // Triggers deleting() (can be cancelled)
+`;
+
+const observerAdvanced = `
+class PostObserver extends ModelObserver<Post> {
+  @override
+  void creating(Post post) {
+    // Generate slug from title
+    post.ensureSlugGenerated();
+    
+    // Set defaults
+    post.viewCount ??= 0;
+    post.status ??= 'draft';
+  }
+
+  @override
+  void created(Post post) {
+    // Dispatch event
+    Event.dispatch(PostCreatedEvent(post));
+    
+    // Cache invalidation
+    Cache.forget('posts:recent');
+  }
+
+  @override
+  void updating(Post post) {
+    // Track changes
+    if (post.isDirty('status')) {
+      print('Status changed: \${post.getOriginal('status')} -> \${post.status}');
     }
   }
-  `;
+
+  @override
+  bool deleting(Post post) {
+    // Move to archive instead of deleting
+    if (post.status == 'published') {
+      post.status = 'archived';
+      post.save();
+      return false; // Cancel actual deletion
+    }
+    return true;
+  }
+
+  @override
+  void retrieved(Post post) {
+    // Increment view count (consider using queues for better performance)
+    post.increment('view_count');
+  }
+}`;
+
+const timestampsBasic = `
+import 'package:khadem/khadem.dart';
+
+class Post extends KhademModel<Post> with Timestamps {
+  int? id;
+  String? title;
+  String? content;
   
-  const relationshipExampleCode = `
-  // Using relationships with query builder
-  final post = await Khadem.db.table('posts')
-      .withRelations(['user', 'comments'])
-      .where('id', '=', 1)
+  // created_at and updated_at are automatically managed
+}
+
+// Creating a record
+final post = Post()
+  ..title = 'Hello World'
+  ..content = 'First post';
+
+await post.save();
+// created_at and updated_at are set automatically
+
+print(post.createdAt); // DateTime
+print(post.updatedAt); // DateTime
+
+// Updating a record
+post.title = 'Updated Title';
+await post.save();
+// updated_at is updated automatically, created_at stays the same
+
+// Accessing timestamp info
+print('Age: \${post.age?.inDays} days');
+print('Was recently created: \${post.wasRecentlyCreated(hours: 24)}');
+print('Was recently updated: \${post.wasRecentlyUpdated(minutes: 30)}');
+`;
+
+const timestampsCustom = `
+// Disable timestamps
+class Session extends KhademModel<Session> with Timestamps {
+  @override
+  bool get timestamps => false; // No timestamp management
+}
+
+// Custom column names
+class Article extends KhademModel<Article> with Timestamps {
+  @override
+  String get createdAtColumn => 'published_at';
+  
+  @override
+  String get updatedAtColumn => 'modified_at';
+}
+
+// Manual timestamp manipulation
+final post = Post();
+post.setTimestamps(
+  createdAt: DateTime(2024, 1, 1),
+  updatedAt: DateTime(2024, 1, 15),
+);
+`;
+
+const timestampsHelpers = `
+// Touch - update only updated_at without changing data
+await post.touch();
+
+// Get age of record
+final age = post.age;
+print('Post is \${age?.inDays} days old');
+
+// Get time since last update
+final timeSinceUpdate = post.timeSinceUpdate;
+print('Last updated \${timeSinceUpdate?.inHours} hours ago');
+
+// Check if recently created/updated
+if (post.wasRecentlyCreated(hours: 24)) {
+  print('New post!');
+}
+
+if (post.wasRecentlyUpdated(minutes: 30)) {
+  print('Recently modified');
+}
+`;
+
+const softDeletesBasic = `
+import 'package:khadem/khadem.dart';
+
+class Post extends KhademModel<Post> with SoftDeletes {
+  int? id;
+  String? title;
+  String? content;
+  
+  // deleted_at is managed automatically
+}
+
+// Database migration - add deleted_at column
+await createTable('posts', (table) {
+  table.id();
+  table.string('title');
+  table.text('content');
+  table.timestamp('deleted_at').nullable();
+  table.timestamps();
+});
+
+// Soft delete (sets deleted_at)
+final post = await Post().query.find(1);
+await post.delete(); // Soft delete
+
+// Check if deleted
+print(post.trashed); // true
+print(post.isTrashed); // true
+print(post.deletedAt); // DateTime
+`;
+
+const softDeletesQuery = `
+// Default query excludes soft-deleted records
+final posts = await Post().query.get(); // Only active posts
+
+// Include soft-deleted records
+final allPosts = await Post().query.withTrashed().get();
+
+// Only soft-deleted records
+final trashedPosts = await Post().query.onlyTrashed().get();
+
+// Explicitly exclude soft-deleted (default behavior)
+final activePosts = await Post().query.withoutTrashed().get();
+`;
+
+const softDeletesRestore = `
+// Restore a soft-deleted record
+final post = await Post().query.onlyTrashed().find(1);
+await post.restore(); // Sets deleted_at to null
+
+print(post.trashed); // false
+
+// Force delete (permanently remove)
+await post.forceDelete(); // Actually deletes from database
+
+// With observer control
+class PostObserver extends ModelObserver<Post> {
+  @override
+  bool restoring(Post post) {
+    // Check if restoration is allowed
+    if (!canRestorePost(post)) {
+      return false; // Cancel restoration
+    }
+    return true;
+  }
+
+  @override
+  bool forceDeleting(Post post) {
+    // Warn before permanent deletion
+    logPermanentDeletion(post);
+    return true;
+  }
+}
+`;
+
+const slugBasic = `
+import 'package:khadem/khadem.dart';
+
+class Post extends KhademModel<Post> with HasSlug {
+  String? title;
+  
+  @override
+  String get slugSource => title ?? '';
+}
+
+// Use with observer for auto-generation
+class PostObserver extends ModelObserver<Post> {
+  @override
+  void creating(Post post) {
+    post.ensureSlugGenerated();
+  }
+}
+
+// Manual generation
+final post = Post()..title = 'Hello World!';
+post.generateSlug();
+print(post.slug); // "hello-world"
+
+// Custom source
+post.generateSlugFrom('Custom Title 123');
+print(post.slug); // "custom-title-123"
+`;
+
+const slugAdvanced = `
+// Check if slug exists
+if (!post.hasSlug) {
+  post.generateSlug();
+}
+
+// Ensure slug is generated (doesn't overwrite)
+post.ensureSlugGenerated();
+
+// Force regenerate
+post.regenerateSlug();
+
+// Add suffix for uniqueness
+final uniqueSlug = post.getSlugWithSuffix(2);
+print(uniqueSlug); // "my-post-2"
+
+// Find by slug
+final post = await Post().query
+    .where('slug', '=', 'hello-world')
+    .first();
+
+// URL routing
+Route.get('/blog/{slug}', (req, res) async {
+  final slug = req.param('slug');
+  final post = await Post().query
+      .where('slug', '=', slug)
       .first();
-  
-  // Accessing loaded relations
-  print(post?['user']?['name']);
-  print(post?['comments']?.length);
-  `;
-  </script>
-  
-  <style scoped>
-  .prose :where(h2):not(:where([class~="not-prose"] *)) {
-    margin-top: 2.5rem;
+      
+  if (post == null) {
+    return res.status(404).sendJson({'error': 'Post not found'});
   }
-  .prose :where(h3):not(:where([class~="not-prose"] *)) {
-    margin-top: 1.5rem;
+  
+  res.sendJson(post.toJson());
+});
+`;
+
+const uuidBasic = `
+import 'package:khadem/khadem.dart';
+
+class User extends KhademModel<User> with UuidPrimaryKey {
+  String? name;
+  String? email;
+  
+  // uuid is managed automatically
+}
+
+// Manual generation
+final user = User();
+user.generateUuid();
+print(user.uuid); // "550e8400-e29b-41d4-a716-446655440000"
+
+// Ensure UUID exists
+user.ensureUuidGenerated();
+
+// Get or generate
+final uuid = user.getOrGenerateUuid();
+`;
+
+const uuidAdvanced = `
+// Use with observer
+class UserObserver extends ModelObserver<User> {
+  @override
+  void creating(User user) {
+    user.ensureUuidGenerated();
   }
-  </style>
+}
+
+// Database migration - use uuid as primary key
+await createTable('users', (table) {
+  table.uuid('uuid').primary();
+  table.string('name');
+  table.string('email').unique();
+  table.timestamps();
+});
+
+// Or as secondary identifier
+await createTable('users', (table) {
+  table.id(); // Integer primary key
+  table.uuid('uuid').unique().index();
+  table.string('name');
+  table.timestamps();
+});
+
+// Find by UUID
+final user = await User().query
+    .where('uuid', '=', '550e8400-e29b-41d4-a716-446655440000')
+    .first();
+`;
+
+const scopesBasic = `
+import 'package:khadem/khadem.dart';
+
+class User extends KhademModel<User> with QueryScopes {
+  // Simple scope
+  QueryBuilderInterface<User> scopeActive(QueryBuilderInterface<User> query) {
+    return query.where('active', '=', true);
+  }
+  
+  // Scope with parameter
+  QueryBuilderInterface<User> scopeRole(
+    QueryBuilderInterface<User> query,
+    String role,
+  ) {
+    return query.where('role', '=', role);
+  }
+  
+  // Scope with multiple conditions
+  QueryBuilderInterface<User> scopeVerified(QueryBuilderInterface<User> query) {
+    return query
+        .whereNotNull('email_verified_at')
+        .where('status', '=', 'active');
+  }
+}
+
+// Usage - chain scopes manually
+final user = User();
+final activeUsers = await user.scopeActive(user.query).get();
+
+final admins = await user.scopeRole(user.query, 'admin').get();
+
+// Combine scopes
+final verifiedAdmins = await user
+    .scopeVerified(
+      user.scopeRole(user.query, 'admin')
+    )
+    .get();
+`;
+
+const scopesAdvanced = `
+class User extends KhademModel<User> with QueryScopes {
+  // Helper to combine multiple scopes
+  QueryBuilderInterface<User> activeVerifiedAdmins() {
+    return applyScopes([
+      (q) => scopeActive(q),
+      (q) => scopeVerified(q),
+      (q) => scopeRole(q, 'admin'),
+    ]);
+  }
+  
+  // Date range scope
+  QueryBuilderInterface<User> scopeCreatedBetween(
+    QueryBuilderInterface<User> query,
+    DateTime start,
+    DateTime end,
+  ) {
+    return query
+        .where('created_at', '>=', start)
+        .where('created_at', '<=', end);
+  }
+  
+  // Search scope
+  QueryBuilderInterface<User> scopeSearch(
+    QueryBuilderInterface<User> query,
+    String term,
+  ) {
+    return query.where((q) {
+      return q
+          .where('name', 'LIKE', '%\$term%')
+          .orWhere('email', 'LIKE', '%\$term%');
+    });
+  }
+}
+
+// Usage
+final users = await User().activeVerifiedAdmins().get();
+
+final recentUsers = await User()
+    .scopeCreatedBetween(
+      User().query,
+      DateTime.now().subtract(Duration(days: 7)),
+      DateTime.now(),
+    )
+    .get();
+`;
+
+const scopesConditional = `
+class User extends KhademModel<User> with QueryScopes {
+  // Dynamic filtering with conditional scopes
+  QueryBuilderInterface<User> filteredUsers({
+    String? role,
+    bool? active,
+    String? searchTerm,
+  }) {
+    var q = query;
+    
+    // Apply scope only if condition is met
+    q = when(active != null, q, (q) => scopeActive(q));
+    
+    // Apply scope only if value is not null
+    q = whenNotNull(role, q, (q, value) => scopeRole(q, value));
+    q = whenNotNull(searchTerm, q, (q, value) => scopeSearch(q, value));
+    
+    return q;
+  }
+  
+  // Using pipe for functional style
+  QueryBuilderInterface<User> complexQuery(Map<String, dynamic> filters) {
+    return pipe([
+      (q) => filters['active'] == true ? scopeActive(q) : q,
+      (q) => filters.containsKey('role') ? scopeRole(q, filters['role']) : q,
+      (q) => q.orderBy('created_at', direction: 'DESC'),
+      (q) => filters.containsKey('limit') ? q.limit(filters['limit']) : q,
+    ]);
+  }
+  
+  // Tap for debugging
+  QueryBuilderInterface<User> debugQuery() {
+    return tap(query, (q) => print('Current query: \$q'));
+  }
+}
+
+// Usage
+final users = await User()
+    .filteredUsers(
+      role: 'admin',
+      active: true,
+      searchTerm: 'john',
+    )
+    .get();
+
+final filtered = await User()
+    .complexQuery({
+      'active': true,
+      'role': 'user',
+      'limit': 10,
+    })
+    .get();
+`;
+
+const combinedTraits = `
+import 'package:khadem/khadem.dart';
+
+class Post extends KhademModel<Post> 
+    with Timestamps, SoftDeletes, HasSlug, QueryScopes {
+  int? id;
+  String? title;
+  String? content;
+  String? status;
+  
+  @override
+  String get slugSource => title ?? '';
+  
+  // Query scopes
+  QueryBuilderInterface<Post> scopePublished(QueryBuilderInterface<Post> query) {
+    return query.where('status', '=', 'published');
+  }
+  
+  QueryBuilderInterface<Post> scopeRecent(QueryBuilderInterface<Post> query) {
+    return query
+        .orderBy('created_at', direction: 'DESC')
+        .limit(10);
+  }
+}
+
+class PostObserver extends ModelObserver<Post> {
+  @override
+  void creating(Post post) {
+    // Generate slug from title
+    post.ensureSlugGenerated();
+    
+    // Set default status
+    post.status ??= 'draft';
+  }
+  
+  @override
+  void created(Post post) {
+    // Log creation
+    print('Post created: \${post.title} (\${post.slug})');
+    
+    // Send notification
+    Event.dispatch(PostCreatedEvent(post));
+  }
+  
+  @override
+  bool deleting(Post post) {
+    // Archive published posts instead of deleting
+    if (post.status == 'published') {
+      post.status = 'archived';
+      post.save();
+      return false; // Cancel deletion
+    }
+    return true;
+  }
+}
+
+// Register observer
+Post.observe(PostObserver());
+
+// Usage
+final post = Post()
+  ..title = 'Advanced ORM Features'
+  ..content = 'Learn about traits...';
+
+await post.save();
+// Triggers: creating(), sets slug, sets created_at/updated_at, triggers created()
+
+print(post.slug); // "advanced-orm-features"
+print(post.createdAt); // DateTime
+print(post.age?.inDays); // Days since creation
+
+// Query with scopes
+final recentPublished = await Post()
+    .scopePublished(Post().query)
+    .scopeRecent(Post().query)
+    .get();
+
+// Soft delete
+await post.delete(); // Sets deleted_at
+print(post.trashed); // true
+
+// Restore
+await post.restore(); // Clears deleted_at
+
+// Force delete (permanent)
+await post.forceDelete();
+`;
+</script>
