@@ -323,192 +323,163 @@ useHead({
 
 import CodeBlock from '~/components/CodeBlock.vue'
 
-const basicServerSetupCode = `import 'package:khadem/khadem_dart.dart';
+const basicServerSetupCode = `import 'package:khadem/khadem.dart';
 
-class WebSocketController {
-  static Future handleConnection(SocketClient client, Request request) async {
-    print('New WebSocket connection: \${client.id} from \${request.ip}');
+void main() async {
+  // Create standalone WebSocket server on port 3000
+  final socketServer = SocketServer(3000);
 
-    // Send welcome message
-    client.sendJson({
-      'event': 'welcome',
-      'message': 'Welcome to Khadem WebSocket server!',
-      'timestamp': DateTime.now().toIso8601String()
-    });
-  }
-}
-
-// Setup WebSocket server
-void setupWebSocketServer(Server server) {
-  final socketServer = SocketServer();
-
-  // Add authentication
-  socketServer.useAuth((client, request) async {
-    final token = request.query['token'];
-    if (token == null) return null;
-
-    // Verify token and return user ID
+  // Add authentication (runs during WebSocket upgrade)
+  socketServer.useAuth((request) async {
+    final token = request.header('Authorization')?.replaceFirst('Bearer ', '');
+    if (token == null) return false;
+    
+    // Verify JWT token
     final payload = await verifyJWTToken(token);
-    return payload?['sub'];
+    return payload != null;
   });
 
   // Add connection middleware
-  socketServer.use((client, request) async {
-    print('Connection middleware: \${request.ip}');
-    return true;
+  socketServer.useMiddleware(
+    SocketMiddleware.connection(
+      (client, request, next) async {
+        print('Client connecting: \${client.id}');
+        await next();
+      },
+      name: 'connection-logger',
+    ),
+  );
+
+  // Handle connection events
+  socketServer.onConnect((client) async {
+    print('✅ Client connected: \${client.id}');
+    client.send('welcome', {'message': 'Connected to WebSocket server'});
+  });
+
+  socketServer.onDisconnect((client) async {
+    print('❌ Client disconnected: \${client.id}');
   });
 
   // Setup event handlers
   socketServer.on('ping', (client, data) async {
-    client.sendJson({
-      'event': 'pong',
+    client.send('pong', {'timestamp': DateTime.now().toIso8601String()});
+  });
+
+  socketServer.on('echo', (client, data) async {
+    client.send('echo', data);
+  });
+
+  // Start server
+  await socketServer.start();
+  print('🟢 WebSocket Server running on ws://localhost:3000');
+}
+
+// Helper function for JWT verification
+Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
+  try {
+    // Implement JWT verification logic
+    return {'sub': 'user-id', 'email': 'user@example.com'};
+  } catch (e) {
+    return null;
+  }
+}`
+
+const basicEventHandlingCode = `import 'package:khadem/khadem.dart';
+
+void setupWebSocketEvents(SocketServer server) {
+  // Setup event handlers
+  server.on('ping', (client, data) async {
+    print('Received ping from \${client.id}');
+    client.send('pong', {'timestamp': DateTime.now().toIso8601String()});
+  });
+
+  server.on('echo', (client, data) async {
+    final message = data['message'];
+    print('Received echo from \${client.id}: \$message');
+    client.send('echo_response', {
+      'original_message': message,
       'timestamp': DateTime.now().toIso8601String()
     });
   });
 
-  socketServer.on('echo', (client, data) async {
+  server.on('join_room', (client, data) async {
+    final roomName = data['room'];
+    if (roomName != null) {
+      client.joinRoom(roomName);
+      client.send('room_joined', {'room': roomName});
+      
+      // Notify room members
+      server.manager.broadcast(roomName, 'user_joined', {
+        'client_id': client.id,
+        'room': roomName
+      });
+    }
+  });
+
+  server.on('send_message', (client, data) async {
+    final roomName = data['room'];
     final message = data['message'];
-    if (message != null) {
-      client.sendJson({
-        'event': 'echo',
+    
+    if (roomName != null && message != null) {
+      // Broadcast to all clients in the room
+      server.manager.broadcast(roomName, 'message', {
+        'client_id': client.id,
+        'room': roomName,
         'message': message,
         'timestamp': DateTime.now().toIso8601String()
       });
     }
   });
 
-  // Handle connections
-  socketServer.onConnect((client) async {
-    print('Client connected: \${client.id}');
+  // Handle connection events
+  server.onConnect((client) async {
+    print('✅ Client connected: \${client.id}');
+    client.send('connected', {
+      'client_id': client.id,
+      'timestamp': DateTime.now().toIso8601String()
+    });
   });
 
-  socketServer.onDisconnect((client) async {
-    print('Client disconnected: \${client.id}');
+  server.onDisconnect((client) async {
+    print('❌ Client disconnected: \${client.id}');
   });
-
-  // Mount WebSocket server
-  server.websocket('/ws', (socket, request) async {
-    await socketServer.handleConnection(socket, request);
-  });
-}
-
-// Main server setup
-void main() async {
-  final server = Server();
-
-  // Setup WebSocket routes
-  setupWebSocketServer(server);
-
-  // Start server
-  await server.listen(8080);
-  print('Server running on port 8080 with WebSocket support');
-}
-
-// Helper function for JWT verification
-Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
-  try {
-    // Implement your JWT verification logic here
-    // This is a placeholder
-    return {
-      'sub': 'user123',
-      'username': 'john_doe'
-    };
-  } catch (e) {
-    return null;
-  }
 }`
 
-const basicEventHandlingCode = `class WebSocketController {
-  static Future handleConnection(SocketServer server) async {
-    // Setup event handlers
-    server.on('ping', (SocketClient client, Map<String, dynamic> data) async {
-      print('Received ping from \${client.id}');
-
-      // Send pong response
-      client.sendJson({
-        'event': 'pong',
-        'timestamp': DateTime.now().toIso8601String()
-      });
-    });
-
-    server.on('echo', (SocketClient client, Map<String, dynamic> data) async {
-      final message = data['message'];
-      print('Received echo from \${client.id}: \$message');
-
-      // Echo the message back
-      client.sendJson({
-        'event': 'echo_response',
-        'original_message': message,
-        'timestamp': DateTime.now().toIso8601String()
-      });
-    });
-
-    server.on('broadcast', (SocketClient client, Map<String, dynamic> data) async {
-      final message = data['message'];
-      print('Broadcast request from \${client.id}: \$message');
-
-      // Broadcast to all connected clients
-      await server.broadcast({
-        'event': 'broadcast_message',
-        'from': client.get('user_id'),
-        'message': message,
-        'timestamp': DateTime.now().toIso8601String()
-      });
-    });
-
-    // Handle connection events
-    server.onConnect((SocketClient client) async {
-      print('Client connected: \${client.id}');
-
-      // Send welcome message
-      client.sendJson({
-        'event': 'connected',
-        'client_id': client.id,
-        'timestamp': DateTime.now().toIso8601String()
-      });
-    });
-
-    server.onDisconnect((SocketClient client) async {
-      print('Client disconnected: \${client.id}');
-    });
-  }
-}
-
-// Usage
-void setupWebSocketEvents(SocketServer server) {
-  WebSocketController.handleConnection(server);
-}`
-
-const startServerCode = `import 'package:khadem/khadem_dart.dart';
+const startServerCode = `import 'package:khadem/khadem.dart';
 
 void main() async {
-  // Create HTTP server
-  final server = Server();
-
-  // Create WebSocket server
-  final socketServer = SocketServer();
+  // Create WebSocket server on port 3000
+  final socketServer = SocketServer(3000);
 
   // Setup authentication
-  socketServer.useAuth((client, request) async {
-    final token = request.query['token'];
-    if (token == null) return null;
+  socketServer.useAuth((request) async {
+    final token = request.header('Authorization')?.replaceFirst('Bearer ', '');
+    if (token == null) return false;
 
-    // Verify token and return user ID
     final payload = await verifyJWTToken(token);
-    return payload?['sub'];
+    if (payload == null) return false;
+
+    // Store user info in request context (accessible via client.get())
+    request.setAttribute('user_id', payload['sub']);
+    request.setAttribute('username', payload['username']);
+    return true;
   });
 
   // Setup event handlers
   socketServer.on('ping', (client, data) async {
-    client.sendJson({'event': 'pong'});
+    client.send('pong', {'timestamp': DateTime.now().toIso8601String()});
   });
 
   socketServer.on('join_room', (client, data) async {
     final roomName = data['room'];
     if (roomName != null) {
-      await client.joinRoom(roomName);
-      client.sendJson({
-        'event': 'room_joined',
+      client.joinRoom(roomName);
+      client.send('room_joined', {'room': roomName});
+
+      // Notify room members
+      socketServer.manager.broadcast(roomName, 'user_joined', {
+        'client_id': client.id,
+        'user_id': client.get('user_id'),
         'room': roomName
       });
     }
@@ -519,53 +490,46 @@ void main() async {
     final message = data['message'];
 
     if (roomName != null && message != null) {
-      await socketServer.broadcastToRoom(roomName, {
-        'event': 'message',
-        'from': client.get('user_id'),
+      socketServer.manager.broadcast(roomName, 'message', {
+        'client_id': client.id,
+        'user_id': client.get('user_id'),
+        'username': client.get('username'),
         'message': message,
         'timestamp': DateTime.now().toIso8601String()
-      }, exclude: client);
+      });
     }
   });
 
-  // Mount WebSocket server
-  server.websocket('/ws', (socket, request) async {
-    await socketServer.handleConnection(socket, request);
+  // Handle connections
+  socketServer.onConnect((client) async {
+    print('✅ Client connected: \${client.id}');
+    client.send('connected', {
+      'client_id': client.id,
+      'user_id': client.get('user_id')
+    });
   });
 
-  // Add HTTP routes
-  server.get('/', (request) async {
-    final html = '''
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Khadem WebSocket Server</title>
-        </head>
-        <body>
-          <h1>Khadem WebSocket Server</h1>
-          <p>WebSocket endpoint: <code>ws://localhost:8080/ws</code></p>
-          <CodeBlock
-            :code="clientExampleCode"
-            language="javascript"
-            title="Basic WebSocket Client Example"
-          />
-        </body>
-      </html>
-    ''';
-    return Response.html(html);
+  socketServer.onDisconnect((client) async {
+    print('❌ Client disconnected: \${client.id}');
+    // Notify all rooms this client was in
+    for (final room in client.rooms) {
+      socketServer.manager.broadcast(room, 'user_left', {
+        'client_id': client.id,
+        'user_id': client.get('user_id'),
+        'room': room
+      });
+    }
   });
 
   // Start server
-  await server.listen(8080);
-  print('Server running on http://localhost:8080');
-  print('WebSocket endpoint: ws://localhost:8080/ws');
+  await socketServer.start();
+  print('🟢 Server running on ws://localhost:3000');
 }
 
 // Helper function for JWT verification
 Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
   try {
-    // Implement your JWT verification logic here
-    // This is a placeholder
+    // Implement JWT verification logic
     return {
       'sub': 'user123',
       'username': 'john_doe'
@@ -575,127 +539,111 @@ Future<Map<String, dynamic>?> verifyJWTToken(String token) async {
   }
 }`
 
-const roomManagementCode = `// Room management using SocketServer and SocketManager
-class ChatServer {
-  final SocketServer server;
-  final SocketManager manager;
+const roomManagementCode = `import 'package:khadem/khadem.dart';
 
-  ChatServer(this.server, this.manager) {
-    setupEventHandlers();
-  }
+void setupRoomManagement(SocketServer server) {
+  // Handle room join
+  server.on('join_room', (client, data) async {
+    final roomName = data['room'];
+    if (roomName == null) return;
 
-  void setupEventHandlers() {
-    // Handle room join
-    server.on('join_room', (SocketClient client, Map<String, dynamic> data) async {
-      final roomName = data['room'] as String?;
-      if (roomName == null) return;
+    // Join the room
+    client.joinRoom(roomName);
 
-      try {
-        await client.joinRoom(roomName);
-
-        // Notify others in the room
-        await manager.broadcastToRoom(roomName, {
-          'event': 'user_joined',
-          'user_id': client.get('user_id'),
-          'username': client.get('username'),
-          'room': roomName,
-          'timestamp': DateTime.now().toIso8601String()
-        }, exclude: client);
-
-        // Send room info to the client
-        final roomClients = manager.getClientsInRoom(roomName);
-        client.sendJson({
-          'event': 'room_joined',
-          'room': roomName,
-          'user_count': roomClients.length,
-          'users': roomClients.map((c) => {
-            'user_id': c.get('user_id'),
-            'username': c.get('username')
-          }).toList()
-        });
-
-      } catch (e) {
-        client.sendJson({
-          'event': 'error',
-          'message': 'Failed to join room: \${e.toString()}'
-        });
-      }
+    // Send confirmation to client
+    client.send('room_joined', {
+      'room': roomName,
+      'timestamp': DateTime.now().toIso8601String()
     });
 
-    // Handle room leave
-    server.on('leave_room', (SocketClient client, Map<String, dynamic> data) async {
-      final roomName = data['room'] as String?;
-      if (roomName == null) return;
+    // Notify others in the room
+    server.manager.broadcast(roomName, 'user_joined', {
+      'client_id': client.id,
+      'user_id': client.get('user_id'),
+      'username': client.get('username'),
+      'room': roomName
+    });
+  });
 
-      try {
-        await client.leaveRoom(roomName);
+  // Handle room leave
+  server.on('leave_room', (client, data) async {
+    final roomName = data['room'];
+    if (roomName == null) return;
 
-        // Notify others in the room
-        await manager.broadcastToRoom(roomName, {
-          'event': 'user_left',
-          'user_id': client.get('user_id'),
-          'username': client.get('username'),
-          'room': roomName,
-          'timestamp': DateTime.now().toIso8601String()
-        });
+    // Leave the room
+    client.leaveRoom(roomName);
 
-      } catch (e) {
-        client.sendJson({
-          'event': 'error',
-          'message': 'Failed to leave room: \${e.toString()}'
-        });
-      }
+    // Send confirmation to client
+    client.send('room_left', {
+      'room': roomName,
+      'timestamp': DateTime.now().toIso8601String()
     });
 
-    // Handle room messages
-    server.on('room_message', (SocketClient client, Map<String, dynamic> data) async {
-      final roomName = data['room'] as String?;
-      final message = data['message'] as String?;
+    // Notify others in the room
+    server.manager.broadcast(roomName, 'user_left', {
+      'client_id': client.id,
+      'user_id': client.get('user_id'),
+      'username': client.get('username'),
+      'room': roomName
+    });
+  });
 
-      if (roomName == null || message == null) return;
+  // Handle room messages
+  server.on('room_message', (client, data) async {
+    final roomName = data['room'];
+    final message = data['message'];
 
-      // Check if client is in the room
-      if (!client.isInRoom(roomName)) {
-        client.sendJson({
-          'event': 'error',
-          'message': 'You are not in this room'
-        });
-        return;
-      }
+    if (roomName == null || message == null) return;
 
-      // Broadcast message to room
-      await manager.broadcastToRoom(roomName, {
-        'event': 'room_message',
+    // Check if client is in the room
+    if (!client.isInRoom(roomName)) {
+      client.send('error', {'message': 'You are not in this room'});
+      return;
+    }
+
+    // Broadcast message to all room members
+    server.manager.broadcast(roomName, 'message', {
+      'client_id': client.id,
+      'user_id': client.get('user_id'),
+      'username': client.get('username'),
+      'message': message,
+      'room': roomName,
+      'timestamp': DateTime.now().toIso8601String()
+    });
+  });
+
+  // Handle get room info
+  server.on('get_room_info', (client, data) async {
+    final roomName = data['room'];
+    if (roomName == null) return;
+
+    final hasRoom = server.manager.hasRoom(roomName);
+    
+    client.send('room_info', {
+      'room': roomName,
+      'exists': hasRoom,
+      'timestamp': DateTime.now().toIso8601String()
+    });
+  });
+
+  // Handle disconnect - leave all rooms
+  server.onDisconnect((client) async {
+    for (final room in client.rooms.toList()) {
+      server.manager.broadcast(room, 'user_left', {
+        'client_id': client.id,
         'user_id': client.get('user_id'),
-        'username': client.get('username'),
-        'message': message,
-        'room': roomName,
-        'timestamp': DateTime.now().toIso8601String()
-      }, exclude: client);
-    });
-  }
+        'room': room
+      });
+    }
+  });
 }
 
 // Usage
 void main() async {
-  final server = SocketServer();
-  final manager = SocketManager();
-
-  final chatServer = ChatServer(server, manager);
-
-  // Add middleware
-  server.useAuth((client, request) async {
-    final token = request.query['token'];
-    if (token == null) return null;
-
-    // Verify token and return user ID
-    final payload = await verifyJWTToken(token);
-    return payload?['sub'];
-  });
-
-  // Start server
-  await server.listen(8080);
-  print('WebSocket server running on port 8080');
+  final server = SocketServer(3000);
+  setupRoomManagement(server);
+  await server.start();
+  print('🟢 WebSocket server with room management on ws://localhost:3000');
 }`
 
 const eventSubscriptionCode = `// Event subscription system using SocketServer
@@ -865,153 +813,121 @@ void setupEventSubscription(SocketServer server) {
   });
 }`
 
-const middlewareTypesCode = `// SocketMiddleware types from the actual implementation
-abstract class SocketMiddleware {
-  // Handle connection
-  Future<bool> handleConnection(SocketClient client, Request request) async {
-    return true;
-  }
+const middlewareTypesCode = `import 'package:khadem/khadem.dart';
 
-  // Handle message
-  Future<bool> handleMessage(SocketClient client, String message) async {
-    return true;
-  }
+// Connection middleware - runs during WebSocket upgrade
+final connectionLogger = SocketMiddleware.connection(
+  (client, request, next) async {
+    print('📥 Connection from: \${request.ip}');
+    print('   User-Agent: \${request.header("User-Agent")}');
+    await next(); // Continue to next middleware
+  },
+  priority: SocketMiddlewarePriority.connection,
+  name: 'connection-logger',
+);
 
-  // Handle room join
-  Future<bool> handleRoomJoin(SocketClient client, String roomName) async {
-    return true;
-  }
+// Message middleware - runs on every incoming message
+final messageLogger = SocketMiddleware.message(
+  (client, message, next) async {
+    final event = message['event'];
+    print('📨 Message from \${client.id}: \$event');
+    await next(); // Continue to next middleware
+  },
+  priority: SocketMiddlewarePriority.message,
+  name: 'message-logger',
+);
 
-  // Handle disconnect
-  Future<void> handleDisconnect(SocketClient client) async {}
-}
-
-// Connection middleware example
-class ConnectionLimitMiddleware extends SocketMiddleware {
-  static final Map<String, int> _connectionsPerIP = {};
-  final int maxConnectionsPerIP = 10;
-
-  @override
-  Future<bool> handleConnection(SocketClient client, Request request) async {
-    final ip = request.ip;
-    final currentCount = _connectionsPerIP[ip] ?? 0;
-
-    if (currentCount >= maxConnectionsPerIP) {
-      client.sendJson({
-        'event': 'connection_rejected',
-        'reason': 'Too many connections from this IP'
-      });
-      return false;
-    }
-
-    _connectionsPerIP[ip] = currentCount + 1;
-    client.set('ip', ip);
-
-    return true;
-  }
-
-  @override
-  Future<void> handleDisconnect(SocketClient client) async {
-    final ip = client.get('ip');
-    if (ip != null && _connectionsPerIP.containsKey(ip)) {
-      _connectionsPerIP[ip] = _connectionsPerIP[ip]! - 1;
-      if (_connectionsPerIP[ip] == 0) {
-        _connectionsPerIP.remove(ip);
-      }
-    }
-  }
-}
-
-// Message validation middleware
-class MessageValidationMiddleware extends SocketMiddleware {
-  @override
-  Future<bool> handleMessage(SocketClient client, String message) async {
-    try {
-      final data = jsonDecode(message);
-
-      // Validate required fields
-      if (!data.containsKey('event') || !data.containsKey('data')) {
-        client.sendJson({
-          'event': 'error',
-          'message': 'Invalid message format: missing event or data field'
-        });
-        return false;
-      }
-
-      // Validate event type
-      final event = data['event'];
-      if (event is! String || event.isEmpty) {
-        client.sendJson({
-          'event': 'error',
-          'message': 'Invalid event type'
-        });
-        return false;
-      }
-
-      return true;
-    } catch (e) {
-      client.sendJson({
-        'event': 'error',
-        'message': 'Invalid JSON format'
-      });
-      return false;
-    }
-  }
-}
-
-// Room permission middleware
-class RoomPermissionMiddleware extends SocketMiddleware {
-  @override
-  Future<bool> handleRoomJoin(SocketClient client, String roomName) async {
+// Room middleware - runs when joining/leaving rooms
+final roomPermission = SocketMiddleware.room(
+  (client, roomName, next) async {
     final userId = client.get('user_id');
-
-    // Public rooms (no permission check)
-    if (roomName.startsWith('public:')) {
-      return true;
-    }
-
-    // Private rooms (user-specific)
+    
+    // Check permissions for private rooms
     if (roomName.startsWith('private:')) {
-      return roomName == 'private:\$userId';
+      if (roomName != 'private:\$userId') {
+        throw Exception('Access denied to private room');
+      }
     }
-
-    // Admin rooms
+    
+    // Check admin rooms
     if (roomName.startsWith('admin:')) {
       final isAdmin = client.get('is_admin') == true;
       if (!isAdmin) {
-        client.sendJson({
-          'event': 'room_join_denied',
-          'room': roomName,
-          'reason': 'Admin access required'
-        });
-        return false;
+        throw Exception('Admin access required');
       }
     }
+    
+    await next(); // Continue to next middleware
+  },
+  priority: SocketMiddlewarePriority.auth,
+  name: 'room-permission',
+);
 
-    return true;
+// Disconnect middleware - runs when client disconnects
+final disconnectLogger = SocketMiddleware.disconnect(
+  (client, next) async {
+    final userId = client.get('user_id') ?? 'anonymous';
+    final duration = DateTime.now().difference(client.request.startTime);
+    print('👋 User \$userId disconnected after \${duration.inSeconds}s');
+    await next(); // Continue to next middleware
+  },
+  priority: SocketMiddlewarePriority.disconnect,
+  name: 'disconnect-logger',
+);
+
+// Rate limiting middleware
+class RateLimitMiddleware {
+  static final _requests = <String, List<DateTime>>{};
+  
+  static SocketMiddleware create({
+    required int maxRequests,
+    required Duration window,
+  }) {
+    return SocketMiddleware.message(
+      (client, message, next) async {
+        final key = client.id;
+        final now = DateTime.now();
+        
+        // Clean old requests
+        _requests[key]?.removeWhere((time) => 
+          now.difference(time) > window
+        );
+        
+        // Check rate limit
+        final requests = _requests.putIfAbsent(key, () => []);
+        if (requests.length >= maxRequests) {
+          client.send('error', {
+            'message': 'Rate limit exceeded. Try again later.',
+            'retry_after': window.inSeconds
+          });
+          return; // Don't call next() - block the message
+        }
+        
+        requests.add(now);
+        await next();
+      },
+      priority: SocketMiddlewarePriority.preprocessing,
+      name: 'rate-limiter',
+    );
   }
 }
 
-// Logging middleware
-class LoggingMiddleware extends SocketMiddleware {
-  @override
-  Future<bool> handleConnection(SocketClient client, Request request) async {
-    print('WebSocket connection from \${request.ip} at \${DateTime.now()}');
-    return true;
-  }
-
-  @override
-  Future<bool> handleMessage(SocketClient client, String message) async {
-    final userId = client.get('user_id') ?? 'anonymous';
-    print('Message from user \$userId: \${message.substring(0, min(100, message.length))}');
-    return true;
-  }
-
-  @override
-  Future<void> handleDisconnect(SocketClient client) async {
-    final userId = client.get('user_id') ?? 'anonymous';
-    print('User \$userId disconnected');
-  }
+// Usage with SocketServer
+void main() async {
+  final server = SocketServer(3000);
+  
+  // Add global middlewares
+  server.useMiddleware(connectionLogger);
+  server.useMiddleware(messageLogger);
+  server.useMiddleware(roomPermission);
+  server.useMiddleware(disconnectLogger);
+  server.useMiddleware(RateLimitMiddleware.create(
+    maxRequests: 10,
+    window: Duration(seconds: 1),
+  ));
+  
+  await server.start();
+  print('🟢 Server with middleware on ws://localhost:3000');
 }`
 
 const authMiddlewareCode = `// Authentication middleware using server.useAuth()
@@ -1685,217 +1601,196 @@ String generateRoomId() {
 
 const socketServerApiCode = `class SocketServer {
   // Constructor
-  SocketServer();
+  SocketServer(int port, {String? host, SocketManager? manager});
 
   // Start server
-  Future<void> listen(int port, {String host = '0.0.0.0'}) async {}
+  Future<void> start() async {}
 
-  // Authentication
-  void useAuth(Future<String?> Function(SocketClient client, Request request) authCallback) {}
+  // Authentication - runs during WebSocket upgrade
+  void useAuth(FutureOr<bool> Function(Request request) callback) {}
 
   // Middleware
-  void use(Future<bool> Function(SocketClient client, Request request) middleware) {}
+  void useMiddleware(SocketMiddleware middleware) {}
+
+  // Room-specific middleware
+  void useRoom(String room, List<SocketMiddleware> middlewares) {}
 
   // Event handlers
-  void on(String event, Future<void> Function(SocketClient client, Map<String, dynamic> data) handler) {}
-  void onConnect(Future<void> Function(SocketClient client) handler) {}
-  void onDisconnect(Future<void> Function(SocketClient client) handler) {}
+  void on(
+    String event,
+    FutureOr<void> Function(SocketClient client, dynamic data) handler, {
+    List<SocketMiddleware> middlewares = const [],
+  }) {}
 
-  // Broadcasting
-  Future<void> broadcast(Map<String, dynamic> message) async {}
-  Future<void> broadcastToRoom(String roomName, Map<String, dynamic> message, {SocketClient? exclude}) async {}
+  // Connection lifecycle callbacks
+  void onConnect(FutureOr<void> Function(SocketClient client) callback) {}
+  void onDisconnect(FutureOr<void> Function(SocketClient client) callback) {}
 
-  // Client management
-  SocketClient? getClient(String clientId) {}
-  List<SocketClient> getAllClients() {}
-  int getTotalClients() {}
-
-  // Room management
-  List<String> getAllRooms() {}
-  int getTotalRooms() {}
-  List<SocketClient> getClientsInRoom(String roomName) {}
-
-  // Server control
-  Future<void> close() async {}
-  bool get isRunning => false;
+  // Access to socket manager
+  SocketManager get manager {}
 }`
 
 const socketManagerApiCode = `class SocketManager {
-  // Constructor
-  SocketManager();
-
   // Client management
   void addClient(SocketClient client) {}
-  void removeClient(String clientId) {}
+  void removeClient(SocketClient client) {}
   SocketClient? getClient(String clientId) {}
-  SocketClient? getClientByUserId(String userId) {}
-  List<SocketClient> getAllClients() {}
-  int getTotalClients() {}
+
+  // Event handlers
+  void on(
+    String event,
+    SocketEventHandler handler, {
+    List<SocketMiddleware> middlewares = const [],
+  }) {}
 
   // Room management
-  Future<void> clientJoinRoom(SocketClient client, String roomName) async {}
-  Future<void> clientLeaveRoom(SocketClient client, String roomName) async {}
-  List<SocketClient> getClientsInRoom(String roomName) {}
-  List<String> getAllRooms() {}
-  int getTotalRooms() {}
-  bool isClientInRoom(SocketClient client, String roomName) {}
+  void join(String room, SocketClient client) {}
+  void leave(String room, SocketClient client) {}
+  bool hasRoom(String room) {}
+
+  // Room middleware
+  void useRoom(String room, List<SocketMiddleware> middlewares) {}
+  List<SocketMiddleware> getRoomMiddlewares(Set<String> rooms) {}
 
   // Broadcasting
-  Future<void> broadcast(Map<String, dynamic> message) async {}
-  Future<void> broadcastToRoom(String roomName, Map<String, dynamic> message, {SocketClient? exclude}) async {}
-  Future<void> broadcastToUser(String userId, Map<String, dynamic> message) async {}
+  void broadcast(String room, String event, dynamic data) {}
+  void sendTo(String clientId, String event, dynamic data) {}
+  void sendToUser(String userId, String event, dynamic data) {}
 
-  // Statistics
-  Map<String, dynamic> getStats() {}
-  void cleanup() {}
+  // Event subscriptions
+  void subscribeToEvent(String event, SocketClient client) {}
+  void unsubscribeFromEvent(String event, SocketClient client) {}
+  void broadcastToEventSubscribers(String event, dynamic data) {}
+  void broadcastEvent(String event, dynamic data) {}
+  int getEventSubscriberCount(String event) {}
+  bool isClientSubscribedToEvent(String event, SocketClient client) {}
+  Set<String> getClientSubscriptions(SocketClient client) {}
+  bool hasEventSubscribers(String event) {}
+
+  // Get event handler
+  dynamic getEvent(String event) {}
+
+  // Global middleware
+  void setGlobalMiddleware(SocketMiddlewarePipeline middleware) {}
 }`
 
 const socketClientApiCode = `class SocketClient {
   final String id;
   final WebSocket socket;
-  final DateTime connectedAt;
+  final SocketManager manager;
+  final Set<String> rooms;
+  final HttpHeaders? headers;
+  final Request request;
 
-  SocketClient(this.id, this.socket) : connectedAt = DateTime.now();
-
-  // Context management
+  // Context management (uses request attributes)
   void set(String key, dynamic value) {}
   dynamic get(String key) {}
-  bool has(String key) {}
-  void remove(String key) {}
-
-  // Authentication helpers
-  bool get isAuthenticated => get('authenticated') == true;
-  String? get userId => get('user_id');
-  String? get authToken => get('auth_token');
-
-  // Connection info
-  String? get ip => get('ip');
-  String? get userAgent => get('user_agent');
-  Duration get connectionDuration => DateTime.now().difference(connectedAt);
-
-  // Room management
-  Future<void> joinRoom(String roomName) async {}
-  Future<void> leaveRoom(String roomName) async {}
-  bool isInRoom(String roomName) {}
-  List<String> getRooms() {}
 
   // Messaging
-  void send(String message) {}
-  void sendJson(Map<String, dynamic> data) {}
-
-  // Connection status
-  bool get isConnected => socket.readyState == WebSocket.open;
-  bool get isConnecting => socket.readyState == WebSocket.connecting;
-  bool get isClosing => socket.readyState == WebSocket.closing;
-  bool get isClosed => socket.readyState == WebSocket.closed;
-
-  // Connection control
+  void send(String event, dynamic data) {}
   void close([int code = 1000, String reason = '']) {}
+
+  // Room management
+  void joinRoom(String room) {}
+  void leaveRoom(String room) {}
+  bool isInRoom(String room) {}
+
+  // Authentication info
+  bool get isAuthorized {}
+  bool get isAuthenticated {}
+  Authenticatable? get authenticatedUser {}
+  Map<String, dynamic>? get user {}
+
+  // Header access
+  String? get authToken {}
+  String? get userAgent {}
+  String? getHeader(String name) {}
+  List<String>? getHeaderValues(String name) {}
 }`
 
-const socketMiddlewareApiCode = `abstract class SocketMiddleware {
-  // Handle connection
-  Future<bool> handleConnection(SocketClient client, Request request) async {
-    return true;
-  }
+const socketMiddlewareApiCode = `// Socket Middleware API
+class SocketMiddleware {
+  // Create a connection middleware (runs during WebSocket upgrade)
+  SocketMiddleware.connection(
+    SocketConnectionHandler handler, {
+    SocketMiddlewarePriority priority = SocketMiddlewarePriority.connection,
+    String? name,
+  });
 
-  // Handle message
-  Future<bool> handleMessage(SocketClient client, String message) async {
-    return true;
-  }
+  // Create a message middleware (runs on every incoming message)
+  SocketMiddleware.message(
+    SocketMiddlewareHandler handler, {
+    SocketMiddlewarePriority priority = SocketMiddlewarePriority.message,
+    String? name,
+  });
 
-  // Handle room join
-  Future<bool> handleRoomJoin(SocketClient client, String roomName) async {
-    return true;
-  }
+  // Create a room middleware (runs when joining/leaving rooms)
+  SocketMiddleware.room(
+    SocketRoomHandler handler, {
+    SocketMiddlewarePriority priority = SocketMiddlewarePriority.room,
+    String? name,
+  });
 
-  // Handle disconnect
-  Future<void> handleDisconnect(SocketClient client) async {}
+  // Create a disconnect middleware (runs when client disconnects)
+  SocketMiddleware.disconnect(
+    SocketDisconnectHandler handler, {
+    SocketMiddlewarePriority priority = SocketMiddlewarePriority.disconnect,
+    String? name,
+  });
+
+  // Get middleware properties
+  SocketMiddlewarePriority get priority {}
+  SocketMiddlewareType get type {}
+  String get name {}
+  bool canHandle(SocketMiddlewareType type) {}
 }
 
-class SocketMiddlewarePipeline {
-  final List<SocketMiddleware> _middlewares = [];
+// Middleware handler types
+typedef SocketMiddlewareHandler = FutureOr<void> Function(
+  SocketClient client,
+  dynamic message,
+  SocketNextFunction next,
+);
 
-  void add(SocketMiddleware middleware) {
-    _middlewares.add(middleware);
-  }
+typedef SocketConnectionHandler = FutureOr<void> Function(
+  SocketClient client,
+  Request request,
+  SocketNextFunction next,
+);
 
-  void remove(SocketMiddleware middleware) {
-    _middlewares.remove(middleware);
-  }
+typedef SocketDisconnectHandler = FutureOr<void> Function(
+  SocketClient client,
+  SocketNextFunction next,
+);
 
-  Future<bool> runConnection(SocketClient client, Request request) async {
-    for (final middleware in _middlewares) {
-      final result = await middleware.handleConnection(client, request);
-      if (!result) return false;
-    }
-    return true;
-  }
+typedef SocketRoomHandler = FutureOr<void> Function(
+  SocketClient client,
+  String room,
+  SocketNextFunction next,
+);
 
-  Future<bool> runMessage(SocketClient client, String message) async {
-    for (final middleware in _middlewares) {
-      final result = await middleware.handleMessage(client, message);
-      if (!result) return false;
-    }
-    return true;
-  }
+typedef SocketNextFunction = FutureOr<void> Function();
 
-  Future<bool> runRoomJoin(SocketClient client, String roomName) async {
-    for (final middleware in _middlewares) {
-      final result = await middleware.handleRoomJoin(client, roomName);
-      if (!result) return false;
-    }
-    return true;
-  }
-
-  Future<void> runDisconnect(SocketClient client) async {
-    for (final middleware in _middlewares) {
-      await middleware.handleDisconnect(client);
-    }
-  }
+// Middleware priorities (determines execution order)
+enum SocketMiddlewarePriority {
+  global,        // Highest priority
+  connection,
+  auth,
+  preprocessing,
+  business,
+  room,
+  message,
+  terminating,
+  disconnect,    // Lowest priority
 }
 
-// Built-in middlewares
-class AuthMiddleware extends SocketMiddleware {
-  @override
-  Future<bool> handleConnection(SocketClient client, Request request) async {
-    final token = request.query['token'];
-    if (token == null) return false;
-
-    // Verify token and set user context
-    final payload = await verifyJWTToken(token);
-    if (payload != null) {
-      client.set('user_id', payload['sub']);
-      client.set('authenticated', true);
-      return true;
-    }
-    return false;
-  }
-}
-
-class RateLimitMiddleware extends SocketMiddleware {
-  final Map<String, RateLimiter> _limiters = {};
-
-  @override
-  Future<bool> handleMessage(SocketClient client, String message) async {
-    final userId = client.get('user_id') ?? client.id;
-    final limiter = _limiters.putIfAbsent(userId, () => RateLimiter());
-
-    return await limiter.check();
-  }
-}
-
-class LoggingMiddleware extends SocketMiddleware {
-  @override
-  Future<bool> handleConnection(SocketClient client, Request request) async {
-    print('WebSocket connection: \${request.ip}');
-    return true;
-  }
-
-  @override
-  Future<void> handleDisconnect(SocketClient client) async {
-    print('Client \${client.id} disconnected');
-  }
+// Middleware types (determines when middleware runs)
+enum SocketMiddlewareType {
+  connection,  // Runs during WebSocket upgrade
+  message,     // Runs on every incoming message
+  room,        // Runs when joining/leaving rooms
+  disconnect,  // Runs when client disconnects
+  general,     // General purpose middleware
 }`
 
 const websocketChannelsCode = `// Channel-based WebSocket communication

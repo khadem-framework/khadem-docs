@@ -3,7 +3,7 @@
     <header class="mb-10">
       <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Validation</h1>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-        Learn how to validate user input and handle validation errors in Khadem
+        A comprehensive guide to input validation in Khadem. Learn how to validate user input, create custom validation rules, use Form Request classes, and handle validation errors effectively.
       </p>
       <div class="mt-6 flex flex-wrap gap-2">
         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">Input Validation</span>
@@ -14,20 +14,108 @@
     </header>
 
     <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Introduction</h2>
+      
+      <div class="prose dark:prose-invert max-w-none">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Validation is a critical component of any web application. Khadem provides a robust and intuitive validation system 
+          inspired by Laravel, allowing you to validate incoming HTTP requests with ease. The validation system is designed to be:
+        </p>
+        
+        <div class="grid md:grid-cols-2 gap-6 my-6">
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div class="flex items-center gap-3 mb-3">
+              <i class="fas fa-check-circle text-2xl text-blue-600 dark:text-blue-400"></i>
+              <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">Easy to Use</h3>
+            </div>
+            <p class="text-sm text-blue-800 dark:text-blue-200">
+              Simple, expressive syntax that makes validation rules easy to read and write. Chain multiple rules with the pipe character.
+            </p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-lg border border-green-200 dark:border-green-800">
+            <div class="flex items-center gap-3 mb-3">
+              <i class="fas fa-bolt text-2xl text-green-600 dark:text-green-400"></i>
+              <h3 class="text-lg font-semibold text-green-900 dark:text-green-100">Powerful</h3>
+            </div>
+            <p class="text-sm text-green-800 dark:text-green-200">
+              50+ built-in validation rules covering common use cases, from basic type checking to complex file validation.
+            </p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-lg border border-purple-200 dark:border-purple-800">
+            <div class="flex items-center gap-3 mb-3">
+              <i class="fas fa-puzzle-piece text-2xl text-purple-600 dark:text-purple-400"></i>
+              <h3 class="text-lg font-semibold text-purple-900 dark:text-purple-100">Extensible</h3>
+            </div>
+            <p class="text-sm text-purple-800 dark:text-purple-200">
+              Create custom validation rules tailored to your application's specific business logic and requirements.
+            </p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-lg border border-red-200 dark:border-red-800">
+            <div class="flex items-center gap-3 mb-3">
+              <i class="fas fa-shield-alt text-2xl text-red-600 dark:text-red-400"></i>
+              <h3 class="text-lg font-semibold text-red-900 dark:text-red-100">Type-Safe</h3>
+            </div>
+            <p class="text-sm text-red-800 dark:text-red-200">
+              Leverage Dart's type system with automatic type conversion and validation for a safer codebase.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Quick Start</h2>
 
+      <div class="prose dark:prose-invert max-w-none mb-6">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          The most common way to validate incoming requests in Khadem is by calling the <code>validate()</code> method 
+          on the request object. This method accepts a map of validation rules and automatically throws a 
+          <code>ValidationException</code> if validation fails, which you can catch and handle appropriately.
+        </p>
+        
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mt-4">
+          Here's a complete example of validating user registration data:
+        </p>
+      </div>
+
       <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-4">Basic Validation</h3>
+        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-4">Basic Request Validation</h3>
 
         <CodeBlock
           :code="basicValidationCode"
           language="dart"
-          title="Basic Request Validation"
+          title="User Registration with Validation"
         />
 
-        <div class="mt-4 space-y-2 text-sm text-blue-700 dark:text-blue-300">
-          <p><strong>💡 Note:</strong> Validation rules follow Laravel-inspired syntax</p>
-          <p><strong>⚡ Tip:</strong> Use <code>req.validate()</code> for automatic validation with error responses</p>
+        <div class="mt-6 space-y-3">
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-info-circle"></i>
+              How It Works
+            </h4>
+            <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 ml-6 list-disc">
+              <li><strong>Validation Rules:</strong> Define rules using pipe-separated strings (e.g., <code>'required|email|max:255'</code>)</li>
+              <li><strong>Automatic Validation:</strong> The <code>validate()</code> method automatically validates input and throws <code>ValidationException</code> on failure</li>
+              <li><strong>Type Safety:</strong> Validated data is returned as a <code>Map&lt;String, dynamic&gt;</code> containing only the validated fields</li>
+              <li><strong>Error Handling:</strong> Catch <code>ValidationException</code> to handle validation errors gracefully</li>
+            </ul>
+          </div>
+          
+          <div class="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+            <h4 class="font-semibold text-amber-800 dark:text-amber-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-exclamation-triangle"></i>
+              Important Notes
+            </h4>
+            <ul class="text-sm text-amber-700 dark:text-amber-300 space-y-1 ml-6 list-disc">
+              <li>Validation rules follow <strong>Laravel-inspired syntax</strong> for familiarity</li>
+              <li>Database validation rules like <code>unique</code> and <code>exists</code> must be implemented manually</li>
+              <li>Custom messages can be provided to override default error messages</li>
+              <li>Only validated fields are returned in the result</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -96,10 +184,6 @@
             <div class="flex items-center justify-between">
               <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">max:value</code>
               <span class="text-sm text-gray-600 dark:text-gray-400">Maximum value/length</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">between:min,max</code>
-              <span class="text-sm text-gray-600 dark:text-gray-400">Between values</span>
             </div>
             <div class="flex items-center justify-between">
               <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">alpha</code>
@@ -248,12 +332,8 @@
               <span class="text-sm text-gray-600 dark:text-gray-400">Validate only if present</span>
             </div>
             <div class="flex items-center justify-between">
-              <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">nullable</code>
-              <span class="text-sm text-gray-600 dark:text-gray-400">Can be null, skips validation</span>
-            </div>
-            <div class="flex items-center justify-between">
               <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">required_if:field,value</code>
-              <span class="text-sm text-gray-600 dark:text-gray-400">Required if another field has value</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Required if other field has value</span>
             </div>
             <div class="flex items-center justify-between">
               <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">prohibited</code>
@@ -261,8 +341,67 @@
             </div>
             <div class="flex items-center justify-between">
               <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">prohibited_if:field,value</code>
-              <span class="text-sm text-gray-600 dark:text-gray-400">Prohibited if another field has value</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Prohibited if other field has value</span>
             </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-lg font-medium mb-4">Email & Confirmation Rules</h3>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">email</code>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Must be valid email address</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">confirmed</code>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Must match field_confirmation</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <code class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm">in:val1,val2,val3</code>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Must be one of specified values</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800 mt-6">
+        <h3 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3 flex items-center gap-2">
+          <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i>
+          Validation Tips & Best Practices
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Combining Rules</h4>
+            <p class="text-gray-700 dark:text-gray-300">
+              Use the pipe <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">|</code> character to chain multiple rules:
+            </p>
+            <code class="block mt-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
+              'email': 'required|email|max:255'
+            </code>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Nullable vs Optional</h4>
+            <p class="text-gray-700 dark:text-gray-300">
+              <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">nullable</code> allows null values, while omitting 
+              <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">required</code> makes a field optional.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Array Validation</h4>
+            <p class="text-gray-700 dark:text-gray-300">
+              Use <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">.*</code> notation to validate array items:
+            </p>
+            <code class="block mt-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
+              'tags.*': 'required|string|max:50'
+            </code>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Rule Order Matters</h4>
+            <p class="text-gray-700 dark:text-gray-300">
+              Place <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">nullable</code> first, and type-checking rules (like 
+              <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">int</code>, <code class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">string</code>) before size rules.
+            </p>
           </div>
         </div>
       </div>
@@ -285,6 +424,79 @@
           <li>• Need more control over validation flow</li>
           <li>• Custom error handling requirements</li>
         </ul>
+      </div>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-2xl font-semibold border-b pb-2">Custom Validation Messages</h2>
+
+      <div class="prose dark:prose-invert max-w-none mb-6">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          While Khadem provides sensible default error messages for all validation rules, you often want to provide 
+          more user-friendly, context-specific messages that match your application's tone and help users understand 
+          exactly what they need to fix. Custom messages make your validation errors more helpful and professional.
+        </p>
+      </div>
+
+      <CodeBlock
+        :code="customMessagesCode"
+        language="dart"
+        title="Custom Validation Messages"
+      />
+
+      <div class="space-y-4">
+        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+          <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-4 flex items-center gap-2">
+            <i class="fas fa-key"></i>
+            Custom Message Pattern
+          </h4>
+          <p class="text-sm text-blue-800 dark:text-blue-200 mb-4">
+            Custom messages use a simple naming convention: <code class="bg-blue-200 dark:bg-blue-800 px-2 py-1 rounded">field.ruleName</code>
+          </p>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg space-y-3">
+            <div class="flex items-start gap-3">
+              <code class="bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded font-mono text-xs flex-shrink-0">email.required</code>
+              <span class="text-sm text-gray-700 dark:text-gray-300">Custom message for when <code>email</code> field fails <code>required</code> rule</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <code class="bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded font-mono text-xs flex-shrink-0">password.min</code>
+              <span class="text-sm text-gray-700 dark:text-gray-300">Custom message for when <code>password</code> field fails <code>min</code> rule</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <code class="bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded font-mono text-xs flex-shrink-0">age.int</code>
+              <span class="text-sm text-gray-700 dark:text-gray-300">Custom message for when <code>age</code> field fails <code>int</code> rule</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+          <h4 class="font-medium text-green-800 dark:text-green-200 mb-3 flex items-center gap-2">
+            <i class="fas fa-lightbulb"></i>
+            Best Practices for Custom Messages
+          </h4>
+          <ul class="text-sm text-green-700 dark:text-green-300 space-y-2">
+            <li>• <strong>Be specific:</strong> Tell users exactly what's wrong and how to fix it</li>
+            <li>• <strong>Be friendly:</strong> Use a conversational tone that matches your brand</li>
+            <li>• <strong>Provide examples:</strong> Show users what a valid value looks like</li>
+            <li>• <strong>Be consistent:</strong> Use the same tone and style across all messages</li>
+            <li>• <strong>Avoid technical jargon:</strong> Make messages understandable to all users</li>
+          </ul>
+        </div>
+
+        <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+          <h4 class="font-medium text-purple-800 dark:text-purple-200 mb-3">💡 Use Case Example</h4>
+          <p class="text-sm text-purple-700 dark:text-purple-300 mb-3">
+            Instead of the generic message <em>"The email field is required"</em>, you might say:
+          </p>
+          <div class="bg-white dark:bg-gray-900 p-3 rounded">
+            <p class="text-sm text-purple-900 dark:text-purple-100 font-medium">
+              "We need your email address to send you order updates and account notifications"
+            </p>
+          </div>
+          <p class="text-sm text-purple-700 dark:text-purple-300 mt-3">
+            This explains <strong>why</strong> the field is required, making users more likely to provide the information.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -317,27 +529,124 @@
     <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Form Request Classes</h2>
 
+      <div class="prose dark:prose-invert max-w-none mb-6">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          For complex validation scenarios or when you want to reuse validation logic across multiple controllers, 
+          Khadem provides <strong>Form Request classes</strong>. These classes encapsulate validation rules, authorization logic, 
+          custom messages, and data preparation in a single, reusable component.
+        </p>
+        
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mt-4">
+          Form Requests follow a powerful lifecycle that gives you fine-grained control over the validation process:
+        </p>
+
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 p-6 rounded-lg border border-indigo-200 dark:border-indigo-800 my-6">
+          <h3 class="text-lg font-semibold text-indigo-900 dark:text-indigo-100 mb-4 flex items-center gap-2">
+            <i class="fas fa-sync-alt"></i>
+            Form Request Lifecycle
+          </h3>
+          <div class="space-y-3">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full flex items-center justify-center font-bold text-sm">1</div>
+              <div>
+                <h4 class="font-semibold text-indigo-900 dark:text-indigo-100">Authorization Check</h4>
+                <p class="text-sm text-indigo-700 dark:text-indigo-300">The <code>authorize()</code> method is called first to check if the user has permission to make this request</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full flex items-center justify-center font-bold text-sm">2</div>
+              <div>
+                <h4 class="font-semibold text-indigo-900 dark:text-indigo-100">Input Preparation</h4>
+                <p class="text-sm text-indigo-700 dark:text-indigo-300">The <code>prepareForValidation()</code> method allows you to clean, normalize, or modify input before validation</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full flex items-center justify-center font-bold text-sm">3</div>
+              <div>
+                <h4 class="font-semibold text-indigo-900 dark:text-indigo-100">Validation</h4>
+                <p class="text-sm text-indigo-700 dark:text-indigo-300">Rules defined in <code>rules()</code> are applied using custom messages from <code>messages()</code></p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full flex items-center justify-center font-bold text-sm">4</div>
+              <div>
+                <h4 class="font-semibold text-indigo-900 dark:text-indigo-100">Post-Validation Processing</h4>
+                <p class="text-sm text-indigo-700 dark:text-indigo-300">The <code>passedValidation()</code> method is called after successful validation to transform validated data</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Creating a Form Request Class</h3>
+      
       <CodeBlock
         :code="formRequestCode"
         language="dart"
-        title="Creating Form Request Classes"
+        title="Example: Create User Form Request"
       />
+
+      <div class="grid md:grid-cols-2 gap-4 mt-6">
+        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+          <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
+            <i class="fas fa-tasks"></i>
+            Method Overview
+          </h4>
+          <ul class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+            <li><code>rules()</code> - Define validation rules (required)</li>
+            <li><code>messages()</code> - Custom error messages (optional)</li>
+            <li><code>authorize()</code> - Authorization logic (optional, defaults to true)</li>
+            <li><code>prepareForValidation()</code> - Pre-processing (optional)</li>
+            <li><code>passedValidation()</code> - Post-processing (optional)</li>
+          </ul>
+        </div>
+
+        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+          <h4 class="font-semibold text-green-800 dark:text-green-200 mb-2 flex items-center gap-2">
+            <i class="fas fa-check-circle"></i>
+            Benefits
+          </h4>
+          <ul class="text-sm text-green-700 dark:text-green-300 space-y-1">
+            <li>• Keeps controllers clean and focused</li>
+            <li>• Reusable validation logic</li>
+            <li>• Easy to test independently</li>
+            <li>• Type-safe validated data</li>
+            <li>• Centralized authorization</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Using Form Requests in Controllers</h3>
 
       <CodeBlock
         :code="formRequestUsageCode"
         language="dart"
-        title="Using Form Requests in Controllers"
+        title="Controller Integration"
       />
 
-      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
-        <h4 class="font-medium text-indigo-800 dark:text-indigo-200 mb-2">Form Request Features</h4>
-        <ul class="text-sm text-indigo-700 dark:text-indigo-300 space-y-1">
-          <li>• Centralized validation logic</li>
-          <li>• Custom error messages</li>
-          <li>• Input preparation and sanitization</li>
-          <li>• Authorization checks</li>
-          <li>• Automatic validation on controller injection</li>
-        </ul>
+      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-lg border border-indigo-200 dark:border-indigo-800 mt-6">
+        <h4 class="font-medium text-indigo-800 dark:text-indigo-200 mb-3 flex items-center gap-2">
+          <i class="fas fa-star"></i>
+          Key Features of Form Requests
+        </h4>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-gray-900 p-3 rounded">
+            <h5 class="font-semibold text-indigo-700 dark:text-indigo-300 text-sm mb-1">Centralized Validation</h5>
+            <p class="text-xs text-gray-600 dark:text-gray-400">All validation logic for a specific action in one place</p>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-3 rounded">
+            <h5 class="font-semibold text-indigo-700 dark:text-indigo-300 text-sm mb-1">Custom Messages</h5>
+            <p class="text-xs text-gray-600 dark:text-gray-400">Override default error messages with user-friendly alternatives</p>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-3 rounded">
+            <h5 class="font-semibold text-indigo-700 dark:text-indigo-300 text-sm mb-1">Authorization Built-in</h5>
+            <p class="text-xs text-gray-600 dark:text-gray-400">Check permissions before validation even runs</p>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-3 rounded">
+            <h5 class="font-semibold text-indigo-700 dark:text-indigo-300 text-sm mb-1">Data Transformation</h5>
+            <p class="text-xs text-gray-600 dark:text-gray-400">Modify data before and after validation automatically</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -350,73 +659,189 @@
         title="Handling Validation Errors"
       />
 
-      <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-        <h4 class="font-medium text-red-800 dark:text-red-200 mb-2">Error Response Format</h4>
-        <pre class="text-sm bg-red-900/10 p-3 rounded border border-red-300 dark:border-red-700"><code>{
+      <div class="space-y-4">
+        <div class="prose dark:prose-invert max-w-none">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+            When validation fails, Khadem returns a standardized JSON error response with HTTP status code <code>422 Unprocessable Entity</code>. 
+            This response includes detailed information about what went wrong, making it easy for frontend applications to display appropriate error messages to users.
+          </p>
+        </div>
+
+        <div class="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg border border-red-200 dark:border-red-800">
+          <h4 class="font-medium text-red-800 dark:text-red-200 mb-3 flex items-center gap-2">
+            <i class="fas fa-code"></i>
+            Validation Error Response Format
+          </h4>
+          <pre class="text-sm bg-red-900/10 p-4 rounded border border-red-300 dark:border-red-700 overflow-x-auto"><code>{
   "error": true,
-  "message": "Validation failed",
-  "errors": {
-    "email": ["The email field is required"],
-    "password": ["The password must be at least 8 characters"]
+  "message": "Validation failed.",
+  "status_code": 422,
+  "timestamp": "2025-10-21T16:22:50.456153",
+  "details": {
+    "email": "The email field is required.",
+    "password": "The password must be at least 8 characters.",
+    "age": "The age must be at least 18."
   },
-  "status_code": 422
+  "exception_type": "ValidationException"
 }</code></pre>
+
+          <div class="mt-4 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h5 class="font-semibold text-red-800 dark:text-red-200 mb-3">Response Fields Explained</h5>
+            <div class="space-y-2 text-sm">
+              <div class="flex gap-3">
+                <code class="bg-red-200 dark:bg-red-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">error</code>
+                <span class="text-gray-700 dark:text-gray-300">Always <code>true</code> for error responses</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-red-200 dark:bg-red-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">message</code>
+                <span class="text-gray-700 dark:text-gray-300">A general error message describing the type of error</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-red-200 dark:bg-red-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">status_code</code>
+                <span class="text-gray-700 dark:text-gray-300">HTTP status code (<code>422</code> for validation errors)</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-red-200 dark:bg-red-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">timestamp</code>
+                <span class="text-gray-700 dark:text-gray-300">ISO 8601 timestamp when the error occurred</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-red-200 dark:bg-red-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">details</code>
+                <span class="text-gray-700 dark:text-gray-300">Object containing field-specific error messages (key = field name, value = error message)</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-red-200 dark:bg-red-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">exception_type</code>
+                <span class="text-gray-700 dark:text-gray-300">The type of exception that was thrown</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+          <h5 class="font-semibold text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
+            <i class="fas fa-lightbulb"></i>
+            Frontend Integration Tip
+          </h5>
+          <p class="text-sm text-blue-700 dark:text-blue-300">
+            The <code>details</code> object makes it easy to display field-specific errors in your frontend. 
+            Simply map each key to the corresponding form field and display the error message to the user.
+          </p>
+        </div>
       </div>
     </section>
 
     <section class="space-y-6">
       <h2 class="text-2xl font-semibold border-b pb-2">Advanced Examples</h2>
 
-      <div class="space-y-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h4 class="font-medium mb-2">Conditional Validation</h4>
+      <div class="prose dark:prose-invert max-w-none mb-6">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Beyond basic field validation, Khadem supports advanced validation scenarios including conditional rules, 
+          array/nested data validation, and comprehensive file upload validation with size, type, and dimension checks.
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-lg border border-purple-200 dark:border-purple-800">
+          <h4 class="font-semibold text-purple-900 dark:text-purple-100 mb-3 flex items-center gap-2">
+            <i class="fas fa-random"></i>
+            Conditional Validation
+          </h4>
+          <p class="text-sm text-purple-800 dark:text-purple-200 mb-4">
+            Apply different validation rules based on the values of other fields. Perfect for forms where 
+            certain fields are only required when specific options are selected.
+          </p>
           <CodeBlock
             :code="conditionalValidationCode"
             language="dart"
             title="Conditional Validation Based on Other Fields"
           />
+          <div class="mt-4 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h5 class="font-semibold text-purple-900 dark:text-purple-100 mb-2">Common Use Cases:</h5>
+            <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+              <li>• Password fields only required when actually changing password</li>
+              <li>• Business information only required for business account types</li>
+              <li>• Shipping address only required when different from billing address</li>
+              <li>• Different validation rules for different user roles</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h4 class="font-medium mb-2">Array Validation</h4>
+        <div class="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-6 rounded-lg border border-green-200 dark:border-green-800">
+          <h4 class="font-semibold text-green-900 dark:text-green-100 mb-3 flex items-center gap-2">
+            <i class="fas fa-list"></i>
+            Array Validation
+          </h4>
+          <p class="text-sm text-green-800 dark:text-green-200 mb-4">
+            Validate arrays and nested object structures with ease. Khadem supports validating entire arrays 
+            as well as individual items within arrays using dot notation.
+          </p>
           <CodeBlock
             :code="arrayValidationCode"
             language="dart"
             title="Validating Arrays and Nested Data"
           />
+          <div class="mt-4 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h5 class="font-semibold text-green-900 dark:text-green-100 mb-2">Array Validation Patterns:</h5>
+            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <div class="flex gap-3">
+                <code class="bg-green-100 dark:bg-green-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">tags</code>
+                <span>Validates the entire array (e.g., required, min items, max items)</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-green-100 dark:bg-green-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">tags.*</code>
+                <span>Validates each item in the array (e.g., each tag must be a string)</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-green-100 dark:bg-green-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">items.*.name</code>
+                <span>Validates nested properties within array objects</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h4 class="font-medium mb-2">File Upload Validation</h4>
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-6 rounded-lg border border-orange-200 dark:border-orange-800">
+          <h4 class="font-semibold text-orange-900 dark:text-orange-100 mb-3 flex items-center gap-2">
+            <i class="fas fa-file-upload"></i>
+            File Upload Validation
+          </h4>
+          <p class="text-sm text-orange-800 dark:text-orange-200 mb-4">
+            Comprehensive file upload validation including file type (mimes), size limits, image dimensions, 
+            and more. Ensure uploaded files meet your application's requirements before processing.
+          </p>
           <CodeBlock
             :code="fileValidationCode"
             language="dart"
             title="Validating File Uploads"
           />
+          <div class="mt-4 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <h5 class="font-semibold text-orange-900 dark:text-orange-100 mb-3">File Validation Rules:</h5>
+            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <div class="flex gap-3">
+                <code class="bg-orange-100 dark:bg-orange-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">file</code>
+                <span>Ensures the field contains an uploaded file</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-orange-100 dark:bg-orange-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">image</code>
+                <span>File must be an image (jpg, jpeg, png, gif, bmp, svg, webp)</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-orange-100 dark:bg-orange-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">mimes:jpg,png</code>
+                <span>Restricts allowed file types by extension</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-orange-100 dark:bg-orange-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">max:2048</code>
+                <span>Maximum file size in kilobytes (2048 = 2MB)</span>
+              </div>
+              <div class="flex gap-3">
+                <code class="bg-orange-100 dark:bg-orange-800 px-2 py-1 rounded font-mono text-xs flex-shrink-0">dimensions</code>
+                <span>Validate image dimensions (min_width, max_width, min_height, max_height, ratio)</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Testing Validation</h2>
-
-      <CodeBlock
-        :code="testingCode"
-        language="dart"
-        title="Testing Validation Rules"
-      />
-
-      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h4 class="font-medium text-blue-800 dark:text-blue-200 mb-2">Testing Strategies</h4>
-        <ul class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-          <li>• Test validation rules with valid and invalid data</li>
-          <li>• Test custom validation rules in isolation</li>
-          <li>• Test form request validation and error messages</li>
-          <li>• Test validation error responses</li>
-          <li>• Test conditional validation logic</li>
-        </ul>
-      </div>
-    </section>
+    
   </div>
 </template>
 
@@ -449,10 +874,15 @@ class UserController {
       // Manual database uniqueness check
       final existingUser = await User.where('email', validatedData['email']).first();
       if (existingUser != null) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': {'email': ['This email is already registered']},
-          'message': 'Validation failed'
+        res.status(422).sendJson({
+          'error': true,
+          'message': 'Validation failed.',
+          'status_code': 422,
+          'timestamp': DateTime.now().toIso8601String(),
+          'details': {
+            'email': 'This email address is already registered.',
+          },
+          'exception_type': 'ValidationException'
         });
         return;
       }
@@ -467,24 +897,30 @@ class UserController {
 
       await user.save();
 
-      res.statusCode(201).sendJson({
+      res.status(201).sendJson({
         'success': true,
         'message': 'User created successfully',
-        'user': user.toJson(),
+        'data': {
+          'user': user.toJson(),
+        }
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
       });
     } catch (e) {
-      if (e is ValidationException) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': e.errors,
-          'message': 'Validation failed'
-        });
-      } else {
-        res.statusCode(500).sendJson({
-          'success': false,
-          'message': 'Internal server error'
-        });
-      }
+      res.status(500).sendJson({
+        'error': true,
+        'message': 'An unexpected error occurred',
+        'status_code': 500,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': e.runtimeType.toString()
+      });
     }
   }
 }`
@@ -509,10 +945,15 @@ class UserController {
           .where('id', '!=', id)
           .first();
       if (existingUser != null) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': {'email': ['This email is already registered']},
-          'message': 'Validation failed'
+        res.status(422).sendJson({
+          'error': true,
+          'message': 'Validation failed.',
+          'status_code': 422,
+          'timestamp': DateTime.now().toIso8601String(),
+          'details': {
+            'email': 'This email address is already registered.',
+          },
+          'exception_type': 'ValidationException'
         });
         return;
       }
@@ -526,23 +967,99 @@ class UserController {
       res.sendJson({
         'success': true,
         'message': 'User updated successfully',
+        'data': {
+          'user': user.toJson(),
+        }
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
       });
     } catch (e) {
-      if (e is ValidationException) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': e.errors,
-          'message': 'Validation failed'
-        });
-      } else {
-        res.statusCode(500).sendJson({
-          'success': false,
-          'message': 'Internal server error'
-        });
-      }
+      res.status(500).sendJson({
+        'error': true,
+        'message': 'An unexpected error occurred',
+        'status_code': 500,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': e.runtimeType.toString()
+      });
     }
   }
 }`
+
+// Custom Validation Messages
+const customMessagesCode = `import 'package:khadem/khadem_dart.dart';
+
+class UserController {
+  static Future store(Request req, Response res) async {
+    try {
+      // Validate with custom error messages
+      final validatedData = await req.validate(
+        {
+          'email': 'required|email',
+          'password': 'required|min:8|confirmed',
+          'age': 'required|int|min:18',
+          'profile_picture': 'nullable|image|max:2048',
+          'terms': 'required|accepted',
+        },
+        messages: {
+          // Pattern: 'field.ruleName' => 'Custom message'
+          'email.required': 'We need your email address to create your account',
+          'email.email': 'Please enter a valid email address (e.g., user@example.com)',
+          'password.required': 'A password is required to secure your account',
+          'password.min': 'Your password must be at least 8 characters long for security',
+          'password.confirmed': 'The password confirmation does not match. Please try again',
+          'age.required': 'Please provide your age to continue',
+          'age.int': 'Age must be a valid number',
+          'age.min': 'You must be at least 18 years old to register',
+          'profile_picture.image': 'Profile picture must be an image file (jpg, png, gif, etc.)',
+          'profile_picture.max': 'Profile picture size cannot exceed 2MB (2048KB)',
+          'terms.required': 'You must accept the terms and conditions to proceed',
+          'terms.accepted': 'Please check the box to accept our terms and conditions',
+        },
+      );
+
+      // Process validated data
+      final user = await User.create(validatedData);
+
+      res.status(201).sendJson({
+        'success': true,
+        'message': 'User created successfully',
+        'data': {'user': user.toJson()}
+      });
+    } on ValidationException catch (e) {
+      // Error response with custom messages
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors, // Will contain your custom messages
+        'exception_type': 'ValidationException'
+      });
+    }
+  }
+}
+
+// Example Error Response with Custom Messages:
+// {
+//   "error": true,
+//   "message": "Validation failed.",
+//   "status_code": 422,
+//   "timestamp": "2025-10-21T16:30:15.123456",
+//   "details": {
+//     "email": "We need your email address to create your account",
+//     "password": "Your password must be at least 8 characters long for security",
+//     "age": "You must be at least 18 years old to register",
+//     "terms": "You must accept the terms and conditions to proceed"
+//   },
+//   "exception_type": "ValidationException"
+// }`
 
 // Custom Validation Rules
 const customRuleCode = `// lib/src/validation/strong_password_rule.dart
@@ -612,14 +1129,14 @@ class UserController {
 
 // Form Request Classes
 const formRequestCode = `// lib/src/http/requests/create_user_request.dart
-import 'package:khadem/src/core/http/form_request.dart';
+import 'package:khadem/khadem.dart';
 
 class CreateUserRequest extends FormRequest {
   @override
   Map<String, String> rules() {
     return {
       'name': 'required|string|max:255',
-      'email': 'required|email', // Note: unique validation done manually
+      'email': 'required|email',
       'password': 'required|string|min:8|confirmed',
       'role': 'required|in:admin,user,moderator',
     };
@@ -629,98 +1146,177 @@ class CreateUserRequest extends FormRequest {
   Map<String, String> messages() {
     return {
       'name.required': 'Please provide your name',
-      'email.unique': 'This email is already registered',
+      'email.email': 'Please provide a valid email address',
       'password.min': 'Password must be at least 8 characters',
       'role.in': 'Invalid role selected',
     };
   }
 
   @override
-  void prepareForValidation() {
-    // Modify input before validation
-    if (input('name') != null) {
-      merge({'name': input('name').trim()});
-    }
+  void prepareForValidation(Request request) {
+    // Called before validation - access request data here
+    // Use this to normalize or clean data before validation runs
   }
 
   @override
-  void passedValidation() {
+  void passedValidation(Map<String, dynamic> validated) {
     // Called after successful validation
-    // You can modify the validated data here
-    merge({'password': Hash.make(input('password'))});
+    // Modify the validated data directly
+    validated['password'] = Hash.make(validated['password']);
+    validated['created_at'] = DateTime.now().toIso8601String();
+  }
+
+  @override
+  bool authorize(Request request) {
+    // Check if user is authorized to make this request
+    return request.user()?.can('create-users') ?? false;
   }
 }`
 
 const formRequestUsageCode = `// lib/src/http/controllers/user_controller.dart
 class UserController {
-  static Future store(CreateUserRequest req, Response res) async {
-    // Manual database uniqueness check
-    final existingUser = await User.where('email', req.input('email')).first();
-    if (existingUser != null) {
-      res.statusCode(422).sendJson({
-        'success': false,
-        'errors': {'email': ['This email is already registered']},
-        'message': 'Validation failed'
+  static Future store(Request req, Response res) async {
+    try {
+      // Create FormRequest instance and validate
+      final formRequest = CreateUserRequest();
+      final validatedData = await formRequest.validate(req);
+
+      // Authorization and validation automatically handled by FormRequest
+      // validatedData contains validated fields with passedValidation() modifications
+      
+      // Manual database uniqueness check (if needed)
+      final existingUser = await User.where('email', validatedData['email']).first();
+      if (existingUser != null) {
+        res.status(422).sendJson({
+          'error': true,
+          'message': 'Validation failed.',
+          'status_code': 422,
+          'timestamp': DateTime.now().toIso8601String(),
+          'details': {
+            'email': 'This email address is already registered.',
+          },
+          'exception_type': 'ValidationException'
+        });
+        return;
+      }
+
+      final user = User(
+        name: validatedData['name'],
+        email: validatedData['email'],
+        password: validatedData['password'], // Already hashed in passedValidation()
+        role: validatedData['role'],
+        created_at: validatedData['created_at'], // Added in passedValidation()
+      );
+
+      await user.save();
+
+      res.status(201).sendJson({
+        'success': true,
+        'message': 'User created successfully',
+        'data': {
+          'user': user.toJson(),
+        }
       });
-      return;
+    } on UnauthorizedException catch (e) {
+      res.status(403).sendJson({
+        'error': true,
+        'message': e.message,
+        'status_code': 403,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': 'UnauthorizedException'
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
+      });
     }
-
-    // Validation is automatically handled by FormRequest
-    final user = User(
-      name: req.input('name'),
-      email: req.input('email'),
-      password: req.input('password'), // Already hashed
-      role: req.input('role'),
-    );
-
-    await user.save();
-
-    res.statusCode(201).sendJson({
-      'success': true,
-      'message': 'User created successfully',
-      'user': user.toJson(),
-    });
   }
-}
-
-// routes/web.dart
-Route.post('/users', UserController.store, request: CreateUserRequest);`
+}`
 
 // Error Handling
 const errorHandlingCode = `class UserController {
   static Future store(Request req, Response res) async {
     try {
       final validatedData = await req.validate({
-        'name': 'required',
+        'name': 'required|string|max:255',
         'email': 'required|email',
+        'password': 'required|string|min:8',
       });
+
+      // Manual database uniqueness check
+      final existingUser = await User.where('email', validatedData['email']).first();
+      if (existingUser != null) {
+        // Return custom validation error for duplicate email
+        res.status(422).sendJson({
+          'error': true,
+          'message': 'Validation failed.',
+          'status_code': 422,
+          'timestamp': DateTime.now().toIso8601String(),
+          'details': {
+            'email': 'This email address is already registered.',
+          },
+          'exception_type': 'ValidationException'
+        });
+        return;
+      }
 
       // Process validated data
       final user = User(
         name: validatedData['name'],
         email: validatedData['email'],
+        password: Hash.make(validatedData['password']),
       );
 
       await user.save();
 
-      res.statusCode(201).sendJson({
+      // Success response
+      res.status(201).sendJson({
         'success': true,
         'message': 'User created successfully',
+        'data': {
+          'user': user.toJson(),
+        }
+      });
+    } on ValidationException catch (e) {
+      // Khadem automatically formats ValidationException as:
+      // {
+      //   "error": true,
+      //   "message": "Validation failed.",
+      //   "status_code": 422,
+      //   "timestamp": "2025-10-21T16:22:50.456153",
+      //   "details": { "field": "error message" },
+      //   "exception_type": "ValidationException"
+      // }
+      res.status(422).sendJson({
+        'error': true,
+        'message': e.message,
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
+      });
+    } on UnauthorizedException catch (e) {
+      res.status(403).sendJson({
+        'error': true,
+        'message': e.message,
+        'status_code': 403,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': 'UnauthorizedException'
       });
     } catch (e) {
-      if (e is ValidationException) {
-        // Handle validation errors
-        res.statusCode(422).sendJson({
-          'success': false,
-          'message': 'Validation failed',
-          'errors': e.errors,
-        });
-      } else {
-        res.statusCode(500).sendJson({
-          'success': false,
-          'message': 'Internal server error'
-        });
-      }
+      // Handle unexpected errors
+      res.status(500).sendJson({
+        'error': true,
+        'message': 'An unexpected error occurred',
+        'status_code': 500,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': e.runtimeType.toString()
+      });
     }
   }
 }`
@@ -734,19 +1330,6 @@ const conditionalValidationCode = `class UserController {
         'name': 'required|string|max:255',
         'email': 'required|email', // Note: unique validation done manually below
       };
-
-      // Manual database uniqueness check (excluding current user)
-      final existingUser = await User.where('email', req.input('email'))
-          .where('id', '!=', req.user?.id ?? 0)
-          .first();
-      if (existingUser != null) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': {'email': ['This email is already registered']},
-          'message': 'Validation failed'
-        });
-        return;
-      }
 
       // Add password validation only if provided
       if (req.has('password') && req.input('password')?.isNotEmpty == true) {
@@ -762,19 +1345,49 @@ const conditionalValidationCode = `class UserController {
 
       final validatedData = req.validateData(bodyData, rules);
 
+      // Manual database uniqueness check (excluding current user)
+      final existingUser = await User.where('email', validatedData['email'])
+          .where('id', '!=', req.user?.id ?? 0)
+          .first();
+      if (existingUser != null) {
+        res.status(422).sendJson({
+          'error': true,
+          'message': 'Validation failed.',
+          'status_code': 422,
+          'timestamp': DateTime.now().toIso8601String(),
+          'details': {
+            'email': 'This email address is already registered.',
+          },
+          'exception_type': 'ValidationException'
+        });
+        return;
+      }
+
       // Process validated data...
       res.sendJson({
         'success': true,
         'message': 'Profile updated successfully',
+        'data': {
+          'user': req.user?.toJson(),
+        }
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
       });
     } catch (e) {
-      if (e is ValidationException) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': e.errors,
-          'message': 'Validation failed'
-        });
-      }
+      res.status(500).sendJson({
+        'error': true,
+        'message': 'An unexpected error occurred',
+        'status_code': 500,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': e.runtimeType.toString()
+      });
     }
   }
 }`
@@ -799,10 +1412,15 @@ const arrayValidationCode = `class ProductController {
       for (final categoryId in categoryIds) {
         final category = await Category.find(categoryId);
         if (category == null) {
-          res.statusCode(422).sendJson({
-            'success': false,
-            'errors': {'categories': ['One or more selected categories do not exist']},
-            'message': 'Validation failed'
+          res.status(422).sendJson({
+            'error': true,
+            'message': 'Validation failed.',
+            'status_code': 422,
+            'timestamp': DateTime.now().toIso8601String(),
+            'details': {
+              'categories': 'One or more selected categories do not exist.',
+            },
+            'exception_type': 'ValidationException'
           });
           return;
         }
@@ -821,18 +1439,32 @@ const arrayValidationCode = `class ProductController {
       // }
 
       // Process validated data...
-      res.statusCode(201).sendJson({
+      final product = await Product.create(validatedData);
+
+      res.status(201).sendJson({
         'success': true,
         'message': 'Product created successfully',
+        'data': {
+          'product': product.toJson(),
+        }
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
       });
     } catch (e) {
-      if (e is ValidationException) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': e.errors,
-          'message': 'Validation failed'
-        });
-      }
+      res.status(500).sendJson({
+        'error': true,
+        'message': 'An unexpected error occurred',
+        'status_code': 500,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': e.runtimeType.toString()
+      });
     }
   }
 }`
@@ -844,7 +1476,7 @@ const fileValidationCode = `class FileUploadController {
         'document': 'required|file|mimes:pdf,doc,docx|max_file_size:5120', // 5MB
         'images': 'nullable|array|max_items:3',
         'images.*': 'file|mimes:jpeg,png,jpg,gif|max_file_size:2048', // 2MB each
-        'avatar': 'nullable|file|mimes:jpeg,png,jpg|dimensions:min_width=100,min_height=100|max_file_size:1024',
+        'avatar': 'nullable|file|image|mimes:jpeg,png,jpg|max_file_size:1024',
       });
 
       // Access uploaded files
@@ -864,15 +1496,29 @@ const fileValidationCode = `class FileUploadController {
       res.sendJson({
         'success': true,
         'message': 'Files uploaded successfully',
+        'data': {
+          'document': document?.filename,
+          'avatar': avatar?.filename,
+          'images_count': images?.length ?? 0,
+        }
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'error': true,
+        'message': 'Validation failed.',
+        'status_code': 422,
+        'timestamp': DateTime.now().toIso8601String(),
+        'details': e.errors,
+        'exception_type': 'ValidationException'
       });
     } catch (e) {
-      if (e is ValidationException) {
-        res.statusCode(422).sendJson({
-          'success': false,
-          'errors': e.errors,
-          'message': 'Validation failed'
-        });
-      }
+      res.status(500).sendJson({
+        'error': true,
+        'message': 'An unexpected error occurred',
+        'status_code': 500,
+        'timestamp': DateTime.now().toIso8601String(),
+        'exception_type': e.runtimeType.toString()
+      });
     }
   }
 }`

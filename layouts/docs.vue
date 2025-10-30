@@ -1,9 +1,9 @@
 <template>
- 
+
   <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <AppHeader />
-  
-     <div class="max-w-full mx-auto px-3 sm:px-4 lg:px-6">
+
+    <div class="max-w-full mx-auto px-3 sm:px-4 lg:px-6">
       <!-- Mobile Toggle Button -->
       <div class="xl:hidden py-3">
         <button @click="toggleMobileMenu"
@@ -18,9 +18,7 @@
 
       <div class="flex flex-col xl:flex-row gap-6 relative">
         <!-- Mobile Menu Overlay -->
-        <div v-if="mobileMenuOpen" 
-             @click="closeMobileMenu"
-             class="fixed inset-0 bg-black bg-opacity-50 z-40 xl:hidden">
+        <div v-if="mobileMenuOpen" @click="closeMobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-40 xl:hidden">
         </div>
 
         <!-- Sidebar (Mobile & Desktop) -->
@@ -35,20 +33,20 @@
           },
           'xl:transform-none xl:translate-x-0' // Reset transforms on desktop
         ]">
-          <div class="h-full xl:sticky xl:top-20 xl:max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
+          <div
+            class="h-full xl:sticky xl:top-20 xl:max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
             <!-- Mobile header -->
             <div class="xl:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
               <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Navigation</h2>
-              <button @click="closeMobileMenu" 
-                      class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
+              <button @click="closeMobileMenu"
+                class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
               </button>
             </div>
-            
-            <nav
-              class="space-y-1 bg-white dark:bg-gray-900 xl:bg-transparent p-3 xl:p-0 h-full xl:h-auto">
+
+            <nav class="space-y-1 bg-white dark:bg-gray-900 xl:bg-transparent p-3 xl:p-0 h-full xl:h-auto">
               <div v-for="section in navigation" :key="section.title" class="mb-5">
                 <h3 class="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2 px-2">
                   {{ section.title }}
@@ -57,11 +55,10 @@
                   <li v-for="item in section.items" :key="item.path">
                     <NuxtLink :to="localePath(item.path)"
                       class="block px-2 py-1.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/20 rounded-md transition-all duration-200 font-medium"
-                      :class="{ 
+                      :class="{
                         'text-blue-600 bg-blue-50 border-r-2 border-blue-500 dark:text-blue-400 dark:bg-blue-900/30 dark:border-blue-400': $route.path === item.path,
                         'hover:translate-x-1': $route.path !== item.path
-                      }"
-                      @click="closeMobileMenu">
+                      }" @click="closeMobileMenu">
                       {{ item.title }}
                     </NuxtLink>
                   </li>
@@ -100,11 +97,10 @@
                 {{ $t('docs.onThisPage') || 'On this page' }}
               </h3>
               <nav class="space-y-1">
-                <a v-for="heading in tableOfContents" :key="heading.id" 
-                   :href="`#${heading.id}`"
-                   @click="handleTocClick($event, heading.id)"
-                   class="block px-2 py-1 text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors rounded"
-                   :class="{ 'pl-4 rtl:pl-0 rtl:pr-4': heading.level === 3 }">
+                <a v-for="heading in tableOfContents" :key="heading.id" :href="`#${heading.id}`"
+                  @click="handleTocClick($event, heading.id)"
+                  class="block px-2 py-1 text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors rounded"
+                  :class="{ 'pl-4 rtl:pl-0 rtl:pr-4': heading.level === 3 }">
                   {{ heading.text }}
                 </a>
               </nav>
@@ -118,14 +114,13 @@
                 {{ $t('docs.onThisPage') || 'On this page' }}
               </h3>
               <nav class="space-y-1 border-l-2 border-gray-200 dark:border-gray-700 pl-3">
-                <a v-for="heading in tableOfContents" :key="heading.id" 
-                   :href="`#${heading.id}`"
-                   @click="handleTocClick($event, heading.id)"
-                   class="block py-1 text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors leading-5"
-                   :class="{ 
-                     'pl-3 rtl:pl-0 rtl:pr-3 text-gray-500 dark:text-gray-500': heading.level === 3,
-                     'font-medium': heading.level === 2
-                   }">
+                <a v-for="heading in tableOfContents" :key="heading.id" :href="`#${heading.id}`"
+                  @click="handleTocClick($event, heading.id)"
+                  class="block py-1 text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors leading-5"
+                  :class="{
+                    'pl-3 rtl:pl-0 rtl:pr-3 text-gray-500 dark:text-gray-500': heading.level === 3,
+                    'font-medium': heading.level === 2
+                  }">
                   {{ heading.text }}
                 </a>
               </nav>
@@ -185,48 +180,58 @@ const navigation = [
     title: 'Core Concepts',
     items: [
       { title: 'Routing', path: '/docs/core-concepts/routing' },
-      { title: 'Response System', path: '/docs/core-concepts/response' },
       { title: 'Requests', path: '/docs/core-concepts/request' },
-      // { title: 'Controllers', path: '/docs/core-concepts/controllers' },
+      { title: 'Response System', path: '/docs/core-concepts/response' },
       { title: 'Middleware', path: '/docs/core-concepts/middleware' },
+      { title: 'Validation', path: '/docs/core-concepts/validation' },
       { title: 'Service Container', path: '/docs/core-concepts/container' },
-      { title: 'Validation', path: '/docs/core-concepts/validation' }
+      { title: 'Service Providers', path: '/docs/core-concepts/service-providers' },
     ]
-  }, 
+  },
   {
-    title: 'Database & Models',
+    title: 'Database & ORM',
     items: [
-      { title: 'Database Overview', path: '/docs/database-models/database' },
-      { title: 'ORM & Schema Builder', path: '/docs/database-models/orm' },
-      { title: 'Migrations', path: '/docs/database-models/migrations' },
-      { title: 'Models', path: '/docs/database-models/models' },
+      { title: 'Getting Started', path: '/docs/database-models/database' },
       { title: 'Query Builder', path: '/docs/database-models/queries' },
+      { title: 'Models', path: '/docs/database-models/models' },
       { title: 'Relationships', path: '/docs/database-models/relationships' },
-      { title: 'Eager Loading', path: '/docs/database-models/eager-loading' }
+      { title: 'Eager Loading', path: '/docs/database-models/eager-loading' },
+      { title: 'Migrations', path: '/docs/database-models/migrations' },
+      { title: 'ORM Features', path: '/docs/database-models/orm' },
     ]
   },
   {
     title: 'Authentication & Security',
     items: [
-      { title: 'Authentication', path: '/docs/auth-security/auth' },
-      // { title: 'Authorization', path: '/docs/auth-security/authorization' },
-      // { title: 'Security Best Practices', path: '/docs/auth-security/security' }
+      { title: 'Overview', path: '/docs/auth-security/auth' },
+      { title: 'Guards', path: '/docs/auth-security/guards' },
+      { title: 'Middleware', path: '/docs/auth-security/middleware' },
+      { title: 'Token Management', path: '/docs/auth-security/tokens' },
+      { title: 'Authorization', path: '/docs/auth-security/authorization' },
+      { title: 'Security Best Practices', path: '/docs/auth-security/security' }
+    ]
+  },
+  {
+    title: 'Mail & Notifications',
+    items: [
+      { title: 'Mail Overview', path: '/docs/mail' },
+      { title: 'Configuration', path: '/docs/mail/configuration' },
+      { title: 'Sending Emails', path: '/docs/mail/sending' },
+      { title: 'Mail Drivers', path: '/docs/mail/drivers' },
+      { title: 'Troubleshooting', path: '/docs/mail/troubleshooting' },
     ]
   },
   {
     title: 'Advanced Features',
     items: [
-      { title: 'Service Providers', path: '/docs/advanced-features/service-providers' },
-      { title: 'Events & Listeners', path: '/docs/advanced-features/events' },
-      { title: 'Queue System', path: '/docs/advanced-features/queue' },
-      { title: 'WebSocket System', path: '/docs/advanced-features/websockets' },
-      { title: 'Task Scheduling', path: '/docs/advanced-features/scheduler' },
-      // { title: 'File Storage', path: '/docs/advanced-features/storage' },
       { title: 'Caching', path: '/docs/advanced-features/cache' },
       { title: 'Configuration', path: '/docs/advanced-features/configuration' },
+      { title: 'Events & Listeners', path: '/docs/advanced-features/events' },
+      { title: 'Queue System', path: '/docs/advanced-features/queue' },
+      { title: 'Task Scheduling', path: '/docs/advanced-features/scheduler' },
       { title: 'Localization', path: '/docs/advanced-features/localization' },
-      
-      { title: 'Exceptions', path: '/docs/advanced-features/exceptions' }
+      { title: 'WebSocket System', path: '/docs/advanced-features/websockets' },
+      { title: 'Exception Handling', path: '/docs/advanced-features/exceptions' },
     ]
   },
   {
@@ -238,10 +243,8 @@ const navigation = [
   },
   {
     title: 'Deployment',
-    items: [
-      { title: 'Docker', path: '/docs/deployment/docker' },
-      // { title: 'Production', path: '/docs/deployment/production' },
-      // { title: 'Monitoring', path: '/docs/deployment/monitoring' }
+    items: [ 
+      { title: 'Docker Deployment', path: '/docs/deployment/docker' },
     ]
   }
 ]
@@ -256,9 +259,9 @@ onMounted(() => {
       closeMobileMenu()
     }
   }
-  
+
   document.addEventListener('keydown', handleEscape)
-  
+
   const extractHeadings = () => {
     // Wait for content to be fully rendered
     nextTick(() => {
@@ -271,7 +274,7 @@ onMounted(() => {
             .replace(/\s+/g, '-') // Replace spaces with hyphens
             .trim()
         }
-        
+
         return {
           id: h.id,
           text: h.textContent?.trim() || '',
@@ -294,7 +297,7 @@ onMounted(() => {
   const observer = new MutationObserver(() => {
     setTimeout(extractHeadings, 100) // Small delay to ensure content is rendered
   })
-  
+
   const articleElement = document.querySelector('article')
   if (articleElement) {
     observer.observe(articleElement, {
@@ -392,7 +395,7 @@ aside {
     max-width: 85vw;
     box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
-  
+
   aside.dark {
     box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
   }

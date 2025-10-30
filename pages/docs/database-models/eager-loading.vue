@@ -196,6 +196,84 @@
       </template>
       <CodeBlock :code="troubleshootingExample" language="dart" title="Debugging Eager Loading" />
     </DocSection>
+
+    <!-- Default Relations -->
+    <DocSection title="Default Relations - Auto-Loading">
+      <template #description>
+        <p class="mb-4">
+          Define relationships that should <strong>always</strong> be loaded automatically for a model.
+          This eliminates the need to manually specify <code>withRelations()</code> every time.
+        </p>
+        <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4 mb-4">
+          <h4 class="font-semibold text-emerald-800 dark:text-emerald-200 mb-2">✨ Automatic Loading</h4>
+          <p class="text-sm text-emerald-700 dark:text-emerald-300">
+            Relations listed in <code>defaultRelations</code> are automatically loaded on <code>get()</code>, <code>first()</code>, <code>findById()</code>, and <code>paginate()</code>.
+          </p>
+        </div>
+      </template>
+      <CodeBlock :code="defaultRelationsExample" language="dart" title="Default Relations" />
+    </DocSection>
+
+    <!-- Without Method -->
+    <DocSection title="without() - Excluding Default Relations">
+      <template #description>
+        <p class="mb-4">
+          Sometimes you want to skip loading specific default relations for performance reasons.
+          Use <code>without()</code> to exclude them from a specific query.
+        </p>
+        <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4 mb-4">
+          <h4 class="font-semibold text-orange-800 dark:text-orange-200 mb-2">🎯 Selective Exclusion</h4>
+          <p class="text-sm text-orange-700 dark:text-orange-300">
+            Use <code>without()</code> when you don't need all default relations for a particular query.
+          </p>
+        </div>
+      </template>
+      <CodeBlock :code="withoutExample" language="dart" title="Excluding Relations" />
+    </DocSection>
+
+    <!-- WithOnly Method -->
+    <DocSection title="withOnly() - Override Default Relations">
+      <template #description>
+        <p class="mb-4">
+          Completely override the default relations and load only the specific relations you need.
+          This ignores <code>defaultRelations</code> and loads only what you specify.
+        </p>
+        <div class="bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-lg p-4 mb-4">
+          <h4 class="font-semibold text-violet-800 dark:text-violet-200 mb-2">🔄 Complete Override</h4>
+          <p class="text-sm text-violet-700 dark:text-violet-300">
+            <code>withOnly()</code> completely replaces default relations. Use when you need precise control.
+          </p>
+        </div>
+      </template>
+      <CodeBlock :code="withOnlyExample" language="dart" title="Override Default Relations" />
+    </DocSection>
+
+    <!-- Relation Counts -->
+    <DocSection title="Relation Counts - withCounts">
+      <template #description>
+        <p class="mb-4">
+          Instead of loading full relationships, sometimes you just need to know <strong>how many</strong> related records exist.
+          Use <code>withCounts</code> in your model to automatically include counts.
+        </p>
+        <div class="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-4 mb-4">
+          <h4 class="font-semibold text-cyan-800 dark:text-cyan-200 mb-2">📊 Performance Benefit</h4>
+          <p class="text-sm text-cyan-700 dark:text-cyan-300">
+            Counting is much faster than loading full relations. Perfect for displaying statistics.
+          </p>
+        </div>
+      </template>
+      <CodeBlock :code="relationCountsExample" language="dart" title="Relation Counts" />
+    </DocSection>
+
+    <!-- Combining Techniques -->
+    <DocSection title="Combining All Techniques">
+      <template #description>
+        <p class="mb-4">
+          Here's a comprehensive example showing how to use all eager loading features together in a real application.
+        </p>
+      </template>
+      <CodeBlock :code="comprehensiveExample" language="dart" title="Complete Example" />
+    </DocSection>
   </div>
 </template>
 
@@ -551,6 +629,324 @@ final posts = await Post()
 
 // Debug: Enable query logging to see what queries are executed
 // (Check your ORM documentation for how to enable query logging)
+`;
+
+// Default Relations
+const defaultRelationsExample = `import 'package:khadem/khadem.dart';
+
+// Define default relations in your model
+class User extends KhademModel<User> with HasRelationships {
+  @override
+  List<dynamic> get defaultRelations => [
+    'profile',    // Always load user's profile
+    'roles',      // Always load user's roles
+  ];
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'profile': hasOne<Profile>(
+      foreignKey: 'user_id',
+      relatedTable: 'profiles',
+      factory: () => Profile(),
+    ),
+    'roles': belongsToMany<Role>(
+      pivotTable: 'user_roles',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'role_id',
+      relatedTable: 'roles',
+      localKey: 'id',
+      factory: () => Role(),
+    ),
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+  };
+}
+
+// Now these queries automatically load profile and roles:
+final user = await User().query.where('id', '=', 1).first();
+// profile and roles are already loaded!
+
+final users = await User().query.where('status', '=', 'active').get();
+// All users have profile and roles loaded
+
+final paginatedUsers = await User().query.paginate(perPage: 20);
+// Paginated users also have default relations
+
+// You can still add more relations on top of defaults
+final user = await User().query
+    .withRelations(['posts'])  // Load posts in addition to defaults
+    .where('id', '=', 1)
+    .first();
+// Now has profile, roles, AND posts`;
+
+// Without Method
+const withoutExample = `import 'package:khadem/khadem.dart';
+
+class User extends KhademModel<User> with HasRelationships {
+  @override
+  List<dynamic> get defaultRelations => ['profile', 'roles', 'settings'];
+}
+
+// Scenario 1: Exclude specific default relations
+final users = await User().query
+    .without(['settings'])  // Don't load settings
+    .get();
+// Only profile and roles are loaded
+
+// Scenario 2: Exclude multiple default relations
+final users = await User().query
+    .without(['profile', 'settings'])  // Skip profile and settings
+    .get();
+// Only roles are loaded
+
+// Scenario 3: Exclude all defaults for a lightweight query
+final users = await User().query
+    .without(['profile', 'roles', 'settings'])  // Skip all
+    .select(['id', 'name', 'email'])
+    .get();
+// No relations loaded - very fast!
+
+// Scenario 4: Mix without() and withRelations()
+final users = await User().query
+    .without(['settings'])           // Don't load settings
+    .withRelations(['posts'])        // But do load posts
+    .get();
+// Loads: profile, roles, posts (but not settings)
+
+// Performance optimization example
+Future<List<User>> getUsersForExport() async {
+  // For CSV export, we don't need relations at all
+  return await User().query
+      .without(['profile', 'roles', 'settings'])
+      .select(['id', 'name', 'email', 'created_at'])
+      .get();
+}`;
+
+// WithOnly Method
+const withOnlyExample = `import 'package:khadem/khadem.dart';
+
+class User extends KhademModel<User> with HasRelationships {
+  @override
+  List<dynamic> get defaultRelations => ['profile', 'roles', 'settings'];
+}
+
+// withOnly() completely replaces default relations
+
+// Scenario 1: Load ONLY posts (ignores all defaults)
+final users = await User().query
+    .withOnly(['posts'])
+    .get();
+// Only posts are loaded. No profile, roles, or settings!
+
+// Scenario 2: Load ONLY what's needed for a specific view
+final users = await User().query
+    .withOnly(['profile'])  // Just profile, nothing else
+    .where('status', '=', 'active')
+    .get();
+
+// Scenario 3: Load NO relations at all
+final users = await User().query
+    .withOnly([])  // Empty array = no relations
+    .get();
+// Fastest query possible - no eager loading
+
+// Scenario 4: Complex nested loading, ignoring defaults
+final users = await User().query
+    .withOnly([
+      'posts.comments.user',  // Deep nesting
+      'profile',              // Just profile from defaults
+    ])
+    .get();
+
+// Comparison:
+// withRelations() ADDS to defaults
+final u1 = await User().query.withRelations(['posts']).first();
+// Loads: profile, roles, settings, posts ← Added to defaults
+
+// withOnly() REPLACES defaults
+final u2 = await User().query.withOnly(['posts']).first();
+// Loads: posts ← Only this, ignores defaults
+
+// without() REMOVES from defaults
+final u3 = await User().query.without(['settings']).first();
+// Loads: profile, roles ← Defaults minus excluded`;
+
+// Relation Counts
+const relationCountsExample = `import 'package:khadem/khadem.dart';
+
+// Define relation counts in your model
+class User extends KhademModel<User> with HasRelationships {
+  @override
+  List<String> get withCounts => [
+    'posts',     // Include posts_count
+    'comments',  // Include comments_count
+    'followers', // Include followers_count
+  ];
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+    'comments': hasMany<Comment>(
+      foreignKey: 'user_id',
+      relatedTable: 'comments',
+      factory: () => Comment(),
+    ),
+    'followers': belongsToMany<User>(
+      pivotTable: 'followers',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'follower_id',
+      relatedTable: 'users',
+      localKey: 'id',
+      factory: () => User(),
+    ),
+  };
+
+  // Access counts as properties
+  int get postsCount => getAppended('posts_count') as int? ?? 0;
+  int get commentsCount => getAppended('comments_count') as int? ?? 0;
+  int get followersCount => getAppended('followers_count') as int? ?? 0;
+}
+
+// Counts are automatically included when querying
+final user = await User().query.where('id', '=', 1).first();
+print('Posts: \${user?.postsCount}');        // e.g., 42
+print('Comments: \${user?.commentsCount}');  // e.g., 156
+print('Followers: \${user?.followersCount}'); // e.g., 1024
+
+// Counts in JSON output
+final json = user?.toJson();
+// {
+//   "id": 1,
+//   "name": "John Doe",
+//   "posts_count": 42,
+//   "comments_count": 156,
+//   "followers_count": 1024
+// }
+
+// Manual count loading
+final user = await User().query.where('id', '=', 1).first();
+await user?.load('posts');
+final count = (user?.getRelation('posts') as List?)?.length ?? 0;
+user?.setAppended('posts_count', count);`;
+
+// Comprehensive Example
+const comprehensiveExample = `import 'package:khadem/khadem.dart';
+
+// Advanced User model with all features
+class User extends KhademModel<User> with HasRelationships {
+  @override
+  List<dynamic> get defaultRelations => [
+    'profile',
+    'roles',
+  ];
+
+  @override
+  List<String> get withCounts => [
+    'posts',
+    'followers',
+    'following',
+  ];
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'profile': hasOne<Profile>(
+      foreignKey: 'user_id',
+      relatedTable: 'profiles',
+      factory: () => Profile(),
+    ),
+    'roles': belongsToMany<Role>(
+      pivotTable: 'user_roles',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'role_id',
+      relatedTable: 'roles',
+      localKey: 'id',
+      factory: () => Role(),
+    ),
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+    'followers': belongsToMany<User>(
+      pivotTable: 'followers',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'follower_id',
+      relatedTable: 'users',
+      localKey: 'id',
+      factory: () => User(),
+    ),
+    'following': belongsToMany<User>(
+      pivotTable: 'followers',
+      foreignPivotKey: 'follower_id',
+      relatedPivotKey: 'user_id',
+      relatedTable: 'users',
+      localKey: 'id',
+      factory: () => User(),
+    ),
+  };
+}
+
+// Example 1: User profile page (load everything)
+Future<User?> getUserProfile(int userId) async {
+  final user = await User().query
+      .withRelations([
+        'posts.comments',     // Add posts with comments
+        'followers.profile',  // Add followers with profiles
+      ])
+      .where('id', '=', userId)
+      .first();
+  
+  // Has: profile, roles (defaults) + posts, followers (explicit)
+  // Plus: posts_count, followers_count, following_count
+  return user;
+}
+
+// Example 2: User list page (lightweight)
+Future<PaginatedResult<User>> getUsersList() async {
+  final users = await User().query
+      .withOnly(['profile'])  // Only profile, ignore other defaults
+      .where('status', '=', 'active')
+      .paginate(perPage: 20);
+  
+  // Has: profile only
+  // Plus: posts_count, followers_count, following_count (automatic)
+  return users;
+}
+
+// Example 3: Export CSV (no relations)
+Future<List<User>> exportUsers() async {
+  final users = await User().query
+      .withOnly([])  // No relations at all
+      .select(['id', 'name', 'email', 'created_at'])
+      .get();
+  
+  // No relations, no counts - fastest possible
+  return users;
+}
+
+// Example 4: Admin dashboard (custom mix)
+Future<List<User>> getAdminDashboard() async {
+  final users = await User().query
+      .without(['profile'])              // Don't need profile
+      .withRelations([
+        'posts.category',                // Add posts with categories
+        'roles.permissions',             // Add role permissions
+      ])
+      .where('is_admin', '=', true)
+      .get();
+  
+  // Has: roles (default) + posts, role permissions (explicit)
+  // Doesn't have: profile (excluded)
+  // Plus: all counts
+  return users;
+}
 `;
 </script>
 

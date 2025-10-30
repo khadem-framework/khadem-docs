@@ -604,7 +604,7 @@ final comments = post?.relation.get('comments');
 `;
 
 const advancedLoadingCode = `
-import 'package:khadem_dart/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 // Advanced loading with constraints and nested relations
 class User extends KhademModel with HasRelationships {
@@ -753,7 +753,7 @@ final complexData = await User.query()
 `;
 
 const performanceCode = `
-import 'package:khadem_dart/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 // Performance optimization patterns
 class Post extends KhademModel with HasRelationships {
@@ -805,7 +805,7 @@ await Post.query()
 `;
 
 const realWorldCode = `
-import 'package:khadem_dart/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 // E-commerce platform relationships
 class Order extends KhademModel with HasRelationships {
@@ -875,7 +875,7 @@ double calculateTotal(Order order) {
 `;
 
 const paginationCode = `
-import 'package:khadem_dart/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 // Object format pagination with relationships
 class ChatRoom extends KhademModel with HasRelationships {
@@ -947,7 +947,7 @@ final users = await User.query()
 `;
 
 const socialMediaCode = `
-import 'package:khadem_dart/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 // Social media platform relationships
 class User extends KhademModel with HasRelationships {
@@ -1098,7 +1098,7 @@ final popularContent = await Post.query()
 `;
 
 const paginationStringCode = `
-import 'package:khadem_dart/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 // String format pagination - more concise
 final chatRooms = await ChatRoom.query()
@@ -1143,3 +1143,4 @@ for (final order in orders) {
   margin-top: 2.5rem;
 }
 </style>
+

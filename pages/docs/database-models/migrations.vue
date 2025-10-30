@@ -251,3 +251,4 @@ class CreatePostsTable extends MigrationFile {
 }
 `;
 </script>
+

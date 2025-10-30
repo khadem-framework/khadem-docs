@@ -51,6 +51,34 @@
         </div>
       </div>
 
+      <!-- Mass Assignment Protection Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Mass Assignment Protection
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Control which attributes can be mass-assigned to protect against security vulnerabilities.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <CodeBlock
+              :code="fillableGuardedCode"
+              language="dart"
+              title="Fillable & Guarded"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="protectedAttributesCode"
+              language="dart"
+              title="Protected Attributes"
+            />
+          </div>
+        </div>
+      </section>
+
       <!-- Creating Models Section -->
       <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
         <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
@@ -79,7 +107,63 @@
         </div>
       </section>
 
-      <!-- Relationships Section -->
+            <!-- Computed Properties & Appends Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Computed Properties & Appends
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Define computed properties and automatically append them to JSON output.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <CodeBlock
+              :code="computedPropertiesCode"
+              language="dart"
+              title="Computed Properties"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="appendsCode"
+              language="dart"
+              title="Appends"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Default Relations Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Default Relations & Counts
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Automatically load relationships and counts when retrieving models.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <CodeBlock
+              :code="defaultRelationsCode"
+              language="dart"
+              title="Default Relations"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="withCountsCode"
+              language="dart"
+              title="Relation Counts"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Model Relationships Section -->
       <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
         <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
           Model Relationships
@@ -193,6 +277,34 @@
         </div>
       </section>
 
+      <!-- Attribute Casting Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+          Attribute Casting
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Automatically cast attributes to specific types when retrieving from database.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <CodeBlock
+              :code="basicCastingCode"
+              language="dart"
+              title="Basic Casting (Legacy)"
+            />
+          </div>
+
+          <div>
+            <CodeBlock
+              :code="attributeCasterCode"
+              language="dart"
+              title="AttributeCaster (New)"
+            />
+          </div>
+        </div>
+      </section>
+
       <!-- Serialization Section -->
       <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-8">
         <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
@@ -258,7 +370,7 @@ useHead({
 
 // Basic Model Code Examples
 const basicModelCode = `// app/models/User.dart
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class User extends KhademModel<User> with Timestamps, HasRelationships {
   User({
@@ -395,6 +507,313 @@ final recentActiveUsers = await User()
     .orderBy('created_at', direction: 'desc')
     .limit(10)
     .get();`
+
+// Mass Assignment Protection Code Examples
+const fillableGuardedCode = `// app/models/User.dart
+import 'package:khadem/khadem.dart';
+
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Fillable - whitelist approach (recommended)
+  @override
+  List<String> get fillable => [
+    'name',
+    'email',
+    'password',
+    'phone',
+    'avatar',
+  ];
+
+  // Alternative: Guarded - blacklist approach
+  // Use this when you want to allow most attributes
+  @override
+  List<String> get guarded => [
+    'id',
+    'is_admin',
+    'remember_token',
+    'email_verified_at',
+  ];
+
+  // Usage with mass assignment
+  Future<User> createUser(Map<String, dynamic> data) async {
+    final user = User();
+    user.fromJson(data); // Only fillable attributes will be set
+    await user.save();
+    return user;
+  }
+}
+
+// Example usage
+final userData = {
+  'name': 'John Doe',
+  'email': 'john@example.com',
+  'password': 'hashed_password',
+  'is_admin': true, // Will be ignored if in guarded list
+};
+
+final user = User();
+user.fromJson(userData);
+await user.save(); // is_admin won't be set due to guarded`
+
+const protectedAttributesCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Protected - never allow mass assignment (highest security)
+  @override
+  List<String> get protected => [
+    'id',              // Primary key should always be protected
+    'remember_token',  // Security tokens
+    'password_reset_token',
+  ];
+
+  // Hidden - exclude from JSON output
+  @override
+  List<String> get initialHidden => [
+    'password',
+    'remember_token',
+    'password_reset_token',
+  ];
+
+  // Fillable - allow these for mass assignment
+  @override
+  List<String> get fillable => [
+    'name',
+    'email',
+    'phone',
+  ];
+
+  // Manual assignment for protected attributes
+  void setAdminStatus(bool isAdmin) {
+    // Protected attribute, can only be set programmatically
+    setField('is_admin', isAdmin);
+  }
+
+  void setRememberToken(String token) {
+    // Protected attribute
+    setField('remember_token', token);
+  }
+}
+
+// Usage
+final user = User();
+user.fromJson({
+  'name': 'John',
+  'id': 999,  // Will be ignored (protected)
+  'remember_token': 'hack',  // Will be ignored (protected)
+});
+await user.save();
+
+// Set protected attributes manually
+user.setAdminStatus(true);
+user.setRememberToken('new_token');
+await user.save();`
+
+// Computed Properties Code Examples
+const computedPropertiesCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  String? firstName;
+  String? lastName;
+  String? email;
+
+  // Computed properties (getters)
+  String get fullName => '\${firstName ?? ''} \${lastName ?? ''}'.trim();
+
+  String get initials {
+    final first = firstName?.isNotEmpty == true ? firstName![0] : '';
+    final last = lastName?.isNotEmpty == true ? lastName![0] : '';
+    return '\$first\$last'.toUpperCase();
+  }
+
+  String get avatarUrl => 
+    'https://ui-avatars.com/api/?name=\${Uri.encodeComponent(fullName)}';
+
+  bool get isVerified => getAttribute('email_verified_at') != null;
+
+  int get age {
+    final birthDate = getAttribute('birth_date') as DateTime?;
+    if (birthDate == null) return 0;
+    return DateTime.now().difference(birthDate).inDays ~/ 365;
+  }
+
+  // Computed from relations
+  int get postsCount {
+    if (!isRelationLoaded('posts')) return 0;
+    return (getRelation('posts') as List?)?.length ?? 0;
+  }
+
+  // Override getField to include computed properties
+  @override
+  Object? getField(String key) {
+    return switch (key) {
+      'full_name' => fullName,
+      'initials' => initials,
+      'avatar_url' => avatarUrl,
+      'is_verified' => isVerified,
+      'age' => age,
+      'posts_count' => postsCount,
+      _ => super.getField(key)
+    };
+  }
+}
+
+// Usage
+final user = await User().query.where('id', '=', 1).first();
+print(user.fullName);  // John Doe
+print(user.initials);  // JD
+print(user.avatarUrl); // https://ui-avatars.com/api/?name=John%20Doe`
+
+const appendsCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Define which computed properties to append to JSON
+  @override
+  List<String> get appends => [
+    'full_name',
+    'initials',
+    'avatar_url',
+    'is_verified',
+  ];
+
+  String get fullName => '\${firstName ?? ''} \${lastName ?? ''}'.trim();
+  String get initials => /* ... */;
+  String get avatarUrl => /* ... */;
+  bool get isVerified => getAttribute('email_verified_at') != null;
+
+  // Override toJson to include appended attributes
+  @override
+  Map<String, dynamic> toJson() {
+    final json = super.toJson();
+    
+    // Add appended attributes
+    for (final attr in appends) {
+      json[attr] = getField(attr);
+    }
+    
+    return json;
+  }
+
+  // Dynamically append attributes
+  void appendAttribute(String attribute) {
+    setAppended(attribute, getField(attribute));
+  }
+}
+
+// Usage
+final user = await User().query.where('id', '=', 1).first();
+final json = user.toJson();
+// {
+//   "id": 1,
+//   "first_name": "John",
+//   "last_name": "Doe",
+//   "email": "john@example.com",
+//   "full_name": "John Doe",  // Appended
+//   "initials": "JD",         // Appended
+//   "avatar_url": "https://...", // Appended
+//   "is_verified": true       // Appended
+// }
+
+// Dynamically append for single instance
+user.appendAttribute('posts_count');
+await user.load('posts');
+user.setAppended('posts_count', user.postsCount);`
+
+// Default Relations Code Examples
+const defaultRelationsCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Auto-load these relations when retrieving models
+  @override
+  List<String> get defaultRelations => [
+    'profile',
+    'roles',
+  ];
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'profile': hasOne<Profile>(
+      foreignKey: 'user_id',
+      relatedTable: 'profiles',
+      factory: () => Profile(),
+    ),
+    'roles': belongsToMany<Role>(
+      pivotTable: 'user_roles',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'role_id',
+      relatedTable: 'roles',
+      localKey: 'id',
+      factory: () => Role(),
+    ),
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+  };
+}
+
+// Usage - defaultRelations are automatically loaded
+final user = await User().query.where('id', '=', 1).first();
+// profile and roles are already loaded
+final profile = user.getRelation('profile');
+final roles = user.getRelation('roles');
+
+// Exclude default relations
+final user = await User()
+    .query
+    .without(['profile'])  // Don't load profile
+    .where('id', '=', 1)
+    .first();
+
+// Load only specific relations (ignores defaults)
+final user = await User()
+    .query
+    .withOnly(['posts'])  // Only load posts, ignore defaults
+    .where('id', '=', 1)
+    .first();`
+
+const withCountsCode = `// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Auto-include these relation counts
+  @override
+  List<String> get withCounts => [
+    'posts',
+    'comments',
+  ];
+
+  @override
+  Map<String, RelationDefinition> get relations => {
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
+    'comments': hasMany<Comment>(
+      foreignKey: 'user_id',
+      relatedTable: 'comments',
+      factory: () => Comment(),
+    ),
+  };
+
+  // Access counts
+  int get postsCount => getAppended('posts_count') as int? ?? 0;
+  int get commentsCount => getAppended('comments_count') as int? ?? 0;
+}
+
+// Usage - counts are automatically loaded
+final user = await User().query.where('id', '=', 1).first();
+print('Posts: \${user.postsCount}');
+print('Comments: \${user.commentsCount}');
+
+// Manual count loading
+final user = await User().query.where('id', '=', 1).first();
+await user.load('posts');
+final postsCount = (user.getRelation('posts') as List).length;
+user.setAppended('posts_count', postsCount);
+
+// Include in JSON
+final json = user.toJson();
+// {
+//   "id": 1,
+//   "name": "John",
+//   "posts_count": 5,     // Auto-included
+//   "comments_count": 12  // Auto-included
+// }`
 
 // Model Attributes Code Examples
 const modelAttributesCode = `// app/models/User.dart
@@ -885,11 +1304,165 @@ user.observer = UserObserver();
 user.name = 'John Doe';
 await user.save(); // Will trigger observer methods`
 
+// Attribute Casting Code Examples
+const basicCastingCode = `// app/models/User.dart
+import 'package:khadem/khadem.dart';
+
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Legacy casting using casts map
+  @override
+  Map<String, Type> get casts => {
+    'email_verified_at': DateTime,
+    'is_active': bool,
+    'is_admin': bool,
+    'settings': Map,
+    'preferences': Map,
+    'metadata': Map,
+    'age': int,
+    'score': double,
+  };
+
+  // Attributes will be automatically cast when retrieved
+  bool? isActive;
+  bool? isAdmin;
+  DateTime? emailVerifiedAt;
+  Map<String, dynamic>? settings;
+  Map<String, dynamic>? preferences;
+  int? age;
+  double? score;
+
+  @override
+  Object? getField(String key) {
+    return switch (key) {
+      'is_active' => isActive,
+      'is_admin' => isAdmin,
+      'email_verified_at' => emailVerifiedAt,
+      'settings' => settings,
+      'preferences' => preferences,
+      'age' => age,
+      'score' => score,
+      _ => super.getField(key)
+    };
+  }
+
+  @override
+  void setField(String key, dynamic value) {
+    switch (key) {
+      case 'is_active':
+        isActive = value is bool ? value : (value == 1 || value == '1' || value == 'true');
+      case 'is_admin':
+        isAdmin = value is bool ? value : (value == 1 || value == '1' || value == 'true');
+      case 'email_verified_at':
+        emailVerifiedAt = value is DateTime ? value : DateTime.tryParse(value?.toString() ?? '');
+      case 'settings':
+        settings = value is Map<String, dynamic> ? value : {};
+      case 'preferences':
+        preferences = value is Map<String, dynamic> ? value : {};
+      case 'age':
+        age = value is int ? value : int.tryParse(value?.toString() ?? '');
+      case 'score':
+        score = value is double ? value : double.tryParse(value?.toString() ?? '');
+      default:
+        super.setField(key, value);
+    }
+  }
+}
+
+// Usage
+final user = await User().query.where('id', '=', 1).first();
+print(user.isActive);  // bool (not int or string)
+print(user.emailVerifiedAt);  // DateTime (not string)
+print(user.settings);  // Map<String, dynamic> (not string)`
+
+const attributeCasterCode = `// app/casters/JsonCaster.dart
+import 'package:khadem/khadem.dart';
+import 'dart:convert';
+
+class JsonCaster extends AttributeCaster {
+  @override
+  dynamic get(String key, dynamic value) {
+    if (value == null) return null;
+    if (value is String) {
+      try {
+        return jsonDecode(value);
+      } catch (e) {
+        return null;
+      }
+    }
+    return value;
+  }
+
+  @override
+  dynamic set(String key, dynamic value) {
+    if (value == null) return null;
+    if (value is Map || value is List) {
+      return jsonEncode(value);
+    }
+    return value;
+  }
+}
+
+// app/casters/EncryptedCaster.dart
+class EncryptedCaster extends AttributeCaster {
+  final String encryptionKey;
+
+  EncryptedCaster(this.encryptionKey);
+
+  @override
+  dynamic get(String key, dynamic value) {
+    if (value == null) return null;
+    // Implement decryption logic
+    return decrypt(value.toString(), encryptionKey);
+  }
+
+  @override
+  dynamic set(String key, dynamic value) {
+    if (value == null) return null;
+    // Implement encryption logic
+    return encrypt(value.toString(), encryptionKey);
+  }
+
+  String encrypt(String value, String key) {
+    // Your encryption implementation
+    return value; // Placeholder
+  }
+
+  String decrypt(String value, String key) {
+    // Your decryption implementation
+    return value; // Placeholder
+  }
+}
+
+// app/models/User.dart
+class User extends KhademModel<User> with Timestamps, HasRelationships {
+  // Use AttributeCaster for custom casting
+  @override
+  Map<String, AttributeCaster> get attributeCasters => {
+    'settings': JsonCaster(),
+    'metadata': JsonCaster(),
+    'secret_data': EncryptedCaster('my-secret-key'),
+  };
+
+  Map<String, dynamic>? settings;
+  Map<String, dynamic>? metadata;
+  String? secretData;
+}
+
+// Usage
+final user = await User().query.where('id', '=', 1).first();
+// settings are automatically decoded from JSON string
+user.settings = {'theme': 'dark', 'notifications': true};
+await user.save(); // Automatically encoded to JSON string
+
+// secretData is automatically encrypted/decrypted
+user.secretData = 'sensitive information';
+await user.save(); // Stored encrypted in database`
+
 // Serialization Code Examples
 const basicSerializationCode = `// app/models/User.dart
 class User extends KhademModel<User> with Timestamps, HasRelationships {
   @override
-  List<String> get initialHidden => ['password'];
+  List<String> get initialHidden => ['password', 'remember_token'];
 
   @override
   Map<String, Type> get casts => {
@@ -897,15 +1470,41 @@ class User extends KhademModel<User> with Timestamps, HasRelationships {
     'is_active': bool,
   };
 
-  // Custom toJson method
+  // Synchronous toJson() - for simple serialization
   @override
   Map<String, dynamic> toJson() {
     final json = super.toJson();
 
     // Add computed properties
-    json['full_name'] = name;
+    json['full_name'] = '\${firstName ?? ''} \${lastName ?? ''}'.trim();
     json['avatar_url'] = 'https://example.com/avatar/\${id}';
     json['is_admin'] = false; // Add custom logic
+
+    return json;
+  }
+
+  // Asynchronous toJsonAsync() - for loading relations
+  @override
+  Future<Map<String, dynamic>> toJsonAsync() async {
+    // Load relations before serializing
+    await loadMissing(['profile', 'roles']);
+    
+    final json = super.toJson();
+
+    // Add computed properties
+    json['full_name'] = '\${firstName ?? ''} \${lastName ?? ''}'.trim();
+    json['avatar_url'] = 'https://example.com/avatar/\${id}';
+    
+    // Add loaded relations
+    if (isRelationLoaded('profile')) {
+      final profile = getRelation('profile') as Profile?;
+      json['profile'] = profile?.toJson();
+    }
+    
+    if (isRelationLoaded('roles')) {
+      final roles = getRelation('roles') as List<Role>? ?? [];
+      json['roles'] = roles.map((role) => role.toJson()).toList();
+    }
 
     return json;
   }
@@ -913,11 +1512,21 @@ class User extends KhademModel<User> with Timestamps, HasRelationships {
 
 // Usage
 final user = await User().query.where('id', '=', 1).first();
+
+// Simple JSON (no relations)
 final json = user.toJson();
+
+// JSON with relations (async)
+final jsonWithRelations = await user.toJsonAsync();
 
 // Serialize collection
 final users = await User().query.get();
 final usersJson = users.map((user) => user.toJson()).toList();
+
+// Async collection serialization
+final asyncUsersJson = await Future.wait(
+  users.map((user) => user.toJsonAsync())
+);
 
 // Get only specific attributes
 final userData = user.only(['id', 'name', 'email']);

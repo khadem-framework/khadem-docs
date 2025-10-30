@@ -23,14 +23,14 @@
     </header>
 
     <!-- Setup -->
-    <!-- <DocSection title="Setup and Configuration">
+    <DocSection title="Setup and Configuration">
       <template #description>
         Setting up authentication in your Khadem application involves registering the AuthServiceProvider
         and configuring your authentication guards and providers.
       </template>
       <CodeBlock :code="setupCode" language="dart" title="Basic Setup" />
       <CodeBlock :code="configCode" language="dart" title="Configuration" />
-    </DocSection> -->
+    </DocSection>
 
     <!-- Auth Manager -->
     <DocSection title="AuthManager - Main Authentication Interface">
@@ -53,13 +53,13 @@
     </DocSection>
 
     <!-- User Model -->
-    <!-- <DocSection title="User Model with Authentication">
+    <DocSection title="User Model with Authentication">
       <template #description>
         Your user model should implement the Authenticatable interface to work with Khadem's
         authentication system. This provides methods for authentication and user data management.
       </template>
       <CodeBlock :code="userModelCode" language="dart" title="User Model Implementation" />
-    </DocSection> -->
+    </DocSection>
 
     <!-- Middleware -->
     <DocSection title="Authentication Middleware">
@@ -111,7 +111,7 @@ useHead({
 
 const setupCode = `
 // main.dart or app bootstrap
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 void main() async {
   // Initialize Khadem application
@@ -151,7 +151,7 @@ const authConfig = {
 `;
 
 const authManagerCode = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class AuthController {
   final AuthManager auth;
@@ -168,14 +168,12 @@ class AuthController {
       'password': 'required|min:6',
     });
 
-    final payload = await auth.login(data);
+    // AuthManager.attempt() returns AuthResponse
+    final authResponse = await auth.attempt(data);
 
     return {
       'message': 'Login successful',
-      'data': {
-        'token': payload['token'],
-        'user': payload['user'],
-      }
+      'data': authResponse.toMap(), // Contains user, access_token, refresh_token, etc.
     };
   }
 
@@ -191,48 +189,80 @@ class AuthController {
     final user = User()..fromJson(data);
     await user.save();
 
-    final payload = await auth.login({
+    // Authenticate after registration
+    final authResponse = await auth.attempt({
       'email': data['email'],
       'password': req.input('password'),
     });
 
     return {
       'message': 'User registered successfully',
-      'data': {
-        'token': payload['token'],
-        'user': user,
-      }
+      'data': authResponse.toMap(),
+    };
+  }
+
+  Future<Map<String, dynamic>> profile(Request req, Response res) async {
+    // Get authenticated user from request
+    final authenticatable = req.authenticatable;
+    if (authenticatable == null) {
+      throw AuthException('User not authenticated');
+    }
+
+    return {
+      'message': 'Profile retrieved',
+      'data': {'user': authenticatable.toAuthArray()},
     };
   }
 }
 `;
 
 const loginExample = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class AuthController {
-  static Future<Map<String, dynamic>> login(Request req, Response res) async {
+  static Future<void> login(Request req, Response res) async {
     final data = await req.validate({
       'email': 'required|email',
       'password': 'required|min:6',
     });
 
     final auth = AuthManager();
-    final payload = await auth.login(data);
+    final authResponse = await auth.attempt(data);
 
     res.sendJson({
       'message': 'Login successful',
       'data': {
-        'token': payload['token'],
-        'user': User()..fromJson(payload['user']),
+        'access_token': authResponse.accessToken,
+        'refresh_token': authResponse.refreshToken,
+        'token_type': authResponse.tokenType,
+        'expires_in': authResponse.expiresIn,
+        'user': authResponse.user,
       }
+    });
+  }
+
+  static Future<void> verifyToken(Request req, Response res) async {
+    // Get token from Authorization header
+    final authHeader = req.header('authorization');
+    final token = authHeader?.replaceFirst('Bearer ', '');
+
+    if (token == null) {
+      return res.status(401).sendJson({'error': 'Token required'});
+    }
+
+    final auth = AuthManager();
+    final user = await auth.user(token);
+
+    res.sendJson({
+      'message': 'Token is valid',
+      'data': {'user': user.toAuthArray()},
     });
   }
 }
 `;
 
 const webAuthController = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class WebAuthController {
   WebAuthController.singleton();
@@ -254,14 +284,35 @@ class WebAuthController {
       'remember': 'nullable|boolean',
     });
 
-    final webAuth = WebAuthService();
-    await webAuth.attemptLogin({
+    // Use AuthManager with 'web' guard for session-based auth
+    final auth = AuthManager(guard: 'web');
+    final authResponse = await auth.attempt({
       'email': data['email'],
       'password': data['password'],
-    }, remember: data['remember'] == true);
+    });
 
-    final intended = req.input('intended') ?? '/dashboard';
-    await res.redirect(intended);
+    // Store user and tokens in session
+    req.session.set('user_id', authResponse.user['id']);
+    req.session.set('access_token', authResponse.accessToken);
+    
+    if (authResponse.refreshToken != null) {
+      req.session.set('refresh_token', authResponse.refreshToken);
+    }
+
+    // Handle remember me
+    if (data['remember'] == true && authResponse.refreshToken != null) {
+      res.cookieHandler.set(
+        'remember_token',
+        authResponse.refreshToken!,
+        maxAge: const Duration(days: 30),
+        httpOnly: true,
+        secure: true,
+      );
+    }
+
+    final intended = req.session.get('url.intended') ?? '/dashboard';
+    req.session.remove('url.intended');
+    res.redirect(intended.toString());
   }
 
   Future<void> register(Request req, Response res) async {
@@ -275,109 +326,133 @@ class WebAuthController {
     final user = User()..fromJson(data);
     await user.save();
 
-    final webAuth = WebAuthService();
-    await webAuth.attemptLogin({
+    // Auto-login after registration
+    final auth = AuthManager(guard: 'web');
+    final authResponse = await auth.attempt({
       'email': data['email'],
       'password': req.input('password'),
-    }, remember: false);
+    });
 
-    await res.redirect('/dashboard');
+    req.session.set('user_id', authResponse.user['id']);
+    req.session.set('access_token', authResponse.accessToken);
+
+    res.redirect('/dashboard');
   }
 
   Future<void> dashboard(Request req, Response res) async {
-    final webAuth = WebAuthService();
-    final isAuthenticated = await webAuth.isAuthenticated(req);
-
-    if (!isAuthenticated) {
+    // User is already authenticated by WebAuthMiddleware
+    final authenticatable = req.authenticatable;
+    
+    if (authenticatable == null) {
       return res.redirect('/login');
     }
 
-    final user = User()..fromJson((await webAuth.getCurrentUser(req)) ?? {});
-    await res.view('dashboard', data: {'user': user.toJson()});
+    final user = authenticatable.toAuthArray();
+    await res.view('dashboard', data: {'user': user});
   }
 
   Future<void> logout(Request req, Response res) async {
-    final webAuth = WebAuthService();
-    await webAuth.logout(req, res);
-    await res.redirect('/login');
+    // Get current token to invalidate
+    final token = req.session.get('access_token') as String?;
+    
+    if (token != null) {
+      try {
+        final auth = AuthManager(guard: 'web');
+        await auth.logout(token);
+      } catch (e) {
+        // Log error but continue logout
+      }
+    }
+
+    // Clear session and cookies
+    req.session.remove('user_id');
+    req.session.remove('access_token');
+    req.session.remove('refresh_token');
+    res.cookieHandler.delete('remember_token');
+    
+    req.session.flash('message', 'Successfully logged out');
+    res.redirect('/login');
   }
 }
 `;
 
 const webAuthMiddleware = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
+// Use the built-in WebAuthMiddleware from Khadem
 class WebAuthMiddleware {
+  /// Middleware for authenticated routes
   static Middleware auth({
     String redirectTo = '/login',
     List<String> except = const [],
+    String guard = 'web',
   }) {
-    final authService = WebAuthService();
-
-    return Middleware((Request req, Response res, NextFunction next) async {
-      if (_isExcluded(req.path, except)) {
-        return next();
-      }
-
-      if (!authService.isAuthenticated(req)) {
-        req.session.set('url.intended', req.uri.toString());
-        req.session.flash('message', 'Please log in to continue');
-        res.redirect(redirectTo);
-        return;
-      }
-
-      await _ensureUserContext(req, authService, redirectTo);
-      return next();
-    });
+    return WebAuthMiddleware.create(
+      redirectTo: redirectTo,
+      except: except,
+      guard: guard,
+    );
   }
 
+  /// Middleware for guest-only routes (redirects authenticated users)
   static Middleware guest({
     String redirectTo = '/dashboard',
     List<String> except = const [],
+    String guard = 'web',
   }) {
-    final authService = WebAuthService();
+    return WebAuthMiddleware.guest(
+      redirectTo: redirectTo,
+      except: except,
+      guard: guard,
+    );
+  }
 
+  /// Middleware for admin-only routes
+  static Middleware admin({
+    String redirectTo = '/login',
+    List<String> except = const [],
+    String guard = 'web',
+  }) {
+    return WebAuthMiddleware.admin(
+      redirectTo: redirectTo,
+      except: except,
+      guard: guard,
+    );
+  }
+
+  /// Custom middleware example with role checking
+  static Middleware requireRole(String role, {
+    String redirectTo = '/dashboard',
+  }) {
     return Middleware((Request req, Response res, NextFunction next) async {
-      if (_isExcluded(req.path, except)) {
-        return next();
+      final user = req.authenticatable;
+      
+      if (user == null) {
+        return res.redirect('/login');
       }
 
-      if (authService.isAuthenticated(req)) {
-        res.redirect(redirectTo);
-        return;
+      final userData = user.toAuthArray();
+      final userRole = userData['role'] as String?;
+      
+      if (userRole != role) {
+        req.session.flash('error', 'Access denied');
+        return res.redirect(redirectTo);
       }
 
       return next();
     });
-  }
-
-  static bool _isExcluded(String path, List<String> except) {
-    return except.any((route) => path.startsWith(route));
-  }
-
-  static Future<void> _ensureUserContext(
-    Request req,
-    WebAuthService authService,
-    String redirectTo,
-  ) async {
-    if (req.user == null) {
-      final user = await authService.getCurrentUser(req);
-      if (user != null) {
-        req.setUser(user);
-      }
-    }
   }
 }
 `;
 
 const userModelCode = `
-import 'package:khadem/src/core/database/model_base/khadem_model.dart';
-import 'package:khadem/src/modules/auth/contracts/authenticatable.dart';
+import 'package:khadem/khadem.dart';
 
 class User extends KhademModel<User> implements Authenticatable {
   String? name;
   String? email;
   String? password;
+  String? role;
   DateTime? emailVerifiedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -386,6 +461,7 @@ class User extends KhademModel<User> implements Authenticatable {
     this.name,
     this.email,
     this.password,
+    this.role,
     this.emailVerifiedAt,
     int? id,
   }) {
@@ -397,6 +473,7 @@ class User extends KhademModel<User> implements Authenticatable {
     'name',
     'email',
     'password',
+    'role',
     'email_verified_at',
   ];
 
@@ -420,13 +497,20 @@ class User extends KhademModel<User> implements Authenticatable {
   dynamic getAuthIdentifier() => id;
 
   @override
-  String getAuthPassword() => password ?? '';
+  String? getAuthPassword() => password;
 
   @override
-  bool getRememberToken() => false;
-
-  @override
-  String? getRememberTokenName() => null;
+  Map<String, dynamic> toAuthArray() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'role': role,
+      'email_verified_at': emailVerifiedAt?.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+    };
+  }
 
   @override
   User newFactory(Map<String, dynamic> data) {
@@ -435,7 +519,12 @@ class User extends KhademModel<User> implements Authenticatable {
       name: data['name'],
       email: data['email'],
       password: data['password'],
-      emailVerifiedAt: data['email_verified_at'],
+      role: data['role'],
+      emailVerifiedAt: data['email_verified_at'] is DateTime
+          ? data['email_verified_at']
+          : (data['email_verified_at'] is String
+              ? DateTime.tryParse(data['email_verified_at'])
+              : null),
     );
   }
 
@@ -446,6 +535,7 @@ class User extends KhademModel<User> implements Authenticatable {
       case 'name': return name;
       case 'email': return email;
       case 'password': return password;
+      case 'role': return role;
       case 'email_verified_at': return emailVerifiedAt;
       case 'created_at': return createdAt;
       case 'updated_at': return updatedAt;
@@ -460,6 +550,7 @@ class User extends KhademModel<User> implements Authenticatable {
       case 'name': name = value; break;
       case 'email': email = value; break;
       case 'password': password = value; break;
+      case 'role': role = value; break;
       case 'email_verified_at': emailVerifiedAt = value; break;
       case 'created_at': createdAt = value; break;
       case 'updated_at': updatedAt = value; break;
@@ -474,169 +565,247 @@ class User extends KhademModel<User> implements Authenticatable {
     await save();
   }
 
-  Map<String, dynamic> toAuthArray() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'email_verified_at': emailVerifiedAt?.toIso8601String(),
-      'created_at': createdAt?.toIso8601String(),
-    };
-  }
+  bool hasRole(String roleToCheck) => role == roleToCheck;
 }
 `;
 
 const middlewareCode = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
-class AuthMiddleware extends Middleware {
-  AuthMiddleware() : super(_handleAuth);
+// Use the built-in AuthMiddleware from Khadem
+class ApiAuthExample {
+  /// Bearer token authentication (default)
+  static final bearerAuth = AuthMiddleware.bearer();
 
-  static Future<void> _handleAuth(Request req, Response res, NextFunction next) async {
-    try {
-      final authHeader = _extractAuthHeader(req);
-      final token = _extractBearerToken(authHeader);
-      final user = await _verifyToken(token);
-      _attachUserToRequest(req, user);
-      await next();
-    } catch (error) {
-      throw AuthException('Authentication failed: \${error.toString()}');
+  /// Bearer token with role requirement
+  static final adminAuth = AuthMiddleware.bearer()
+    .withRoles(['admin']);
+
+  /// Bearer token with permissions
+  static final userManagement = AuthMiddleware.bearer()
+    .withPermissions(['user.create', 'user.update']);
+
+  /// API key authentication
+  static final apiKeyAuth = AuthMiddleware.apiKey('X-API-Key');
+
+  /// Basic authentication
+  static final basicAuth = AuthMiddleware.basic(realm: 'My API');
+
+  /// Custom authentication
+  static final customAuth = AuthMiddleware.custom(
+    AuthType.bearer,
+    authenticator: (request) async {
+      // Custom authentication logic
+      final token = request.header('x-custom-token');
+      if (token == null) return null;
+      
+      // Verify token and return user
+      final auth = AuthManager();
+      return await auth.user(token);
+    },
+  );
+}
+
+// Accessing authenticated user in controller
+class UserController {
+  static Future<void> getProfile(Request req, Response res) async {
+    // Get authenticated user (set by AuthMiddleware)
+    final authenticatable = req.authenticatable;
+    
+    if (authenticatable == null) {
+      return res.status(401).sendJson({'error': 'Unauthenticated'});
     }
-  }
 
-  static String _extractAuthHeader(Request request) {
-    final authHeader = request.header('authorization');
-    if (authHeader == null || authHeader.isEmpty) {
-      throw AuthException('Missing authorization header');
-    }
-    return authHeader;
-  }
-
-  static String _extractBearerToken(String authHeader) {
-    if (!authHeader.startsWith('Bearer ')) {
-      throw AuthException('Invalid authorization header format');
-    }
-    final token = authHeader.replaceFirst('Bearer ', '').trim();
-    if (token.isEmpty) {
-      throw AuthException('Empty token provided');
-    }
-    return token;
-  }
-
-  static Future<Map<String, dynamic>> _verifyToken(String token) async {
-    final authManager = Khadem.container.resolve<AuthManager>();
-    return authManager.verify(token);
-  }
-
-  static void _attachUserToRequest(Request request, Map<String, dynamic> user) {
-    request.setAttribute('user', user);
-    request.setAttribute('userId', user['id']);
-    request.setAttribute('isAuthenticated', true);
+    final user = authenticatable.toAuthArray();
+    
+    res.sendJson({
+      'message': 'Profile retrieved',
+      'data': {'user': user},
+    });
   }
 }
 `;
 
 const routeProtection = `
 // routes/web.dart
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 void defineRoutes() {
   // Public routes
-  Route.get('/login', AuthController.showLoginForm);
-  Route.post('/login', AuthController.login);
-  Route.get('/register', AuthController.showRegister);
-  Route.post('/register', AuthController.register);
+  Route.get('/login', WebAuthController.showLogin);
+  Route.post('/login', WebAuthController.login);
+  Route.get('/register', WebAuthController.showRegister);
+  Route.post('/register', WebAuthController.register);
 
-  // API routes with AuthMiddleware
+  // API routes with Bearer token authentication
   Route.group(() {
-    Route.get('/api/profile', AuthController.profile);
-    Route.put('/api/profile', AuthController.updateProfile);
-    Route.post('/api/logout', AuthController.logout);
-  }, middleware: [AuthMiddleware()]);
+    Route.get('/api/profile', ApiController.profile);
+    Route.put('/api/profile', ApiController.updateProfile);
+    Route.post('/api/logout', ApiController.logout);
+    Route.get('/api/users', ApiController.listUsers);
+  }, middleware: [AuthMiddleware.bearer()]);
 
-  // Web routes with WebAuthMiddleware
+  // Admin API routes with role requirement
+  Route.group(() {
+    Route.post('/api/admin/users', AdminController.createUser);
+    Route.delete('/api/admin/users/:id', AdminController.deleteUser);
+  }, middleware: [
+    AuthMiddleware.bearer().withRoles(['admin'])
+  ]);
+
+  // Web routes with session-based authentication
   Route.group(() {
     Route.get('/dashboard', WebAuthController.dashboard);
-    Route.get('/chat', WebAuthController.chat);
+    Route.get('/profile', WebAuthController.profile);
+    Route.get('/settings', WebAuthController.settings);
   }, middleware: [WebAuthMiddleware.auth()]);
+
+  // Guest-only routes (redirect if authenticated)
+  Route.group(() {
+    Route.get('/welcome', WebAuthController.welcome);
+  }, middleware: [WebAuthMiddleware.guest()]);
 }
 `;
 
 const guardsCode = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
-// Using different guards
+// Using different guards and providers
 class MultiGuardController {
-  static Future<Map<String, dynamic>> adminLogin(Request req, Response res) async {
-    final adminAuth = AuthManager(guard: 'admins');
+  /// Admin login with 'api' guard and 'admins' provider
+  static Future<void> adminLogin(Request req, Response res) async {
+    final adminAuth = AuthManager(guard: 'api', provider: 'admins');
     final data = await req.validate({
       'email': 'required|email',
       'password': 'required|min:6',
     });
 
-    final result = await adminAuth.login(data);
+    final authResponse = await adminAuth.attempt(data);
 
     res.sendJson({
       'message': 'Admin login successful',
       'data': {
-        'token': result['token'],
-        'user': result['user'],
-        'guard': 'admins',
+        'access_token': authResponse.accessToken,
+        'refresh_token': authResponse.refreshToken,
+        'token_type': authResponse.tokenType,
+        'expires_in': authResponse.expiresIn,
+        'user': authResponse.user,
+        'guard': 'api',
+        'provider': 'admins',
       }
     });
   }
 
-  static Future<Map<String, dynamic>> userLogin(Request req, Response res) async {
-    final userAuth = AuthManager(guard: 'users');
+  /// User login with default 'api' guard and 'users' provider
+  static Future<void> userLogin(Request req, Response res) async {
+    final userAuth = AuthManager(guard: 'api', provider: 'users');
     final data = await req.validate({
       'email': 'required|email',
       'password': 'required|min:6',
     });
 
-    final result = await userAuth.login(data);
+    final authResponse = await userAuth.attempt(data);
 
     res.sendJson({
       'message': 'User login successful',
-      'data': {
-        'token': result['token'],
-        'user': result['user'],
-        'guard': 'users',
-      }
+      'data': authResponse.toMap(),
     });
+  }
+
+  /// Web login with 'web' guard
+  static Future<void> webLogin(Request req, Response res) async {
+    final webAuth = AuthManager(guard: 'web', provider: 'users');
+    final data = await req.validate({
+      'email': 'required|email',
+      'password': 'required|min:6',
+    });
+
+    final authResponse = await webAuth.attempt(data);
+
+    // Store in session for web auth
+    req.session.set('user_id', authResponse.user['id']);
+    req.session.set('access_token', authResponse.accessToken);
+
+    res.redirect('/dashboard');
   }
 }
 `;
 
 const jwtDriver = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class JWTAuthController {
-  static Future<Map<String, dynamic>> login(Request req, Response res) async {
+  /// Login with JWT driver (default API guard uses JWT)
+  static Future<void> login(Request req, Response res) async {
     final data = await req.validate({
       'email': 'required|email',
       'password': 'required|min:6',
     });
 
-    final jwtService = JWTAuthService.create('users');
-    final result = await jwtService.attemptLogin(data);
+    // AuthManager with 'api' guard uses JWT driver by default
+    final auth = AuthManager(guard: 'api');
+    final authResponse = await auth.attempt(data);
 
     res.sendJson({
       'message': 'JWT login successful',
       'data': {
-        'token': result['access_token'],
-        'user': result['user'],
-        'expires_in': result['expires_in'],
+        'access_token': authResponse.accessToken,
+        'refresh_token': authResponse.refreshToken,
+        'token_type': authResponse.tokenType,
+        'expires_in': authResponse.expiresIn,
+        'user': authResponse.user,
       }
+    });
+  }
+
+  /// Refresh access token using refresh token
+  static Future<void> refresh(Request req, Response res) async {
+    final refreshToken = req.input('refresh_token');
+
+    if (refreshToken == null) {
+      return res.status(400).sendJson({'error': 'Refresh token required'});
+    }
+
+    final auth = AuthManager(guard: 'api');
+    final authResponse = await auth.refresh(refreshToken);
+
+    res.sendJson({
+      'message': 'Token refreshed',
+      'data': authResponse.toMap(),
+    });
+  }
+
+  /// Verify JWT token
+  static Future<void> verify(Request req, Response res) async {
+    final token = req.header('authorization')?.replaceFirst('Bearer ', '');
+
+    if (token == null) {
+      return res.status(401).sendJson({'error': 'Token required'});
+    }
+
+    final auth = AuthManager(guard: 'api');
+    final isValid = await auth.check(token);
+
+    if (!isValid) {
+      return res.status(401).sendJson({'error': 'Invalid token'});
+    }
+
+    final user = await auth.user(token);
+
+    res.sendJson({
+      'message': 'Token is valid',
+      'data': {'user': user.toAuthArray()},
     });
   }
 }
 `;
 
 const tokenRefresh = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class TokenController {
-  static Future<Map<String, dynamic>> refreshToken(Request req, Response res) async {
+  /// Refresh access token using refresh token
+  static Future<void> refreshToken(Request req, Response res) async {
     final refreshToken = req.input('refresh_token');
 
     if (refreshToken == null || refreshToken.isEmpty) {
@@ -646,26 +815,79 @@ class TokenController {
     }
 
     final auth = AuthManager();
-    final result = await auth.refreshAccessToken(refreshToken);
+    final authResponse = await auth.refresh(refreshToken);
 
     res.sendJson({
       'message': 'Token refreshed successfully',
       'data': {
-        'access_token': result['access_token'],
-        'refresh_token': result['refresh_token'],
-        'token_type': result['token_type'],
-        'expires_in': result['expires_in'],
+        'access_token': authResponse.accessToken,
+        'refresh_token': authResponse.refreshToken,
+        'token_type': authResponse.tokenType,
+        'expires_in': authResponse.expiresIn,
+        'refresh_expires_in': authResponse.refreshExpiresIn,
       }
+    });
+  }
+
+  /// Logout and invalidate token
+  static Future<void> logout(Request req, Response res) async {
+    final token = req.header('authorization')?.replaceFirst('Bearer ', '');
+
+    if (token == null) {
+      return res.status(401).sendJson({'error': 'Token required'});
+    }
+
+    final auth = AuthManager();
+    await auth.logout(token);
+
+    res.sendJson({
+      'message': 'Logged out successfully'
+    });
+  }
+
+  /// Logout from all devices
+  static Future<void> logoutAll(Request req, Response res) async {
+    final authenticatable = req.authenticatable;
+    
+    if (authenticatable == null) {
+      return res.status(401).sendJson({'error': 'Unauthenticated'});
+    }
+
+    final userId = authenticatable.getAuthIdentifier();
+    final auth = AuthManager();
+    await auth.logoutAll(userId);
+
+    res.sendJson({
+      'message': 'Logged out from all devices'
+    });
+  }
+
+  /// Logout from other devices (keep current session)
+  static Future<void> logoutOthers(Request req, Response res) async {
+    final authenticatable = req.authenticatable;
+    final currentToken = req.header('authorization')?.replaceFirst('Bearer ', '');
+    
+    if (authenticatable == null || currentToken == null) {
+      return res.status(401).sendJson({'error': 'Unauthenticated'});
+    }
+
+    final userId = authenticatable.getAuthIdentifier();
+    final auth = AuthManager();
+    await auth.logoutOthers(userId, currentToken);
+
+    res.sendJson({
+      'message': 'Logged out from other devices'
     });
   }
 }
 `;
 
 const tokenVerification = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class AuthVerificationController {
-  static Future<Map<String, dynamic>> verifyToken(Request req, Response res) async {
+  /// Verify token and return user data
+  static Future<void> verifyToken(Request req, Response res) async {
     final token = req.header('authorization')?.replaceFirst('Bearer ', '');
 
     if (token == null || token.isEmpty) {
@@ -674,57 +896,86 @@ class AuthVerificationController {
       });
     }
 
-    final auth = AuthManager();
-    final user = await auth.verify(token);
+    try {
+      final auth = AuthManager();
+      
+      // Check if token is valid
+      final isValid = await auth.check(token);
+      
+      if (!isValid) {
+        return res.status(401).sendJson({
+          'error': 'Invalid or expired token',
+          'valid': false,
+        });
+      }
+
+      // Get user from token
+      final user = await auth.user(token);
+
+      res.sendJson({
+        'message': 'Token is valid',
+        'data': {
+          'user': user.toAuthArray(),
+          'valid': true,
+        }
+      });
+    } catch (e) {
+      res.status(401).sendJson({
+        'error': 'Token verification failed',
+        'message': e.toString(),
+        'valid': false,
+      });
+    }
+  }
+
+  /// Get current authenticated user
+  static Future<void> me(Request req, Response res) async {
+    // User is already authenticated by AuthMiddleware
+    final authenticatable = req.authenticatable;
+    
+    if (authenticatable == null) {
+      return res.status(401).sendJson({'error': 'Unauthenticated'});
+    }
 
     res.sendJson({
-      'message': 'Token is valid',
-      'data': {
-        'user': user,
-        'valid': true,
-      }
+      'message': 'Current user',
+      'data': {'user': authenticatable.toAuthArray()},
     });
   }
 }
 `;
 
 const errorHandling = `
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class AuthErrorHandler {
-  static Future<Map<String, dynamic>> handleAuthError(Request req, dynamic error) async {
+  /// Handle authentication errors with proper HTTP status codes
+  static Map<String, dynamic> handleAuthError(dynamic error) {
     if (error is AuthException) {
-      final statusCode = error.statusCode ?? 401;
       return {
         'success': false,
         'error': error.message,
-        'code': error.code ?? 'AUTH_ERROR',
-        'status_code': statusCode,
+        'code': 'AUTH_ERROR',
+        'status_code': error.statusCode,
       };
     }
 
-    // Handle other authentication-related errors
-    if (error.toString().contains('token')) {
+    // Handle validation errors
+    if (error is ValidationException) {
       return {
         'success': false,
-        'error': 'Authentication token error',
-        'code': 'TOKEN_ERROR',
-        'status_code': 401,
+        'error': 'Validation failed',
+        'errors': error.errors,
+        'code': 'VALIDATION_ERROR',
+        'status_code': 422,
       };
     }
 
-    if (error.toString().contains('credentials')) {
-      return {
-        'success': false,
-        'error': 'Invalid credentials',
-        'code': 'INVALID_CREDENTIALS',
-        'status_code': 401,
-      };
-    }
-
+    // Handle other errors
     return {
       'success': false,
       'error': 'Authentication failed',
+      'message': error.toString(),
       'code': 'AUTH_FAILED',
       'status_code': 500,
     };
@@ -733,7 +984,7 @@ class AuthErrorHandler {
 
 // Usage in controller
 class AuthController {
-  static Future<Map<String, dynamic>> login(Request req, Response res) async {
+  static Future<void> login(Request req, Response res) async {
     try {
       final data = await req.validate({
         'email': 'required|email',
@@ -741,16 +992,64 @@ class AuthController {
       });
 
       final auth = AuthManager();
-      final result = await auth.login(data);
+      final authResponse = await auth.attempt(data);
 
       res.sendJson({
         'success': true,
-        'data': result,
+        'message': 'Login successful',
+        'data': authResponse.toMap(),
       });
-    } catch (error) {
-      final errorResponse = await AuthErrorHandler.handleAuthError(req, error);
+    } on AuthException catch (e) {
+      res.status(e.statusCode).sendJson({
+        'success': false,
+        'error': e.message,
+        'code': 'AUTH_ERROR',
+      });
+    } on ValidationException catch (e) {
+      res.status(422).sendJson({
+        'success': false,
+        'error': 'Validation failed',
+        'errors': e.errors,
+      });
+    } catch (e) {
+      res.status(500).sendJson({
+        'success': false,
+        'error': 'Internal server error',
+        'message': e.toString(),
+      });
+    }
+  }
+
+  /// Example with custom error handling
+  static Future<void> protectedRoute(Request req, Response res) async {
+    try {
+      final authenticatable = req.authenticatable;
+      
+      if (authenticatable == null) {
+        throw AuthException('Unauthenticated', statusCode: 401);
+      }
+
+      final user = authenticatable.toAuthArray();
+      
+      // Check permissions
+      if (!_hasPermission(user, 'admin')) {
+        throw AuthException('Insufficient permissions', statusCode: 403);
+      }
+
+      res.sendJson({
+        'success': true,
+        'message': 'Access granted',
+        'data': {'user': user},
+      });
+    } catch (e) {
+      final errorResponse = AuthErrorHandler.handleAuthError(e);
       res.status(errorResponse['status_code']).sendJson(errorResponse);
     }
+  }
+
+  static bool _hasPermission(Map<String, dynamic> user, String permission) {
+    final permissions = (user['permissions'] as List?)?.cast<String>() ?? [];
+    return permissions.contains(permission);
   }
 }
 `;

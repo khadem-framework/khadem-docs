@@ -1,14 +1,55 @@
 <template>
-    <div class="space-y-8">
-      <header class="mb-10">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Khadem Request System</h1>
-        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Comprehensive HTTP request handling with body parsing, validation, authentication, and session management.
-        </p>
+    <div class="space-y-12">
+      <!-- Hero Section -->
+      <header class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-blue-600/10 dark:from-blue-500/20 dark:via-purple-500/10 dark:to-blue-600/20 p-12 border border-blue-200/50 dark:border-blue-800/50">
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 dark:bg-blue-500/20 border border-blue-500/20 mb-6">
+            <i class="fas fa-inbox text-blue-600 dark:text-blue-400"></i>
+            <span class="text-sm font-medium text-blue-700 dark:text-blue-300">HTTP Request Handling</span>
+          </div>
+          
+          <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            Request System
+          </h1>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+            Comprehensive HTTP request handling with body parsing, validation, authentication, and session management.
+          </p>
+        </div>
       </header>
 
+      <!-- Overview Card -->
+      <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-8 border border-blue-200 dark:border-blue-800">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
+          <i class="fas fa-info-circle text-blue-600 dark:text-blue-400"></i>
+          Request Object Overview
+        </h2>
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg">
+            <div class="font-semibold text-gray-900 dark:text-white mb-2">Data Access</div>
+            <div class="text-gray-600 dark:text-gray-400">Body parsing, parameters, query strings, headers, and cookies</div>
+          </div>
+          <div class="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg">
+            <div class="font-semibold text-gray-900 dark:text-white mb-2">Validation</div>
+            <div class="text-gray-600 dark:text-gray-400">Built-in validation rules with automatic error handling</div>
+          </div>
+          <div class="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg">
+            <div class="font-semibold text-gray-900 dark:text-white mb-2">Authentication</div>
+            <div class="text-gray-600 dark:text-gray-400">User authentication, sessions, and authorization helpers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basic Request Properties -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Basic Request Properties</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+            <i class="fas fa-list text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Basic Request Properties</h2>
+            <p class="text-gray-600 dark:text-gray-400">Access HTTP methods, paths, URIs, and headers</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="basicRequestCode"
@@ -16,31 +57,70 @@
           title="Accessing Request Properties"
         />
 
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">HTTP Properties</h3>
-            <div class="space-y-1 text-sm">
-              <div><code class="text-blue-600">method</code> - GET, POST, PUT, etc.</div>
-              <div><code class="text-green-600">path</code> - Request path (/api/users)</div>
-              <div><code class="text-orange-600">uri</code> - Full URI object</div>
-              <div><code class="text-purple-600">query</code> - Query parameters map</div>
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-globe text-blue-600 dark:text-blue-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">HTTP Properties</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-start gap-2">
+                <code class="text-blue-600 dark:text-blue-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">method</code>
+                <span class="text-gray-700 dark:text-gray-300">GET, POST, PUT, etc.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <code class="text-green-600 dark:text-green-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">path</code>
+                <span class="text-gray-700 dark:text-gray-300">Request path (/api/users)</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <code class="text-orange-600 dark:text-orange-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">uri</code>
+                <span class="text-gray-700 dark:text-gray-300">Full URI object</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <code class="text-purple-600 dark:text-purple-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">query</code>
+                <span class="text-gray-700 dark:text-gray-300">Query parameters map</span>
+              </div>
             </div>
           </div>
 
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Header Properties</h3>
-            <div class="space-y-1 text-sm">
-              <div><code class="text-blue-600">contentType</code> - Content-Type header</div>
-              <div><code class="text-green-600">userAgent</code> - User-Agent header</div>
-              <div><code class="text-orange-600">acceptsJson()</code> - Accepts JSON check</div>
-              <div><code class="text-purple-600">isAjax()</code> - AJAX request check</div>
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-file-lines text-purple-600 dark:text-purple-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Header Properties</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-start gap-2">
+                <code class="text-blue-600 dark:text-blue-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">contentType</code>
+                <span class="text-gray-700 dark:text-gray-300">Content-Type header</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <code class="text-green-600 dark:text-green-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">userAgent</code>
+                <span class="text-gray-700 dark:text-gray-300">User-Agent header</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <code class="text-orange-600 dark:text-orange-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">acceptsJson()</code>
+                <span class="text-gray-700 dark:text-gray-300">Accepts JSON check</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <code class="text-purple-600 dark:text-purple-400 font-mono bg-white dark:bg-gray-900 px-2 py-1 rounded">isAjax()</code>
+                <span class="text-gray-700 dark:text-gray-300">AJAX request check</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Body Parsing -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Body Parsing</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+            <i class="fas fa-code text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Body Parsing</h2>
+            <p class="text-gray-600 dark:text-gray-400">Parse JSON, form data, and multipart requests</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="bodyParsingCode"
@@ -48,18 +128,39 @@
           title="Request Body Handling"
         />
 
-        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-          <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-2">Supported Content Types</h3>
-          <ul class="list-disc pl-5 space-y-1 text-blue-700 dark:text-blue-300">
-            <li><code>application/json</code> - JSON data</li>
-            <li><code>application/x-www-form-urlencoded</code> - Form data</li>
-            <li><code>multipart/form-data</code> - File uploads</li>
-          </ul>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-file-code text-green-600 dark:text-green-400 text-xl"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Supported Content Types</h3>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <code class="text-green-600 dark:text-green-400 text-sm">application/json</code>
+              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">JSON data</div>
+            </div>
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <code class="text-green-600 dark:text-green-400 text-sm">application/x-www-form-urlencoded</code>
+              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Form data</div>
+            </div>
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <code class="text-green-600 dark:text-green-400 text-sm">multipart/form-data</code>
+              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">File uploads</div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- File Uploads -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">File Uploads</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+            <i class="fas fa-upload text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">File Uploads</h2>
+            <p class="text-gray-600 dark:text-gray-400">Handle single and multiple file uploads with validation</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="fileUploadCode"
@@ -67,26 +168,53 @@
           title="Handling File Uploads"
         />
 
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">File Properties</h3>
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-6 rounded-xl border border-orange-200 dark:border-orange-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-info-circle text-orange-600 dark:text-orange-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">File Properties</h3>
+            </div>
             <CodeBlock :code="filePropertiesCode" language="dart" />
           </div>
 
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">File Methods</h3>
-            <div class="space-y-1 text-sm">
-              <div><code class="text-blue-600">saveTo(path)</code> - Save to disk</div>
-              <div><code class="text-green-600">asString()</code> - Get as string</div>
-              <div><code class="text-orange-600">size</code> - File size in bytes</div>
-              <div><code class="text-purple-600">extension</code> - File extension</div>
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-6 rounded-xl border border-orange-200 dark:border-orange-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-wrench text-orange-600 dark:text-orange-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">File Methods</h3>
+            </div>
+            <div class="space-y-3 text-sm">
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-blue-600 dark:text-blue-400 font-mono">saveTo(path)</code>
+                <span class="text-gray-700 dark:text-gray-300">Save to disk</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-green-600 dark:text-green-400 font-mono">asString()</code>
+                <span class="text-gray-700 dark:text-gray-300">Get as string</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-orange-600 dark:text-orange-400 font-mono">size</code>
+                <span class="text-gray-700 dark:text-gray-300">File size in bytes</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-purple-600 dark:text-purple-400 font-mono">extension</code>
+                <span class="text-gray-700 dark:text-gray-300">File extension</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Input Validation -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Input Validation</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+            <i class="fas fa-check-circle text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Input Validation</h2>
+            <p class="text-gray-600 dark:text-gray-400">Validate request data with comprehensive rules</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="validationCode"
@@ -94,19 +222,55 @@
           title="Request Validation"
         />
 
-        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">Validation Features</h3>
-          <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
-            <li>Comprehensive validation rules</li>
-            <li>Automatic error formatting</li>
-            <li>Custom validation messages</li>
-            <li>File upload validation</li>
-          </ul>
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-shield-halved text-purple-600 dark:text-purple-400 text-xl"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Validation Features</h3>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-list-check text-purple-600 dark:text-purple-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Comprehensive Rules</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Built-in validation rules for common scenarios</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-exclamation-circle text-purple-600 dark:text-purple-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Automatic Errors</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Error formatting and response handling</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-comment-dots text-purple-600 dark:text-purple-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Custom Messages</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Customize validation error messages</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-file-arrow-up text-purple-600 dark:text-purple-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">File Validation</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Validate file uploads and types</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- Parameters & Query Strings -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Parameters & Query Strings</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center">
+            <i class="fas fa-link text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Parameters & Query Strings</h2>
+            <p class="text-gray-600 dark:text-gray-400">Access route parameters and query string data</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="parametersCode"
@@ -114,21 +278,36 @@
           title="Parameter Handling"
         />
 
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Path Parameters</h3>
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 p-6 rounded-xl border border-cyan-200 dark:border-cyan-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-route text-cyan-600 dark:text-cyan-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Path Parameters</h3>
+            </div>
             <CodeBlock :code="pathParamsCode" language="dart" />
           </div>
 
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Query Parameters</h3>
+          <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 p-6 rounded-xl border border-cyan-200 dark:border-cyan-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-magnifying-glass text-cyan-600 dark:text-cyan-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Query Parameters</h3>
+            </div>
             <CodeBlock :code="queryParamsCode" language="dart" />
           </div>
         </div>
       </section>
 
+      <!-- Authentication & Authorization -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Authentication & Authorization</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+            <i class="fas fa-shield-halved text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Authentication & Authorization</h2>
+            <p class="text-gray-600 dark:text-gray-400">Handle user authentication and role-based access</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="authCode"
@@ -136,19 +315,55 @@
           title="Authentication Handling"
         />
 
-        <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-          <h3 class="text-lg font-medium text-purple-800 dark:text-purple-200 mb-2">Auth Features</h3>
-          <ul class="list-disc pl-5 space-y-1 text-purple-700 dark:text-purple-300">
-            <li>User authentication state</li>
-            <li>Role-based authorization</li>
-            <li>Web authentication helpers</li>
-            <li>CSRF token validation</li>
-          </ul>
+        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-lock text-indigo-600 dark:text-indigo-400 text-xl"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Auth Features</h3>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-user-check text-indigo-600 dark:text-indigo-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Authentication State</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Check if user is authenticated</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-user-shield text-indigo-600 dark:text-indigo-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Role Authorization</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Role-based access control</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-browser text-indigo-600 dark:text-indigo-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Web Auth Helpers</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Web authentication utilities</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-key text-indigo-600 dark:text-indigo-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">CSRF Protection</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Token validation for security</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- Session Management -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Session Management</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center">
+            <i class="fas fa-database text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Session Management</h2>
+            <p class="text-gray-600 dark:text-gray-400">Store and retrieve session data across requests</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="sessionCode"
@@ -156,26 +371,53 @@
           title="Session Operations"
         />
 
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Session Methods</h3>
-            <div class="space-y-1 text-sm">
-              <div><code class="text-blue-600">getSession(key)</code> - Get value</div>
-              <div><code class="text-green-600">setSession(key, value)</code> - Set value</div>
-              <div><code class="text-orange-600">flashSession(key, value)</code> - Flash data</div>
-              <div><code class="text-purple-600">pullSession(key)</code> - Get & remove</div>
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 p-6 rounded-xl border border-pink-200 dark:border-pink-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-cog text-pink-600 dark:text-pink-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Session Methods</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-blue-600 dark:text-blue-400 font-mono">getSession(key)</code>
+                <span class="text-gray-700 dark:text-gray-300">Get value</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-green-600 dark:text-green-400 font-mono">setSession(key, value)</code>
+                <span class="text-gray-700 dark:text-gray-300">Set value</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-orange-600 dark:text-orange-400 font-mono">flashSession(key, value)</code>
+                <span class="text-gray-700 dark:text-gray-300">Flash data</span>
+              </div>
+              <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+                <code class="text-purple-600 dark:text-purple-400 font-mono">pullSession(key)</code>
+                <span class="text-gray-700 dark:text-gray-300">Get & remove</span>
+              </div>
             </div>
           </div>
 
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Flash Messages</h3>
+          <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 p-6 rounded-xl border border-pink-200 dark:border-pink-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-message text-pink-600 dark:text-pink-400"></i>
+              <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Flash Messages</h3>
+            </div>
             <CodeBlock :code="flashMessagesCode" language="dart" />
           </div>
         </div>
       </section>
 
+      <!-- Cookies -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Cookies</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
+            <i class="fas fa-cookie-bite text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Cookies</h2>
+            <p class="text-gray-600 dark:text-gray-400">Manage HTTP cookies with security features</p>
+          </div>
+        </div>
 
         <CodeBlock
           :code="cookiesCode"
@@ -183,94 +425,220 @@
           title="Cookie Management"
         />
 
-        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
-          <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200 mb-2">Cookie Features</h3>
-          <ul class="list-disc pl-5 space-y-1 text-yellow-700 dark:text-yellow-300">
-            <li>Secure cookie handling</li>
-            <li>HttpOnly flag support</li>
-            <li>Automatic expiration</li>
-            <li>Remember tokens</li>
-          </ul>
+        <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 p-6 rounded-xl border border-yellow-200 dark:border-yellow-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-shield text-yellow-600 dark:text-yellow-400 text-xl"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Cookie Features</h3>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-lock text-yellow-600 dark:text-yellow-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Secure Handling</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Secure cookie management</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-flag text-yellow-600 dark:text-yellow-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">HttpOnly Support</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">HttpOnly flag protection</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-clock text-yellow-600 dark:text-yellow-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Auto Expiration</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Automatic expiration handling</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+              <i class="fas fa-ticket text-yellow-600 dark:text-yellow-400 mt-1"></i>
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">Remember Tokens</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Persistent authentication tokens</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- Advanced Patterns -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Advanced Patterns</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+            <i class="fas fa-puzzle-piece text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Advanced Patterns</h2>
+            <p class="text-gray-600 dark:text-gray-400">Custom attributes and request context</p>
+          </div>
+        </div>
 
         <div class="grid md:grid-cols-2 gap-6">
-          <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-            <h3 class="text-lg font-medium mb-4">Custom Attributes</h3>
+          <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-xl border border-red-200 dark:border-red-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-tag text-red-600 dark:text-red-400"></i>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Custom Attributes</h3>
+            </div>
             <CodeBlock :code="attributesCode" language="dart" />
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">
+              <i class="fas fa-info-circle mr-1"></i>
               Store custom data during request lifecycle
             </p>
           </div>
 
-          <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-            <h3 class="text-lg font-medium mb-4">Request Context</h3>
+          <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-xl border border-red-200 dark:border-red-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-layer-group text-red-600 dark:text-red-400"></i>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Request Context</h3>
+            </div>
             <CodeBlock :code="contextCode" language="dart" />
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">
+              <i class="fas fa-info-circle mr-1"></i>
               Access request data across middleware and handlers
             </p>
           </div>
         </div>
       </section>
 
+      <!-- Complete API Example -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Complete API Example</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
+            <i class="fas fa-code text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Complete API Example</h2>
+            <p class="text-gray-600 dark:text-gray-400">Full CRUD implementation with all request features</p>
+          </div>
+        </div>
 
-        <CodeBlock
-          :code="completeApiCode"
-          language="dart"
-          title="Full Request Handling Example"
-        />
+        <div class="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/20 p-6 rounded-xl border border-teal-200 dark:border-teal-800">
+          <CodeBlock
+            :code="completeApiCode"
+            language="dart"
+            title="Full Request Handling Example"
+          />
+        </div>
       </section>
 
+  
+
+      <!-- Best Practices -->
       <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Best Practices</h2>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
+            <i class="fas fa-lightbulb text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Best Practices</h2>
+            <p class="text-gray-600 dark:text-gray-400">Guidelines for effective request handling</p>
+          </div>
+        </div>
 
-        <div class="space-y-4">
-          <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-            <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">✅ Recommendations</h3>
-            <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
-              <li>Always validate input data before processing</li>
-              <li>Use appropriate HTTP status codes in responses</li>
-              <li>Handle file uploads securely with size limits</li>
-              <li>Validate CSRF tokens for state-changing operations</li>
-              <li>Use sessions for temporary user data</li>
-              <li>Check authentication status before accessing protected resources</li>
-              <li>Use flash messages for user feedback</li>
-              <li>Parse request body only when needed</li>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-circle-check text-green-600 dark:text-green-400 text-xl"></i>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white">Do's</h3>
+            </div>
+            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+              <li class="flex items-start gap-2">
+                <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+                <span>Always validate input data before processing</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+                <span>Use appropriate HTTP status codes in responses</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+                <span>Handle file uploads securely with size limits</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+                <span>Implement proper authentication checks</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+                <span>Use session flash messages for user feedback</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+                <span>Validate CSRF tokens for state-changing operations</span>
+              </li>
             </ul>
           </div>
 
-          <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-            <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">❌ Avoid</h3>
-            <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-              <li>Don't trust user input without validation</li>
-              <li>Don't store sensitive data in sessions</li>
-              <li>Don't parse request body multiple times unnecessarily</li>
-              <li>Don't expose internal errors to clients</li>
-              <li>Don't use cookies for sensitive authentication data</li>
-              <li>Don't skip CSRF protection for forms</li>
-              <li>Don't store large files in memory</li>
+          <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-xl border border-red-200 dark:border-red-800">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="fas fa-circle-xmark text-red-600 dark:text-red-400 text-xl"></i>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white">Don'ts</h3>
+            </div>
+            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+              <li class="flex items-start gap-2">
+                <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+                <span>Don't trust user input without validation</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+                <span>Don't store sensitive data in cookies without encryption</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+                <span>Don't skip authentication checks on protected routes</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+                <span>Don't expose error stack traces in production</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+                <span>Don't allow unlimited file upload sizes</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+                <span>Don't use GET requests for state-changing operations</span>
+              </li>
             </ul>
           </div>
+        </div>
+      </section>
+
+     
+
+      <!-- Help Section -->
+      <section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-900/50 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+        <div class="text-center">
+          <i class="fas fa-circle-question text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Need Help?</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Join our community for support and discussions
+          </p>
+          <a
+            href="https://discord.com/invite/XdbryzNJt9"
+            target="_blank"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <i class="fab fa-discord"></i>
+            Join Discord Community
+          </a>
         </div>
       </section>
     </div>
   </template>
 
   <script setup>
-  definePageMeta({ layout: 'docs' })
-  useHead({
-    title: 'Khadem Request System',
-    meta: [
-      { name: 'description', content: 'Complete documentation for Khadem request system' }
-    ]
-  })
+definePageMeta({ layout: 'docs' })
+useHead({
+  title: 'Request System - Khadem Docs',
+  meta: [
+    { name: 'description', content: 'Comprehensive HTTP request handling with body parsing, validation, authentication, and session management in Khadem framework.' }
+  ]
+})
 
-  const basicRequestCode = `// Basic request properties
+const basicRequestCode = `// Basic request properties
 server.get('/api/profile', (req, res) async {
   // HTTP method
   final method = req.method; // 'GET'
@@ -304,7 +672,7 @@ server.get('/api/profile', (req, res) async {
   });
 });`
 
-  const bodyParsingCode = `// JSON request body
+const bodyParsingCode = `// JSON request body
 server.post('/api/users', (req, res) async {
   final body = await req.body;
 
@@ -340,7 +708,7 @@ server.post('/api/contact', (req, res) async {
   });
 });`
 
-  const fileUploadCode = `// Single file upload
+const fileUploadCode = `// Single file upload
 server.post('/api/avatar', (req, res) async {
   if (!req.hasFile('avatar')) {
     return res.badRequest().sendJson({'error': 'No avatar file provided'});
@@ -403,7 +771,7 @@ server.post('/api/gallery', (req, res) async {
   });
 });`
 
-  const filePropertiesCode = `final avatarFile = req.file('avatar');
+const filePropertiesCode = `final avatarFile = req.file('avatar');
 
 // File properties
 final filename = avatarFile.filename;        // 'profile.jpg'
@@ -416,7 +784,7 @@ final fieldName = avatarFile.fieldName;      // 'avatar'
 final asString = avatarFile.asString();      // File content as string
 final asBytes = avatarFile.data;             // Raw bytes`
 
-  const validationCode = `// Request validation
+const validationCode = `// Request validation
 server.post('/api/users', (req, res) async {
   try {
     // Validate request body
@@ -476,7 +844,7 @@ server.post('/api/documents', (req, res) async {
   }
 });`
 
-  const parametersCode = `// Path parameters
+const parametersCode = `// Path parameters
 server.get('/api/users/:id', (req, res) async {
   final userId = req.param('id'); // Get path parameter
 
@@ -525,7 +893,7 @@ server.get('/api/search', (req, res) async {
   });
 });`
 
-  const pathParamsCode = `// Path parameter access
+const pathParamsCode = `// Path parameter access
 final userId = req.param('id');
 final category = req.param('category');
 final slug = req.param('slug');
@@ -539,7 +907,7 @@ if (req.params.hasParam('id')) {
   // Parameter exists
 }`
 
-  const queryParamsCode = `// Query parameter access
+const queryParamsCode = `// Query parameter access
 final search = req.query['q'];
 final page = req.query['page'];
 final limit = req.query['limit'];
@@ -548,7 +916,7 @@ final sort = req.query['sort'];
 // All query parameters
 final allParams = req.query; // Map<String, String>`
 
-  const authCode = `// Authentication checks
+const authCode = `// Authentication checks
 server.get('/api/profile', (req, res) async {
   if (!req.isAuthenticated) {
     return res.unauthorized().sendJson({
@@ -608,7 +976,7 @@ server.post('/api/posts', (req, res) async {
   res.sendJson({'message': 'Post created'});
 });`
 
-  const sessionCode = `// Session management
+const sessionCode = `// Session management
 server.post('/login', (req, res) async {
   final credentials = await req.body;
   final user = await authenticateUser(credentials);
@@ -662,7 +1030,7 @@ server.post('/logout', (req, res) async {
   res.sendJson({'message': 'Logged out successfully'});
 });`
 
-  const flashMessagesCode = `// Flash messages
+const flashMessagesCode = `// Flash messages
 server.post('/contact', (req, res) async {
   try {
     // Process contact form
@@ -689,7 +1057,7 @@ server.get('/messages', (req, res) async {
   });
 });`
 
-  const cookiesCode = `// Cookie management
+const cookiesCode = `// Cookie management
 server.post('/login', (req, res) async {
   final credentials = await req.body;
   final user = await authenticateUser(credentials);
@@ -749,7 +1117,7 @@ server.post('/logout', (req, res) async {
   res.sendJson({'message': 'Logged out'});
 });`
 
-  const attributesCode = `// Custom attributes
+const attributesCode = `// Custom attributes
 server.useMiddleware((req, res, next) async {
   // Add custom data to request
   req.setAttribute('request_id', generateRequestId());
@@ -773,7 +1141,7 @@ server.get('/api/data', (req, res) async {
   });
 });`
 
-  const contextCode = `// Request context across middleware
+const contextCode = `// Request context across middleware
 class AuthMiddleware implements Middleware {
   @override
   Future<void> handle(Request req, Response res, NextFunction next) async {
@@ -810,7 +1178,7 @@ class LoggingMiddleware implements Middleware {
   }
 }`
 
-  const completeApiCode = `// Complete request handling example
+const completeApiCode = `// Complete request handling example
 import 'package:khadem/khadem_dart.dart';
 
 class UserController {
@@ -1002,13 +1370,4 @@ void registerUserRoutes(Server server) {
     }
   );
 }`
-  </script>
-
-  <style scoped>
-  .prose :where(h2):not(:where([class~="not-prose"] *)) {
-    margin-top: 2.5rem;
-  }
-  .prose :where(h3):not(:where([class~="not-prose"] *)) {
-    margin-top: 1.5rem;
-  }
-  </style>
+</script>

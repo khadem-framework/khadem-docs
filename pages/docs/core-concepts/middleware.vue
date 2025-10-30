@@ -1,44 +1,111 @@
 <template>
-  <div class="space-y-8">
-    <header class="mb-10">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Khadem Middleware System</h1>
-      <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-        Comprehensive middleware framework with priority-based execution, error handling, and flexible registration patterns.
-      </p>
+  <div class="space-y-12">
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-600/10 dark:from-purple-500/20 dark:via-pink-500/10 dark:to-purple-600/20 p-12 border border-purple-200/50 dark:border-purple-800/50">
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 dark:bg-purple-500/20 border border-purple-500/20 mb-6">
+          <i class="fas fa-filter text-purple-600 dark:text-purple-400"></i>
+          <span class="text-sm font-medium text-purple-700 dark:text-purple-300">Request/Response Pipeline</span>
+        </div>
+        
+        <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          Middleware System
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+          Comprehensive middleware framework with priority-based execution, error handling, and flexible registration patterns.
+        </p>
+      </div>
     </header>
 
+    <!-- Overview Section -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Overview</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+          <i class="fas fa-info-circle text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Overview</h2>
+          <p class="text-gray-600 dark:text-gray-400">Understanding the middleware pipeline</p>
+        </div>
+      </div>
  
 
-      <div class="grid md:grid-cols-2 gap-4 mt-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium mb-2">Core Features</h3>
-          <div class="space-y-1 text-sm">
-            <div><code class="text-blue-600">Priority-based execution</code></div>
-            <div><code class="text-green-600">Named middleware</code></div>
-            <div><code class="text-orange-600">Error handling</code></div>
-            <div><code class="text-purple-600">Conditional execution</code></div>
-            <div><code class="text-red-600">Pipeline management</code></div>
+      <div class="grid md:grid-cols-2 gap-6 mt-6">
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-star text-purple-600 dark:text-purple-400"></i>
+            <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Core Features</h3>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <i class="fas fa-layer-group text-purple-600 dark:text-purple-400 mt-1"></i>
+              <span class="text-gray-700 dark:text-gray-300">Priority-based execution order</span>
+            </div>
+            <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <i class="fas fa-tag text-purple-600 dark:text-purple-400 mt-1"></i>
+              <span class="text-gray-700 dark:text-gray-300">Named middleware identification</span>
+            </div>
+            <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <i class="fas fa-shield-halved text-purple-600 dark:text-purple-400 mt-1"></i>
+              <span class="text-gray-700 dark:text-gray-300">Built-in error handling</span>
+            </div>
+            <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <i class="fas fa-code-branch text-purple-600 dark:text-purple-400 mt-1"></i>
+              <span class="text-gray-700 dark:text-gray-300">Conditional execution logic</span>
+            </div>
+            <div class="flex items-start gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <i class="fas fa-diagram-project text-purple-600 dark:text-purple-400 mt-1"></i>
+              <span class="text-gray-700 dark:text-gray-300">Pipeline management</span>
+            </div>
           </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <h3 class="font-medium mb-2">Execution Flow</h3>
-          <div class="space-y-1 text-sm">
-            <div>1. Global middleware (CORS, logging)</div>
-            <div>2. Routing middleware</div>
-            <div>3. Authentication middleware</div>
-            <div>4. Preprocessing middleware</div>
-            <div>5. Business logic middleware</div>
-            <div>6. Terminating middleware</div>
+        <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 p-6 rounded-xl border border-pink-200 dark:border-pink-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-arrow-right-arrow-left text-pink-600 dark:text-pink-400"></i>
+            <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Execution Flow</h3>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-pink-600 dark:bg-pink-400 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold">1</span>
+              <span class="text-gray-700 dark:text-gray-300">Global middleware (CORS, logging)</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-pink-600 dark:bg-pink-400 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold">2</span>
+              <span class="text-gray-700 dark:text-gray-300">Routing middleware</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-pink-600 dark:bg-pink-400 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold">3</span>
+              <span class="text-gray-700 dark:text-gray-300">Authentication middleware</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-pink-600 dark:bg-pink-400 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold">4</span>
+              <span class="text-gray-700 dark:text-gray-300">Preprocessing middleware</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-pink-600 dark:bg-pink-400 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold">5</span>
+              <span class="text-gray-700 dark:text-gray-300">Business logic middleware</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white dark:bg-gray-900 p-3 rounded-lg">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-pink-600 dark:bg-pink-400 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold">6</span>
+              <span class="text-gray-700 dark:text-gray-300">Terminating middleware</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Creating Middleware -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Creating Middleware</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+          <i class="fas fa-code text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Creating Middleware</h2>
+          <p class="text-gray-600 dark:text-gray-400">Implement custom middleware classes</p>
+        </div>
+      </div>
 
       <CodeBlock
         :code="basicMiddlewareCode"
@@ -46,18 +113,39 @@
         title="Basic Middleware Implementation"
       />
 
-      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-2">Middleware Contract</h3>
-        <ul class="list-disc pl-5 space-y-1 text-blue-700 dark:text-blue-300">
-          <li><code>handler</code>: The main middleware function</li>
-          <li><code>name</code>: Unique identifier for the middleware</li>
-          <li><code>priority</code>: Execution order priority level</li>
-        </ul>
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-file-contract text-blue-600 dark:text-blue-400 text-xl"></i>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Middleware Contract</h3>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <code class="text-blue-600 dark:text-blue-400 text-sm font-mono">handler</code>
+            <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">The main middleware function</div>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <code class="text-green-600 dark:text-green-400 text-sm font-mono">name</code>
+            <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Unique identifier for the middleware</div>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <code class="text-purple-600 dark:text-purple-400 text-sm font-mono">priority</code>
+            <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Execution order priority level</div>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- Priority System -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Priority System</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
+          <i class="fas fa-sort-numeric-down text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Priority System</h2>
+          <p class="text-gray-600 dark:text-gray-400">Control middleware execution order</p>
+        </div>
+      </div>
 
       <CodeBlock
         :code="prioritySystemCode"
@@ -65,32 +153,53 @@
         title="Middleware Priority Levels"
       />
 
-      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
-        <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200 mb-2">Execution Order</h3>
-        <div class="grid md:grid-cols-2 gap-4 text-sm">
-          <div>
-            <strong class="text-yellow-700 dark:text-yellow-300">Global (0)</strong>
-            <p class="text-yellow-600 dark:text-yellow-400">CORS, logging, security headers</p>
+      <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 p-6 rounded-xl border border-yellow-200 dark:border-yellow-800">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-list-ol text-yellow-600 dark:text-yellow-400 text-xl"></i>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Execution Order</h3>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded">0</span>
+              <strong class="text-gray-900 dark:text-white">Global</strong>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">CORS, logging, security headers</p>
           </div>
-          <div>
-            <strong class="text-yellow-700 dark:text-yellow-300">Routing (1)</strong>
-            <p class="text-yellow-600 dark:text-yellow-400">Route resolution, URL rewriting</p>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded">1</span>
+              <strong class="text-gray-900 dark:text-white">Routing</strong>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Route resolution, URL rewriting</p>
           </div>
-          <div>
-            <strong class="text-yellow-700 dark:text-yellow-300">Auth (2)</strong>
-            <p class="text-yellow-600 dark:text-yellow-400">Authentication, authorization</p>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded">2</span>
+              <strong class="text-gray-900 dark:text-white">Auth</strong>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Authentication, authorization</p>
           </div>
-          <div>
-            <strong class="text-yellow-700 dark:text-yellow-300">Preprocessing (3)</strong>
-            <p class="text-yellow-600 dark:text-yellow-400">Input validation, sanitization</p>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded">3</span>
+              <strong class="text-gray-900 dark:text-white">Preprocessing</strong>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Input validation, sanitization</p>
           </div>
-          <div>
-            <strong class="text-yellow-700 dark:text-yellow-300">Business (4)</strong>
-            <p class="text-yellow-600 dark:text-yellow-400">App-specific logic</p>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded">4</span>
+              <strong class="text-gray-900 dark:text-white">Business</strong>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">App-specific logic</p>
           </div>
-          <div>
-            <strong class="text-yellow-700 dark:text-yellow-300">Terminating (5)</strong>
-            <p class="text-yellow-600 dark:text-yellow-400">Response formatting, cleanup</p>
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded">5</span>
+              <strong class="text-gray-900 dark:text-white">Terminating</strong>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Response formatting, cleanup</p>
           </div>
         </div>
       </div>
@@ -157,88 +266,147 @@
       </div>
     </section> -->
 
+    <!-- Registration Patterns -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Registration Patterns</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+          <i class="fas fa-puzzle-piece text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Registration Patterns</h2>
+          <p class="text-gray-600 dark:text-gray-400">Different ways to register middleware</p>
+        </div>
+      </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Global Registration</h3>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-globe text-green-600 dark:text-green-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Global Registration</h3>
+          </div>
           <CodeBlock :code="globalRegistrationCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Applies to all routes in the application
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Applies to all routes in the application</span>
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Route-specific Registration</h3>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-route text-green-600 dark:text-green-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Route-specific Registration</h3>
+          </div>
           <CodeBlock :code="routeRegistrationCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Applies only to specific routes or route groups
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Applies only to specific routes or route groups</span>
           </p>
         </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 mt-6">
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Group Registration</h3>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-layer-group text-green-600 dark:text-green-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Group Registration</h3>
+          </div>
           <CodeBlock :code="groupRegistrationCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Applies to all routes within a group
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Applies to all routes within a group</span>
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Conditional Registration</h3>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-code-branch text-green-600 dark:text-green-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Conditional Registration</h3>
+          </div>
           <CodeBlock :code="conditionalRegistrationCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Executes only when conditions are met
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Executes only when conditions are met</span>
           </p>
         </div>
       </div>
     </section>
 
+    <!-- Advanced Patterns -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Advanced Patterns</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+          <i class="fas fa-wand-magic-sparkles text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Advanced Patterns</h2>
+          <p class="text-gray-600 dark:text-gray-400">Powerful middleware composition techniques</p>
+        </div>
+      </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Middleware Composition</h3>
+        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-cube text-indigo-600 dark:text-indigo-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Middleware Composition</h3>
+          </div>
           <CodeBlock :code="compositionCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Combine multiple middleware into reusable compositions
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Combine multiple middleware into reusable compositions</span>
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Dynamic Middleware</h3>
+        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-bolt text-indigo-600 dark:text-indigo-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Dynamic Middleware</h3>
+          </div>
           <CodeBlock :code="dynamicMiddlewareCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Create middleware with runtime configuration
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Create middleware with runtime configuration</span>
           </p>
         </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 mt-6">
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Middleware Factory</h3>
+        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-industry text-indigo-600 dark:text-indigo-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Middleware Factory</h3>
+          </div>
           <CodeBlock :code="factoryCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Factory pattern for creating parameterized middleware
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Factory pattern for creating parameterized middleware</span>
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Error Recovery</h3>
+        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-life-ring text-indigo-600 dark:text-indigo-400"></i>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Error Recovery</h3>
+          </div>
           <CodeBlock :code="errorRecoveryCode" language="dart" />
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Handle errors and provide fallback responses
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-4 flex items-start gap-2">
+            <i class="fas fa-info-circle mt-1"></i>
+            <span>Handle errors and provide fallback responses</span>
           </p>
         </div>
       </div>
     </section>
 
+    <!-- Error Handling -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Error Handling</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+          <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Error Handling</h2>
+          <p class="text-gray-600 dark:text-gray-400">Robust error handling strategies</p>
+        </div>
+      </div>
 
       <CodeBlock
         :code="errorHandlingCode"
@@ -246,15 +414,33 @@
         title="Error Handling in Middleware"
       />
 
-      <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-        <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">Error Handling Strategies</h3>
-        <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-          <li>Use terminating middleware for global error handling</li>
-          <li>Attach error information to request for downstream processing</li>
-          <li>Provide fallback responses when middleware fails</li>
-          <li>Log errors with appropriate context</li>
-          <li>Don't swallow errors unless you handle them properly</li>
-        </ul>
+      <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-xl border border-red-200 dark:border-red-800">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-shield-halved text-red-600 dark:text-red-400 text-xl"></i>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Error Handling Strategies</h3>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <i class="fas fa-check-circle text-red-600 dark:text-red-400 mt-1"></i>
+            <span class="text-sm text-gray-700 dark:text-gray-300">Use terminating middleware for global error handling</span>
+          </div>
+          <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <i class="fas fa-check-circle text-red-600 dark:text-red-400 mt-1"></i>
+            <span class="text-sm text-gray-700 dark:text-gray-300">Attach error information to request for downstream processing</span>
+          </div>
+          <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <i class="fas fa-check-circle text-red-600 dark:text-red-400 mt-1"></i>
+            <span class="text-sm text-gray-700 dark:text-gray-300">Provide fallback responses when middleware fails</span>
+          </div>
+          <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <i class="fas fa-check-circle text-red-600 dark:text-red-400 mt-1"></i>
+            <span class="text-sm text-gray-700 dark:text-gray-300">Log errors with appropriate context</span>
+          </div>
+          <div class="flex items-start gap-3 bg-white dark:bg-gray-900 p-4 rounded-lg col-span-2">
+            <i class="fas fa-check-circle text-red-600 dark:text-red-400 mt-1"></i>
+            <span class="text-sm text-gray-700 dark:text-gray-300">Don't swallow errors unless you handle them properly</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -279,47 +465,125 @@
       </div>
     </section> -->
 
+    <!-- Complete Example -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Complete Example</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
+          <i class="fas fa-code text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Complete Example</h2>
+          <p class="text-gray-600 dark:text-gray-400">Full middleware implementation with all features</p>
+        </div>
+      </div>
 
-      <CodeBlock
-        :code="completeExampleCode"
-        language="dart"
-        title="Complete Middleware Implementation"
-      />
+      <div class="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/20 p-6 rounded-xl border border-teal-200 dark:border-teal-800">
+        <CodeBlock
+          :code="completeExampleCode"
+          language="dart"
+          title="Complete Middleware Implementation"
+        />
+      </div>
     </section>
 
+    <!-- Best Practices -->
     <section class="space-y-6">
-      <h2 class="text-2xl font-semibold border-b pb-2">Best Practices</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
+          <i class="fas fa-lightbulb text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Best Practices</h2>
+          <p class="text-gray-600 dark:text-gray-400">Guidelines for effective middleware usage</p>
+        </div>
+      </div>
 
-      <div class="space-y-4">
-        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">✅ Recommendations</h3>
-          <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
-            <li>Use descriptive names for middleware clarity</li>
-            <li>Choose appropriate priority levels for execution order</li>
-            <li>Always call <code>await next()</code> unless terminating the pipeline</li>
-            <li>Handle errors appropriately in middleware</li>
-            <li>Use dependency injection for testable middleware</li>
-            <li>Keep middleware focused on single responsibilities</li>
-            <li>Document middleware behavior and requirements</li>
-            <li>Use conditional middleware for performance optimization</li>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-circle-check text-green-600 dark:text-green-400 text-xl"></i>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Do's</h3>
+          </div>
+          <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+            <li class="flex items-start gap-2">
+              <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+              <span>Use descriptive names for middleware clarity</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+              <span>Choose appropriate priority levels for execution order</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+              <span>Always call <code class="text-xs">await next()</code> unless terminating</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+              <span>Handle errors appropriately in middleware</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+              <span>Use dependency injection for testable middleware</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-check text-green-600 dark:text-green-400 mt-1"></i>
+              <span>Keep middleware focused on single responsibilities</span>
+            </li>
           </ul>
         </div>
 
-        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-          <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">❌ Avoid</h3>
-          <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-            <li>Don't perform heavy operations in middleware</li>
-            <li>Don't modify request/response in unexpected ways</li>
-            <li>Don't forget to call <code>next()</code> in non-terminating middleware</li>
-            <li>Don't use middleware for business logic (use controllers)</li>
-            <li>Don't create middleware with too many responsibilities</li>
-            <li>Don't ignore error handling in middleware</li>
-            <li>Don't use global state in middleware</li>
-            <li>Don't make middleware dependent on specific route structures</li>
+        <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-xl border border-red-200 dark:border-red-800">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-circle-xmark text-red-600 dark:text-red-400 text-xl"></i>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Don'ts</h3>
+          </div>
+          <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+            <li class="flex items-start gap-2">
+              <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+              <span>Don't modify response after calling next()</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+              <span>Don't perform heavy computations in middleware</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+              <span>Don't swallow errors without handling them</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+              <span>Don't create circular middleware dependencies</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+              <span>Don't use blocking operations in middleware</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-xmark text-red-600 dark:text-red-400 mt-1"></i>
+              <span>Don't leak resources without proper cleanup</span>
+            </li>
           </ul>
         </div>
+      </div>
+    </section>
+
+ 
+    <!-- Help Section -->
+    <section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-900/50 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+      <div class="text-center">
+        <i class="fas fa-circle-question text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Need Help?</h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          Join our community for support and discussions
+        </p>
+        <a
+          href="https://discord.gg/khadem"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+        >
+          <i class="fab fa-discord"></i>
+          Join Discord Community
+        </a>
       </div>
     </section>
   </div>
@@ -328,9 +592,9 @@
 <script setup>
 definePageMeta({ layout: 'docs' })
 useHead({
-  title: 'Khadem Middleware System',
+  title: 'Middleware System - Khadem Docs',
   meta: [
-    { name: 'description', content: 'Complete documentation for Khadem middleware system with priority-based execution and error handling' }
+    { name: 'description', content: 'Comprehensive middleware framework with priority-based execution, error handling, and flexible registration patterns in Khadem.' }
   ]
 })
 
@@ -1092,12 +1356,3 @@ class ValidationException implements Exception {
   String toString() => 'Validation failed: \$errors';
 }`
 </script>
-
-<style scoped>
-.prose :where(h2):not(:where([class~="not-prose"] *)) {
-  margin-top: 2.5rem;
-}
-.prose :where(h3):not(:where([class~="not-prose"] *)) {
-  margin-top: 1.5rem;
-}
-</style>

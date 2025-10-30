@@ -1,211 +1,458 @@
 <template>
-    <div class="space-y-8">
-      <header class="mb-10">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Khadem Routing System</h1>
-        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Clean, modular HTTP routing with parameter support, middleware, and route groups.
-        </p>
-      </header>
-
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Basic Routes</h2>
-
-        <CodeBlock
-          :code="basicRoutesCode"
-          language="dart"
-          title="HTTP Method Routes"
-        />
-
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Supported Methods</h3>
-            <div class="space-y-1 text-sm">
-              <div><code class="text-blue-600">GET</code> - Retrieve data</div>
-              <div><code class="text-green-600">POST</code> - Create resources</div>
-              <div><code class="text-orange-600">PUT</code> - Update resources</div>
-              <div><code class="text-purple-600">PATCH</code> - Partial updates</div>
-              <div><code class="text-red-600">DELETE</code> - Remove resources</div>
-              <div><code class="text-gray-600">HEAD</code> - Headers only</div>
-              <div><code class="text-gray-600">OPTIONS</code> - CORS preflight</div>
-            </div>
-          </div>
-
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Handler Signature</h3>
-            <CodeBlock :code="handlerSignatureCode" language="dart" />
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              Async handlers with Request/Response objects
+    <div>
+        <!-- Hero Section -->
+        <div class="mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                Routing System
+            </h1>
+            <p class="text-xl text-gray-400 leading-relaxed">
+                Build powerful APIs with <strong class="text-primary-500">Khadem's</strong> intuitive routing system. 
+                Clean, modular HTTP routing with parameters, middleware, and route groups.
             </p>
-          </div>
         </div>
-      </section>
 
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Route Parameters</h2>
-
-        <CodeBlock
-          :code="routeParamsCode"
-          language="dart"
-          title="Parameterized Routes"
-        />
-
-        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-          <h3 class="text-lg font-medium text-blue-800 dark:text-blue-200 mb-2">Parameter Features</h3>
-          <ul class="list-disc pl-5 space-y-1 text-blue-700 dark:text-blue-300">
-            <li><code>:param</code> syntax for named parameters</li>
-            <li>Automatic parameter extraction</li>
-            <li>Type-safe parameter access</li>
-            <li>Regex-based matching</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Route Groups</h2>
-
-        <CodeBlock
-          :code="routeGroupsCode"
-          language="dart"
-          title="Organizing Routes with Groups"
-        />
-
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Group Benefits</h3>
-            <ul class="list-disc pl-5 space-y-1 text-sm">
-              <li>Shared URL prefixes</li>
-              <li>Common middleware</li>
-              <li>Better organization</li>
-              <li>Nested groups supported</li>
-            </ul>
-          </div>
-
-          <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 class="font-medium mb-2">Generated Routes</h3>
-            <CodeBlock :code="groupRoutesCode" language="text" />
-          </div>
-        </div>
-      </section>
-
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Middleware Integration</h2>
-
-        <CodeBlock
-          :code="middlewareCode"
-          language="dart"
-          title="Middleware in Routes"
-        />
-
-        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-          <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">Middleware Levels</h3>
-          <div class="grid md:grid-cols-3 gap-4 text-sm">
-            <div>
-              <strong class="text-green-700 dark:text-green-300">Global</strong>
-              <p class="text-green-600 dark:text-green-400">All routes</p>
+        <!-- Overview Card -->
+        <div class="bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20 rounded-lg p-6 mb-10">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-route text-green-500 text-3xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Express-like Routing</h3>
+                    <p class="text-gray-300 text-sm">
+                        Familiar routing patterns with powerful features like parameter extraction, 
+                        middleware chains, and nested groups for building scalable REST APIs.
+                    </p>
+                </div>
             </div>
-            <div>
-              <strong class="text-green-700 dark:text-green-300">Group</strong>
-              <p class="text-green-600 dark:text-green-400">Group routes</p>
-            </div>
-            <div>
-              <strong class="text-green-700 dark:text-green-300">Route</strong>
-              <p class="text-green-600 dark:text-green-400">Specific route</p>
-            </div>
-          </div>
         </div>
-      </section>
 
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Static File Serving</h2>
-
-        <CodeBlock
-          :code="staticFilesCode"
-          language="dart"
-          title="Serving Static Assets"
-        />
-
-        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
-          <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200 mb-2">Static Serving Features</h3>
-          <ul class="list-disc pl-5 space-y-1 text-yellow-700 dark:text-yellow-300">
-            <li>Automatic file type detection</li>
-            <li>Directory browsing disabled</li>
-            <li>Configurable root directory</li>
-            <li>Efficient caching headers</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Advanced Patterns</h2>
-
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-            <h3 class="text-lg font-medium mb-4">Query Parameters</h3>
-            <CodeBlock :code="queryParamsCode" language="dart" />
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              Access URL query strings and form data
+        <!-- Basic Routes Section -->
+        <section class="mb-12">
+            <h2 id="basic-routes" class="text-3xl font-bold mb-4">
+                <i class="fas fa-code text-primary-500 mr-2"></i>
+                Basic Routes
+            </h2>
+            <p class="text-gray-300 mb-6">
+                Define routes using HTTP methods with clean, expressive syntax. Each route accepts a path and a handler function.
             </p>
-          </div>
 
-          <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-            <h3 class="text-lg font-medium mb-4">Response Types</h3>
-            <CodeBlock :code="responseTypesCode" language="dart" />
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              JSON, HTML, files, and streaming responses
+            <CodeBlock
+                :code="basicRoutesCode"
+                language="dart"
+            />
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+                    <h3 class="font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-list-check text-blue-500 mr-2"></i>
+                        HTTP Methods
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs font-mono">GET</code>
+                            <span class="text-gray-300">Retrieve resources</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-mono">POST</code>
+                            <span class="text-gray-300">Create new resources</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-orange-500/20 text-orange-400 rounded text-xs font-mono">PUT</code>
+                            <span class="text-gray-300">Update resources</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs font-mono">PATCH</code>
+                            <span class="text-gray-300">Partial updates</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs font-mono">DELETE</code>
+                            <span class="text-gray-300">Remove resources</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-gray-500/20 text-gray-400 rounded text-xs font-mono">HEAD</code>
+                            <span class="text-gray-300">Headers only</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="px-2 py-1 bg-gray-500/20 text-gray-400 rounded text-xs font-mono">OPTIONS</code>
+                            <span class="text-gray-300">CORS preflight</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+                    <h3 class="font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-code-branch text-green-500 mr-2"></i>
+                        Handler Signature
+                    </h3>
+                    <CodeBlock :code="handlerSignatureCode" language="dart" />
+                    <p class="text-sm text-gray-400 mt-4">
+                        All handlers are <strong class="text-white">async functions</strong> that receive 
+                        <code class="px-1.5 py-0.5 bg-gray-700 rounded text-xs">Request</code> and 
+                        <code class="px-1.5 py-0.5 bg-gray-700 rounded text-xs">Response</code> objects.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Route Parameters Section -->
+        <section class="mb-12">
+            <h2 id="route-parameters" class="text-3xl font-bold mb-4">
+                <i class="fas fa-tag text-primary-500 mr-2"></i>
+                Route Parameters
+            </h2>
+            <p class="text-gray-300 mb-6">
+                Extract dynamic values from URLs using the <code class="px-1.5 py-0.5 bg-gray-800 rounded text-sm">:param</code> syntax. 
+                Perfect for building RESTful APIs with resource identifiers.
             </p>
-          </div>
+
+            <CodeBlock
+                :code="routeParamsCode"
+                language="dart"
+            />
+
+            <div class="mt-8 bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                    <i class="fas fa-lightbulb text-blue-500 mr-2"></i>
+                    Parameter Features
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-blue-500 mt-1"></i>
+                            <span><code class="px-1.5 py-0.5 bg-gray-800 rounded text-xs">:param</code> syntax for named parameters</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-blue-500 mt-1"></i>
+                            <span>Automatic parameter extraction</span>
+                        </li>
+                    </ul>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-blue-500 mt-1"></i>
+                            <span>Type-safe parameter access</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-blue-500 mt-1"></i>
+                            <span>Regex-based matching support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Route Groups Section -->
+        <section class="mb-12">
+            <h2 id="route-groups" class="text-3xl font-bold mb-4">
+                <i class="fas fa-layer-group text-primary-500 mr-2"></i>
+                Route Groups
+            </h2>
+            <p class="text-gray-300 mb-6">
+                Organize related routes with shared prefixes and middleware. Group routes for better code organization 
+                and consistent configuration across multiple endpoints.
+            </p>
+
+            <CodeBlock
+                :code="routeGroupsCode"
+                language="dart"
+            />
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-lg p-6">
+                    <h3 class="font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-star text-purple-500 mr-2"></i>
+                        Group Benefits
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-chevron-right text-purple-500 text-xs mt-1"></i>
+                            <span><strong class="text-white">Shared URL prefixes</strong> - Avoid repeating paths</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-chevron-right text-purple-500 text-xs mt-1"></i>
+                            <span><strong class="text-white">Common middleware</strong> - Apply to all group routes</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-chevron-right text-purple-500 text-xs mt-1"></i>
+                            <span><strong class="text-white">Better organization</strong> - Group by feature/version</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-chevron-right text-purple-500 text-xs mt-1"></i>
+                            <span><strong class="text-white">Nested groups</strong> - Create hierarchies</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+                    <h3 class="font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-list-ul text-green-500 mr-2"></i>
+                        Generated Routes
+                    </h3>
+                    <CodeBlock :code="groupRoutesCode" language="text" />
+                    <p class="text-xs text-gray-400 mt-3">
+                        All routes inherit the group prefix and middleware
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Middleware Integration Section -->
+        <section class="mb-12">
+            <h2 id="middleware" class="text-3xl font-bold mb-4">
+                <i class="fas fa-filter text-primary-500 mr-2"></i>
+                Middleware Integration
+            </h2>
+            <p class="text-gray-300 mb-6">
+                Apply middleware at global, group, or route level for authentication, logging, validation, and more.
+            </p>
+
+            <CodeBlock
+                :code="middlewareCode"
+                language="dart"
+            />
+
+            <div class="mt-8 bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                    <i class="fas fa-layer-group text-green-500 mr-2"></i>
+                    Middleware Levels
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-globe text-blue-500"></i>
+                            <strong class="text-white">Global</strong>
+                        </div>
+                        <p class="text-sm text-gray-400">Applied to all routes in your application</p>
+                    </div>
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-layer-group text-purple-500"></i>
+                            <strong class="text-white">Group</strong>
+                        </div>
+                        <p class="text-sm text-gray-400">Shared across all routes in a group</p>
+                    </div>
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-route text-green-500"></i>
+                            <strong class="text-white">Route</strong>
+                        </div>
+                        <p class="text-sm text-gray-400">Applied to specific individual routes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Static File Serving Section -->
+        <section class="mb-12">
+            <h2 id="static-files" class="text-3xl font-bold mb-4">
+                <i class="fas fa-folder-open text-primary-500 mr-2"></i>
+                Static File Serving
+            </h2>
+            <p class="text-gray-300 mb-6">
+                Serve static assets like CSS, JavaScript, images, and downloads with automatic MIME type detection.
+            </p>
+
+            <CodeBlock
+                :code="staticFilesCode"
+                language="dart"
+            />
+
+            <div class="mt-8 bg-gradient-to-r from-yellow-500/10 to-yellow-600/5 border border-yellow-500/20 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                    <i class="fas fa-rocket text-yellow-500 mr-2"></i>
+                    Static Serving Features
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-yellow-500 mt-1"></i>
+                            <span>Automatic file type detection</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-yellow-500 mt-1"></i>
+                            <span>Directory browsing disabled (security)</span>
+                        </li>
+                    </ul>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-yellow-500 mt-1"></i>
+                            <span>Configurable root directory</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-yellow-500 mt-1"></i>
+                            <span>Efficient caching headers</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Patterns Section -->
+        <section class="mb-12">
+            <h2 id="advanced-patterns" class="text-3xl font-bold mb-4">
+                <i class="fas fa-magic text-primary-500 mr-2"></i>
+                Advanced Patterns
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-search text-blue-500 mr-2"></i>
+                        Query Parameters
+                    </h3>
+                    <CodeBlock :code="queryParamsCode" language="dart" />
+                    <p class="text-sm text-gray-400 mt-4">
+                        Access URL query strings and form data easily
+                    </p>
+                </div>
+
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-reply text-green-500 mr-2"></i>
+                        Response Types
+                    </h3>
+                    <CodeBlock :code="responseTypesCode" language="dart" />
+                    <p class="text-sm text-gray-400 mt-4">
+                        JSON, HTML, files, and streaming responses
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complete API Example Section -->
+        <section class="mb-12">
+            <h2 id="complete-example" class="text-3xl font-bold mb-4">
+                <i class="fas fa-code-branch text-primary-500 mr-2"></i>
+                Complete API Example
+            </h2>
+            <p class="text-gray-300 mb-6">
+                Here's a full example showing how to structure a production-ready REST API with authentication, versioning, and nested resources.
+            </p>
+
+            <CodeBlock
+                :code="completeApiCode"
+                language="dart"
+            />
+        </section>
+
+        <!-- Best Practices Section -->
+        <section class="mb-12">
+            <h2 id="best-practices" class="text-3xl font-bold mb-6">
+                <i class="fas fa-check-circle text-primary-500 mr-2"></i>
+                Best Practices
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/20 rounded-lg p-6">
+                    <h3 class="font-semibold text-white mb-4 flex items-center text-lg">
+                        <i class="fas fa-thumbs-up text-green-500 mr-2"></i>
+                        Do's
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-green-500 mt-1"></i>
+                            <span>Use route groups for logical organization by feature or API version</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-green-500 mt-1"></i>
+                            <span>Apply middleware at the appropriate level (global, group, or route)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-green-500 mt-1"></i>
+                            <span>Use descriptive parameter names that reflect the resource</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-green-500 mt-1"></i>
+                            <span>Keep route handlers focused - delegate to controllers/services</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-green-500 mt-1"></i>
+                            <span>Always validate and sanitize input parameters</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check text-green-500 mt-1"></i>
+                            <span>Return appropriate HTTP status codes (200, 201, 404, etc.)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-red-500/10 to-red-600/5 border border-red-500/20 rounded-lg p-6">
+                    <h3 class="font-semibold text-white mb-4 flex items-center text-lg">
+                        <i class="fas fa-times-circle text-red-500 mr-2"></i>
+                        Don'ts
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times text-red-500 mt-1"></i>
+                            <span>Don't put business logic directly in route handlers</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times text-red-500 mt-1"></i>
+                            <span>Don't create deeply nested route groups (max 2-3 levels)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times text-red-500 mt-1"></i>
+                            <span>Don't use generic parameter names like <code class="px-1 py-0.5 bg-gray-800 rounded text-xs">:id</code> everywhere</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times text-red-500 mt-1"></i>
+                            <span>Don't skip input validation - always validate user input</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times text-red-500 mt-1"></i>
+                            <span>Don't forget error handling - use try-catch blocks</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times text-red-500 mt-1"></i>
+                            <span>Don't expose sensitive information in error responses</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+ 
+
+        <!-- Help Section -->
+        <div class="bg-gradient-to-r from-primary-500/10 to-purple-500/10 border border-primary-500/20 rounded-lg p-6">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-question-circle text-primary-500 text-3xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Need Help with Routing?</h3>
+                    <p class="text-gray-300 mb-4">
+                        Join our community to get help with routing patterns and API design.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a 
+                            href="https://discord.com/invite/XdbryzNJt9" 
+                            target="_blank"
+                            class="inline-flex items-center px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium"
+                        >
+                            <i class="fab fa-discord mr-2"></i>
+                            Join Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
-
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Complete API Example</h2>
-
-        <CodeBlock
-          :code="completeApiCode"
-          language="dart"
-          title="Full REST API Setup"
-        />
-      </section>
-
-      <section class="space-y-6">
-        <h2 class="text-2xl font-semibold border-b pb-2">Best Practices</h2>
-
-        <div class="space-y-4">
-          <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-            <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">✅ Recommendations</h3>
-            <ul class="list-disc pl-5 space-y-1 text-green-700 dark:text-green-300">
-              <li>Use route groups for logical organization</li>
-              <li>Apply middleware at the appropriate level</li>
-              <li>Use descriptive parameter names</li>
-              <li>Keep handlers focused and testable</li>
-              <li>Validate input parameters</li>
-            </ul>
-          </div>
-
-          <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-            <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">❌ Avoid</h3>
-            <ul class="list-disc pl-5 space-y-1 text-red-700 dark:text-red-300">
-              <li>Don't put business logic in route handlers</li>
-              <li>Don't create deeply nested groups</li>
-              <li>Don't use generic parameter names</li>
-              <li>Don't skip input validation</li>
-            </ul>
-          </div>
-        </div>
-      </section>
     </div>
-  </template>
+</template>
 
-  <script setup>
-  definePageMeta({ layout: 'docs' })
-  useHead({
-    title: 'Khadem Routing System',
+<script setup>
+definePageMeta({ layout: 'docs' })
+useHead({
+    title: 'Routing System - Khadem Docs',
     meta: [
-      { name: 'description', content: 'Complete documentation for Khadem routing system' }
+        { 
+            name: 'description', 
+            content: 'Complete guide to Khadem routing system - Learn HTTP methods, route parameters, groups, middleware integration, and best practices for building REST APIs.' 
+        }
     ]
-  })
+})
 
-  const basicRoutesCode = `// Basic HTTP method routes
+const basicRoutesCode = `// Basic HTTP method routes
 server.get('/users', (req, res) async {
   final users = await User.all();
   res.sendJson({'users': users});
@@ -230,9 +477,9 @@ server.delete('/users/:id', (req, res) async {
   res.statusCode(204).empty();
 });`
 
-  const handlerSignatureCode = `Future Function(Request, Response)`
+const handlerSignatureCode = `Future Function(Request, Response)`
 
-  const routeParamsCode = `// Route parameters with :param syntax
+const routeParamsCode = `// Route parameters with :param syntax
 server.get('/users/:id', (req, res) async {
   final userId = req.param('id');
   final user = await User.find(userId);
@@ -268,7 +515,7 @@ server.get('/search', (req, res) async {
   res.sendJson({'results': results});
 });`
 
-  const routeGroupsCode = `// Route groups with shared prefix and middleware
+const routeGroupsCode = `// Route groups with shared prefix and middleware
 server.group(
   prefix: '/api/v1',
   middleware: [AuthMiddleware(), ApiMiddleware()],
@@ -291,7 +538,7 @@ server.group(
   }
 );`
 
-  const groupRoutesCode = `Generated routes:
+const groupRoutesCode = `Generated routes:
 GET    /api/v1/users
 POST   /api/v1/users
 GET    /api/v1/users/:id
@@ -300,7 +547,7 @@ DELETE /api/v1/users/:id
 GET    /api/v1/admin/stats
 POST   /api/v1/admin/users/:id/ban`
 
-  const middlewareCode = `// Global middleware (all routes)
+const middlewareCode = `// Global middleware (all routes)
 server.useMiddlewares([
   LoggingMiddleware(),
   CorsMiddleware(),
@@ -323,7 +570,7 @@ server.get('/protected', ProtectedController.index,
 server.get('/admin-only', AdminController.index,
   middleware: [AuthMiddleware(), AdminMiddleware()]);`
 
-  const staticFilesCode = `// Serve static files from public directory
+const staticFilesCode = `// Serve static files from public directory
 server.serveStatic('public');
 
 // Custom static directory
@@ -334,7 +581,7 @@ server.serveStatic('assets');
 // GET /images/logo.png  → public/images/logo.png
 // GET /js/app.js        → public/js/app.js`
 
-  const queryParamsCode = `server.get('/search', (req, res) async {
+const queryParamsCode = `server.get('/search', (req, res) async {
   // Query parameters
   final query = req.query['q'];
   final page = req.query['page'];
@@ -353,7 +600,7 @@ server.serveStatic('assets');
   });
 });`
 
-  const responseTypesCode = `// JSON response
+const responseTypesCode = `// JSON response
 res.sendJson({'message': 'Hello World'});
 
 // HTML response
@@ -373,7 +620,7 @@ res.statusCode(201).sendJson({'created': true});
 // Empty response
 res.statusCode(204).empty();`
 
-  const completeApiCode = `import 'package:khadem/khadem_dart.dart';
+const completeApiCode = `import 'package:khadem/khadem_dart.dart';
 
 void registerRoutes(Server server) {
   // Global middleware
@@ -452,13 +699,4 @@ Future<void> main() async {
   registerRoutes(server);
   await server.start(port: 8080);
 }`
-  </script>
-
-  <style scoped>
-  .prose :where(h2):not(:where([class~="not-prose"] *)) {
-    margin-top: 2.5rem;
-  }
-  .prose :where(h3):not(:where([class~="not-prose"] *)) {
-    margin-top: 1.5rem;
-  }
-  </style>
+</script>

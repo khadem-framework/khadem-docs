@@ -32,32 +32,31 @@
         </div>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border">
-          <div class="flex items-center mb-2">
-            <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-            <h3 class="font-medium">SQLite</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 p-6 rounded-lg border border-blue-300 dark:border-blue-700">
+          <div class="flex items-center mb-3">
+            <div class="w-4 h-4 bg-blue-500 rounded-full mr-3 animate-pulse"></div>
+            <h3 class="font-bold text-lg">MySQL</h3>
+            <span class="ml-auto px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full">Fully Supported</span>
           </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">File-based, no server</p>
-          <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">sqlite</code>
+          <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">Production-ready relational database with full ORM support, migrations, and query builder.</p>
+          <div class="flex items-center gap-2">
+            <code class="text-xs bg-white dark:bg-gray-900 px-3 py-1 rounded border">mysql</code>
+            <span class="text-xs text-gray-600 dark:text-gray-400">✨ Recommended</span>
+          </div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border">
-          <div class="flex items-center mb-2">
-            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-            <h3 class="font-medium">MySQL</h3>
+        <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/30 dark:to-gray-700/30 p-6 rounded-lg border border-gray-300 dark:border-gray-600 opacity-75">
+          <div class="flex items-center mb-3">
+            <div class="w-4 h-4 bg-gray-400 rounded-full mr-3"></div>
+            <h3 class="font-bold text-lg text-gray-600 dark:text-gray-400">SQLite & PostgreSQL</h3>
+            <span class="ml-auto px-3 py-1 bg-orange-500 text-white text-xs font-semibold rounded-full">Coming Soon</span>
           </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Production-ready RDBMS</p>
-          <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">mysql</code>
-        </div>
-
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border">
-          <div class="flex items-center mb-2">
-            <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-            <h3 class="font-medium">PostgreSQL</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">SQLite and PostgreSQL drivers are planned for future releases.</p>
+          <div class="flex items-center gap-2">
+            <code class="text-xs bg-white dark:bg-gray-900 px-3 py-1 rounded border opacity-50">sqlite</code>
+            <code class="text-xs bg-white dark:bg-gray-900 px-3 py-1 rounded border opacity-50">pgsql</code>
           </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Advanced features, JSON</p>
-          <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">pgsql</code>
         </div>
       </div>
     </section>
@@ -243,24 +242,33 @@ useHead({
 
 // Database Configuration Examples
 const databaseConfigCode = `// config/database.dart
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class DatabaseConfig {
   static Map<String, dynamic> get config => {
-    'driver': Khadem.env.getOrDefault('DB_CONNECTION', 'mysql'),
+    'driver': 'mysql', // Currently only MySQL is supported
     'host': Khadem.env.getOrDefault('DB_HOST', 'localhost'),
-    'port': Khadem.env.getInt('DB_PORT'),
+    'port': Khadem.env.getInt('DB_PORT', 3306),
     'database': Khadem.env.get('DB_DATABASE'),
     'username': Khadem.env.get('DB_USERNAME'),
     'password': Khadem.env.get('DB_PASSWORD'),
+    'charset': 'utf8mb4',
+    'collation': 'utf8mb4_unicode_ci',
     'run_migrations': true,
     'run_seeders': false,
   };
-}`
+}
+
+// In your .env file:
+// DB_HOST=localhost
+// DB_PORT=3306
+// DB_DATABASE=khadem_app
+// DB_USERNAME=root
+// DB_PASSWORD=secret`
 
 // Migration Examples
 const migrationCode = `// database/migrations/0_create_users_table.dart
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class CreateUsersTable implements MigrationFile {
   @override
@@ -274,7 +282,6 @@ class CreateUsersTable implements MigrationFile {
       table.string('email').unique();
       table.timestamp('email_verified_at').nullable();
       table.string('password');
-      table.rememberToken();
       table.timestamps();
     });
   }
@@ -288,54 +295,54 @@ class CreateUsersTable implements MigrationFile {
 const schemaBuilderCode = `// Available column types in Blueprint
 schema.create('products', (Blueprint table) {
   // Primary Keys
-  table.id(); // Auto-incrementing primary key
+  table.id(); // Auto-incrementing BIGINT primary key
   table.id('custom_id'); // Custom primary key name
 
   // Strings
-  table.string('name', length: 100); // VARCHAR with length
+  table.string('name', length: 100); // VARCHAR(100)
   table.text('description'); // TEXT
 
   // Numbers
   table.integer('quantity'); // INT
   table.bigInteger('views'); // BIGINT
-  table.float('weight'); // FLOAT
+  table.float('price'); // FLOAT
 
   // Dates & Times
   table.date('birth_date'); // DATE
   table.timestamp('created_at'); // TIMESTAMP
 
   // Boolean & Enum
-  table.boolean('is_active'); // BOOLEAN
+  table.boolean('is_active'); // BOOLEAN/TINYINT
   table.enumColumn('status', ['pending', 'approved', 'rejected']);
 
-  // JSON & Arrays
-  table.json('metadata'); // JSON
-  table.array('tags'); // ARRAY
+  // JSON
+  table.json('metadata'); // JSON column
 
-  // Special
-  table.timestamps(); // created_at and updated_at
-  table.softDeletes(); // deleted_at for soft deletes
+  // Special helper methods
+  table.timestamps(); // Adds created_at and updated_at
+  table.softDeletes(); // Adds deleted_at for soft deletes
 
-  // Foreign Keys
-  table.foreignId('user_id'); // Foreign key column
+  // Foreign Keys & Relations
+  table.foreignId('user_id'); // BIGINT UNSIGNED for foreign keys
   table.morphs('commentable'); // Polymorphic relation columns
+  // Creates: commentable_type (VARCHAR) and commentable_id (BIGINT)
 });`
 
 const migrationCommandsCode = `// Using the Migrator class
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 final migrator = Migrator(Khadem.db);
 
 // Run all pending migrations
 await migrator.upAll();
 
-// Rollback last migration
+// Rollback all migrations
 await migrator.downAll();
 
-// Rollback all migrations
+// Reset and re-run all migrations
 await migrator.reset();
 
-// Refresh database (rollback + migrate)
+// Refresh database (downAll + upAll)
 await migrator.refresh();
 
 // Show migration status
@@ -349,7 +356,7 @@ await migrator.down('create_users_table');`
 
 // Model Examples
 const modelDefinitionCode = `// app/models/user.dart
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class User extends KhademModel<User> with Timestamps, HasRelationships {
   User({
@@ -366,27 +373,30 @@ class User extends KhademModel<User> with Timestamps, HasRelationships {
   String? password;
 
   @override
-  List<String> get fillable => [
-    'name',
-    'email',
-    'password',
-    'created_at',
-    'updated_at'
-  ];
+  String get tableName => 'users';
+
+  @override
+  List<String> get fillable => ['name', 'email', 'password'];
 
   @override
   List<String> get hidden => ['password'];
 
   @override
-  List<String> get appends => [];
+  List<String> get protected => ['password']; // Never in JSON
+
+  @override
+  Map<String, dynamic> get casts => {
+    'created_at': DateTime,
+    'updated_at': DateTime,
+  };
 
   @override
   Map<String, RelationDefinition> get relations => {
-    // 'posts': hasMany<Post>(
-    //   foreignKey: 'user_id',
-    //   relatedTable: 'posts',
-    //   factory: () => Post(),
-    // )
+    'posts': hasMany<Post>(
+      foreignKey: 'user_id',
+      relatedTable: 'posts',
+      factory: () => Post(),
+    ),
   };
 
   @override
@@ -404,15 +414,14 @@ class User extends KhademModel<User> with Timestamps, HasRelationships {
 
   @override
   void setField(String key, dynamic value) {
-    return switch (key) {
-      'id' => id = value,
-      'name' => name = value,
-      'email' => email = value,
-      'password' => password = value,
-      'created_at' => createdAt = value,
-      'updated_at' => updatedAt = value,
-      _ => null
-    };
+    switch (key) {
+      case 'id': id = value; break;
+      case 'name': name = value; break;
+      case 'email': email = value; break;
+      case 'password': password = value; break;
+      case 'created_at': createdAt = value; break;
+      case 'updated_at': updatedAt = value; break;
+    }
   }
 
   @override
@@ -422,14 +431,19 @@ class User extends KhademModel<User> with Timestamps, HasRelationships {
 }`
 
 const modelCrudCode = `// Create a new user
-final user = User(name: 'John Doe', email: 'john@example.com');
+final user = User(name: 'John Doe', email: 'john@example.com', password: 'secret');
 await user.save();
+print('User created with ID: \${user.id}');
 
-// Find user by ID
-final user = await User().findById(1);
+// Find user by ID using query builder
+final foundUser = await User().query.where('id', '=', 1).first();
+if (foundUser != null) {
+  print('Found: \${foundUser.name}');
+}
 
 // Find users by condition
-final users = await User().findWhere('email', '=', 'john@example.com');
+final users = await User().query.where('email', '=', 'john@example.com').get();
+print('Found \${users.length} users');
 
 // Update user
 user.name = 'John Smith';
@@ -438,197 +452,231 @@ await user.save();
 // Delete user
 await user.delete();
 
-// Query with relationships
-final userWithPosts = await User().load(['posts']);
+// Mass assignment with fillable protection
+final newUser = User()..fromJson({
+  'name': 'Jane Doe',
+  'email': 'jane@example.com',
+  'password': 'secret',
+  'role': 'admin', // Ignored if not in fillable
+});
+await newUser.save();`
+
+const modelRelationshipsCode = `// Load relationships
+final user = await User().query.where('id', '=', 1).first();
+await user?.load('posts');
+
+// Eager load with query
+final users = await User().query.withRelations(['posts']).get();
 
 // Check if relation is loaded
-if (user.isRelationLoaded('posts')) {
-  final posts = user.getRelation('posts');
+if (user?.isRelationLoaded('posts') ?? false) {
+  final posts = user!.getRelation('posts');
 }
 
-// Append computed attributes
-user.append(['full_name']);
-user.appendAttribute('display_name');
+// Load missing relations only
+await user?.loadMissing(['posts', 'profile']);
 
 // Get only specific attributes
-final userData = user.only(['name', 'email']);
+final userData = user?.only(['name', 'email']);
 
 // Get all except specific attributes
-final userData = user.except(['password']);`
+final userData = user?.except(['password']);`
 
-const modelRelationshipsCode = `// One-to-One relationship
-class User extends KhademModel<User> {
+const relationshipDefinitionsCode = `// One-to-One relationship using HasRelationships mixin
+class User extends KhademModel<User> with HasRelationships {
   @override
   Map<String, RelationDefinition> get relations => {
-    'profile': RelationDefinition<Profile>(
-      type: RelationType.hasOne,
-      relatedTable: 'profiles',
-      localKey: 'id',
+    'profile': hasOne<Profile>(
       foreignKey: 'user_id',
+      relatedTable: 'profiles',
       factory: () => Profile(),
     ),
   };
 }
 
-class Profile extends KhademModel<Profile> {
+class Profile extends KhademModel<Profile> with HasRelationships {
   @override
   Map<String, RelationDefinition> get relations => {
-    'user': RelationDefinition<User>(
-      type: RelationType.belongsTo,
-      relatedTable: 'users',
+    'user': belongsTo<User>(
       localKey: 'user_id',
-      foreignKey: 'id',
+      relatedTable: 'users',
       factory: () => User(),
     ),
   };
 }
 
 // One-to-Many relationship
-class User extends KhademModel<User> {
+class User extends KhademModel<User> with HasRelationships {
   @override
   Map<String, RelationDefinition> get relations => {
-    'posts': RelationDefinition<Post>(
-      type: RelationType.hasMany,
-      relatedTable: 'posts',
-      localKey: 'id',
+    'posts': hasMany<Post>(
       foreignKey: 'user_id',
+      relatedTable: 'posts',
       factory: () => Post(),
     ),
   };
 }
 
-class Post extends KhademModel<Post> {
+class Post extends KhademModel<Post> with HasRelationships {
   @override
   Map<String, RelationDefinition> get relations => {
-    'user': RelationDefinition<User>(
-      type: RelationType.belongsTo,
-      relatedTable: 'users',
+    'user': belongsTo<User>(
       localKey: 'user_id',
-      foreignKey: 'id',
+      relatedTable: 'users',
       factory: () => User(),
     ),
   };
 }
 
-// Many-to-Many relationship (simplified)
-class User extends KhademModel<User> {
+// Many-to-Many relationship
+class User extends KhademModel<User> with HasRelationships {
   @override
   Map<String, RelationDefinition> get relations => {
-    'roles': RelationDefinition<Role>(
-      type: RelationType.belongsToMany,
+    'roles': belongsToMany<Role>(
+      pivotTable: 'user_roles',
+      foreignPivotKey: 'user_id',
+      relatedPivotKey: 'role_id',
       relatedTable: 'roles',
       localKey: 'id',
-      foreignKey: 'user_id',
       factory: () => Role(),
     ),
   };
 }`
 
 // Query Builder Examples
-const queryBuilderCode = `// Using DatabaseManager
-import 'package:khadem/khadem_dart.dart';
-
-final db = Khadem.db;
+const queryBuilderCode = `// Using query builder through models
+import 'package:khadem/khadem.dart';
 
 // Get all records
-final users = await db.table('users').get();
+final users = await User().query.get();
 
 // Get first record
-final user = await db.table('users').first();
+final user = await User().query.first();
 
 // Get specific columns
-final names = await db.table('users').select(['name', 'email']).get();
+final users = await User().query.select(['name', 'email']).get();
 
 // Where clauses
-final activeUsers = await db.table('users')
+final activeUsers = await User().query
     .where('is_active', '=', true)
     .get();
 
+// Multiple where conditions
+final filteredUsers = await User().query
+    .where('is_active', '=', true)
+    .where('role', '=', 'admin')
+    .get();
+
+// Ordering
+final latestUsers = await User().query
+    .orderBy('created_at', direction: 'DESC')
+    .limit(10)
+    .get();
+
+// Pagination
+final result = await User().query.paginate(perPage: 15, page: 1);
+print('Total: \${result.total}');
+print('Current page: \${result.currentPage}');
+print('Data: \${result.data.length} items');
+
 // Count records
-final count = await db.table('users').count();
+final count = await User().query.count();
 
 // Check existence
-final exists = await db.table('users')
+final exists = await User().query
     .where('email', '=', 'john@example.com')
     .exists();
 
-// Insert record
-final userId = await db.table('users').insert({
-  'name': 'John Doe',
-  'email': 'john@example.com',
-  'created_at': DateTime.now(),
-  'updated_at': DateTime.now(),
-});
+// Insert record using model
+final user = User(
+  name: 'John Doe',
+  email: 'john@example.com',
+);
+await user.save();
 
-// Update records
-await db.table('users')
-    .where('id', '=', 1)
-    .update({
-      'name': 'John Smith',
-      'updated_at': DateTime.now(),
-    });
+// Update records using model
+final user = await User().query.where('id', '=', 1).first();
+if (user != null) {
+  user.name = 'John Smith';
+  await user.save();
+}
 
-// Delete records
-await db.table('users')
-    .where('id', '=', 1)
-    .delete();`
+// Delete records using model
+final user = await User().query.where('id', '=', 1).first();
+await user?.delete();`
 
 const advancedQueriesCode = `// Complex where conditions
-final users = await db.table('users')
+final users = await User().query
     .where('age', '>', 18)
     .where('city', '=', 'New York')
     .orWhere('city', '=', 'Los Angeles')
     .get();
 
 // Ordering and pagination
-final users = await db.table('users')
+final users = await User().query
     .orderBy('created_at', direction: 'DESC')
     .limit(10)
     .offset(20)
     .get();
 
-// Joins
-final users = await db.table('users')
-    .join('posts', 'users.id', '=', 'posts.user_id')
-    .select(['users.name', 'posts.title'])
+// whereHas - Query based on relationships
+final usersWithPosts = await User().query
+    .whereHas('posts', (query) {
+      query.where('status', '=', 'published');
+    })
     .get();
 
-// Grouping and aggregation
-final stats = await db.table('posts')
-    .select(['user_id'])
-    .groupBy('user_id')
-    .having('COUNT(*)', '>', 5)
-    .get();
+// Grouping with having
+final query = User().query
+    .select(['role', 'COUNT(*) as count'])
+    .groupBy('role')
+    .having('count', '>', 5);
 
 // Raw queries
-final users = await db.table('users')
+final users = await User().query
     .whereRaw('created_at > ?', [DateTime.now().subtract(Duration(days: 30))])
+    .get();
+
+// JSON queries
+final users = await User().query
+    .whereJsonContains('settings->notifications', 'email')
     .get();`
 
-const rawQueriesCode = `// Raw SQL queries using connection
+const rawQueriesCode = `// Raw SQL queries using DatabaseManager
+import 'package:khadem/khadem.dart';
+
+final db = Khadem.db;
 final connection = db.connection;
 
 // Raw select
-final users = await connection.query('SELECT * FROM users WHERE id = ?', [1]);
+final results = await connection.query(
+  'SELECT * FROM users WHERE id = ?',
+  [1]
+);
 
 // Raw insert
-final result = await connection.execute(
-  'INSERT INTO users (name, email) VALUES (?, ?)',
-  ['John Doe', 'john@example.com']
+await connection.execute(
+  'INSERT INTO users (name, email, created_at, updated_at) VALUES (?, ?, ?, ?)',
+  ['John Doe', 'john@example.com', DateTime.now(), DateTime.now()]
 );
 
 // Raw update
 await connection.execute(
-  'UPDATE users SET name = ? WHERE id = ?',
-  ['John Smith', 1]
+  'UPDATE users SET name = ?, updated_at = ? WHERE id = ?',
+  ['John Smith', DateTime.now(), 1]
 );
 
 // Raw delete
-await connection.execute('DELETE FROM users WHERE id = ?', [1]);`
+await connection.execute('DELETE FROM users WHERE id = ?', [1]);
+
+// Use whereRaw in query builder for safer raw queries
+final users = await User().query
+    .whereRaw('YEAR(created_at) = ?', [2024])
+    .get();`
 
 // Seeder Examples
 const seederCode = `// database/seeders/database_seeder.dart
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 class DatabaseSeeder implements Seeder {
   @override
@@ -650,23 +698,15 @@ class UserSeeder implements Seeder {
 
   @override
   Future<void> run() async {
-    // Create test users
-    await Khadem.db.table('users').insert([
-      {
-        'name': 'John Doe',
-        'email': 'john@example.com',
-        'password': 'hashed_password',
-        'created_at': DateTime.now(),
-        'updated_at': DateTime.now(),
-      },
-      {
-        'name': 'Jane Smith',
-        'email': 'jane@example.com',
-        'password': 'hashed_password',
-        'created_at': DateTime.now(),
-        'updated_at': DateTime.now(),
-      },
-    ]);
+    // Create test users using models
+    final users = [
+      User(name: 'John Doe', email: 'john@example.com', password: 'hashed_password'),
+      User(name: 'Jane Smith', email: 'jane@example.com', password: 'hashed_password'),
+    ];
+    
+    for (final user in users) {
+      await user.save();
+    }
   }
 }`
 
@@ -688,72 +728,83 @@ class UserFactory {
 }
 
 // In seeder
-class UserSeeder extends Seeder {
+class UserSeeder implements Seeder {
   @override
-  void run() {
+  String get name => 'user_seeder';
+
+  @override
+  Future<void> run() async {
     // Create 10 users using factory
     for (var i = 0; i < 10; i++) {
-      db.table('users').insert(UserFactory.makeWithOverrides({
+      final userData = UserFactory.makeWithOverrides({
         'name': 'User \$i',
         'email': 'user\$i@example.com',
-      }));
+      });
+      
+      final user = User()..fromJson(userData);
+      await user.save();
     }
   }
 }`
 
-const seederCommandsCode = `// Using SeederManager
-import 'package:khadem/khadem_dart.dart';
+const seederCommandsCode = `// Using Seeder class
+import 'package:khadem/khadem.dart';
 
-final seederManager = SeederManager();
-
-// Register seeders
-seederManager.register(DatabaseSeeder());
-seederManager.register(UserSeeder());
-
-// Run all seeders
-await seederManager.runAll();
+// Create and run database seeder
+final databaseSeeder = DatabaseSeeder();
+await databaseSeeder.run();
 
 // Run specific seeder
-await seederManager.run('user_seeder');`
+final userSeeder = UserSeeder();
+await userSeeder.run();
+
+// Or manually seed data
+await User(name: 'Admin', email: 'admin@example.com', password: 'hashed').save();
+await User(name: 'User', email: 'user@example.com', password: 'hashed').save();`
 
 // Transaction Examples
 const transactionCode = `// Using DatabaseManager transactions
-await Khadem.db.connection.transaction((trx) async {
-  final userId = await trx.table('users').insert({
-    'name': 'John Doe',
-    'email': 'john@example.com',
-  });
+import 'package:khadem/khadem.dart';
 
-  await trx.table('profiles').insert({
-    'user_id': userId,
-    'bio': 'Software developer',
-  });
+final connection = Khadem.db.connection;
+
+await connection.transaction((trx) async {
+  // Create user
+  final user = User(name: 'John Doe', email: 'john@example.com');
+  await user.save();
+  
+  // Create profile for the user
+  final profile = Profile(userId: user.id, bio: 'Software developer');
+  await profile.save();
+  
+  // If any operation fails, the entire transaction is rolled back
 });
 
-// Manual transaction using connection
-final connection = Khadem.db.connection;
-await connection.transaction((trx) async {
-  final userId = await trx.table('users').insert({
-    'name': 'John Doe',
-    'email': 'john@example.com',
+// Transaction with error handling
+try {
+  await connection.transaction((trx) async {
+    final user = User(name: 'Jane Doe', email: 'jane@example.com');
+    await user.save();
+    
+    // This might fail
+    final order = Order(userId: user.id, total: 100.0);
+    await order.save();
   });
+  print('Transaction completed successfully');
+} catch (e) {
+  print('Transaction failed: \$e');
+  // All changes are automatically rolled back
+}`
 
-  await trx.table('profiles').insert({
-    'user_id': userId,
-    'bio': 'Software developer',
-  });
-});`
-
-// Testing Examples
 const testingCode = `// tests/database/user_test.dart
 import 'package:test/test.dart';
-import 'package:khadem/khadem_dart.dart';
+import 'package:khadem/khadem.dart';
 
 void main() {
   group('User Model Tests', () {
     setUp(() async {
       // Initialize database for testing
-      await Khadem.db.init();
+      // Note: Configure test database connection first
       
       // Run migrations
       final migrator = Migrator(Khadem.db);
@@ -764,7 +815,6 @@ void main() {
       // Clean up after tests
       final migrator = Migrator(Khadem.db);
       await migrator.reset();
-      await Khadem.db.close();
     });
 
     test('creates user successfully', () async {
@@ -789,19 +839,26 @@ void main() {
       );
       await user.save();
 
-      final foundUser = await User().findWhere('email', '=', 'test@example.com');
+      final users = await User().query
+          .where('email', '=', 'test@example.com')
+          .get();
 
-      expect(foundUser, isNotEmpty);
-      expect(foundUser.first.email, 'test@example.com');
+      expect(users, isNotEmpty);
+      expect(users.first.email, 'test@example.com');
     });
 
-    test('validates required fields', () async {
-      final user = User(); // Empty user
+    test('loads relationships', () async {
+      final user = User(name: 'Test', email: 'test@example.com', password: 'pass');
+      await user.save();
       
-      expect(
-        () async => await user.save(),
-        throwsA(isA<Exception>())
-      );
+      final post = Post(userId: user.id, title: 'Test Post');
+      await post.save();
+
+      await user.load('posts');
+      final posts = user.getRelation('posts') as List<Post>;
+      
+      expect(posts.length, 1);
+      expect(posts.first.title, 'Test Post');
     });
   });
 }`
