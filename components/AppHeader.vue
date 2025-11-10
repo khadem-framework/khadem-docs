@@ -43,13 +43,13 @@
           </button>
 
           <!-- Language Toggle -->
-          <button
+          <!-- <button
             @click="toggleLanguage"
             class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             :title="$t('common.language')"
           >
             <span class="text-sm font-medium">{{ locale === 'en' ? 'عربي' : 'EN' }}</span>
-          </button>
+          </button> -->
 
           <!-- GitHub Link -->
           <a
