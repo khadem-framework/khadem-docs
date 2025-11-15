@@ -453,25 +453,25 @@ useHead({
 })
 
 const basicRoutesCode = `// Basic HTTP method routes
-server.get('/users', (req, res) async {
+router.get('/users', (req, res) async {
   final users = await User.all();
   res.sendJson({'users': users});
 });
 
-server.post('/users', (req, res) async {
+router.post('/users', (req, res) async {
   final data = await req.body;
   final user = await User.create(data);
   res.statusCode(201).sendJson({'user': user});
 });
 
-server.put('/users/:id', (req, res) async {
+router.put('/users/:id', (req, res) async {
   final userId = req.param('id');
   final data = await req.body;
   final user = await User.find(userId).update(data);
   res.sendJson({'user': user});
 });
 
-server.delete('/users/:id', (req, res) async {
+router.delete('/users/:id', (req, res) async {
   final userId = req.param('id');
   await User.find(userId).delete();
   res.statusCode(204).empty();
@@ -480,7 +480,7 @@ server.delete('/users/:id', (req, res) async {
 const handlerSignatureCode = `Future Function(Request, Response)`
 
 const routeParamsCode = `// Route parameters with :param syntax
-server.get('/users/:id', (req, res) async {
+router.get('/users/:id', (req, res) async {
   final userId = req.param('id');
   final user = await User.find(userId);
 
@@ -494,7 +494,7 @@ server.get('/users/:id', (req, res) async {
 });
 
 // Multiple parameters
-server.get('/posts/:category/:slug', (req, res) async {
+router.get('/posts/:category/:slug', (req, res) async {
   final category = req.param('category');
   final slug = req.param('slug');
 
@@ -506,7 +506,7 @@ server.get('/posts/:category/:slug', (req, res) async {
 });
 
 // Optional query parameters
-server.get('/search', (req, res) async {
+router.get('/search', (req, res) async {
   final query = req.query['q'] ?? '';
   final page = int.tryParse(req.query['page'] ?? '1') ?? 1;
   final limit = int.tryParse(req.query['limit'] ?? '10') ?? 10;
@@ -516,26 +516,26 @@ server.get('/search', (req, res) async {
 });`
 
 const routeGroupsCode = `// Route groups with shared prefix and middleware
-server.group(
-  prefix: '/api/v1',
-  middleware: [AuthMiddleware(), ApiMiddleware()],
-  routes: (router) {
-    router.get('/users', UserController.index);
-    router.post('/users', UserController.store);
-    router.get('/users/:id', UserController.show);
-    router.put('/users/:id', UserController.update);
-    router.delete('/users/:id', UserController.destroy);
+router.group(
+    prefix: '/api/v1',
+    middleware: [AuthMiddleware(), ApiMiddleware()],
+    routes: (r) {
+        r.get('/users', UserController.index);
+        r.post('/users', UserController.store);
+        r.get('/users/:id', UserController.show);
+        r.put('/users/:id', UserController.update);
+        r.delete('/users/:id', UserController.destroy);
 
-    // Nested groups
-    router.group(
-      prefix: '/admin',
-      middleware: [AdminMiddleware()],
-      routes: (adminRouter) {
-        adminRouter.get('/stats', AdminController.stats);
-        adminRouter.post('/users/:id/ban', AdminController.banUser);
-      }
-    );
-  }
+        // Nested groups
+        r.group(
+            prefix: '/admin',
+            middleware: [AdminMiddleware()],
+            routes: (adminRouter) {
+                adminRouter.get('/stats', AdminController.stats);
+                adminRouter.post('/users/:id/ban', AdminController.banUser);
+            }
+        );
+    }
 );`
 
 const groupRoutesCode = `Generated routes:
@@ -547,28 +547,30 @@ DELETE /api/v1/users/:id
 GET    /api/v1/admin/stats
 POST   /api/v1/admin/users/:id/ban`
 
-const middlewareCode = `// Global middleware (all routes)
-server.useMiddlewares([
-  LoggingMiddleware(),
-  CorsMiddleware(),
-  RateLimitMiddleware(),
+const middlewareCode = `// Global middleware (apply these on the Server instance before injecting routes)
+final server = Server();
+server.applyMiddlewares([
+    LoggingMiddleware(),
+    CorsMiddleware(),
+    RateLimitMiddleware(),
 ]);
+server.injectRoutes(registerRoutes);
 
-// Group middleware
-server.group(
-  prefix: '/admin',
-  middleware: [AuthMiddleware(), AdminMiddleware()],
-  routes: (router) {
-    router.get('/dashboard', AdminController.dashboard);
-  }
+// Group middleware (inside a registerRoutes(ServerRouter router) function)
+router.group(
+    prefix: '/admin',
+    middleware: [AuthMiddleware(), AdminMiddleware()],
+    routes: (r) {
+        r.get('/dashboard', AdminController.dashboard);
+    }
 );
 
-// Route-specific middleware
-server.get('/public', PublicController.index);
-server.get('/protected', ProtectedController.index,
-  middleware: [AuthMiddleware()]);
-server.get('/admin-only', AdminController.index,
-  middleware: [AuthMiddleware(), AdminMiddleware()]);`
+// Route-specific middleware (inside router)
+r.get('/public', PublicController.index);
+r.get('/protected', ProtectedController.index,
+    middleware: [AuthMiddleware()]);
+r.get('/admin-only', AdminController.index,
+    middleware: [AuthMiddleware(), AdminMiddleware()]);`
 
 const staticFilesCode = `// Serve static files from public directory
 server.serveStatic('public');
@@ -581,7 +583,7 @@ server.serveStatic('assets');
 // GET /images/logo.png  → public/images/logo.png
 // GET /js/app.js        → public/js/app.js`
 
-const queryParamsCode = `server.get('/search', (req, res) async {
+const queryParamsCode = `router.get('/search', (req, res) async {
   // Query parameters
   final query = req.query['q'];
   final page = req.query['page'];
@@ -622,81 +624,76 @@ res.statusCode(204).empty();`
 
 const completeApiCode = `import 'package:khadem/khadem_dart.dart';
 
-void registerRoutes(Server server) {
-  // Global middleware
-  server.useMiddlewares([
+// Recommended startup (apply global middleware on Server, then inject routes)
+final server = Server();
+server.applyMiddlewares([
     LoggingMiddleware(),
     CorsMiddleware(),
     RateLimitMiddleware(),
-  ]);
+]);
+server.injectRoutes(registerRoutes);
+server.serveStatic('public');
+await server.start(port: 8080);
 
-  // Public routes
-  server.group(
-    prefix: '/api/v1',
-    routes: (router) {
-      router.get('/health', (req, res) async {
-        res.sendJson({
-          'status': 'ok',
-          'timestamp': DateTime.now().toIso8601String()
-        });
-      });
-    }
-  );
+// Route registration receives a ServerRouter
+void registerRoutes(ServerRouter router) {
+    // Public routes
+    router.group(
+        prefix: '/api/v1',
+        routes: (r) {
+            r.get('/health', (req, res) async {
+                res.sendJson({
+                    'status': 'ok',
+                    'timestamp': DateTime.now().toIso8601String()
+                });
+            });
+        }
+    );
 
-  // User routes (authenticated)
-  server.group(
-    prefix: '/api/v1/users',
-    middleware: [AuthMiddleware()],
-    routes: (router) {
-      router.get('', UserController.index);
-      router.post('', UserController.store);
-      router.get('/:id', UserController.show);
-      router.put('/:id', UserController.update);
-      router.delete('/:id', UserController.destroy);
+    // User routes (authenticated)
+    router.group(
+        prefix: '/api/v1/users',
+        middleware: [AuthMiddleware()],
+        routes: (r) {
+            r.get('', UserController.index);
+            r.post('', UserController.store);
+            r.get('/:id', UserController.show);
+            r.put('/:id', UserController.update);
+            r.delete('/:id', UserController.destroy);
 
-      // User relationships
-      router.get('/:id/posts', UserController.posts);
-      router.get('/:id/followers', UserController.followers);
-    }
-  );
+            // User relationships
+            r.get('/:id/posts', UserController.posts);
+            r.get('/:id/followers', UserController.followers);
+        }
+    );
 
-  // Post routes
-  server.group(
-    prefix: '/api/v1/posts',
-    middleware: [AuthMiddleware()],
-    routes: (router) {
-      router.get('', PostController.index);
-      router.post('', PostController.store);
-      router.get('/:id', PostController.show);
-      router.put('/:id', PostController.update);
-      router.delete('/:id', PostController.destroy);
+    // Post routes
+    router.group(
+        prefix: '/api/v1/posts',
+        middleware: [AuthMiddleware()],
+        routes: (r) {
+            r.get('', PostController.index);
+            r.post('', PostController.store);
+            r.get('/:id', PostController.show);
+            r.put('/:id', PostController.update);
+            r.delete('/:id', PostController.destroy);
 
-      // Comments
-      router.get('/:id/comments', PostController.comments);
-      router.post('/:id/comments', PostController.addComment);
-    }
-  );
+            // Comments
+            r.get('/:id/comments', PostController.comments);
+            r.post('/:id/comments', PostController.addComment);
+        }
+    );
 
-  // Admin routes
-  server.group(
-    prefix: '/api/v1/admin',
-    middleware: [AuthMiddleware(), AdminMiddleware()],
-    routes: (router) {
-      router.get('/dashboard', AdminController.dashboard);
-      router.get('/stats', AdminController.stats);
-      router.get('/users', AdminController.users);
-      router.post('/users/:id/ban', AdminController.banUser);
-    }
-  );
-
-  // Static files
-  server.serveStatic('public');
-}
-
-// Start server
-Future<void> main() async {
-  final server = Server();
-  registerRoutes(server);
-  await server.start(port: 8080);
+    // Admin routes
+    router.group(
+        prefix: '/api/v1/admin',
+        middleware: [AuthMiddleware(), AdminMiddleware()],
+        routes: (r) {
+            r.get('/dashboard', AdminController.dashboard);
+            r.get('/stats', AdminController.stats);
+            r.get('/users', AdminController.users);
+            r.post('/users/:id/ban', AdminController.banUser);
+        }
+    );
 }`
 </script>

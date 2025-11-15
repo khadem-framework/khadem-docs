@@ -604,37 +604,37 @@ useHead({
 })
 
 const basicResponseCode = `// Basic response methods
-server.get('/api/status', (req, res) async {
+router.get('/api/status', (req, res) async {
   res.sendJson({'status': 'ok', 'timestamp': DateTime.now()});
 });
 
-server.get('/text', (req, res) async {
+router.get('/text', (req, res) async {
   res.send('Hello World');
 });
 
-server.get('/html', (req, res) async {
+router.get('/html', (req, res) async {
   res.html('<h1>Welcome</h1><p>This is HTML content</p>');
 });
 
-server.get('/empty', (req, res) async {
+router.get('/empty', (req, res) async {
   res.noContent(); // 204 No Content
 });
 
 // Status code convenience methods
-server.get('/success', (req, res) async {
+router.get('/success', (req, res) async {
   res.ok().sendJson({'message': 'Success'});
 });
 
-server.get('/created', (req, res) async {
+router.get('/created', (req, res) async {
   res.created().sendJson({'id': 123, 'message': 'Resource created'});
 });
 
-server.get('/error', (req, res) async {
+router.get('/error', (req, res) async {
   res.badRequest().sendJson({'error': 'Invalid request'});
 });`
 
 const jsonResponseCode = `// JSON responses with different formats
-server.get('/api/user/:id', (req, res) async {
+router.get('/api/user/:id', (req, res) async {
   final user = await User.find(req.param('id'));
 
   if (user == null) {
@@ -653,7 +653,7 @@ server.get('/api/user/:id', (req, res) async {
 });
 
 // Pretty-printed JSON for debugging
-server.get('/api/debug', (req, res) async {
+router.get('/api/debug', (req, res) async {
   final debugData = {
     'config': Khadem.config.all(),
     'routes': server.routes.length,
@@ -664,7 +664,7 @@ server.get('/api/debug', (req, res) async {
 });
 
 // Paginated API response
-server.get('/api/users', (req, res) async {
+router.get('/api/users', (req, res) async {
   final page = int.tryParse(req.query['page'] ?? '1') ?? 1;
   final limit = int.tryParse(req.query['limit'] ?? '10') ?? 10;
 
@@ -683,7 +683,7 @@ server.get('/api/users', (req, res) async {
 });`
 
 const fileResponseCode = `// File download with automatic MIME type detection
-server.get('/download/avatar/:filename', (req, res) async {
+router.get('/download/avatar/:filename', (req, res) async {
   final filename = req.param('filename');
   final file = File('storage/avatars/\$filename');
 
@@ -695,7 +695,7 @@ server.get('/download/avatar/:filename', (req, res) async {
 });
 
 // File download with custom headers
-server.get('/export/report.pdf', (req, res) async {
+router.get('/export/report.pdf', (req, res) async {
   final file = File('storage/reports/monthly.pdf');
 
   res.header('Content-Disposition', 'attachment; filename="monthly-report.pdf"');
@@ -705,7 +705,7 @@ server.get('/export/report.pdf', (req, res) async {
 });
 
 // Image serving with caching
-server.get('/images/:filename', (req, res) async {
+router.get('/images/:filename', (req, res) async {
   final filename = req.param('filename');
   final file = File('storage/images/\$filename');
 
@@ -719,19 +719,19 @@ server.get('/images/:filename', (req, res) async {
 });`
 
 const binaryResponseCode = `// Binary data response
-server.get('/api/binary', (req, res) async {
+router.get('/api/binary', (req, res) async {
   final data = await generateBinaryData();
   res.bytes(data, contentType: 'application/octet-stream');
 });
 
 // Custom content type
-server.get('/api/pdf', (req, res) async {
+router.get('/api/pdf', (req, res) async {
   final pdfBytes = await generatePdf();
   res.bytes(pdfBytes, contentType: 'application/pdf');
 });`
 
 const streamingResponseCode = `// Database streaming
-server.get('/api/export/users', (req, res) async {
+router.get('/api/export/users', (req, res) async {
   res.header('Content-Type', 'application/json');
   res.header('Transfer-Encoding', 'chunked');
 
@@ -743,7 +743,7 @@ server.get('/api/export/users', (req, res) async {
 });
 
 // Real-time progress updates
-server.get('/api/process/:taskId', (req, res) async {
+router.get('/api/process/:taskId', (req, res) async {
   final taskId = req.param('taskId');
 
   res.header('Content-Type', 'text/event-stream');
@@ -758,7 +758,7 @@ server.get('/api/process/:taskId', (req, res) async {
 });
 
 // Large file streaming
-server.get('/download/large-file.mp4', (req, res) async {
+router.get('/download/large-file.mp4', (req, res) async {
   final file = File('storage/videos/large.mp4');
 
   res.header('Content-Type', 'video/mp4');
@@ -768,7 +768,7 @@ server.get('/download/large-file.mp4', (req, res) async {
 });
 
 // Custom data transformation
-server.get('/api/logs/stream', (req, res) async {
+router.get('/api/logs/stream', (req, res) async {
   final logFile = File('storage/logs/app.log');
 
   res.header('Content-Type', 'text/plain');
@@ -782,7 +782,7 @@ server.get('/api/logs/stream', (req, res) async {
 });`
 
 const headersCode = `// Custom headers
-server.get('/api/data', (req, res) async {
+router.get('/api/data', (req, res) async {
   // Set custom headers
   res.header('X-API-Version', '1.0.0');
   res.header('X-Request-ID', generateRequestId());
@@ -792,7 +792,7 @@ server.get('/api/data', (req, res) async {
 });
 
 // Content-Type and Content-Length
-server.get('/api/file-info', (req, res) async {
+router.get('/api/file-info', (req, res) async {
   final file = File('storage/document.pdf');
 
   res.header('Content-Type', 'application/pdf');
@@ -803,7 +803,7 @@ server.get('/api/file-info', (req, res) async {
 });`
 
 const corsCode = `// CORS configuration
-server.get('/api/public', (req, res) async {
+router.get('/api/public', (req, res) async {
   res.cors(
     allowOrigin: '*',
     allowMethods: 'GET, POST',
@@ -814,7 +814,7 @@ server.get('/api/public', (req, res) async {
 });
 
 // Restricted CORS
-server.get('/api/private', (req, res) async {
+router.get('/api/private', (req, res) async {
   res.cors(
     allowOrigin: 'https://myapp.com',
     allowMethods: 'GET, POST, PUT, DELETE',
@@ -827,7 +827,7 @@ server.get('/api/private', (req, res) async {
 });`
 
 const securityCode = `// Security headers
-server.get('/api/secure', (req, res) async {
+router.get('/api/secure', (req, res) async {
   res.security(
     enableHsts: true,
     enableCsp: true,
@@ -840,7 +840,7 @@ server.get('/api/secure', (req, res) async {
 });
 
 // Individual security headers
-server.get('/api/headers', (req, res) async {
+router.get('/api/headers', (req, res) async {
   res.header('X-Frame-Options', 'DENY');
   res.header('X-Content-Type-Options', 'nosniff');
   res.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
@@ -850,21 +850,21 @@ server.get('/api/headers', (req, res) async {
 });`
 
 const cachingCode = `// Cache control examples
-server.get('/api/static-data', (req, res) async {
+router.get('/api/static-data', (req, res) async {
   // Cache for 5 minutes
   res.cache('public, max-age=300');
 
   res.sendJson({'data': 'This can be cached'});
 });
 
-server.get('/api/dynamic-data', (req, res) async {
+router.get('/api/dynamic-data', (req, res) async {
   // No caching
   res.noCache();
 
   res.sendJson({'data': 'This should not be cached'});
 });
 
-server.get('/api/user-data', (req, res) async {
+router.get('/api/user-data', (req, res) async {
   // Private cache (user-specific)
   res.cache('private, max-age=60');
 
@@ -872,7 +872,7 @@ server.get('/api/user-data', (req, res) async {
 });
 
 // Static file caching
-server.get('/assets/style.css', (req, res) async {
+router.get('/assets/style.css', (req, res) async {
   // Cache for 1 year
   res.cache('public, max-age=31536000, immutable');
 
@@ -880,7 +880,7 @@ server.get('/assets/style.css', (req, res) async {
 });
 
 // Conditional caching
-server.get('/api/posts/:id', (req, res) async {
+router.get('/api/posts/:id', (req, res) async {
   final post = await Post.find(req.param('id'));
   final lastModified = post.updatedAt;
 
@@ -891,7 +891,7 @@ server.get('/api/posts/:id', (req, res) async {
 });`
 
 const sessionCode = `// Session management
-server.post('/login', (req, res) async {
+router.post('/login', (req, res) async {
   final credentials = await req.body;
   final user = await authenticateUser(credentials);
 
@@ -911,7 +911,7 @@ server.post('/login', (req, res) async {
 });
 
 // Flash input preservation
-server.post('/register', (req, res) async {
+router.post('/register', (req, res) async {
   final data = await req.body;
 
   try {
@@ -929,7 +929,7 @@ server.post('/register', (req, res) async {
 });
 
 // Access flash messages
-server.get('/messages', (req, res) async {
+router.get('/messages', (req, res) async {
   final successMessage = req.session.pull('success');
   final errorMessage = req.session.pull('error');
 
@@ -942,7 +942,7 @@ server.get('/messages', (req, res) async {
 });`
 
 const errorHandlingCode = `// Error response patterns
-server.get('/api/user/:id', (req, res) async {
+router.get('/api/user/:id', (req, res) async {
   final userId = req.param('id');
 
   if (userId == null || int.tryParse(userId) == null) {
@@ -972,7 +972,7 @@ server.get('/api/user/:id', (req, res) async {
 });
 
 // Validation errors
-server.post('/api/posts', (req, res) async {
+router.post('/api/posts', (req, res) async {
   final data = await req.body;
 
   final errors = <String, String>{};
@@ -1000,7 +1000,7 @@ server.post('/api/posts', (req, res) async {
 });
 
 // Global error handler
-server.get('/test-error', (req, res) async {
+router.get('/test-error', (req, res) async {
   try {
     // Simulate an error
     throw Exception('Database connection failed');
@@ -1080,7 +1080,7 @@ class UserController {
 }`
 
 const sseCode = `// Server-Sent Events
-server.get('/events/notifications', (req, res) async {
+router.get('/events/notifications', (req, res) async {
   res.header('Content-Type', 'text/event-stream');
   res.header('Cache-Control', 'no-cache');
   res.header('Connection', 'keep-alive');
@@ -1096,7 +1096,7 @@ server.get('/events/notifications', (req, res) async {
 });
 
 // Progress tracking
-server.get('/upload/progress/:uploadId', (req, res) async {
+router.get('/upload/progress/:uploadId', (req, res) async {
   final uploadId = req.param('uploadId');
 
   res.header('Content-Type', 'text/event-stream');
@@ -1270,7 +1270,7 @@ class ApiController {
 
 // Register routes
 void registerApiRoutes(Server server) {
-  server.group(
+  router.group(
     prefix: '/api/v1',
     middleware: [AuthMiddleware()],
     routes: (router) {

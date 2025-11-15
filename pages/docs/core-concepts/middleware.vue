@@ -788,7 +788,7 @@ await pipeline.process(request, response);`
 
 const globalRegistrationCode = `// Global middleware registration
 void setupGlobalMiddleware(Server server) {
-  server.useMiddlewares([
+  server.applyMiddlewares([
     CorsMiddleware(),
     LoggingMiddleware(),
     ExceptionMiddleware(),
@@ -797,21 +797,21 @@ void setupGlobalMiddleware(Server server) {
 }
 
 // All routes will use these middleware
-server.get('/api/users', UserController.index);
-server.post('/api/users', UserController.store);`
+router.get('/api/users', UserController.index);
+router.post('/api/users', UserController.store);`
 
 const routeRegistrationCode = `// Route-specific middleware
-server.get('/api/profile', ProfileController.show,
+router.get('/api/profile', ProfileController.show,
     middleware: [AuthMiddleware()]);
 
-server.post('/api/admin/users', AdminController.create,
+router.post('/api/admin/users', AdminController.create,
     middleware: [AuthMiddleware(), AdminOnlyMiddleware()]);
 
-server.get('/public/data', PublicController.index,
+router.get('/public/data', PublicController.index,
     middleware: []); // No middleware for public routes`
 
 const groupRegistrationCode = `// Group middleware
-server.group(
+router.group(
   prefix: '/api/v1',
   middleware: [AuthMiddleware(), JsonResponseMiddleware()],
   routes: (router) {
@@ -822,7 +822,7 @@ server.group(
 );
 
 // Nested groups inherit parent middleware
-server.group(
+router.group(
   prefix: '/api/v1/admin',
   middleware: [AdminOnlyMiddleware()], // Additional middleware
   routes: (router) {
@@ -896,7 +896,7 @@ class ApiMiddlewareStack {
 }
 
 // Usage
-server.group(
+router.group(
   prefix: '/api',
   middleware: ApiMiddlewareStack.standard,
   routes: (router) {
@@ -904,7 +904,7 @@ server.group(
   }
 );
 
-server.group(
+router.group(
   prefix: '/admin',
   middleware: ApiMiddlewareStack.admin,
   routes: (router) {
@@ -1265,17 +1265,17 @@ class ResponseFormatterMiddleware implements Middleware {
   MiddlewarePriority get priority => MiddlewarePriority.terminating;
 }
 
-// 2. Server setup with middleware
+  // 2. Server setup with middleware
 void setupServer(Server server) {
   // Global middleware
-  server.useMiddlewares([
+  server.applyMiddlewares([
     RequestLoggerMiddleware(),
     CorsMiddleware(),
     ExceptionMiddleware(),
   ]);
 
   // API routes with authentication
-  server.group(
+  router.group(
     prefix: '/api/v1',
     middleware: [ApiAuthMiddleware(), ValidationMiddleware()],
     routes: (router) {
@@ -1288,7 +1288,7 @@ void setupServer(Server server) {
   );
 
   // Public routes
-  server.group(
+  router.group(
     prefix: '/public',
     routes: (router) {
       router.get('/health', HealthController.check);
@@ -1297,7 +1297,7 @@ void setupServer(Server server) {
   );
 
   // Admin routes with additional middleware
-  server.group(
+  router.group(
     prefix: '/api/v1/admin',
     middleware: [AdminOnlyMiddleware(), AuditMiddleware()],
     routes: (router) {

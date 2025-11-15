@@ -232,44 +232,7 @@
             <CodeBlock :code="routesExample" language="dart" />
         </section>
 
-        <!-- Config Directory -->
-        <section class="mb-12">
-            <h2 id="config-directory" class="text-3xl font-bold mb-4">
-                <i class="fas fa-sliders-h text-primary-500 mr-2"></i>
-                Configuration
-            </h2>
-            <p class="text-gray-300 mb-6">
-                Environment-specific configuration files merged with environment variables.
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="p-4 bg-gray-800/50 border border-gray-700 rounded-lg">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fas fa-file-code text-primary-500"></i>
-                        <h3 class="font-semibold text-white text-sm">app.dart</h3>
-                    </div>
-                    <p class="text-xs text-gray-400">Main app configuration</p>
-                </div>
-
-                <div class="p-4 bg-gray-800/50 border border-gray-700 rounded-lg">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fas fa-folder text-green-500"></i>
-                        <h3 class="font-semibold text-white text-sm">development/</h3>
-                    </div>
-                    <p class="text-xs text-gray-400">Dev environment settings</p>
-                </div>
-
-                <div class="p-4 bg-gray-800/50 border border-gray-700 rounded-lg">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fas fa-folder text-blue-500"></i>
-                        <h3 class="font-semibold text-white text-sm">production/</h3>
-                    </div>
-                    <p class="text-xs text-gray-400">Production settings</p>
-                </div>
-            </div>
-
-            <CodeBlock :code="configExample" language="dart" />
-        </section>
+     
 
         <!-- Key Directories Grid -->
         <section class="mb-12">
@@ -395,36 +358,6 @@
                     <p class="text-sm text-gray-300">
                         CLI entry points and command-line scripts.
                     </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Configuration Files -->
-        <section class="mb-12">
-            <h2 id="configuration-files" class="text-3xl font-bold mb-6">
-                <i class="fas fa-cog text-primary-500 mr-2"></i>
-                Configuration Files
-            </h2>
-
-            <div class="space-y-6">
-                <!-- pubspec.yaml -->
-                <div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <i class="fas fa-file-code text-purple-500 text-xl"></i>
-                        <h3 class="font-semibold text-white text-lg">pubspec.yaml</h3>
-                    </div>
-                    <p class="text-sm text-gray-300 mb-4">Dart project configuration and dependencies</p>
-                    <CodeBlock :code="pubspecExample" language="yaml" />
-                </div>
-
-                <!-- .env -->
-                <div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <i class="fas fa-key text-green-500 text-xl"></i>
-                        <h3 class="font-semibold text-white text-lg">.env</h3>
-                    </div>
-                    <p class="text-sm text-gray-300 mb-4">Environment variables (never commit this!)</p>
-                    <CodeBlock :code="envExample" language="properties" />
                 </div>
             </div>
         </section>
@@ -623,38 +556,32 @@ import 'package:khadem/khadem_dart.dart';
 import '../app/http/controllers/home_controller.dart';
 import '../core/kernel.dart';
 
-void registerRoutes(Server server) {
-  // Register global middlewares
-  server.useMiddlewares(Kernel.middlewares);
-
-  // API Routes
-  server.group(
-    prefix: '/api',
-    middleware: [],
-    routes: (router) async {
-      router.get('/hello', HomeController.index);
-      router.get('/welcome', HomeController.welcome);
-      router.get('/stream', HomeController.stream);
-    },
-  );
-
-  // Serve static files
-  server.serveStatic();
+// Route registration receives a ServerRouter. Global middleware should be applied on the Server instance (see main.dart).
+void registerRoutes(ServerRouter router) {
+    // API Routes
+    router.group(
+        prefix: '/api',
+        middleware: [],
+        routes: (r) {
+            r.get('/hello', HomeController.index);
+            r.get('/welcome', HomeController.welcome);
+            r.get('/stream', HomeController.stream);
+        },
+    );
 }
 
 // routes/socket.dart
 import 'package:khadem/khadem_dart.dart';
 
 void registerSocketRoutes(SocketServer socketServer) {
-  socketServer.on('chat:message', (socket, data) {
-    // Handle chat messages
-    socketServer.broadcast('chat:message', data);
-  });
+    socketServer.on('chat:message', (socket, data) {
+        // Handle chat messages
+    });
 
-  socketServer.on('user:join', (socket, data) {
-    // Handle user joining
-    socket.broadcast('user:joined', data);
-  });
+    socketServer.on('user:join', (socket, data) {
+        // Handle user joining
+        socket.broadcast('user:joined', data);
+    });
 }`
 
 const configExample = `// config/app.dart
@@ -752,75 +679,9 @@ const storageStructureCode = `storage/
     ├── khadem.log
     └── error.log`
 
-const mainEntryPoint = `// lib/main.dart
-import 'dart:async';
-import 'dart:io';
-import 'package:khadem/khadem_dart.dart';
-import 'lib/core/kernel.dart';
-import '../routes/socket.dart';
-import '../routes/web.dart';
 
-Future<void> main(List<String> args) async {
-  if (_isSnapshotBuild()) return;
 
-  final container = Khadem.container;
-  await Kernel.bootstrap();
 
-  final port = _extractPort(args) ?? Khadem.env.getInt("APP_PORT", defaultValue: 8080);
-
-  await Future.wait([
-    _startHttpServer(port, container),
-    _startSocketServer(container, Khadem.socket),
-  ]);
-}
-
-bool _isSnapshotBuild() => Platform.environment.containsKey('KHADIM_JIT_TRAINING');
-
-Future _startHttpServer(int port, ContainerInterface container) async {
-  final server = Server();
-  registerRoutes(server);
-  server.setInitializer(() async {
-    registerRoutes(server);
-    await server.start(port: port);
-  });
-  await server.reload();
-}
-
-Future<void> _startSocketServer(container, manager) async {
-  final socketPort = Khadem.env.getInt("SOCKET_PORT", defaultValue: 8080);
-  final socketServer = SocketServer(socketPort, manager: manager);
-  registerSocketRoutes(socketServer);
-  await socketServer.start();
-}
-
-int? _extractPort(List<String> args) {
-  final portIndex = args.indexOf('--port');
-  if (portIndex != -1 && args.length > portIndex + 1) {
-    return int.tryParse(args[portIndex + 1]);
-  }
-  return null;
-}`
-
-const serverEntryPoint = `// lib/main.dart
-import '../lib/main.dart' as app;
-
-Future<void> main(List<String> args) async {
-  await app.main(args);
-}`
-
-const pubspecExample = `name: my_api
-description: A new Khadem Dart project.
-version: 1.0.0
-environment:
-  sdk: '>=3.0.0 <4.0.0'
-
-dependencies:
-  khadem:
-    path: ../khadem
-
-dev_dependencies:
-  lints: ^6.0.0
-  build_runner: ^2.4.6`
 
 const envExample = `# Application Configuration
 APP_NAME=MyFirstAPI

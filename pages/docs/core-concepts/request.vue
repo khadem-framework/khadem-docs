@@ -639,7 +639,7 @@ useHead({
 })
 
 const basicRequestCode = `// Basic request properties
-server.get('/api/profile', (req, res) async {
+router.get('/api/profile', (req, res) async {
   // HTTP method
   final method = req.method; // 'GET'
 
@@ -673,7 +673,7 @@ server.get('/api/profile', (req, res) async {
 });`
 
 const bodyParsingCode = `// JSON request body
-server.post('/api/users', (req, res) async {
+router.post('/api/users', (req, res) async {
   final body = await req.body;
 
   // Access specific fields
@@ -695,7 +695,7 @@ server.post('/api/users', (req, res) async {
 });
 
 // Form data
-server.post('/api/contact', (req, res) async {
+router.post('/api/contact', (req, res) async {
   final formData = await req.body;
 
   final message = req.input('message');
@@ -709,7 +709,7 @@ server.post('/api/contact', (req, res) async {
 });`
 
 const fileUploadCode = `// Single file upload
-server.post('/api/avatar', (req, res) async {
+router.post('/api/avatar', (req, res) async {
   if (!req.hasFile('avatar')) {
     return res.badRequest().sendJson({'error': 'No avatar file provided'});
   }
@@ -744,7 +744,7 @@ server.post('/api/avatar', (req, res) async {
 });
 
 // Multiple file upload
-server.post('/api/gallery', (req, res) async {
+router.post('/api/gallery', (req, res) async {
   final uploadedFiles = req.filesByName('images');
 
   if (uploadedFiles.isEmpty) {
@@ -785,7 +785,7 @@ final asString = avatarFile.asString();      // File content as string
 final asBytes = avatarFile.data;             // Raw bytes`
 
 const validationCode = `// Request validation
-server.post('/api/users', (req, res) async {
+router.post('/api/users', (req, res) async {
   try {
     // Validate request body
     final validatedData = await req.validate({
@@ -806,7 +806,7 @@ server.post('/api/users', (req, res) async {
 });
 
 // Custom validation with specific data
-server.put('/api/users/:id', (req, res) async {
+router.put('/api/users/:id', (req, res) async {
   final userId = req.param('id');
   final updateData = await req.body;
 
@@ -827,7 +827,7 @@ server.put('/api/users/:id', (req, res) async {
 });
 
 // File upload validation
-server.post('/api/documents', (req, res) async {
+router.post('/api/documents', (req, res) async {
   try {
     final validatedData = await req.validate({
       'title': 'required|min:3|max:200',
@@ -845,7 +845,7 @@ server.post('/api/documents', (req, res) async {
 });`
 
 const parametersCode = `// Path parameters
-server.get('/api/users/:id', (req, res) async {
+router.get('/api/users/:id', (req, res) async {
   final userId = req.param('id'); // Get path parameter
 
   if (userId == null) {
@@ -857,7 +857,7 @@ server.get('/api/users/:id', (req, res) async {
 });
 
 // Multiple path parameters
-server.get('/api/posts/:category/:slug', (req, res) async {
+router.get('/api/posts/:category/:slug', (req, res) async {
   final category = req.param('category');
   final slug = req.param('slug');
 
@@ -869,7 +869,7 @@ server.get('/api/posts/:category/:slug', (req, res) async {
 });
 
 // Query parameters
-server.get('/api/search', (req, res) async {
+router.get('/api/search', (req, res) async {
   final query = req.query['q'] ?? '';
   final page = int.tryParse(req.query['page'] ?? '1') ?? 1;
   final limit = int.tryParse(req.query['limit'] ?? '10') ?? 10;
@@ -917,7 +917,7 @@ final sort = req.query['sort'];
 final allParams = req.query; // Map<String, String>`
 
 const authCode = `// Authentication checks
-server.get('/api/profile', (req, res) async {
+router.get('/api/profile', (req, res) async {
   if (!req.isAuthenticated) {
     return res.unauthorized().sendJson({
       'error': 'Authentication required'
@@ -929,7 +929,7 @@ server.get('/api/profile', (req, res) async {
 });
 
 // Role-based authorization
-server.get('/api/admin/users', (req, res) async {
+router.get('/api/admin/users', (req, res) async {
   if (!req.isAuthenticated) {
     return res.unauthorized().sendJson({'error': 'Not authenticated'});
   }
@@ -943,7 +943,7 @@ server.get('/api/admin/users', (req, res) async {
 });
 
 // Multiple role check
-server.get('/api/moderator/content', (req, res) async {
+router.get('/api/moderator/content', (req, res) async {
   if (!req.hasAnyRole(['admin', 'moderator'])) {
     return res.forbidden().sendJson({'error': 'Insufficient permissions'});
   }
@@ -954,7 +954,7 @@ server.get('/api/moderator/content', (req, res) async {
 });
 
 // Web authentication helpers
-server.get('/dashboard', (req, res) async {
+router.get('/dashboard', (req, res) async {
   if (!req.isWebAuthenticated) {
     return await res.redirect('/login');
   }
@@ -967,7 +967,7 @@ server.get('/dashboard', (req, res) async {
 });
 
 // CSRF protection
-server.post('/api/posts', (req, res) async {
+router.post('/api/posts', (req, res) async {
   if (!req.validateCsrfToken(req.input('csrf_token'))) {
     return res.forbidden().sendJson({'error': 'Invalid CSRF token'});
   }
@@ -977,7 +977,7 @@ server.post('/api/posts', (req, res) async {
 });`
 
 const sessionCode = `// Session management
-server.post('/login', (req, res) async {
+router.post('/login', (req, res) async {
   final credentials = await req.body;
   final user = await authenticateUser(credentials);
 
@@ -997,7 +997,7 @@ server.post('/login', (req, res) async {
 });
 
 // Access session data
-server.get('/api/user', (req, res) async {
+router.get('/api/user', (req, res) async {
   final userId = req.getSession('user_id');
   final userName = req.getSession('user_name');
 
@@ -1012,7 +1012,7 @@ server.get('/api/user', (req, res) async {
 });
 
 // Session utilities
-server.get('/api/session/info', (req, res) async {
+router.get('/api/session/info', (req, res) async {
   res.sendJson({
     'session_id': req.sessionId,
     'is_empty': req.isSessionEmpty,
@@ -1025,13 +1025,13 @@ server.get('/api/session/info', (req, res) async {
 });
 
 // Session cleanup
-server.post('/logout', (req, res) async {
+router.post('/logout', (req, res) async {
   req.destroySession();
   res.sendJson({'message': 'Logged out successfully'});
 });`
 
 const flashMessagesCode = `// Flash messages
-server.post('/contact', (req, res) async {
+router.post('/contact', (req, res) async {
   try {
     // Process contact form
     await processContactForm(await req.body);
@@ -1045,7 +1045,7 @@ server.post('/contact', (req, res) async {
 });
 
 // Retrieve flash messages
-server.get('/messages', (req, res) async {
+router.get('/messages', (req, res) async {
   final successMessage = req.pullSession('success');
   final errorMessage = req.pullSession('error');
 
@@ -1058,7 +1058,7 @@ server.get('/messages', (req, res) async {
 });`
 
 const cookiesCode = `// Cookie management
-server.post('/login', (req, res) async {
+router.post('/login', (req, res) async {
   final credentials = await req.body;
   final user = await authenticateUser(credentials);
 
@@ -1086,7 +1086,7 @@ server.post('/login', (req, res) async {
 });
 
 // Access cookies
-server.get('/api/user', (req, res) async {
+router.get('/api/user', (req, res) async {
   final authToken = req.cookie('auth_token');
   final rememberToken = req.rememberToken;
 
@@ -1099,7 +1099,7 @@ server.get('/api/user', (req, res) async {
 });
 
 // Cookie utilities
-server.get('/cookies', (req, res) async {
+router.get('/cookies', (req, res) async {
   res.sendJson({
     'all_cookies': req.cookies,
     'auth_token': req.cookie('auth_token'),
@@ -1110,7 +1110,7 @@ server.get('/cookies', (req, res) async {
 });
 
 // Clear cookies
-server.post('/logout', (req, res) async {
+router.post('/logout', (req, res) async {
   req.cookieHandler.delete('auth_token');
   req.cookieHandler.delete('remember_token');
 
@@ -1118,7 +1118,7 @@ server.post('/logout', (req, res) async {
 });`
 
 const attributesCode = `// Custom attributes
-server.useMiddleware((req, res, next) async {
+server.addMiddlewareHandler((req, res, next) async {
   // Add custom data to request
   req.setAttribute('request_id', generateRequestId());
   req.setAttribute('start_time', DateTime.now());
@@ -1127,7 +1127,7 @@ server.useMiddleware((req, res, next) async {
   await next();
 });
 
-server.get('/api/data', (req, res) async {
+router.get('/api/data', (req, res) async {
   // Access custom attributes
   final requestId = req.attribute<String>('request_id');
   final startTime = req.attribute<DateTime>('start_time');
@@ -1359,7 +1359,7 @@ class UserController {
 
 // Register routes
 void registerUserRoutes(Server server) {
-  server.group(
+  router.group(
     prefix: '/api/users',
     routes: (router) {
       router.get('', UserController.index);
